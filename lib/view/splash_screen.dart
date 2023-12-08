@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:turning_point/view/home/home_screen.dart';
+import 'package:turning_point/view/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.of(context).push(PageTransition(
         type: PageTransitionType.fade,
         duration: const Duration(milliseconds: 1000),
-        child: const HomeScreen(),
+        child: const LoginScreen(),
         curve: Curves.linear,
       ));
     });

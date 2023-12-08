@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:turning_point/view/login_screen.dart';
-// import 'package:turning_point/view/splash_screen.dart';
+import 'package:turning_point/view/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,16 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const LoginScreen(),
+      home: const SplashScreen(),
     );
   }
 }
-
-
-
-//  AnimatedSplashScreen(
-//         duration: 2500,
-//         splash: 'assets/images/splash_screen_logos.png',
-//         splashIconSize: screenSize.height * .81,
-//         nextScreen: const HomeScreen(),
-//       ),

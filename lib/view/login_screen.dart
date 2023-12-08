@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:turning_point/view/home/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -86,19 +88,26 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 35),
-                Container(
-                  height: 45,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff0a0a0a),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'LOGIN',
-                      style: GoogleFonts.roboto(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
+                GestureDetector(
+                  onTap: () => Navigator.of(context).push(PageTransition(
+                    child: const HomeScreen(),
+                    type: PageTransitionType.rightToLeft,
+                    duration: const Duration(milliseconds: 350),
+                  )),
+                  child: Container(
+                    height: 45,
+                    decoration: BoxDecoration(
+                      color: const Color(0xff0a0a0a),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'LOGIN',
+                        style: GoogleFonts.roboto(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),

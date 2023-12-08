@@ -1,3 +1,5 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,9 +24,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-        body: Stack(
-      children: [],
-    ));
+    return Scaffold(
+      body: const Stack(
+        alignment: Alignment.center,
+        children: [],
+      ),
+      bottomNavigationBar: CurvedNavigationBar(items: const [
+        Icon(Icons.home),
+        Icon(Icons.qr_code_scanner),
+        Icon(CupertinoIcons.gift),
+        Icon(Icons.phone)
+      ]),
+    );
   }
 }
