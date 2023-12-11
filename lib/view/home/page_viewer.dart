@@ -12,7 +12,7 @@ class PageViewerState extends State<PageViewer> {
   late final PageController _pageController;
 
   final videos = [
-    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+    'https://assets.mixkit.co/videos/preview/mixkit-curvy-road-on-a-tree-covered-hill-41537-large.mp4',
     'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
     'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
   ];

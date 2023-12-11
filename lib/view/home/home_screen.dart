@@ -1,8 +1,10 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/controller/home_provider.dart';
 import 'package:turning_point/view/home/page_viewer.dart';
+import 'package:turning_point/view/profile/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -36,8 +38,24 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           const PageViewer(),
           Positioned(
+              right: 10,
+              top: 60,
+              child: GestureDetector(
+                onTap: () => Navigator.of(context).push(
+                  PageTransition(
+                    duration: const Duration(milliseconds: 350),
+                    reverseDuration: const Duration(milliseconds: 350),
+                    child: const ProfileScreen(),
+                    type: PageTransitionType.rightToLeft,
+                  ),
+                ),
+                child: const CircleAvatar(
+                  foregroundImage: AssetImage('assets/images/avatar.jpg'),
+                ),
+              )),
+          Positioned(
             right: 10,
-            bottom: 145,
+            bottom: 140,
             child: AnimatedScale(
               scale: dollarScaled ? 1.5 : 1,
               duration: const Duration(milliseconds: 200),
@@ -70,11 +88,11 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Positioned(
             right: 10,
-            bottom: 70,
+            bottom: 75,
             child: GestureDetector(
               onTap: () {},
               child: const Icon(
-                Icons.share,
+                Icons.file_download_outlined,
                 size: 35,
                 color: Colors.white,
                 shadows: [
@@ -121,9 +139,6 @@ class _HomeScreenState extends State<HomeScreen> {
             'assets/icons/gift_box_icon.png',
             width: 22,
             height: 22,
-            color: currentIndex == 0 || currentIndex == 2
-                ? Colors.white
-                : Colors.black.withOpacity(.7),
           ),
           Image.asset(
             'assets/icons/connect_icon.png',
