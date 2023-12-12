@@ -29,7 +29,8 @@ class PageViewerState extends State<PageViewer> {
       scrollDirection: Axis.vertical,
       controller: _pageController,
       children: [
-        for (int i = 0; i < videos.length; i++) ReelsPlayer(url: videos[i])
+        for (int i = 0; i < videos.length; i++)
+          ReelsPlayer(urlList: videos, index: i)
       ],
     );
   }

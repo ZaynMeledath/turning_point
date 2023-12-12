@@ -67,27 +67,43 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           child: Column(
             children: [
               const SizedBox(height: 30),
+
+//====================Header Segment====================//
               Padding(
                 padding:
                     EdgeInsets.symmetric(horizontal: screenSize.width * .03),
                 child: Row(
                   children: [
-                    IconButton(
-                      icon: Icon(
-                        Icons.arrow_back,
-                        size: screenSize.height * .033,
+                    Hero(
+                      tag: 'profile_to_edit_profile',
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.arrow_back,
+                          size: screenSize.height * .033,
+                        ),
+                        onPressed: () async {
+                          FocusScopeNode currentFocus = FocusScope.of(context);
+                          if (!currentFocus.hasPrimaryFocus) {
+                            currentFocus.unfocus();
+                          }
+                          Navigator.of(context).pop();
+                        },
                       ),
-                      onPressed: () async {
-                        FocusScopeNode currentFocus = FocusScope.of(context);
-                        if (!currentFocus.hasPrimaryFocus) {
-                          currentFocus.unfocus();
-                        }
-                        Navigator.of(context).pop();
-                      },
                     ),
+                    Hero(
+                      tag: 'edit_profile',
+                      child: Text(
+                        'Edit Profile',
+                        style: GoogleFonts.inter(
+                          fontSize: screenSize.width * .041,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
+//====================Body Segment====================//
               editProfilePictureSegment(
                 context: context,
                 screenSize: screenSize,

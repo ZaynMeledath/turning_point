@@ -1,5 +1,3 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/controller/home_provider.dart';
@@ -15,8 +13,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isLoaded = false;
-  bool dollarClicked = false;
-  bool dollarScaled = false;
+  bool rupeeClicked = false;
+  bool rupeeScaled = false;
 
   @override
   void initState() {
@@ -30,65 +28,66 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final screenSize = MediaQuery.of(context).size;
+    final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
         alignment: Alignment.center,
         children: [
+//====================Reels Player====================//
           const PageViewer(),
+
+//====================Avatar Icon====================//
           Positioned(
-              right: 10,
-              top: 60,
-              child: GestureDetector(
-                onTap: () => Navigator.of(context).push(
-                  PageTransition(
-                    duration: const Duration(milliseconds: 350),
-                    reverseDuration: const Duration(milliseconds: 350),
-                    child: const ProfileScreen(),
-                    type: PageTransitionType.rightToLeft,
-                  ),
+            right: screenSize.width * .03,
+            top: 60,
+            child: GestureDetector(
+              onTap: () => Navigator.of(context).push(
+                PageTransition(
+                  duration: const Duration(milliseconds: 350),
+                  reverseDuration: const Duration(milliseconds: 350),
+                  child: const ProfileScreen(),
+                  type: PageTransitionType.rightToLeft,
                 ),
-                child: const CircleAvatar(
-                  foregroundImage: AssetImage('assets/images/avatar.jpg'),
-                ),
-              )),
+              ),
+              child: const CircleAvatar(
+                foregroundImage: AssetImage('assets/images/avatar.jpg'),
+              ),
+            ),
+          ),
+
+//====================Rupee Icon====================//
           Positioned(
-            right: 10,
-            bottom: 140,
+            right: screenSize.width * .03,
+            bottom: screenSize.height * .14,
             child: AnimatedScale(
-              scale: dollarScaled ? 1.5 : 1,
+              scale: rupeeScaled ? 1.5 : 1,
               duration: const Duration(milliseconds: 200),
               child: GestureDetector(
                 onTap: () {
                   setState(() {
-                    dollarClicked = true;
-                    dollarScaled = true;
+                    rupeeClicked = true;
+                    rupeeScaled = true;
                   });
                   Future.delayed(const Duration(milliseconds: 200), () {
                     setState(() {
-                      dollarScaled = false;
+                      rupeeScaled = false;
                     });
                   });
                 },
-                child: Icon(
-                  CupertinoIcons.money_dollar_circle,
-                  size: 35,
-                  color: dollarClicked ? Colors.red : Colors.white,
-                  shadows: const [
-                    Shadow(
-                      offset: Offset(0, 2),
-                      color: Colors.grey,
-                      blurRadius: 5,
-                    ),
-                  ],
+                child: Image.asset(
+                  'assets/icons/rupee_icon.png',
+                  width: screenSize.width * .081,
+                  height: screenSize.width * .081,
                 ),
               ),
             ),
           ),
+
+//====================Download Icon====================//
           Positioned(
-            right: 10,
-            bottom: 75,
+            right: screenSize.width * .03,
+            bottom: screenSize.height * .082,
             child: GestureDetector(
               onTap: () {},
               child: const Icon(
@@ -109,45 +108,68 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
 
 //===============Bottom Navigation Bar===============//
-      bottomNavigationBar: CurvedNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: currentIndex,
         onTap: (index) {
           setState(() {
             currentIndex = index;
           });
         },
-        height: 68,
-        color: currentIndex == 0 ? Colors.black : Colors.white,
-        animationDuration: const Duration(milliseconds: 350),
-        backgroundColor: Colors.grey.shade500,
-        buttonBackgroundColor: currentIndex == 0 ? Colors.white : Colors.black,
+        backgroundColor: currentIndex == 0 ? Colors.black : Colors.white,
+        unselectedItemColor: currentIndex == 0 ? Colors.white : Colors.black,
+        enableFeedback: true,
+        selectedItemColor: currentIndex == 0 ? Colors.yellow : Colors.blue,
+        showUnselectedLabels: true,
         items: [
-          Image.asset(
-            'assets/icons/rewards_icon.png',
-            width: 23,
-            height: 23,
-            color: Colors.black,
+          BottomNavigationBarItem(
+            backgroundColor: Colors.black,
+            label: 'Home',
+            icon: Image.asset(
+              'assets/icons/home_icon.png',
+              width: 23,
+              height: 23,
+            ),
           ),
-          Image.asset(
-            'assets/icons/scanner_icon.png',
-            width: 22,
-            height: 22,
-            color: currentIndex == 0 || currentIndex == 1
-                ? Colors.white
-                : Colors.black.withOpacity(.7),
+          BottomNavigationBarItem(
+            backgroundColor: Colors.white,
+            label: 'Rewards',
+            icon: Image.asset(
+              'assets/icons/rewards_icon.png',
+              width: 23,
+              height: 23,
+            ),
           ),
-          Image.asset(
-            'assets/icons/gift_box_icon.png',
-            width: 22,
-            height: 22,
+          BottomNavigationBarItem(
+            backgroundColor: Colors.white,
+            label: currentIndex == 2 ? 'Scanner' : '',
+            icon: Image.asset(
+              'assets/icons/scanner_icon.png',
+              width: 35,
+              height: 35,
+              color: currentIndex == 0
+                  ? Colors.white
+                  : Colors.black.withOpacity(.8),
+            ),
           ),
-          Image.asset(
-            'assets/icons/connect_icon.png',
-            width: 22,
-            height: 22,
-            color: currentIndex == 0 || currentIndex == 3
-                ? Colors.white
-                : Colors.black.withOpacity(.7),
-          )
+          BottomNavigationBarItem(
+            backgroundColor: Colors.white,
+            label: 'Lucky Draw',
+            icon: Image.asset(
+              'assets/icons/gift_box_icon.png',
+              width: 23,
+              height: 23,
+            ),
+          ),
+          BottomNavigationBarItem(
+            backgroundColor: Colors.white,
+            label: 'Rewards',
+            icon: Image.asset(
+              'assets/icons/connect_icon.png',
+              width: 23,
+              height: 23,
+            ),
+          ),
         ],
       ),
     );

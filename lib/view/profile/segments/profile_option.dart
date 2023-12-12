@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+//====================Styling of Individual options in profile screen====================//
 Widget profileOption({
   required Size screenSize,
   required String iconPath,

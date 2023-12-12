@@ -13,6 +13,7 @@ class ProfileScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
+//====================Header segment with Back button, Profile Picture Stack and Name====================//
             const SizedBox(height: 30),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: screenSize.width * .03),
@@ -21,14 +22,17 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   Align(
                     alignment: Alignment.topLeft,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.arrow_back,
-                        size: screenSize.height * .033,
+                    child: Hero(
+                      tag: 'profile_to_edit_profile',
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.arrow_back,
+                          size: screenSize.height * .033,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
                       ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
                     ),
                   ),
                   Center(
@@ -64,6 +68,7 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: screenSize.height * .038),
+//====================Body Segment====================//
             editProfileDashboardSegment(
               context: context,
               screenSize: screenSize,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:turning_point/view/profile/segments/profile_option.dart';
 
+//====================Individual options in profile screen====================//
 Widget profileOptionsSegment({
   required BuildContext context,
   required Size screenSize,

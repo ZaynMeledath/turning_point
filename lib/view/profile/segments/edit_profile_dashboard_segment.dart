@@ -4,6 +4,20 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/view/edit_profile/edit_profile_screen.dart';
 
+//====================To make the text Hero animation smooth====================//
+Widget flightShuttleBuilder(
+  BuildContext flightContext,
+  Animation<double> animation,
+  HeroFlightDirection flightDirection,
+  BuildContext fromHeroContext,
+  BuildContext toHeroContext,
+) {
+  return DefaultTextStyle(
+    style: DefaultTextStyle.of(toHeroContext).style,
+    child: toHeroContext.widget,
+  );
+}
+
 Widget editProfileDashboardSegment(
     {required BuildContext context, required Size screenSize}) {
   return Padding(
@@ -11,6 +25,7 @@ Widget editProfileDashboardSegment(
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+//====================Edit Profile Container====================//
         GestureDetector(
           onTap: () => Navigator.of(context).push(
             PageTransition(
@@ -32,16 +47,22 @@ Widget editProfileDashboardSegment(
               borderRadius: BorderRadius.circular(4),
             ),
             child: Center(
-              child: Text(
-                'Edit Profile',
-                style: GoogleFonts.roboto(
-                  fontSize: screenSize.width * .036,
-                  fontWeight: FontWeight.w400,
+              child: Hero(
+                tag: 'edit_profile',
+                flightShuttleBuilder: flightShuttleBuilder,
+                child: Text(
+                  'Edit Profile',
+                  style: GoogleFonts.roboto(
+                    fontSize: screenSize.width * .036,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
             ),
           ),
         ),
+
+//====================Dashboard Container====================//
         Container(
           width: screenSize.width * .419,
           height: screenSize.height * .041,

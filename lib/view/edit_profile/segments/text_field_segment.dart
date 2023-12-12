@@ -14,6 +14,7 @@ Widget textFieldSegment({
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
+//====================TextField Container====================//
             Container(
               width: double.infinity,
               height: screenSize.height * .056,
@@ -25,15 +26,26 @@ Widget textFieldSegment({
                   color: const Color.fromRGBO(142, 142, 142, 1),
                 ),
               ),
-              child: Center(
-                child: TextField(
-                  controller: controller,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
+//====================TextField and Pencil Icon====================//
+              child: Row(
+                children: [
+                  Flexible(
+                    child: TextField(
+                      controller: controller,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                      ),
+                    ),
                   ),
-                ),
+                  Image.asset(
+                    'assets/icons/pencil_icon.png',
+                    width: screenSize.width * .051,
+                    height: screenSize.width * .051,
+                  ),
+                ],
               ),
             ),
+//====================floating TextField Title====================//
             Positioned(
               top: 0,
               left: screenSize.width * .05,

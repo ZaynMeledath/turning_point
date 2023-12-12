@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/view/login_screen.dart';
 
@@ -13,6 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
   bool isLoaded = false;
   @override
   void initState() {
+    clearCache();
     Future.delayed(const Duration(milliseconds: 300), () {
       setState(() {
         isLoaded = true;
@@ -26,8 +28,11 @@ class _SplashScreenState extends State<SplashScreen> {
         curve: Curves.linear,
       ));
     });
-
     super.initState();
+  }
+
+  void clearCache() async {
+    await DefaultCacheManager().emptyCache();
   }
 
   @override
