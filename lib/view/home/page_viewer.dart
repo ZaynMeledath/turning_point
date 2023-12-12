@@ -28,6 +28,7 @@ class PageViewerState extends State<PageViewer> {
     return PageView(
       scrollDirection: Axis.vertical,
       controller: _pageController,
+      physics: const BouncingScrollPhysics(),
       children: [
         for (int i = 0; i < videos.length; i++)
           ReelsPlayer(urlList: videos, index: i)

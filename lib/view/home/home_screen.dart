@@ -142,14 +142,14 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             backgroundColor: Colors.white,
-            label: currentIndex == 2 ? 'Scanner' : '',
+            label: 'Scan',
             icon: Image.asset(
               'assets/icons/scanner_icon.png',
               width: 35,
               height: 35,
-              color: currentIndex == 0
-                  ? Colors.white
-                  : Colors.black.withOpacity(.8),
+              // color: currentIndex == 0
+              //     ? Colors.white
+              //     : Colors.black.withOpacity(.8),
             ),
           ),
           BottomNavigationBarItem(
