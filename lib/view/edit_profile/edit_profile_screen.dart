@@ -18,6 +18,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   late final TextEditingController _addressController;
   late final TextEditingController _businessController;
   late final TextEditingController _emailController;
+  bool isContractor = false;
 
   // late final FocusNode _nameNode;
   // late final FocusNode _mobileNode;
@@ -66,7 +67,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         child: Center(
           child: Column(
             children: [
-              const SizedBox(height: 30),
+              SizedBox(height: screenSize.height * .009),
 
 //====================Header Segment====================//
               Padding(
@@ -90,13 +91,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         },
                       ),
                     ),
+                    SizedBox(width: screenSize.width * .041),
                     Hero(
                       tag: 'edit_profile',
                       child: Text(
                         'Edit Profile',
                         style: GoogleFonts.inter(
                           fontSize: screenSize.width * .041,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     )
@@ -130,7 +132,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               textFieldSegment(
                 screenSize: screenSize,
                 controller: _businessController,
-                title: 'Business Name',
+                title: isContractor ? 'Business Name' : 'Contractor Name',
               ),
               SizedBox(height: screenSize.height * .037),
               textFieldSegment(

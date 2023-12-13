@@ -14,7 +14,7 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           children: [
 //====================Header segment with Back button, Profile Picture Stack and Name====================//
-            const SizedBox(height: 30),
+            SizedBox(height: screenSize.height * .009),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: screenSize.width * .03),
               child: Stack(
@@ -38,6 +38,7 @@ class ProfileScreen extends StatelessWidget {
                   Center(
                     child: Column(
                       children: [
+                        SizedBox(height: screenSize.height * .012),
                         Hero(
                           tag: 'profile_picture',
                           child: CircleAvatar(

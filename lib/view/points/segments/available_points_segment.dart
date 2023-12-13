@@ -18,7 +18,7 @@ Widget availablePointsSegment({required Size screenSize}) {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            '1400',
+            '10000',
             style: GoogleFonts.roboto(
               fontSize: screenSize.width * .127,
               fontWeight: FontWeight.w500,
@@ -68,7 +68,7 @@ Widget availablePointsSegment({required Size screenSize}) {
                   children: [
                     const SizedBox(width: 10),
                     Text(
-                      'You have 80 Points',
+                      'You have 80 Points!',
                       style: GoogleFonts.roboto(
                         fontSize: screenSize.width * .035,
                         fontWeight: FontWeight.w400,

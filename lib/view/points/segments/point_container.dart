@@ -7,9 +7,7 @@ Widget pointContainer({required Size screenSize, required bool isCredited}) {
     padding: EdgeInsets.symmetric(horizontal: screenSize.width * .026),
     height: screenSize.height * .067,
     decoration: BoxDecoration(
-      color: isCredited
-          ? const Color.fromRGBO(242, 255, 241, 1)
-          : const Color.fromRGBO(255, 245, 245, 1),
+      color: isCredited ? Colors.white : const Color.fromRGBO(255, 245, 245, 1),
       borderRadius: BorderRadius.circular(12),
       boxShadow: [
         BoxShadow(

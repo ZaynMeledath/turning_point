@@ -19,12 +19,12 @@ class _PointsScreenState extends State<PointsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 30),
+//====================Header Segment with Back Button and Title====================//
+            SizedBox(height: screenSize.height * .009),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: screenSize.width * .03),
               child: Row(
                 children: [
-//====================Header Segment with Back Button and Title====================//
                   Hero(
                     tag: 'back_button',
                     child: IconButton(
@@ -37,13 +37,14 @@ class _PointsScreenState extends State<PointsScreen> {
                       },
                     ),
                   ),
+                  SizedBox(width: screenSize.width * .041),
                   Hero(
                     tag: 'Points',
                     child: Text(
                       'Points',
                       style: GoogleFonts.inter(
                         fontSize: screenSize.width * .041,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   )
@@ -52,7 +53,7 @@ class _PointsScreenState extends State<PointsScreen> {
             ),
 
 //====================Body Segment====================//
-            SizedBox(height: screenSize.height * .01),
+            SizedBox(height: screenSize.height * .015),
             availablePointsSegment(screenSize: screenSize),
             SizedBox(height: screenSize.height * .024),
             pointsHistorySegment(screenSize: screenSize),
