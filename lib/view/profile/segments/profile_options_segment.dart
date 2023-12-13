@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:turning_point/view/points/points_screen.dart';
 import 'package:turning_point/view/profile/segments/profile_option.dart';
 
 //====================Individual options in profile screen====================//
@@ -9,7 +11,14 @@ Widget profileOptionsSegment({
   return Column(
     children: [
       GestureDetector(
-        onTap: () {},
+        onTap: () => Navigator.of(context).push(
+          PageTransition(
+            child: const PointsScreen(),
+            type: PageTransitionType.rightToLeft,
+            duration: const Duration(milliseconds: 350),
+            reverseDuration: const Duration(milliseconds: 350),
+          ),
+        ),
         child: profileOption(
           screenSize: screenSize,
           iconPath: 'assets/icons/points_icon.png',

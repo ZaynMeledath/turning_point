@@ -23,7 +23,7 @@ class ProfileScreen extends StatelessWidget {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Hero(
-                      tag: 'profile_to_edit_profile',
+                      tag: 'back_button',
                       child: IconButton(
                         icon: Icon(
                           Icons.arrow_back,
@@ -68,6 +68,7 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: screenSize.height * .038),
+
 //====================Body Segment====================//
             editProfileDashboardSegment(
               context: context,

@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/view/edit_profile/segments/edit_profile_picture_segment.dart';
-import 'package:turning_point/view/edit_profile/segments/text_field_segment.dart';
+import 'package:turning_point/helper/text_field_segment.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -75,7 +75,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 child: Row(
                   children: [
                     Hero(
-                      tag: 'profile_to_edit_profile',
+                      tag: 'back_button',
                       child: IconButton(
                         icon: Icon(
                           Icons.arrow_back,

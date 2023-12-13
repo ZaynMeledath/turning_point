@@ -2,21 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:turning_point/helper/flight_shuttle.dart';
 import 'package:turning_point/view/edit_profile/edit_profile_screen.dart';
 
 //====================To make the text Hero animation smooth====================//
-Widget flightShuttleBuilder(
-  BuildContext flightContext,
-  Animation<double> animation,
-  HeroFlightDirection flightDirection,
-  BuildContext fromHeroContext,
-  BuildContext toHeroContext,
-) {
-  return DefaultTextStyle(
-    style: DefaultTextStyle.of(toHeroContext).style,
-    child: toHeroContext.widget,
-  );
-}
 
 Widget editProfileDashboardSegment(
     {required BuildContext context, required Size screenSize}) {
