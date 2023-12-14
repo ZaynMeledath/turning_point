@@ -21,7 +21,7 @@ Widget kycPageTitle({
         height: screenSize.height * .007,
         decoration: BoxDecoration(
           color: isDoneOrActive
-              ? const Color.fromRGBO(226, 61, 62, 1)
+              ? const Color.fromRGBO(110, 131, 226, 1)
               : Colors.white,
           borderRadius: BorderRadius.circular(15),
           border: !isDoneOrActive

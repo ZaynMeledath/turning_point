@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:turning_point/view/home/reels_player.dart';
 
-class PageViewer extends StatefulWidget {
-  const PageViewer({super.key});
+class ReelsPageViewer extends StatefulWidget {
+  const ReelsPageViewer({super.key});
 
   @override
-  State<PageViewer> createState() => PageViewerState();
+  State<ReelsPageViewer> createState() => ReelsPageViewerState();
 }
 
-class PageViewerState extends State<PageViewer> {
+class ReelsPageViewerState extends State<ReelsPageViewer> {
   late final PageController _pageController;
 
   final videos = [

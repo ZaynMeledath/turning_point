@@ -26,14 +26,14 @@ Widget editProfileDashboardSegment(
           ),
           child: Container(
             width: screenSize.width * .419,
-            height: screenSize.height * .041,
+            height: screenSize.width * .09,
             decoration: BoxDecoration(
               gradient: const LinearGradient(colors: [
                 Color.fromRGBO(184, 184, 184, .2),
                 Color.fromRGBO(239, 239, 239, .3),
                 Color.fromRGBO(184, 184, 184, .2),
               ]),
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(6),
             ),
             child: Center(
               child: Hero(
@@ -54,14 +54,14 @@ Widget editProfileDashboardSegment(
 //====================Dashboard Container====================//
         Container(
           width: screenSize.width * .419,
-          height: screenSize.height * .041,
+          height: screenSize.width * .09,
           decoration: BoxDecoration(
             gradient: const LinearGradient(colors: [
               Color.fromRGBO(184, 184, 184, .2),
               Color.fromRGBO(239, 239, 239, .3),
               Color.fromRGBO(184, 184, 184, .2),
             ]),
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(6),
           ),
           child: Center(
             child: Text(

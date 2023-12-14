@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/controller/home_provider.dart';
-import 'package:turning_point/view/home/page_viewer.dart';
+import 'package:turning_point/view/home/reels_page_viewer.dart';
 import 'package:turning_point/view/profile/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
         alignment: Alignment.center,
         children: [
 //====================Reels Player====================//
-          const PageViewer(),
+          const ReelsPageViewer(),
 
 //====================Avatar Icon====================//
           Positioned(
@@ -144,7 +144,9 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: Colors.white,
             label: 'Scan',
             icon: Image.asset(
-              'assets/icons/scanner_icon.png',
+              currentIndex == 0
+                  ? 'assets/icons/scanner_icon_dark.png'
+                  : 'assets/icons/scanner_icon_light.png',
               width: 35,
               height: 35,
               // color: currentIndex == 0

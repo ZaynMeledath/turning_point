@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/helper/text_field_segment.dart';
+import 'package:turning_point/view/kyc/segments/kyc_bank_details.dart';
+import 'package:turning_point/view/kyc/segments/kyc_id_proof.dart';
 import 'package:turning_point/view/kyc/segments/kyc_page_title.dart';
+import 'package:turning_point/view/kyc/segments/kyc_personal_details.dart';
 
 class KycScreen extends StatefulWidget {
   const KycScreen({super.key});
@@ -10,27 +12,43 @@ class KycScreen extends StatefulWidget {
   State<KycScreen> createState() => _KycScreenState();
 }
 
-class _KycScreenState extends State<KycScreen> {
-  late final TextEditingController _nameController;
-  late final TextEditingController _mobileController;
-  late final TextEditingController _emailController;
-  late final TextEditingController _pinController;
+class _KycScreenState extends State<KycScreen>
+    with SingleTickerProviderStateMixin {
+  late final TextEditingController nameController;
+  late final TextEditingController mobileController;
+  late final TextEditingController emailController;
+  late final TextEditingController pinController;
+  late final TextEditingController accNameController;
+  late final TextEditingController accNumController;
+  late final TextEditingController confirmAccNumController;
+  late final TextEditingController ifscController;
+  late final TabController _tabController;
 
   @override
   void initState() {
-    _nameController = TextEditingController();
-    _mobileController = TextEditingController();
-    _emailController = TextEditingController();
-    _pinController = TextEditingController();
+    nameController = TextEditingController();
+    mobileController = TextEditingController();
+    emailController = TextEditingController();
+    pinController = TextEditingController();
+    accNameController = TextEditingController();
+    accNumController = TextEditingController();
+    confirmAccNumController = TextEditingController();
+    ifscController = TextEditingController();
+    _tabController = TabController(length: 3, vsync: this);
     super.initState();
   }
 
   @override
   void dispose() {
-    _nameController.dispose();
-    _mobileController.dispose();
-    _emailController.dispose();
-    _pinController.dispose();
+    nameController.dispose();
+    mobileController.dispose();
+    emailController.dispose();
+    pinController.dispose();
+    accNameController.dispose();
+    accNumController.dispose();
+    confirmAccNumController.dispose();
+    ifscController.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -106,71 +124,123 @@ class _KycScreenState extends State<KycScreen> {
               SizedBox(height: screenSize.height * .024),
 
 //====================Page Titles Segment====================//
-              Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: screenSize.width * .041),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    kycPageTitle(
-                      screenSize: screenSize,
-                      title: 'Personal Details',
-                      isDoneOrActive: true,
-                    ),
-                    kycPageTitle(
-                      screenSize: screenSize,
-                      title: 'ID Proof',
-                      isDoneOrActive: false,
-                    ),
-                    kycPageTitle(
-                      screenSize: screenSize,
-                      title: 'Bank Details',
-                      isDoneOrActive: false,
-                    ),
-                  ],
-                ),
+              // Padding(
+              //   padding:
+              //       EdgeInsets.symmetric(horizontal: screenSize.width * .041),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       kycPageTitle(
+              //         screenSize: screenSize,
+              //         title: 'Personal Details',
+              //         isDoneOrActive: true,
+              //       ),
+              //       kycPageTitle(
+              //         screenSize: screenSize,
+              //         title: 'ID Proof',
+              //         isDoneOrActive: false,
+              //       ),
+              //       kycPageTitle(
+              //         screenSize: screenSize,
+              //         title: 'Bank Details',
+              //         isDoneOrActive: false,
+              //       ),
+              //     ],
+              //   ),
+              // ),
+
+              TabBar(
+                controller: _tabController,
+                indicator: const BoxDecoration(),
+                isScrollable: false,
+                labelColor: Colors.black,
+                dividerColor: Colors.transparent,
+                physics: const NeverScrollableScrollPhysics(),
+                onTap: (index) {
+                  setState(() {});
+                },
+                overlayColor:
+                    const MaterialStatePropertyAll(Colors.transparent),
+                tabs: [
+                  kycPageTitle(
+                    screenSize: screenSize,
+                    title: 'Personal Details',
+                    isDoneOrActive: _tabController.index == 0 ||
+                            _tabController.index == 1 ||
+                            _tabController.index == 2
+                        ? true
+                        : false,
+                  ),
+                  kycPageTitle(
+                    screenSize: screenSize,
+                    title: 'ID Proof',
+                    isDoneOrActive:
+                        _tabController.index == 1 || _tabController.index == 2
+                            ? true
+                            : false,
+                  ),
+                  kycPageTitle(
+                    screenSize: screenSize,
+                    title: 'Bank Details',
+                    isDoneOrActive: _tabController.index == 2 ? true : false,
+                  ),
+                ],
               ),
+
               SizedBox(height: screenSize.height * .038),
 
 //====================TextField Segment====================//
-              textFieldSegment(
-                screenSize: screenSize,
-                controller: _nameController,
-                title: 'Name',
-              ),
-              SizedBox(height: screenSize.height * .037),
-              textFieldSegment(
-                screenSize: screenSize,
-                controller: _mobileController,
-                title: 'Mobile Number',
-              ),
-              SizedBox(height: screenSize.height * .037),
-              textFieldSegment(
-                screenSize: screenSize,
-                controller: _emailController,
-                title: 'Email',
-              ),
-              SizedBox(height: screenSize.height * .037),
-              textFieldSegment(
-                screenSize: screenSize,
-                controller: _pinController,
-                title: 'Pincode',
-              ),
-              SizedBox(height: screenSize.height * .065),
-              Container(
-                width: screenSize.width * .38,
-                height: screenSize.width * .102,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  color: Colors.black,
+              SizedBox(
+                width: double.infinity,
+                height: screenSize.height * .42,
+                child: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: _tabController,
+                  children: [
+                    kycPersonalDetails(
+                      screenSize: screenSize,
+                      nameController: nameController,
+                      mobileController: mobileController,
+                      emailController: emailController,
+                      pinController: pinController,
+                    ),
+                    kycIdProof(screenSize: screenSize),
+                    kycBankDetails(
+                      screenSize: screenSize,
+                      accNameController: accNameController,
+                      accNumController: accNumController,
+                      confirmAccNumController: confirmAccNumController,
+                      ifscController: ifscController,
+                    )
+                  ],
                 ),
-                child: Center(
-                  child: Text(
-                    'Next',
-                    style: GoogleFonts.roboto(
-                      color: Colors.white,
-                      fontSize: screenSize.width * .036,
-                      fontWeight: FontWeight.w500,
+              ),
+
+              SizedBox(height: screenSize.height * .02),
+              GestureDetector(
+                onTap: () {
+                  _tabController.animateTo(
+                    _tabController.index + 1,
+                    curve: Curves.bounceInOut,
+                    duration: const Duration(milliseconds: 200),
+                  );
+                  setState(() {});
+                },
+                child: Container(
+                  width: screenSize.width * .38,
+                  height: screenSize.width * .102,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    color: const Color.fromRGBO(13, 153, 255, 1),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Next',
+                      style: GoogleFonts.roboto(
+                        color: Colors.white,
+                        fontSize: screenSize.width * .036,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ),

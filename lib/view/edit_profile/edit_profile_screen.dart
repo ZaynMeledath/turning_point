@@ -18,7 +18,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   late final TextEditingController _addressController;
   late final TextEditingController _businessController;
   late final TextEditingController _emailController;
-  bool isContractor = false;
+  late bool isContractor;
+  int selectedValue = 1;
 
   // late final FocusNode _nameNode;
   // late final FocusNode _mobileNode;
@@ -33,6 +34,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _addressController = TextEditingController();
     _businessController = TextEditingController();
     _emailController = TextEditingController();
+    isContractor = selectedValue == 1 ? true : false;
 
     // _nameNode = FocusNode();
     // _mobileNode = FocusNode();
@@ -110,7 +112,34 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 context: context,
                 screenSize: screenSize,
               ),
-              SizedBox(height: screenSize.height * .037),
+              SizedBox(height: screenSize.height * .035),
+              Row(
+                children: [
+                  Radio(
+                    value: 1,
+                    groupValue: selectedValue,
+                    activeColor: Colors.red,
+                    focusColor: Colors.red,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedValue = value!;
+                        isContractor = !isContractor;
+                      });
+                    },
+                  ),
+                  Radio(
+                    value: 2,
+                    groupValue: selectedValue,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedValue = value!;
+                        isContractor = !isContractor;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(height: screenSize.height * .012),
               textFieldSegment(
                 screenSize: screenSize,
                 controller: _nameController,
@@ -146,7 +175,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 height: screenSize.width * .102,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(6),
-                  color: Colors.black,
+                  color: const Color.fromRGBO(13, 153, 255, 1),
                 ),
                 child: Center(
                   child: Text(
