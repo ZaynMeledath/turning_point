@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:turning_point/helper/text_field_segment.dart';
+import 'package:turning_point/view/kyc/segments/kyc_text_field_segment.dart';
 
 Widget kycPersonalDetails({
   required Size screenSize,
@@ -10,25 +10,25 @@ Widget kycPersonalDetails({
 }) {
   return Column(
     children: [
-      textFieldSegment(
+      kycTextFieldSegment(
         screenSize: screenSize,
         controller: nameController,
         title: 'Name',
       ),
       SizedBox(height: screenSize.height * .035),
-      textFieldSegment(
+      kycTextFieldSegment(
         screenSize: screenSize,
         controller: mobileController,
         title: 'Mobile Number',
       ),
       SizedBox(height: screenSize.height * .035),
-      textFieldSegment(
+      kycTextFieldSegment(
         screenSize: screenSize,
         controller: emailController,
         title: 'Email',
       ),
       SizedBox(height: screenSize.height * .035),
-      textFieldSegment(
+      kycTextFieldSegment(
         screenSize: screenSize,
         controller: pinController,
         title: 'Pincode',

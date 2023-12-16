@@ -62,160 +62,145 @@ class _KycScreenState extends State<KycScreen>
           reverse: true,
           child: Column(
             children: [
+              Column(
+                children: [
+                  //====================Header Segment width Back Button, Title and Doodle ====================//
+                  SizedBox(height: screenSize.height * .009),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: screenSize.width * .03),
+                    child: Row(
+                      children: [
+                        Hero(
+                          tag: 'back_button',
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.arrow_back,
+                              size: screenSize.height * .033,
+                            ),
+                            onPressed: () {
+                              FocusScopeNode currentFocus =
+                                  FocusScope.of(context);
+                              if (!currentFocus.hasPrimaryFocus) {
+                                currentFocus.unfocus();
+                              }
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ),
+                        SizedBox(width: screenSize.width * .041),
+                        Hero(
+                          tag: 'KYC',
+                          child: Text(
+                            'KYC',
+                            style: GoogleFonts.inter(
+                              fontSize: screenSize.width * .041,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: screenSize.width * .13),
+                    child: Image.asset('assets/images/kyc_doodle.png'),
+                  ),
+                  SizedBox(height: screenSize.height * .03),
+                ],
+              ),
+              SizedBox(height: screenSize.height * .015),
               Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Color.fromRGBO(255, 252, 248, 1),
-                        Color.fromRGBO(212, 231, 255, 1),
-                      ]),
+                margin:
+                    EdgeInsets.symmetric(horizontal: screenSize.width * .041),
+                padding:
+                    EdgeInsets.symmetric(vertical: screenSize.width * .041),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(13),
+                  border: Border.all(
+                    color: const Color.fromRGBO(226, 226, 226, 1),
+                  ),
                 ),
                 child: Column(
                   children: [
-//====================Header Segment width Back Button, Title and Doodle ====================//
-                    SizedBox(height: screenSize.height * .009),
                     Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: screenSize.width * .03),
-                      child: Row(
-                        children: [
-                          Hero(
-                            tag: 'back_button',
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.arrow_back,
-                                size: screenSize.height * .033,
-                              ),
-                              onPressed: () {
-                                FocusScopeNode currentFocus =
-                                    FocusScope.of(context);
-                                if (!currentFocus.hasPrimaryFocus) {
-                                  currentFocus.unfocus();
-                                }
-                                Navigator.of(context).pop();
-                              },
-                            ),
+                          horizontal: screenSize.width * .051),
+                      child: TabBar(
+                        controller: _tabController,
+                        indicator: const BoxDecoration(),
+                        isScrollable: false,
+                        labelColor: Colors.black,
+                        dividerColor: Colors.transparent,
+                        physics: const NeverScrollableScrollPhysics(),
+                        onTap: (index) {
+                          setState(() {});
+                        },
+                        overlayColor:
+                            const MaterialStatePropertyAll(Colors.transparent),
+                        tabs: [
+                          kycPageTitle(
+                            screenSize: screenSize,
+                            title: 'Personal Details',
+                            titleNumber: '1',
+                            isDoneOrActive: _tabController.index == 0 ||
+                                    _tabController.index == 1 ||
+                                    _tabController.index == 2
+                                ? true
+                                : false,
                           ),
-                          SizedBox(width: screenSize.width * .041),
-                          Hero(
-                            tag: 'KYC',
-                            child: Text(
-                              'KYC',
-                              style: GoogleFonts.inter(
-                                fontSize: screenSize.width * .041,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
+                          kycPageTitle(
+                            screenSize: screenSize,
+                            title: 'ID Proof',
+                            titleNumber: '2',
+                            isDoneOrActive: _tabController.index == 1 ||
+                                    _tabController.index == 2
+                                ? true
+                                : false,
+                          ),
+                          kycPageTitle(
+                            screenSize: screenSize,
+                            title: 'Bank Details',
+                            titleNumber: '3',
+                            isDoneOrActive:
+                                _tabController.index == 2 ? true : false,
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(height: screenSize.height * .038),
+
+                    //====================TextField Segment====================//
+                    SizedBox(
+                      width: double.infinity,
+                      height: screenSize.height * .385,
+                      child: TabBarView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        controller: _tabController,
+                        children: [
+                          kycPersonalDetails(
+                            screenSize: screenSize,
+                            nameController: nameController,
+                            mobileController: mobileController,
+                            emailController: emailController,
+                            pinController: pinController,
+                          ),
+                          kycIdProof(screenSize: screenSize),
+                          kycBankDetails(
+                            screenSize: screenSize,
+                            accNameController: accNameController,
+                            accNumController: accNumController,
+                            confirmAccNumController: confirmAccNumController,
+                            ifscController: ifscController,
                           )
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: screenSize.width * .1),
-                      child: Image.asset('assets/images/kyc_doodle.png'),
-                    ),
-                    SizedBox(height: screenSize.height * .03),
                   ],
                 ),
               ),
-              SizedBox(height: screenSize.height * .024),
-
-//====================Page Titles Segment====================//
-              // Padding(
-              //   padding:
-              //       EdgeInsets.symmetric(horizontal: screenSize.width * .041),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              //       kycPageTitle(
-              //         screenSize: screenSize,
-              //         title: 'Personal Details',
-              //         isDoneOrActive: true,
-              //       ),
-              //       kycPageTitle(
-              //         screenSize: screenSize,
-              //         title: 'ID Proof',
-              //         isDoneOrActive: false,
-              //       ),
-              //       kycPageTitle(
-              //         screenSize: screenSize,
-              //         title: 'Bank Details',
-              //         isDoneOrActive: false,
-              //       ),
-              //     ],
-              //   ),
-              // ),
-
-              TabBar(
-                controller: _tabController,
-                indicator: const BoxDecoration(),
-                isScrollable: false,
-                labelColor: Colors.black,
-                dividerColor: Colors.transparent,
-                physics: const NeverScrollableScrollPhysics(),
-                onTap: (index) {
-                  setState(() {});
-                },
-                overlayColor:
-                    const MaterialStatePropertyAll(Colors.transparent),
-                tabs: [
-                  kycPageTitle(
-                    screenSize: screenSize,
-                    title: 'Personal Details',
-                    isDoneOrActive: _tabController.index == 0 ||
-                            _tabController.index == 1 ||
-                            _tabController.index == 2
-                        ? true
-                        : false,
-                  ),
-                  kycPageTitle(
-                    screenSize: screenSize,
-                    title: 'ID Proof',
-                    isDoneOrActive:
-                        _tabController.index == 1 || _tabController.index == 2
-                            ? true
-                            : false,
-                  ),
-                  kycPageTitle(
-                    screenSize: screenSize,
-                    title: 'Bank Details',
-                    isDoneOrActive: _tabController.index == 2 ? true : false,
-                  ),
-                ],
-              ),
-
-              SizedBox(height: screenSize.height * .038),
-
-//====================TextField Segment====================//
-              SizedBox(
-                width: double.infinity,
-                height: screenSize.height * .42,
-                child: TabBarView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  controller: _tabController,
-                  children: [
-                    kycPersonalDetails(
-                      screenSize: screenSize,
-                      nameController: nameController,
-                      mobileController: mobileController,
-                      emailController: emailController,
-                      pinController: pinController,
-                    ),
-                    kycIdProof(screenSize: screenSize),
-                    kycBankDetails(
-                      screenSize: screenSize,
-                      accNameController: accNameController,
-                      accNumController: accNumController,
-                      confirmAccNumController: confirmAccNumController,
-                      ifscController: ifscController,
-                    )
-                  ],
-                ),
-              ),
-
               SizedBox(height: screenSize.height * .02),
               GestureDetector(
                 onTap: () {

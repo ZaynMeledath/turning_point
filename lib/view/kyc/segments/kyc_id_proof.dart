@@ -10,7 +10,7 @@ Widget kycIdProof({required Size screenSize}) {
         Text(
           'Take a Photo of the Front & Back of your Aadhar Card',
           style: GoogleFonts.roboto(
-            fontSize: screenSize.width * .038,
+            fontSize: screenSize.width * .028,
             fontWeight: FontWeight.w300,
           ),
         ),
@@ -28,7 +28,7 @@ Widget kycIdProof({required Size screenSize}) {
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
                     width: 3,
-                    color: const Color.fromRGBO(212, 231, 255, 1),
+                    color: const Color.fromRGBO(235, 235, 235, 1),
                   ),
                 ),
                 child: Center(
