@@ -30,7 +30,7 @@ Widget kycPageTitle({
               color: isDoneOrActive
                   ? Colors.white
                   : const Color.fromRGBO(0, 189, 190, 1),
-              fontSize: screenSize.width * .031,
+              fontSize: screenSize.width * .028,
               fontWeight: FontWeight.w300,
             ),
           ),

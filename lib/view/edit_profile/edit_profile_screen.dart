@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/view/edit_profile/segments/custom_radio_button.dart';
 import 'package:turning_point/view/edit_profile/segments/edit_profile_picture_segment.dart';
 import 'package:turning_point/view/edit_profile/segments/text_field_segment.dart';
 
@@ -19,7 +20,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   late final TextEditingController _businessController;
   late final TextEditingController _emailController;
   late bool isContractor;
-  int selectedValue = 1;
+  int activeRadioNumber = 1;
 
   // late final FocusNode _nameNode;
   // late final FocusNode _mobileNode;
@@ -34,7 +35,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _addressController = TextEditingController();
     _businessController = TextEditingController();
     _emailController = TextEditingController();
-    isContractor = selectedValue == 1 ? true : false;
+    isContractor = activeRadioNumber == 1 ? true : false;
 
     // _nameNode = FocusNode();
     // _mobileNode = FocusNode();
@@ -113,33 +114,66 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 screenSize: screenSize,
               ),
               SizedBox(height: screenSize.height * .035),
+
+//====================Radio Buttons====================//
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Radio(
-                    value: 1,
-                    groupValue: selectedValue,
-                    activeColor: Colors.red,
-                    focusColor: Colors.red,
-                    onChanged: (value) {
+                  GestureDetector(
+                    onTap: () {
                       setState(() {
-                        selectedValue = value!;
-                        isContractor = !isContractor;
+                        isContractor = true;
+                        activeRadioNumber = 1;
                       });
                     },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        customRadioButton(
+                          screenSize: screenSize,
+                          isActive: activeRadioNumber == 1 ? true : false,
+                        ),
+                        SizedBox(width: screenSize.width * .01),
+                        Text(
+                          'Contractor',
+                          style: GoogleFonts.roboto(
+                            fontSize: screenSize.width * .046,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  Radio(
-                    value: 2,
-                    groupValue: selectedValue,
-                    onChanged: (value) {
+                  SizedBox(width: screenSize.width * .08),
+                  GestureDetector(
+                    onTap: () {
                       setState(() {
-                        selectedValue = value!;
-                        isContractor = !isContractor;
+                        isContractor = false;
+                        activeRadioNumber = 2;
                       });
                     },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        customRadioButton(
+                          screenSize: screenSize,
+                          isActive: activeRadioNumber == 2 ? true : false,
+                        ),
+                        SizedBox(width: screenSize.width * .01),
+                        Text(
+                          'Carpenter',
+                          style: GoogleFonts.roboto(
+                            fontSize: screenSize.width * .046,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
-              SizedBox(height: screenSize.height * .012),
+              SizedBox(height: screenSize.height * .014),
+//====================TextField Segment====================//
               textFieldSegment(
                 screenSize: screenSize,
                 controller: _nameController,
@@ -175,7 +209,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 height: screenSize.width * .102,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(6),
-                  color: const Color.fromRGBO(13, 153, 255, 1),
+                  color: const Color.fromRGBO(0, 189, 190, 1),
                 ),
                 child: Center(
                   child: Text(

@@ -15,19 +15,19 @@ Widget kycPersonalDetails({
         controller: nameController,
         title: 'Name',
       ),
-      SizedBox(height: screenSize.height * .035),
+      SizedBox(height: screenSize.height * .03),
       kycTextFieldSegment(
         screenSize: screenSize,
         controller: mobileController,
         title: 'Mobile Number',
       ),
-      SizedBox(height: screenSize.height * .035),
+      SizedBox(height: screenSize.height * .03),
       kycTextFieldSegment(
         screenSize: screenSize,
         controller: emailController,
         title: 'Email',
       ),
-      SizedBox(height: screenSize.height * .035),
+      SizedBox(height: screenSize.height * .03),
       kycTextFieldSegment(
         screenSize: screenSize,
         controller: pinController,

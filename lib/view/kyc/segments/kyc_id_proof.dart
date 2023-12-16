@@ -14,16 +14,18 @@ Widget kycIdProof({required Size screenSize}) {
             fontWeight: FontWeight.w300,
           ),
         ),
-        SizedBox(height: screenSize.height * .033),
+        SizedBox(height: screenSize.height * .035),
         SizedBox(
-          width: screenSize.width * .77 + 2,
-          height: screenSize.width * .51 + 2,
+          width: screenSize.width * .641 + 2,
+          height: screenSize.width * .421 + 2,
           child: Stack(
             alignment: Alignment.center,
             children: [
               Container(
-                width: screenSize.width * .77,
-                height: screenSize.width * .51,
+                width: screenSize.width * .641,
+                height: screenSize.width * .421,
+                margin:
+                    EdgeInsets.symmetric(horizontal: screenSize.width * .02),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
@@ -33,9 +35,9 @@ Widget kycIdProof({required Size screenSize}) {
                 ),
                 child: Center(
                   child: Image.asset(
-                    'assets/images/id_proof_image.png',
-                    width: screenSize.width * .66,
-                    height: screenSize.width * .4,
+                    'assets/icons/kyc_id_proof_main_icon.png',
+                    width: screenSize.width * .19,
+                    height: screenSize.width * .156,
                   ),
                 ),
               ),
@@ -56,7 +58,7 @@ Widget kycIdProof({required Size screenSize}) {
                 ),
               ),
               Positioned(
-                left: 0,
+                left: screenSize.width * .02,
                 child: Container(
                   height: screenSize.width * .25,
                   width: 6,
@@ -64,7 +66,7 @@ Widget kycIdProof({required Size screenSize}) {
                 ),
               ),
               Positioned(
-                right: 0,
+                right: screenSize.width * .02,
                 child: Container(
                   height: screenSize.width * .25,
                   width: 6,
@@ -74,7 +76,7 @@ Widget kycIdProof({required Size screenSize}) {
             ],
           ),
         ),
-        SizedBox(height: screenSize.height * .035),
+        SizedBox(height: screenSize.height * .042),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Row(

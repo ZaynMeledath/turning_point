@@ -64,7 +64,7 @@ class _KycScreenState extends State<KycScreen>
             children: [
               Column(
                 children: [
-                  //====================Header Segment width Back Button, Title and Doodle ====================//
+//====================Header Segment width Back Button, Title and Doodle ====================//
                   SizedBox(height: screenSize.height * .009),
                   Padding(
                     padding: EdgeInsets.symmetric(
@@ -104,13 +104,15 @@ class _KycScreenState extends State<KycScreen>
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                        horizontal: screenSize.width * .13),
+                        horizontal: screenSize.width * .12),
                     child: Image.asset('assets/images/kyc_doodle.png'),
                   ),
                   SizedBox(height: screenSize.height * .03),
                 ],
               ),
               SizedBox(height: screenSize.height * .015),
+
+//====================Body Container====================//
               Container(
                 margin:
                     EdgeInsets.symmetric(horizontal: screenSize.width * .041),
@@ -127,55 +129,75 @@ class _KycScreenState extends State<KycScreen>
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: screenSize.width * .051),
-                      child: TabBar(
-                        controller: _tabController,
-                        indicator: const BoxDecoration(),
-                        isScrollable: false,
-                        labelColor: Colors.black,
-                        dividerColor: Colors.transparent,
-                        physics: const NeverScrollableScrollPhysics(),
-                        onTap: (index) {
-                          setState(() {});
-                        },
-                        overlayColor:
-                            const MaterialStatePropertyAll(Colors.transparent),
-                        tabs: [
-                          kycPageTitle(
-                            screenSize: screenSize,
-                            title: 'Personal Details',
-                            titleNumber: '1',
-                            isDoneOrActive: _tabController.index == 0 ||
-                                    _tabController.index == 1 ||
-                                    _tabController.index == 2
-                                ? true
-                                : false,
+                      child: Stack(
+                        children: [
+                          TabBar(
+                            controller: _tabController,
+                            indicator: const BoxDecoration(),
+                            isScrollable: false,
+                            labelColor: Colors.black,
+                            dividerColor: Colors.transparent,
+                            physics: const NeverScrollableScrollPhysics(),
+                            onTap: (index) {
+                              setState(() {});
+                            },
+                            overlayColor: const MaterialStatePropertyAll(
+                                Colors.transparent),
+                            tabs: [
+                              kycPageTitle(
+                                screenSize: screenSize,
+                                title: 'Personal Details',
+                                titleNumber: '1',
+                                isDoneOrActive: _tabController.index == 0 ||
+                                        _tabController.index == 1 ||
+                                        _tabController.index == 2
+                                    ? true
+                                    : false,
+                              ),
+                              kycPageTitle(
+                                screenSize: screenSize,
+                                title: 'ID Proof',
+                                titleNumber: '2',
+                                isDoneOrActive: _tabController.index == 1 ||
+                                        _tabController.index == 2
+                                    ? true
+                                    : false,
+                              ),
+                              kycPageTitle(
+                                screenSize: screenSize,
+                                title: 'Bank Details',
+                                titleNumber: '3',
+                                isDoneOrActive:
+                                    _tabController.index == 2 ? true : false,
+                              ),
+                            ],
                           ),
-                          kycPageTitle(
-                            screenSize: screenSize,
-                            title: 'ID Proof',
-                            titleNumber: '2',
-                            isDoneOrActive: _tabController.index == 1 ||
-                                    _tabController.index == 2
-                                ? true
-                                : false,
+                          Positioned(
+                            left: screenSize.width * .18,
+                            top: screenSize.width * .019,
+                            child: Container(
+                                width: screenSize.width * .18,
+                                height: 1,
+                                color: const Color.fromRGBO(199, 199, 199, 1)),
                           ),
-                          kycPageTitle(
-                            screenSize: screenSize,
-                            title: 'Bank Details',
-                            titleNumber: '3',
-                            isDoneOrActive:
-                                _tabController.index == 2 ? true : false,
+                          Positioned(
+                            left: screenSize.width * .45,
+                            top: screenSize.width * .019,
+                            child: Container(
+                                width: screenSize.width * .18,
+                                height: 1,
+                                color: const Color.fromRGBO(199, 199, 199, 1)),
                           ),
                         ],
                       ),
                     ),
 
-                    SizedBox(height: screenSize.height * .038),
+                    SizedBox(height: screenSize.height * .035),
 
-                    //====================TextField Segment====================//
+//====================TabBarView Segment====================//
                     SizedBox(
                       width: double.infinity,
-                      height: screenSize.height * .385,
+                      height: screenSize.height * .37,
                       child: TabBarView(
                         physics: const NeverScrollableScrollPhysics(),
                         controller: _tabController,
@@ -216,7 +238,7 @@ class _KycScreenState extends State<KycScreen>
                   height: screenSize.width * .102,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(6),
-                    color: const Color.fromRGBO(13, 153, 255, 1),
+                    color: const Color.fromRGBO(0, 189, 190, 1),
                   ),
                   child: Center(
                     child: Text(

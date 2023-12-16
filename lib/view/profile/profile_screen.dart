@@ -93,23 +93,25 @@ class ProfileScreen extends StatelessWidget {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                    width: screenSize.width * .205,
-                    height: screenSize.height * .043,
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(8),
+                  width: screenSize.width * .205,
+                  height: screenSize.height * .043,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Log Out',
+                      style: GoogleFonts.roboto(
+                        fontSize: screenSize.width * .036,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                    child: Center(
-                      child: Text('Log Out',
-                          style: GoogleFonts.roboto(
-                            color: Colors.white,
-                            fontSize: screenSize.width * .036,
-                            fontWeight: FontWeight.w500,
-                          )),
-                    )),
+                  ),
+                ),
               ),
             ),
-            const SizedBox(height: 25),
+            SizedBox(height: screenSize.height * .047),
           ],
         ),
       ),

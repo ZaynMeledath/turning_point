@@ -7,8 +7,8 @@ Widget kycIdCaptureContainer({
   required bool isActive,
 }) {
   return Container(
-    width: screenSize.width * .36,
-    height: screenSize.width * .12,
+    width: screenSize.width * .35,
+    height: screenSize.width * .11,
     decoration: BoxDecoration(
       gradient: const LinearGradient(colors: [
         Color.fromRGBO(184, 184, 184, .2),
