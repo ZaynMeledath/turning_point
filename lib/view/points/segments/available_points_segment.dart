@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:turning_point/view/redeem/redeem_screen.dart';
 
-Widget availablePointsSegment({required Size screenSize}) {
+Widget availablePointsSegment({
+  required Size screenSize,
+  required BuildContext context,
+}) {
   return Column(
     children: [
 //====================Available Points Segment====================//
@@ -36,7 +41,43 @@ Widget availablePointsSegment({required Size screenSize}) {
           )
         ],
       ),
-      SizedBox(height: screenSize.height * .022),
+      GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(
+            PageTransition(
+              child: const RedeemScreen(),
+              duration: const Duration(milliseconds: 350),
+              reverseDuration: const Duration(milliseconds: 350),
+              type: PageTransitionType.rightToLeft,
+            ),
+          );
+        },
+        child: Container(
+            width: screenSize.width * .153,
+            height: screenSize.width * .051,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(3),
+              gradient: const LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [
+                  Color.fromRGBO(255, 215, 0, 1),
+                  Color.fromRGBO(255, 238, 141, 1),
+                ],
+              ),
+            ),
+            child: Center(
+              child: Text(
+                'Redeem',
+                style: GoogleFonts.roboto(
+                  color: Colors.black.withOpacity(.9),
+                  fontSize: screenSize.width * .026,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            )),
+      ),
+      SizedBox(height: screenSize.height * .028),
 
 //====================Reward Points Segment====================//
       Padding(

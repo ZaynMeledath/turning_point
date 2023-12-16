@@ -54,7 +54,7 @@ class _PointsScreenState extends State<PointsScreen> {
 
 //====================Body Segment====================//
             SizedBox(height: screenSize.height * .015),
-            availablePointsSegment(screenSize: screenSize),
+            availablePointsSegment(screenSize: screenSize, context: context),
             SizedBox(height: screenSize.height * .024),
             pointsHistorySegment(screenSize: screenSize),
           ],

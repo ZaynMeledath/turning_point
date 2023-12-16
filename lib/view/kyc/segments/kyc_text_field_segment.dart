@@ -5,6 +5,8 @@ Widget kycTextFieldSegment({
   required Size screenSize,
   required TextEditingController controller,
   required String title,
+  bool? isNum,
+  bool? isEmail,
 }) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: screenSize.width * .041),
@@ -32,6 +34,11 @@ Widget kycTextFieldSegment({
                   Flexible(
                     child: TextField(
                       controller: controller,
+                      keyboardType: isNum == true
+                          ? TextInputType.number
+                          : isEmail == true
+                              ? TextInputType.emailAddress
+                              : TextInputType.text,
                       style: GoogleFonts.inter(
                         fontSize: screenSize.width * .031,
                         fontWeight: FontWeight.w400,

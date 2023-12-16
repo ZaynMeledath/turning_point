@@ -20,18 +20,21 @@ Widget kycPersonalDetails({
         screenSize: screenSize,
         controller: mobileController,
         title: 'Mobile Number',
+        isNum: true,
       ),
       SizedBox(height: screenSize.height * .03),
       kycTextFieldSegment(
         screenSize: screenSize,
         controller: emailController,
         title: 'Email',
+        isEmail: true,
       ),
       SizedBox(height: screenSize.height * .03),
       kycTextFieldSegment(
         screenSize: screenSize,
         controller: pinController,
         title: 'Pincode',
+        isNum: true,
       ),
     ],
   );

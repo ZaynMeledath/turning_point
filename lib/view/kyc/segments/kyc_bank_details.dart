@@ -20,12 +20,14 @@ Widget kycBankDetails({
         screenSize: screenSize,
         controller: accNumController,
         title: 'Account Number',
+        isNum: true,
       ),
       SizedBox(height: screenSize.height * .03),
       kycTextFieldSegment(
         screenSize: screenSize,
         controller: confirmAccNumController,
         title: 'Confirm Account Number',
+        isNum: true,
       ),
       SizedBox(height: screenSize.height * .03),
       kycTextFieldSegment(
