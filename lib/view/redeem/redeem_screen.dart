@@ -1,85 +1,131 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/view/redeem/segments/redeem_option_container.dart';
+import 'package:turning_point/helper/custom_app_bar.dart';
+import 'package:turning_point/view/redeem/segments/available_points_container.dart';
+import 'package:turning_point/view/redeem/segments/redeem_options_segment.dart';
+import 'package:turning_point/view/redeem/segments/redeem_textfield_segment.dart';
 
-class RedeemScreen extends StatelessWidget {
+class RedeemScreen extends StatefulWidget {
   const RedeemScreen({super.key});
+
+  @override
+  State<RedeemScreen> createState() => _RedeemScreenState();
+}
+
+class _RedeemScreenState extends State<RedeemScreen> {
+  late final TextEditingController controller;
+
+  @override
+  void initState() {
+    controller = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      body: SafeArea(
+//====================Header Segment with back button and title====================//
+      body: SingleChildScrollView(
+        reverse: true,
         child: Column(
           children: [
-            SizedBox(height: screenSize.height * .009),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: screenSize.width * .03),
-              child: Row(
-                children: [
-//====================Header Segment with back button, title and doodle image====================//
-                  Hero(
-                    tag: 'back_button',
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.arrow_back,
-                        size: screenSize.height * .033,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
+            Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color.fromRGBO(255, 229, 26, 1),
+                    Color.fromRGBO(255, 235, 80, .4),
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
+              child: SafeArea(
+                child: Column(
+                  children: [
+                    //====================App Bar====================//
+                    customAppBar(
+                        context: context,
+                        screenSize: screenSize,
+                        title: 'Redeem'),
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Image.asset('assets/images/party_poppers.png'),
+                        Positioned(
+                          right: 2,
+                          top: -5,
+                          child: Image.asset(
+                            'assets/icons/purple_gift_box_icon.png',
+                            width: screenSize.width * .235,
+                          ),
+                        ),
+                        //====================Available Points Container====================//
+                        availablePointsContainer(screenSize: screenSize),
+                      ],
                     ),
-                  ),
-                  SizedBox(width: screenSize.width * .041),
-                  Text(
-                    'Redeem',
-                    style: GoogleFonts.inter(
-                      fontSize: screenSize.width * .041,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            Padding(
+
+            //====================Redeem Options Container====================//
+            redeemOptionsSegment(screenSize: screenSize),
+            SizedBox(height: screenSize.height * .035),
+            Image.asset(
+              'assets/images/gift_voucher.png',
+              width: screenSize.width * .475,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Note: ',
+                  style: GoogleFonts.roboto(
+                    color: const Color.fromRGBO(228, 37, 43, 1),
+                    fontSize: screenSize.width * .028,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                Text(
+                  'One point is equal to one rupee',
+                  style: GoogleFonts.roboto(
+                    fontSize: screenSize.width * .028,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: screenSize.height * .024),
+            redeemTextFieldSegment(
+                screenSize: screenSize, controller: controller),
+            SizedBox(height: screenSize.height * .022),
+            Container(
               padding: EdgeInsets.symmetric(
-                horizontal: screenSize.width * .115,
-                vertical: screenSize.height * .01,
+                horizontal: screenSize.width * .051,
+                vertical: screenSize.width * .021,
               ),
-              child: Image.asset('assets/images/redeem_screen_doodle.png'),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: const Color.fromRGBO(0, 189, 190, 1),
+              ),
+              child: Text(
+                'Redeem',
+                style: GoogleFonts.inter(
+                  fontSize: screenSize.width * .031,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                ),
+              ),
             ),
-            SizedBox(height: screenSize.height * .02),
-//====================Body Segment====================//
-            redeemOptionContainer(
-              screenSize: screenSize,
-              title: 'Buy Coupon',
-              containerColor: const Color.fromRGBO(255, 233, 240, 1),
-              iconPath: '',
-            ),
-            SizedBox(
-              height: screenSize.height * .03,
-            ),
-            redeemOptionContainer(
-              screenSize: screenSize,
-              title: 'Buy Coupon',
-              containerColor: const Color.fromRGBO(255, 248, 237, 1),
-              iconPath: '',
-            ),
-            SizedBox(height: screenSize.height * .03),
-            redeemOptionContainer(
-              screenSize: screenSize,
-              title: 'Buy Coupon',
-              containerColor: const Color.fromRGBO(242, 224, 255, 1),
-              iconPath: '',
-            ),
-            SizedBox(height: screenSize.height * .03),
-            redeemOptionContainer(
-              screenSize: screenSize,
-              title: 'Buy Coupon',
-              containerColor: const Color.fromRGBO(255, 255, 255, 1),
-              iconPath: '',
-            ),
-            SizedBox(height: screenSize.height * .01),
+            SizedBox(height: screenSize.height * .019),
           ],
         ),
       ),

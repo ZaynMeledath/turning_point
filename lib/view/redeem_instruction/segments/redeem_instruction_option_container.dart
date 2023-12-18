@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-Widget redeemOptionContainer({
+Widget redeemInstructionOptionContainer({
   required Size screenSize,
   required String title,
   required Color containerColor,

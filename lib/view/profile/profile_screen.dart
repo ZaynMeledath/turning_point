@@ -26,8 +26,8 @@ class ProfileScreen extends StatelessWidget {
                       tag: 'back_button',
                       child: IconButton(
                         icon: Icon(
-                          Icons.arrow_back,
-                          size: screenSize.height * .033,
+                          Icons.arrow_back_ios,
+                          size: screenSize.width * .054,
                         ),
                         onPressed: () {
                           Navigator.of(context).pop();

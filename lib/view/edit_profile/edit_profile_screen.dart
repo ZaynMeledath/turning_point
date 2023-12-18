@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/helper/custom_app_bar.dart';
 import 'package:turning_point/view/edit_profile/segments/custom_radio_button.dart';
 import 'package:turning_point/view/edit_profile/segments/edit_profile_picture_segment.dart';
 import 'package:turning_point/view/edit_profile/segments/text_field_segment.dart';
@@ -70,43 +71,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         child: Center(
           child: Column(
             children: [
-              SizedBox(height: screenSize.height * .009),
-
-//====================Header Segment====================//
-              Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: screenSize.width * .03),
-                child: Row(
-                  children: [
-                    Hero(
-                      tag: 'back_button',
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.arrow_back,
-                          size: screenSize.height * .033,
-                        ),
-                        onPressed: () async {
-                          FocusScopeNode currentFocus = FocusScope.of(context);
-                          if (!currentFocus.hasPrimaryFocus) {
-                            currentFocus.unfocus();
-                          }
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ),
-                    SizedBox(width: screenSize.width * .041),
-                    Hero(
-                      tag: 'edit_profile',
-                      child: Text(
-                        'Edit Profile',
-                        style: GoogleFonts.inter(
-                          fontSize: screenSize.width * .041,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+              customAppBar(
+                context: context,
+                screenSize: screenSize,
+                title: 'Edit Profile',
               ),
 //====================Body Segment====================//
               editProfilePictureSegment(

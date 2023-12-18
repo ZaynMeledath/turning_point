@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/helper/custom_app_bar.dart';
 import 'package:turning_point/view/points/segments/available_points_segment.dart';
 import 'package:turning_point/view/points/segments/points_history_segment.dart';
 
@@ -20,36 +20,10 @@ class _PointsScreenState extends State<PointsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 //====================Header Segment with Back Button and Title====================//
-            SizedBox(height: screenSize.height * .009),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: screenSize.width * .03),
-              child: Row(
-                children: [
-                  Hero(
-                    tag: 'back_button',
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.arrow_back,
-                        size: screenSize.height * .033,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ),
-                  SizedBox(width: screenSize.width * .041),
-                  Hero(
-                    tag: 'Points',
-                    child: Text(
-                      'Points',
-                      style: GoogleFonts.inter(
-                        fontSize: screenSize.width * .041,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  )
-                ],
-              ),
+            customAppBar(
+              context: context,
+              screenSize: screenSize,
+              title: 'Points',
             ),
 
 //====================Body Segment====================//

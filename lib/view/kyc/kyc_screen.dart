@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/helper/custom_app_bar.dart';
 import 'package:turning_point/view/kyc/segments/kyc_bank_details.dart';
 import 'package:turning_point/view/kyc/segments/kyc_id_proof.dart';
 import 'package:turning_point/view/kyc/segments/kyc_page_title.dart';
@@ -65,43 +66,8 @@ class _KycScreenState extends State<KycScreen>
               Column(
                 children: [
 //====================Header Segment width Back Button, Title and Doodle ====================//
-                  SizedBox(height: screenSize.height * .009),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: screenSize.width * .03),
-                    child: Row(
-                      children: [
-                        Hero(
-                          tag: 'back_button',
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.arrow_back,
-                              size: screenSize.height * .033,
-                            ),
-                            onPressed: () {
-                              FocusScopeNode currentFocus =
-                                  FocusScope.of(context);
-                              if (!currentFocus.hasPrimaryFocus) {
-                                currentFocus.unfocus();
-                              }
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ),
-                        SizedBox(width: screenSize.width * .041),
-                        Hero(
-                          tag: 'KYC',
-                          child: Text(
-                            'KYC',
-                            style: GoogleFonts.inter(
-                              fontSize: screenSize.width * .041,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+                  customAppBar(
+                      context: context, screenSize: screenSize, title: 'KYC'),
                   Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: screenSize.width * .12),
