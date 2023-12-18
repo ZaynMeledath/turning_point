@@ -38,71 +38,81 @@ class _RedeemScreenState extends State<RedeemScreen> {
         child: Column(
           children: [
             Container(
+              height: screenSize.height * .63,
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
                     Color.fromRGBO(255, 229, 26, 1),
-                    Color.fromRGBO(255, 235, 80, .4),
+                    Color.fromRGBO(255, 235, 80, 0),
                   ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
               ),
               child: SafeArea(
-                child: Column(
+                child: Stack(
+                  alignment: Alignment.topCenter,
                   children: [
-                    //====================App Bar====================//
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: screenSize.height * .025,
+                      ),
+                      child: Image.asset('assets/images/party_poppers.png'),
+                    ),
                     customAppBar(
                         context: context,
                         screenSize: screenSize,
                         title: 'Redeem'),
-                    Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Image.asset('assets/images/party_poppers.png'),
-                        Positioned(
-                          right: 2,
-                          top: -5,
-                          child: Image.asset(
-                            'assets/icons/purple_gift_box_icon.png',
-                            width: screenSize.width * .235,
+                    Positioned(
+                      right: 3,
+                      top: 30,
+                      child: Image.asset(
+                        'assets/icons/purple_gift_box_icon.png',
+                        width: screenSize.width * .235,
+                      ),
+                    ),
+
+//====================Available Points Container====================//
+                    availablePointsContainer(screenSize: screenSize),
+
+                    Positioned(
+                      top: screenSize.height * .3,
+                      child: redeemOptionsSegment(screenSize: screenSize),
+                    ),
+                    Positioned(
+                      top: screenSize.height * .44,
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            'assets/images/gift_voucher.png',
+                            width: screenSize.width * .475,
                           ),
-                        ),
-                        //====================Available Points Container====================//
-                        availablePointsContainer(screenSize: screenSize),
-                      ],
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Note: ',
+                                style: GoogleFonts.roboto(
+                                  color: const Color.fromRGBO(228, 37, 43, 1),
+                                  fontSize: screenSize.width * .028,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              Text(
+                                'One point is equal to one rupee',
+                                style: GoogleFonts.roboto(
+                                  fontSize: screenSize.width * .028,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-            ),
-
-            //====================Redeem Options Container====================//
-            redeemOptionsSegment(screenSize: screenSize),
-            SizedBox(height: screenSize.height * .035),
-            Image.asset(
-              'assets/images/gift_voucher.png',
-              width: screenSize.width * .475,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Note: ',
-                  style: GoogleFonts.roboto(
-                    color: const Color.fromRGBO(228, 37, 43, 1),
-                    fontSize: screenSize.width * .028,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                Text(
-                  'One point is equal to one rupee',
-                  style: GoogleFonts.roboto(
-                    fontSize: screenSize.width * .028,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
             ),
             SizedBox(height: screenSize.height * .024),
             redeemTextFieldSegment(
