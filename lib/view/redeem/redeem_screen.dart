@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/dialog/coupon_generate_dialog.dart';
 import 'package:turning_point/helper/custom_app_bar.dart';
 import 'package:turning_point/view/redeem/segments/available_points_container.dart';
 import 'package:turning_point/view/redeem/segments/redeem_options_segment.dart';
@@ -107,21 +108,33 @@ class _RedeemScreenState extends State<RedeemScreen> {
             redeemTextFieldSegment(
                 screenSize: screenSize, controller: controller),
             SizedBox(height: screenSize.height * .022),
-            Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: screenSize.width * .051,
-                vertical: screenSize.width * .021,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: const Color.fromRGBO(0, 189, 190, 1),
-              ),
-              child: Text(
-                'Redeem',
-                style: GoogleFonts.inter(
-                  fontSize: screenSize.width * .031,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
+            GestureDetector(
+              onTap: () async {
+                showCouponGenerateDialog(
+                    context: context, screenSize: screenSize);
+                await Future.delayed(
+                  const Duration(milliseconds: 2000),
+                  () {
+                    Navigator.pop(context);
+                  },
+                );
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: screenSize.width * .051,
+                  vertical: screenSize.width * .021,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: const Color.fromRGBO(0, 189, 190, 1),
+                ),
+                child: Text(
+                  'Redeem',
+                  style: GoogleFonts.inter(
+                    fontSize: screenSize.width * .031,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),

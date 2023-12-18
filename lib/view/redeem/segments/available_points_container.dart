@@ -9,7 +9,7 @@ Widget availablePointsContainer({required Size screenSize}) {
       height: screenSize.width * .33,
       padding: EdgeInsets.all(screenSize.width * .025),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.white.withOpacity(.2),
         borderRadius: BorderRadius.circular(21),
         boxShadow: [
           BoxShadow(
@@ -37,7 +37,7 @@ Widget availablePointsContainer({required Size screenSize}) {
             '10000',
             style: GoogleFonts.roboto(
               fontSize: screenSize.width * .092,
-              color: const Color.fromRGBO(255, 204, 0, 1),
+              color: Color.fromARGB(218, 243, 74, 74),
               fontWeight: FontWeight.w500,
             ),
           ),
