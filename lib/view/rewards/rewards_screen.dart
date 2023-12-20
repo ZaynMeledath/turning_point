@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:turning_point/controller/rewards_provider.dart';
 import 'package:turning_point/helper/custom_app_bar.dart';
+import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/view/rewards/segments/rank_list_segment.dart';
+import 'package:turning_point/view/rewards/segments/rewards_body_segment.dart';
+import 'package:turning_point/view/rewards/segments/rewards_tab_bar.dart';
 
 class RewardsScreen extends StatefulWidget {
   const RewardsScreen({super.key});
@@ -8,46 +13,78 @@ class RewardsScreen extends StatefulWidget {
   State<RewardsScreen> createState() => _RewardsScreenState();
 }
 
-class _RewardsScreenState extends State<RewardsScreen> {
+class _RewardsScreenState extends State<RewardsScreen>
+    with SingleTickerProviderStateMixin {
+  late final TabController tabController;
+  late final ScrollController scrollController;
+
+  @override
+  void initState() {
+    tabController = TabController(length: 2, vsync: this);
+    scrollController = ScrollController();
+    scrollController.addListener(() {
+      if (scrollController.offset >= screenSize.height * .325) {
+        setState(() {
+          isScrolled = true;
+        });
+      } else {
+        setState(() {
+          isScrolled = false;
+        });
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              expandedHeight: 200,
-              flexibleSpace: FlexibleSpaceBar(
-                title: customAppBar(
-                    context: context, screenSize: screenSize, title: 'Rewards'),
-                background: Stack(
-                  alignment: Alignment.topCenter,
-                  children: [
-                    Container(
-                      height: screenSize.height * .313,
-                      decoration: const BoxDecoration(
-                        color: Color.fromRGBO(175, 19, 20, 1),
-                        boxShadow: [
-                          BoxShadow(
-                            offset: Offset(0, -20),
-                            blurRadius: 23,
-                            color: Color.fromRGBO(175, 0, 2, 1),
-                          ),
-                          BoxShadow(
-                            offset: Offset(0, 25),
-                            blurRadius: 123,
-                            color: Color.fromRGBO(0, 0, 0, .25),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+      body: CustomScrollView(
+        controller: scrollController,
+        slivers: [
+//====================Header Segment====================//
+          SliverAppBar(
+            backgroundColor: Colors.white,
+            expandedHeight: screenSize.height * .58,
+            pinned: true,
+            leading: SafeArea(
+              child: customAppBar(
+                context: context,
+                title: 'Rewards',
+                foregroundColor: Colors.white,
               ),
             ),
-          ],
-        ),
+            leadingWidth: double.infinity,
+            toolbarHeight: screenSize.height * .069,
+            automaticallyImplyLeading: false,
+            flexibleSpace: rewardsBodySegment(screenSize: screenSize),
+          ),
+          SliverAppBar(
+            backgroundColor: Colors.white,
+            pinned: true,
+            automaticallyImplyLeading: false,
+            toolbarHeight: 10,
+            flexibleSpace: rewardsTabBar(
+              screenSize: screenSize,
+              tabController: tabController,
+            ),
+          ),
+          Expanded(
+            child: SliverList(
+              delegate: SliverChildBuilderDelegate(childCount: rankList.length,
+                  (context, index) {
+                return rankListSegment(screenSize: screenSize, index: index);
+              }),
+            ),
+          )
+        ],
       ),
     );
   }

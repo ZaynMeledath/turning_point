@@ -24,13 +24,14 @@ class _ReelsPlayerState extends State<ReelsPlayer> {
     // _videoController = VideoPlayerController.networkUrl(
     //   Uri.parse(widget.urlList[widget.index]),
     // );
+    _videoController = VideoPlayerController.asset('assets/videos/reel.mp4');
     initializePlayer();
     super.initState();
   }
 
   void initializePlayer() async {
-    _videoController = VideoPlayerController.networkUrl(
-        Uri.parse(widget.urlList[widget.index]));
+    // _videoController = VideoPlayerController.networkUrl(
+    //     Uri.parse(widget.urlList[widget.index]));
     await _videoController.initialize();
     setState(() {
       _videoController.play();

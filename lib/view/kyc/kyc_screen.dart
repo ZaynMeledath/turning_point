@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/helper/custom_app_bar.dart';
+import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/kyc/segments/kyc_bank_details.dart';
 import 'package:turning_point/view/kyc/segments/kyc_id_proof.dart';
 import 'package:turning_point/view/kyc/segments/kyc_page_title.dart';
@@ -55,7 +56,6 @@ class _KycScreenState extends State<KycScreen>
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -67,7 +67,9 @@ class _KycScreenState extends State<KycScreen>
                 children: [
 //====================Header Segment width Back Button, Title and Doodle ====================//
                   customAppBar(
-                      context: context, screenSize: screenSize, title: 'KYC'),
+                    context: context,
+                    title: 'KYC',
+                  ),
                   Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: screenSize.width * .12),

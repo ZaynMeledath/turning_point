@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/helper/flight_shuttle.dart';
 
 //====================Styling of Individual options in profile screen====================//
 Widget profileOption({
@@ -34,15 +33,11 @@ Widget profileOption({
               ),
             ),
             SizedBox(width: screenSize.width * .03),
-            Hero(
-              tag: title,
-              flightShuttleBuilder: flightShuttleBuilder,
-              child: Text(
-                title,
-                style: GoogleFonts.roboto(
-                  fontSize: screenSize.width * .041,
-                  fontWeight: FontWeight.w400,
-                ),
+            Text(
+              title,
+              style: GoogleFonts.roboto(
+                fontSize: screenSize.width * .041,
+                fontWeight: FontWeight.w400,
               ),
             ),
           ],

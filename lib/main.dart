@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/splash_screen.dart';
 
 void main() {
@@ -10,6 +11,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    getInitialScreenSize(context: context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Turning Point',

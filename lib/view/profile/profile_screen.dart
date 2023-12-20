@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/profile/segments/edit_profile_dashboard_segment.dart';
 import 'package:turning_point/view/profile/segments/profile_options_segment.dart';
 
@@ -8,13 +9,12 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
 //====================Header segment with Back button, Profile Picture Stack and Name====================//
-            SizedBox(height: screenSize.height * .009),
+            SizedBox(height: screenSize.height * .007),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: screenSize.width * .03),
               child: Stack(

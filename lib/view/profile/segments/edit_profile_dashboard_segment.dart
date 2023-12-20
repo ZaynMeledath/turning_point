@@ -37,7 +37,7 @@ Widget editProfileDashboardSegment(
             ),
             child: Center(
               child: Hero(
-                tag: 'edit_profile',
+                tag: 'Edit Profile',
                 flightShuttleBuilder: flightShuttleBuilder,
                 child: Text(
                   'Edit Profile',

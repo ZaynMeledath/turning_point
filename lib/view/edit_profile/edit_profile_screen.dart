@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/helper/custom_app_bar.dart';
+import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/edit_profile/segments/custom_radio_button.dart';
 import 'package:turning_point/view/edit_profile/segments/edit_profile_picture_segment.dart';
 import 'package:turning_point/view/edit_profile/segments/text_field_segment.dart';
@@ -64,7 +65,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
     return Scaffold(
         body: SafeArea(
       child: SingleChildScrollView(
@@ -73,7 +73,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             children: [
               customAppBar(
                 context: context,
-                screenSize: screenSize,
                 title: 'Edit Profile',
               ),
 //====================Body Segment====================//
