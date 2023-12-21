@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:turning_point/view/contest/contest_screen.dart';
 import 'package:turning_point/view/kyc/kyc_screen.dart';
 import 'package:turning_point/view/points/points_screen.dart';
 import 'package:turning_point/view/profile/segments/profile_option.dart';
@@ -94,7 +95,16 @@ Widget profileOptionsSegment({
         ),
       ),
       GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Navigator.of(context).push(
+            PageTransition(
+              child: const ContestScreen(),
+              type: PageTransitionType.rightToLeft,
+              duration: const Duration(milliseconds: 350),
+              reverseDuration: const Duration(milliseconds: 350),
+            ),
+          );
+        },
         child: profileOption(
           screenSize: screenSize,
           iconPath: 'assets/icons/settings_icon.png',

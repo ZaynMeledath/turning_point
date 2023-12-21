@@ -7,6 +7,7 @@ Widget customAppBar({
   required String title,
   Color? backgroundColor,
   Color? foregroundColor,
+  bool implyLeading = true,
 }) {
   return Column(
     children: [
@@ -15,21 +16,24 @@ Widget customAppBar({
         padding: EdgeInsets.symmetric(horizontal: screenSize.width * .03),
         child: Row(
           children: [
-            Hero(
-              tag: 'back_button',
-              child: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  size: screenSize.width * .054,
-                  color: foregroundColor,
+            Visibility(
+              visible: implyLeading,
+              child: Hero(
+                tag: 'back_button',
+                child: IconButton(
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    size: screenSize.width * .054,
+                    color: foregroundColor,
+                  ),
+                  onPressed: () {
+                    FocusScopeNode currentFocus = FocusScope.of(context);
+                    if (!currentFocus.hasPrimaryFocus) {
+                      currentFocus.unfocus();
+                    }
+                    Navigator.of(context).pop();
+                  },
                 ),
-                onPressed: () {
-                  FocusScopeNode currentFocus = FocusScope.of(context);
-                  if (!currentFocus.hasPrimaryFocus) {
-                    currentFocus.unfocus();
-                  }
-                  Navigator.of(context).pop();
-                },
               ),
             ),
             SizedBox(width: screenSize.width * .041),
