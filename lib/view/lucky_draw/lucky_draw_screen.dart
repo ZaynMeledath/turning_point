@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/helper/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/view/lucky_draw/all_gifts_screen.dart';
 import 'package:turning_point/view/lucky_draw/segments/count_down_timer_segment.dart';
 import 'package:turning_point/view/lucky_draw/segments/days_left_container.dart';
 import 'package:turning_point/view/lucky_draw/segments/gift_boxes_segment.dart';
@@ -84,7 +86,7 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
             customAppBar(
               context: context,
               title: 'Lucky Draw',
-              foregroundColor: Colors.white,
+              foregroundColor: Colors.black.withOpacity(.8),
             ),
             Positioned(
               top: screenSize.height * .07,
@@ -156,7 +158,7 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
               child: Text(
                 'Gifts',
                 style: GoogleFonts.roboto(
-                  color: Colors.white,
+                  color: Colors.black.withOpacity(.8),
                   fontSize: screenSize.width * .036,
                   fontWeight: FontWeight.w600,
                 ),
@@ -165,12 +167,22 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
             Positioned(
               top: screenSize.height * .57,
               right: screenSize.width * .075,
-              child: Text(
-                'View All',
-                style: GoogleFonts.roboto(
-                  color: Colors.white,
-                  fontSize: screenSize.width * .031,
-                  fontWeight: FontWeight.w400,
+              child: GestureDetector(
+                onTap: () => Navigator.of(context).push(
+                  PageTransition(
+                    child: const AllGiftsScreen(),
+                    type: PageTransitionType.rightToLeft,
+                    duration: const Duration(milliseconds: 350),
+                    reverseDuration: const Duration(milliseconds: 350),
+                  ),
+                ),
+                child: Text(
+                  'View All',
+                  style: GoogleFonts.roboto(
+                    color: Colors.black.withOpacity(.8),
+                    fontSize: screenSize.width * .031,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
             ),
