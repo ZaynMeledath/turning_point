@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:turning_point/controller/rewards_provider.dart';
-import 'package:turning_point/helper/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/rewards/segments/rank_list_segment.dart';
 import 'package:turning_point/view/rewards/segments/rewards_body_segment.dart';
@@ -55,10 +54,14 @@ class _RewardsScreenState extends State<RewardsScreen>
             expandedHeight: screenSize.height * .58,
             pinned: true,
             leading: SafeArea(
-              child: customAppBar(
-                context: context,
-                title: 'Rewards',
-                foregroundColor: Colors.white,
+              child: Column(
+                children: [
+                  SizedBox(height: screenSize.height * .012),
+                  Image.asset(
+                    'assets/images/rewards_logo.png',
+                    width: screenSize.width * .36,
+                  ),
+                ],
               ),
             ),
             leadingWidth: double.infinity,

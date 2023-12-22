@@ -4,7 +4,6 @@ import 'package:turning_point/view/contest/contest_screen.dart';
 import 'package:turning_point/view/kyc/kyc_screen.dart';
 import 'package:turning_point/view/points/points_screen.dart';
 import 'package:turning_point/view/profile/segments/profile_option.dart';
-import 'package:turning_point/view/rewards/rewards_screen.dart';
 
 //====================Individual options in profile screen====================//
 Widget profileOptionsSegment({
@@ -35,7 +34,7 @@ Widget profileOptionsSegment({
         onTap: () {
           Navigator.of(context).push(
             PageTransition(
-              child: const RewardsScreen(),
+              child: const ContestScreen(),
               type: PageTransitionType.rightToLeft,
               duration: const Duration(milliseconds: 350),
               reverseDuration: const Duration(milliseconds: 350),
@@ -44,9 +43,10 @@ Widget profileOptionsSegment({
         },
         child: profileOption(
           screenSize: screenSize,
-          iconPath: 'assets/icons/gift_box_icon.png',
-          title: 'Rewards',
-          containerColor: const Color.fromRGBO(203, 225, 252, 1),
+          iconPath: 'assets/icons/contest_icon.png',
+          title: 'Contest',
+          containerColor: const Color.fromRGBO(240, 207, 255, 1),
+          containerPadding: screenSize.width * .016,
         ),
       ),
       GestureDetector(
@@ -65,6 +65,7 @@ Widget profileOptionsSegment({
           iconPath: 'assets/icons/kyc_icon.png',
           title: 'KYC',
           containerColor: const Color.fromRGBO(216, 255, 210, 1),
+          containerPadding: screenSize.width * .01,
         ),
       ),
       GestureDetector(
@@ -95,16 +96,7 @@ Widget profileOptionsSegment({
         ),
       ),
       GestureDetector(
-        onTap: () {
-          Navigator.of(context).push(
-            PageTransition(
-              child: const ContestScreen(),
-              type: PageTransitionType.rightToLeft,
-              duration: const Duration(milliseconds: 350),
-              reverseDuration: const Duration(milliseconds: 350),
-            ),
-          );
-        },
+        onTap: () {},
         child: profileOption(
           screenSize: screenSize,
           iconPath: 'assets/icons/settings_icon.png',

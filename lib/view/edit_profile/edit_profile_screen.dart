@@ -139,7 +139,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: screenSize.height * .014),
+              SizedBox(height: screenSize.height * .015),
 //====================TextField Segment====================//
               textFieldSegment(
                 screenSize: screenSize,

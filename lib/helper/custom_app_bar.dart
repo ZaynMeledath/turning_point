@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/helper/flight_shuttle.dart';
 import 'package:turning_point/helper/screen_size.dart';
 
 Widget customAppBar({
@@ -39,6 +40,7 @@ Widget customAppBar({
             SizedBox(width: screenSize.width * .041),
             Hero(
               tag: title,
+              flightShuttleBuilder: flightShuttleBuilder,
               child: Text(
                 title,
                 style: GoogleFonts.inter(
@@ -47,7 +49,7 @@ Widget customAppBar({
                   fontWeight: FontWeight.w600,
                 ),
               ),
-            )
+            ),
           ],
         ),
       )

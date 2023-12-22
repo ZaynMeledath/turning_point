@@ -9,7 +9,7 @@ Widget customRadioButton({required Size screenSize, required bool isActive}) {
               width: screenSize.width * .035,
               height: screenSize.width * .035,
               decoration: BoxDecoration(
-                color: const Color.fromRGBO(255, 0, 0, 0.3),
+                color: const Color.fromARGB(255, 0, 226, 226),
                 borderRadius: BorderRadius.circular(100),
               ),
             ),
@@ -17,7 +17,7 @@ Widget customRadioButton({required Size screenSize, required bool isActive}) {
               width: screenSize.width * .03,
               height: screenSize.width * .03,
               decoration: BoxDecoration(
-                color: const Color.fromRGBO(225, 40, 38, 1),
+                color: const Color.fromRGBO(0, 189, 190, 1),
                 borderRadius: BorderRadius.circular(100),
               ),
             ),
@@ -42,3 +42,8 @@ Widget customRadioButton({required Size screenSize, required bool isActive}) {
           ),
         );
 }
+
+
+
+// Color.fromRGBO(255, 0, 0, 0.3)
+// Color.fromRGBO(225, 40, 38, 1),

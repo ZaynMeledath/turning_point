@@ -8,9 +8,9 @@ Widget giftBoxesSegment() {
       Row(
         children: [
           giftBoxContainer(),
-          SizedBox(width: screenSize.width * .075),
+          SizedBox(width: screenSize.width * .08),
           giftBoxContainer(),
-          SizedBox(width: screenSize.width * .075),
+          SizedBox(width: screenSize.width * .08),
           giftBoxContainer(),
         ],
       ),
@@ -18,9 +18,9 @@ Widget giftBoxesSegment() {
       Row(
         children: [
           giftBoxContainer(),
-          SizedBox(width: screenSize.width * .075),
+          SizedBox(width: screenSize.width * .08),
           giftBoxContainer(),
-          SizedBox(width: screenSize.width * .075),
+          SizedBox(width: screenSize.width * .08),
           giftBoxContainer(),
         ],
       ),

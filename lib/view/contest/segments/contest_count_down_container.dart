@@ -7,11 +7,12 @@ Widget contestCountDownContainer({
   required String title,
 }) {
   return Container(
-    width: screenSize.width * .087,
-    height: screenSize.width * .1,
-    decoration: const BoxDecoration(
-        color: Color.fromRGBO(236, 236, 236, 1),
-        boxShadow: [
+    width: screenSize.width * .095,
+    height: screenSize.width * .11,
+    decoration: BoxDecoration(
+        color: const Color.fromRGBO(236, 236, 236, 1),
+        borderRadius: BorderRadius.circular(3),
+        boxShadow: const [
           BoxShadow(
             offset: Offset(0, 1),
             blurRadius: 3,
@@ -37,8 +38,11 @@ Widget contestCountDownContainer({
           ),
         ),
         Container(
-          height: screenSize.width * .029,
+          height: screenSize.width * .03,
           decoration: const BoxDecoration(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(3),
+            ),
             color: Colors.black,
           ),
           child: Center(

@@ -7,6 +7,7 @@ Widget profileOption({
   required String iconPath,
   required String title,
   required Color containerColor,
+  double? containerPadding,
 }) {
   return Container(
     padding: EdgeInsets.only(
@@ -23,7 +24,8 @@ Widget profileOption({
             Container(
               width: screenSize.width * .072,
               height: screenSize.width * .072,
-              padding: EdgeInsets.all(screenSize.width * .013),
+              padding:
+                  EdgeInsets.all(containerPadding ?? screenSize.width * .013),
               decoration: BoxDecoration(
                 color: containerColor,
                 borderRadius: BorderRadius.circular(8),

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:turning_point/helper/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/lucky_draw/all_gifts_screen.dart';
 import 'package:turning_point/view/lucky_draw/segments/count_down_timer_segment.dart';
@@ -83,24 +82,19 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
-            customAppBar(
-              context: context,
-              title: 'Lucky Draw',
-              foregroundColor: Colors.black.withOpacity(.8),
-            ),
             Positioned(
-              top: screenSize.height * .07,
+              top: screenSize.height * .045,
               child: Image.asset(
                 'assets/images/lucky_draw_image.png',
                 width: screenSize.width * .7,
               ),
             ),
             Positioned(
-              top: screenSize.height * .35,
+              top: screenSize.height * .33,
               child: daysLeftContainer(),
             ),
             Positioned(
-              top: screenSize.height * .425,
+              top: screenSize.height * .42,
               child: countDownTimerSegment(
                 days: time['timeInDays']!,
                 hours: time['timeInHours']!,
@@ -153,7 +147,7 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
               ),
             ),
             Positioned(
-              top: screenSize.height * .565,
+              top: screenSize.height * .555,
               left: screenSize.width * .075,
               child: Text(
                 'Gifts',
@@ -165,7 +159,7 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
               ),
             ),
             Positioned(
-              top: screenSize.height * .57,
+              top: screenSize.height * .56,
               right: screenSize.width * .075,
               child: GestureDetector(
                 onTap: () => Navigator.of(context).push(
@@ -187,7 +181,7 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
               ),
             ),
             Positioned(
-              bottom: screenSize.height * .02,
+              bottom: screenSize.height * .025,
               child: giftBoxesSegment(),
             )
           ],

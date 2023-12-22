@@ -53,8 +53,8 @@ Widget availablePointsSegment({
           );
         },
         child: Container(
-            width: screenSize.width * .153,
-            height: screenSize.width * .051,
+            width: screenSize.width * .16,
+            height: screenSize.width * .055,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(3),
               gradient: const LinearGradient(
