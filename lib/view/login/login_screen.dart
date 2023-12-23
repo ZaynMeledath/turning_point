@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/view/home/home_screen.dart';
+import 'package:turning_point/view/login/otp_verfication_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -89,11 +89,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 35),
                 GestureDetector(
-                  onTap: () => Navigator.of(context).push(PageTransition(
-                    child: const HomeScreen(),
-                    type: PageTransitionType.rightToLeft,
-                    duration: const Duration(milliseconds: 350),
-                  )),
+                  onTap: () => Navigator.of(context).push(
+                    PageTransition(
+                      child: const OtpVerificationScreen(),
+                      type: PageTransitionType.rightToLeft,
+                      duration: const Duration(milliseconds: 350),
+                    ),
+                  ),
                   child: Container(
                     height: 45,
                     decoration: BoxDecoration(
