@@ -21,10 +21,10 @@ class _ReelsPlayerState extends State<ReelsPlayer> {
 
   @override
   void initState() {
-    // _videoController = VideoPlayerController.networkUrl(
-    //   Uri.parse(widget.urlList[widget.index]),
-    // );
-    _videoController = VideoPlayerController.asset('assets/videos/reel.mp4');
+    _videoController = VideoPlayerController.networkUrl(
+      Uri.parse(widget.urlList[widget.index]),
+    );
+    // _videoController = VideoPlayerController.asset('assets/videos/reel.mp4');
     initializePlayer();
     super.initState();
   }

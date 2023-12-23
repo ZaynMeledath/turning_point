@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:turning_point/view/boarding/boarding_screen.dart';
 import 'package:turning_point/view/contest/contest_screen.dart';
 import 'package:turning_point/view/kyc/kyc_screen.dart';
 import 'package:turning_point/view/points/points_screen.dart';
+import 'package:turning_point/view/privacy_policy/privacy_policy_screen.dart';
 import 'package:turning_point/view/profile/segments/profile_option.dart';
 
 //====================Individual options in profile screen====================//
@@ -69,7 +71,18 @@ Widget profileOptionsSegment({
         ),
       ),
       GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Navigator.of(context).push(
+            PageTransition(
+              child: const PrivacyPolicyScreen(
+                shouldAccept: true,
+              ),
+              type: PageTransitionType.rightToLeft,
+              duration: const Duration(milliseconds: 350),
+              reverseDuration: const Duration(milliseconds: 350),
+            ),
+          );
+        },
         child: profileOption(
           screenSize: screenSize,
           iconPath: 'assets/icons/privacy_policy_icon.png',
@@ -87,7 +100,14 @@ Widget profileOptionsSegment({
         ),
       ),
       GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Navigator.of(context).push(
+            PageTransition(
+              child: const BoardingScreen(),
+              type: PageTransitionType.rightToLeft,
+            ),
+          );
+        },
         child: profileOption(
           screenSize: screenSize,
           iconPath: 'assets/icons/about_us_icon.png',
