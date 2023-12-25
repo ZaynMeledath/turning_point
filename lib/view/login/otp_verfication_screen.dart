@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/view/login/segments/otp_container.dart';
+import 'package:turning_point/view/boarding/boarding_screen.dart';
+// part 'package:turning_point/view/login/segments/otp_container.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
   const OtpVerificationScreen({super.key});
@@ -11,17 +13,43 @@ class OtpVerificationScreen extends StatefulWidget {
 }
 
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
-  late final TextEditingController _textController;
+  late final TextEditingController _textController1;
+  late final TextEditingController _textController2;
+  late final TextEditingController _textController3;
+  late final TextEditingController _textController4;
+
+  late final FocusNode _focusNode1;
+  late final FocusNode _focusNode2;
+  late final FocusNode _focusNode3;
+  late final FocusNode _focusNode4;
 
   @override
   void initState() {
-    _textController = TextEditingController();
+    _textController1 = TextEditingController();
+    _textController2 = TextEditingController();
+    _textController3 = TextEditingController();
+    _textController4 = TextEditingController();
+
+    _focusNode1 = FocusNode();
+    _focusNode2 = FocusNode();
+    _focusNode3 = FocusNode();
+    _focusNode4 = FocusNode();
+
     super.initState();
   }
 
   @override
   void dispose() {
-    _textController.dispose();
+    _textController1.dispose();
+    _textController2.dispose();
+    _textController3.dispose();
+    _textController4.dispose();
+
+    _focusNode1.dispose();
+    _focusNode2.dispose();
+    _focusNode3.dispose();
+    _focusNode4.dispose();
+
     super.dispose();
   }
 
@@ -72,7 +100,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             ),
           ),
           Positioned(
-            top: screenSize.height * .18,
+            top: screenSize.height * .16,
             child: Center(
               child: Column(
                 children: [
@@ -80,7 +108,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     'assets/images/otp_screen_image.png',
                     width: screenSize.width * .6,
                   ),
-                  SizedBox(height: screenSize.height * .04),
+                  SizedBox(height: screenSize.height * .03),
                   Text(
                     'VERIFICATION CODE',
                     style: GoogleFonts.roboto(
@@ -110,13 +138,17 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   SizedBox(height: screenSize.height * .025),
                   Row(
                     children: [
-                      otpContainer(),
+                      otpContainer(
+                          controller: _textController1, focusNode: _focusNode1),
                       SizedBox(width: screenSize.width * .025),
-                      otpContainer(),
+                      otpContainer(
+                          controller: _textController2, focusNode: _focusNode2),
                       SizedBox(width: screenSize.width * .025),
-                      otpContainer(),
+                      otpContainer(
+                          controller: _textController3, focusNode: _focusNode3),
                       SizedBox(width: screenSize.width * .025),
-                      otpContainer(),
+                      otpContainer(
+                          controller: _textController4, focusNode: _focusNode4),
                     ],
                   ),
                   SizedBox(height: screenSize.height * .01),
@@ -139,35 +171,82 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       ),
                     ],
                   ),
+                  SizedBox(height: screenSize.height * .21),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushAndRemoveUntil(
+                        PageTransition(
+                          child: const BoardingScreen(),
+                          type: PageTransitionType.rightToLeft,
+                        ),
+                        (_) => false,
+                      );
+                    },
+                    child: Container(
+                      width: screenSize.width * .37,
+                      height: screenSize.width * .11,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: const Color.fromRGBO(0, 99, 255, 1),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Verify',
+                          style: GoogleFonts.roboto(
+                            fontSize: screenSize.width * .031,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
-          Positioned(
-            bottom: screenSize.height * .08,
-            child: GestureDetector(
-              onTap: () {},
-              child: Container(
-                width: screenSize.width * .37,
-                height: screenSize.width * .11,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  color: const Color.fromRGBO(0, 99, 255, 1),
-                ),
-                child: Center(
-                  child: Text(
-                    'Verify',
-                    style: GoogleFonts.roboto(
-                      fontSize: screenSize.width * .031,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
         ],
+      ),
+    );
+  }
+
+  Widget otpContainer({
+    required TextEditingController controller,
+    required FocusNode focusNode,
+  }) {
+    return Container(
+      width: screenSize.width * .09,
+      height: screenSize.width * .09,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(
+          color: focusNode.hasFocus
+              ? Colors.blue
+              : const Color.fromRGBO(155, 155, 155, 1),
+        ),
+      ),
+      child: TextField(
+        controller: controller,
+        focusNode: focusNode,
+        // autofocus: true,
+        showCursor: false,
+        maxLength: 1,
+        keyboardType: TextInputType.number,
+        textAlign: TextAlign.center,
+        decoration: const InputDecoration(
+          border: InputBorder.none,
+          counterText: '',
+        ),
+        onChanged: (value) {
+          focusNode.nextFocus();
+          if (controller == _textController4) {
+            focusNode.unfocus();
+          }
+          setState(() {});
+        },
+        onTap: () {
+          setState(() {});
+        },
       ),
     );
   }

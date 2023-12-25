@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/helper/custom_app_bar.dart';
+import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/view/edit_profile/segments/custom_radio_button.dart';
+import 'package:turning_point/helper/widget/custom_radio_button.dart';
 import 'package:turning_point/view/edit_profile/segments/edit_profile_picture_segment.dart';
 import 'package:turning_point/view/edit_profile/segments/text_field_segment.dart';
 
@@ -89,7 +89,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        isContractor = true;
+                        isContractor = false;
                         activeRadioNumber = 1;
                       });
                     },
@@ -97,12 +97,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         customRadioButton(
-                          screenSize: screenSize,
                           isActive: activeRadioNumber == 1 ? true : false,
                         ),
                         SizedBox(width: screenSize.width * .01),
                         Text(
-                          'Contractor',
+                          'Carpenter',
                           style: GoogleFonts.roboto(
                             fontSize: screenSize.width * .046,
                             fontWeight: FontWeight.w400,
@@ -115,7 +114,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        isContractor = false;
+                        isContractor = true;
                         activeRadioNumber = 2;
                       });
                     },
@@ -123,12 +122,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         customRadioButton(
-                          screenSize: screenSize,
                           isActive: activeRadioNumber == 2 ? true : false,
                         ),
                         SizedBox(width: screenSize.width * .01),
                         Text(
-                          'Carpenter',
+                          'Contractor',
                           style: GoogleFonts.roboto(
                             fontSize: screenSize.width * .046,
                             fontWeight: FontWeight.w400,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:turning_point/view/boarding/boarding_screen.dart';
 import 'package:turning_point/view/contest/contest_screen.dart';
 import 'package:turning_point/view/kyc/kyc_screen.dart';
 import 'package:turning_point/view/points/points_screen.dart';
@@ -100,14 +99,7 @@ Widget profileOptionsSegment({
         ),
       ),
       GestureDetector(
-        onTap: () {
-          Navigator.of(context).push(
-            PageTransition(
-              child: const BoardingScreen(),
-              type: PageTransitionType.rightToLeft,
-            ),
-          );
-        },
+        onTap: () {},
         child: profileOption(
           screenSize: screenSize,
           iconPath: 'assets/icons/about_us_icon.png',

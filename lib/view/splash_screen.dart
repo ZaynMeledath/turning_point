@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:turning_point/view/login/login_screen.dart';
+import 'package:turning_point/view/login/sign_in_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -21,10 +21,10 @@ class _SplashScreenState extends State<SplashScreen> {
       });
     });
     Future.delayed(const Duration(milliseconds: 2000), () {
-      Navigator.of(context).push(PageTransition(
+      Navigator.of(context).pushReplacement(PageTransition(
         type: PageTransitionType.fade,
         duration: const Duration(milliseconds: 1000),
-        child: const LoginScreen(),
+        child: const SignInScreen(),
         curve: Curves.linear,
       ));
     });
