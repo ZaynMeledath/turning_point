@@ -53,29 +53,30 @@ Widget availablePointsSegment({
           );
         },
         child: Container(
-            width: screenSize.width * .16,
-            height: screenSize.width * .055,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(3),
-              gradient: const LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [
-                  Color.fromRGBO(255, 215, 0, 1),
-                  Color.fromRGBO(255, 238, 141, 1),
-                ],
+          width: screenSize.width * .16,
+          height: screenSize.width * .055,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(3),
+            gradient: const LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [
+                Color.fromRGBO(255, 215, 0, 1),
+                Color.fromRGBO(255, 238, 141, 1),
+              ],
+            ),
+          ),
+          child: Center(
+            child: Text(
+              'Redeem',
+              style: GoogleFonts.roboto(
+                color: Colors.black.withOpacity(.9),
+                fontSize: screenSize.width * .026,
+                fontWeight: FontWeight.w500,
               ),
             ),
-            child: Center(
-              child: Text(
-                'Redeem',
-                style: GoogleFonts.roboto(
-                  color: Colors.black.withOpacity(.9),
-                  fontSize: screenSize.width * .026,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            )),
+          ),
+        ),
       ),
       SizedBox(height: screenSize.height * .028),
 

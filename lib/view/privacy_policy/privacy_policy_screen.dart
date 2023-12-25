@@ -73,7 +73,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               ),
             ),
             Visibility(
-              visible: isAccepted,
+              visible: !isAccepted,
               child: Container(
                 width: screenSize.width * .37,
                 height: screenSize.width * .11,

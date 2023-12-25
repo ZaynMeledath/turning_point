@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/helper/flight_shuttle.dart';
+import 'package:turning_point/view/dashboard/dashboard_screen.dart';
 import 'package:turning_point/view/edit_profile/edit_profile_screen.dart';
 
 //====================To make the text Hero animation smooth====================//
@@ -52,23 +53,37 @@ Widget editProfileDashboardSegment(
         ),
 
 //====================Dashboard Container====================//
-        Container(
-          width: screenSize.width * .419,
-          height: screenSize.width * .09,
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(colors: [
-              Color.fromRGBO(184, 184, 184, .2),
-              Color.fromRGBO(239, 239, 239, .3),
-              Color.fromRGBO(184, 184, 184, .2),
-            ]),
-            borderRadius: BorderRadius.circular(6),
+        GestureDetector(
+          onTap: () => Navigator.of(context).push(
+            PageTransition(
+              child: const DashBoardScreen(),
+              duration: const Duration(milliseconds: 350),
+              reverseDuration: const Duration(milliseconds: 350),
+              type: PageTransitionType.rightToLeft,
+            ),
           ),
-          child: Center(
-            child: Text(
-              'Dashboard',
-              style: GoogleFonts.roboto(
-                fontSize: screenSize.width * .036,
-                fontWeight: FontWeight.w400,
+          child: Container(
+            width: screenSize.width * .419,
+            height: screenSize.width * .09,
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(colors: [
+                Color.fromRGBO(184, 184, 184, .2),
+                Color.fromRGBO(239, 239, 239, .3),
+                Color.fromRGBO(184, 184, 184, .2),
+              ]),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: Center(
+              child: Hero(
+                tag: 'Dashboard',
+                flightShuttleBuilder: flightShuttleBuilder,
+                child: Text(
+                  'Dashboard',
+                  style: GoogleFonts.roboto(
+                    fontSize: screenSize.width * .036,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
               ),
             ),
           ),

@@ -14,7 +14,7 @@ Widget redeemOptionsSegment({required Size screenSize}) {
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
-              color: const Color.fromRGBO(0, 189, 190, 1),
+              color: const Color.fromRGBO(0, 99, 255, 1),
             ),
             child: Text(
               'Buy Coupons',

@@ -7,7 +7,7 @@ Widget availablePointsContainer({required Size screenSize}) {
     height: screenSize.width * .33,
     margin: EdgeInsets.symmetric(
       horizontal: screenSize.width * .07,
-      vertical: 80,
+      vertical: screenSize.height * .15,
     ),
     padding: EdgeInsets.all(screenSize.width * .025),
     decoration: BoxDecoration(

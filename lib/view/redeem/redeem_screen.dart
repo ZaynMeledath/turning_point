@@ -38,7 +38,7 @@ class _RedeemScreenState extends State<RedeemScreen> {
         child: Column(
           children: [
             Container(
-              height: screenSize.height * .63,
+              height: screenSize.height * .66,
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
@@ -49,72 +49,74 @@ class _RedeemScreenState extends State<RedeemScreen> {
                   end: Alignment.bottomCenter,
                 ),
               ),
-              child: SafeArea(
-                child: Stack(
-                  alignment: Alignment.topCenter,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: screenSize.height * .025,
-                      ),
-                      child: Image.asset('assets/images/party_poppers.png'),
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: screenSize.height * .025,
                     ),
-                    customAppBar(context: context, title: 'Redeem'),
-                    Positioned(
-                      right: 3,
-                      top: 30,
-                      child: Image.asset(
-                        'assets/icons/purple_gift_box_icon.png',
-                        width: screenSize.width * .235,
-                      ),
+                    child: Image.asset(
+                      'assets/images/redeem_screen_image.png',
                     ),
+                  ),
+                  SafeArea(
+                    child: customAppBar(context: context, title: 'Redeem'),
+                  ),
+                  Positioned(
+                    right: 3,
+                    top: screenSize.height * .083,
+                    child: Image.asset(
+                      'assets/icons/purple_gift_box_icon.png',
+                      width: screenSize.width * .235,
+                    ),
+                  ),
 
-//====================Available Points Container====================//
-                    availablePointsContainer(screenSize: screenSize),
+                  //====================Available Points Container====================//
+                  availablePointsContainer(screenSize: screenSize),
 
-                    Positioned(
-                      top: screenSize.height * .3,
-                      child: redeemOptionsSegment(screenSize: screenSize),
-                    ),
-                    Positioned(
-                      top: screenSize.height * .44,
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            'assets/images/gift_voucher.png',
-                            width: screenSize.width * .475,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Note: ',
-                                style: GoogleFonts.roboto(
-                                  color: const Color.fromRGBO(228, 37, 43, 1),
-                                  fontSize: screenSize.width * .028,
-                                  fontWeight: FontWeight.w400,
-                                ),
+                  Positioned(
+                    top: screenSize.height * .35,
+                    child: redeemOptionsSegment(screenSize: screenSize),
+                  ),
+                  Positioned(
+                    top: screenSize.height * .51,
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          'assets/images/gift_voucher.png',
+                          width: screenSize.width * .475,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Note: ',
+                              style: GoogleFonts.roboto(
+                                color: const Color.fromRGBO(228, 37, 43, 1),
+                                fontSize: screenSize.width * .028,
+                                fontWeight: FontWeight.w400,
                               ),
-                              Text(
-                                'One point is equal to one rupee',
-                                style: GoogleFonts.roboto(
-                                  fontSize: screenSize.width * .028,
-                                  fontWeight: FontWeight.w400,
-                                ),
+                            ),
+                            Text(
+                              'One point is equal to one rupee',
+                              style: GoogleFonts.roboto(
+                                fontSize: screenSize.width * .028,
+                                fontWeight: FontWeight.w400,
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: screenSize.height * .024),
+            SizedBox(height: screenSize.height * .03),
             redeemTextFieldSegment(
                 screenSize: screenSize, controller: controller),
-            SizedBox(height: screenSize.height * .022),
+            SizedBox(height: screenSize.height * .032),
             GestureDetector(
               onTap: () async {
                 showCouponGenerateDialog(
@@ -133,7 +135,7 @@ class _RedeemScreenState extends State<RedeemScreen> {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: const Color.fromRGBO(0, 189, 190, 1),
+                  color: const Color.fromRGBO(0, 99, 255, 1),
                 ),
                 child: Text(
                   'Redeem',

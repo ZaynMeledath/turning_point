@@ -80,7 +80,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 context: context,
                 screenSize: screenSize,
               ),
-              SizedBox(height: screenSize.height * .035),
+              SizedBox(height: screenSize.height * .038),
 
 //====================Radio Buttons====================//
               Row(
@@ -174,7 +174,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 height: screenSize.width * .102,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(6),
-                  color: const Color.fromRGBO(0, 189, 190, 1),
+                  color: const Color.fromRGBO(0, 99, 255, 1),
                 ),
                 child: Center(
                   child: Text(

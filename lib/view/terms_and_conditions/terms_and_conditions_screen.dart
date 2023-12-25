@@ -117,6 +117,9 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                         SizedBox(height: screenSize.height * .024),
                         GestureDetector(
                           onTap: () {
+                            if (!isAgreed) {
+                              return;
+                            }
                             Navigator.of(context).push(
                               PageTransition(
                                 child: const BoardingScreen(),

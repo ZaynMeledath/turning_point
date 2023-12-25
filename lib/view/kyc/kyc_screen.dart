@@ -206,7 +206,7 @@ class _KycScreenState extends State<KycScreen>
                   height: screenSize.width * .102,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(6),
-                    color: const Color.fromRGBO(0, 189, 190, 1),
+                    color: const Color.fromRGBO(0, 99, 255, 1),
                   ),
                   child: Center(
                     child: Text(

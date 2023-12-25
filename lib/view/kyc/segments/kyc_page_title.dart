@@ -14,12 +14,12 @@ Widget kycPageTitle({
         height: screenSize.width * .042,
         decoration: BoxDecoration(
           color: isDoneOrActive
-              ? const Color.fromRGBO(0, 189, 190, 1)
+              ? const Color.fromRGBO(0, 99, 255, 1)
               : Colors.white,
           borderRadius: BorderRadius.circular(100),
           border: !isDoneOrActive
               ? Border.all(
-                  color: const Color.fromRGBO(0, 189, 190, 1),
+                  color: const Color.fromRGBO(0, 99, 255, 1),
                 )
               : null,
         ),
@@ -29,7 +29,7 @@ Widget kycPageTitle({
             style: GoogleFonts.roboto(
               color: isDoneOrActive
                   ? Colors.white
-                  : const Color.fromRGBO(0, 189, 190, 1),
+                  : const Color.fromRGBO(0, 99, 255, 1),
               fontSize: screenSize.width * .028,
               fontWeight: FontWeight.w300,
             ),

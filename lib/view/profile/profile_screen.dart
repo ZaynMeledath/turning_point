@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/helper/flight_shuttle.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/profile/segments/edit_profile_dashboard_segment.dart';
 import 'package:turning_point/view/profile/segments/profile_options_segment.dart';
@@ -41,6 +42,7 @@ class ProfileScreen extends StatelessWidget {
                         SizedBox(height: screenSize.height * .012),
                         Hero(
                           tag: 'profile_picture',
+                          flightShuttleBuilder: flightShuttleBuilder,
                           child: CircleAvatar(
                             radius: screenSize.height * .063,
                             backgroundColor: const Color(0xffe12826),
