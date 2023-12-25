@@ -3,8 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
-import 'package:turning_point/view/login/otp_verfication_screen.dart';
 import 'package:turning_point/view/login/segments/sign_up_text_field.dart';
+import 'package:turning_point/view/terms_and_conditions/terms_and_conditions_screen.dart';
 // part 'package:turning_point/lib/view/login/segments/sign_up_text_field_segment.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -122,7 +122,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 onTap: () {
                   Navigator.of(context).push(
                     PageTransition(
-                      child: const OtpVerificationScreen(),
+                      child: const TermsAndConditionsScreen(isAccepted: false),
                       type: PageTransitionType.rightToLeft,
                       duration: const Duration(milliseconds: 350),
                       reverseDuration: const Duration(milliseconds: 350),

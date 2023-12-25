@@ -5,6 +5,7 @@ import 'package:turning_point/view/kyc/kyc_screen.dart';
 import 'package:turning_point/view/points/points_screen.dart';
 import 'package:turning_point/view/privacy_policy/privacy_policy_screen.dart';
 import 'package:turning_point/view/profile/segments/profile_option.dart';
+import 'package:turning_point/view/terms_and_conditions/terms_and_conditions_screen.dart';
 
 //====================Individual options in profile screen====================//
 Widget profileOptionsSegment({
@@ -74,7 +75,7 @@ Widget profileOptionsSegment({
           Navigator.of(context).push(
             PageTransition(
               child: const PrivacyPolicyScreen(
-                shouldAccept: true,
+                isAccepted: true,
               ),
               type: PageTransitionType.rightToLeft,
               duration: const Duration(milliseconds: 350),
@@ -90,7 +91,18 @@ Widget profileOptionsSegment({
         ),
       ),
       GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Navigator.of(context).push(
+            PageTransition(
+              child: const TermsAndConditionsScreen(
+                isAccepted: true,
+              ),
+              type: PageTransitionType.rightToLeft,
+              duration: const Duration(milliseconds: 350),
+              reverseDuration: const Duration(milliseconds: 350),
+            ),
+          );
+        },
         child: profileOption(
           screenSize: screenSize,
           iconPath: 'assets/icons/terms_icon.png',

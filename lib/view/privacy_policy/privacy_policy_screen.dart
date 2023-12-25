@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/helper/widget/title_content_text.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
-  final bool shouldAccept;
+  final bool isAccepted;
   const PrivacyPolicyScreen({
-    required this.shouldAccept,
+    required this.isAccepted,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    const text =
+        "The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.";
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -55,100 +58,22 @@ class PrivacyPolicyScreen extends StatelessWidget {
                 child: ListView(
                   physics: const BouncingScrollPhysics(),
                   children: [
-                    Text(
-                      'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
-                      style: GoogleFonts.roboto(
-                        fontSize: screenSize.width * .03,
-                        fontWeight: FontWeight.w500,
-                        height: 1.5,
-                      ),
-                    ),
-                    SizedBox(height: screenSize.height * .01),
-                    Text(
-                      "The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-                      style: GoogleFonts.roboto(
-                        fontSize: screenSize.width * .028,
-                        fontWeight: FontWeight.w400,
-                        height: 1.5,
-                      ),
-                    ),
-                    SizedBox(height: screenSize.height * .018),
-                    Text(
-                      'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
-                      style: GoogleFonts.roboto(
-                        fontSize: screenSize.width * .03,
-                        fontWeight: FontWeight.w500,
-                        height: 1.5,
-                      ),
-                    ),
-                    SizedBox(height: screenSize.height * .01),
-                    Text(
-                      "The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-                      style: GoogleFonts.roboto(
-                        fontSize: screenSize.width * .028,
-                        fontWeight: FontWeight.w400,
-                        height: 1.5,
-                      ),
-                    ),
-                    SizedBox(height: screenSize.height * .01),
-                    Text(
-                      "The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-                      style: GoogleFonts.roboto(
-                        fontSize: screenSize.width * .028,
-                        fontWeight: FontWeight.w400,
-                        height: 1.5,
-                      ),
-                    ),
-                    Text(
-                      'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
-                      style: GoogleFonts.roboto(
-                        fontSize: screenSize.width * .03,
-                        fontWeight: FontWeight.w500,
-                        height: 1.5,
-                      ),
-                    ),
-                    SizedBox(height: screenSize.height * .01),
-                    Text(
-                      "The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-                      style: GoogleFonts.roboto(
-                        fontSize: screenSize.width * .028,
-                        fontWeight: FontWeight.w400,
-                        height: 1.5,
-                      ),
-                    ),
-                    SizedBox(height: screenSize.height * .018),
-                    Text(
-                      'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
-                      style: GoogleFonts.roboto(
-                        fontSize: screenSize.width * .03,
-                        fontWeight: FontWeight.w500,
-                        height: 1.5,
-                      ),
-                    ),
-                    SizedBox(height: screenSize.height * .01),
-                    Text(
-                      "The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-                      style: GoogleFonts.roboto(
-                        fontSize: screenSize.width * .028,
-                        fontWeight: FontWeight.w400,
-                        height: 1.5,
-                      ),
-                    ),
-                    SizedBox(height: screenSize.height * .01),
-                    Text(
-                      "The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-                      style: GoogleFonts.roboto(
-                        fontSize: screenSize.width * .028,
-                        fontWeight: FontWeight.w400,
-                        height: 1.5,
-                      ),
-                    ),
+                    titleContentText(isTitle: true, text: text),
+                    titleContentText(isTitle: false, text: text),
+                    titleContentText(isTitle: false, text: text),
+                    titleContentText(isTitle: false, text: text),
+                    titleContentText(isTitle: false, text: text),
+                    titleContentText(isTitle: true, text: text),
+                    titleContentText(isTitle: false, text: text),
+                    titleContentText(isTitle: true, text: text),
+                    titleContentText(isTitle: false, text: text),
+                    titleContentText(isTitle: false, text: text),
                   ],
                 ),
               ),
             ),
             Visibility(
-              visible: shouldAccept,
+              visible: isAccepted,
               child: Container(
                 width: screenSize.width * .37,
                 height: screenSize.width * .11,
