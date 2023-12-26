@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "307677340790",
+    "project_id": "turning-point-vapi",
+    "storage_bucket": "turning-point-vapi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:307677340790:android:ce191e23ebe91565caab57",
+        "android_client_info": {
+          "package_name": "com.example.turning_point"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSHP3FHVKXYgLNB4WkY3Vr3PFdmy6-deA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
