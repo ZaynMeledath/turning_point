@@ -80,7 +80,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 context: context,
                 screenSize: screenSize,
               ),
-              SizedBox(height: screenSize.height * .038),
+              SizedBox(height: screenSize.height * .045),
 
 //====================Radio Buttons====================//
               Row(
@@ -137,7 +137,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: screenSize.height * .015),
+              SizedBox(height: screenSize.height * .018),
 //====================TextField Segment====================//
               textFieldSegment(
                 screenSize: screenSize,
@@ -168,7 +168,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 controller: _emailController,
                 title: 'Email',
               ),
-              SizedBox(height: screenSize.height * .065),
+              SizedBox(height: screenSize.height * .051),
               Container(
                 width: screenSize.width * .38,
                 height: screenSize.width * .102,
@@ -187,7 +187,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: screenSize.height * .023),
             ],
           ),
         ),

@@ -42,7 +42,7 @@ class _RedeemScreenState extends State<RedeemScreen> {
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Color.fromRGBO(255, 229, 26, 1),
+                    Color.fromRGBO(255, 229, 26, .8),
                     Color.fromRGBO(255, 235, 80, 0),
                   ],
                   begin: Alignment.topCenter,

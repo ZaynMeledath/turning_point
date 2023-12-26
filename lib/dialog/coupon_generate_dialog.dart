@@ -24,8 +24,8 @@ Future<Object?> showCouponGenerateDialog({
 Widget dialog(Size screenSize) {
   return Container(
     margin: EdgeInsets.symmetric(
-      horizontal: screenSize.width * .26,
-      vertical: screenSize.height * .355,
+      horizontal: screenSize.width * .25,
+      vertical: screenSize.height * .36,
     ),
     decoration: BoxDecoration(
       color: Colors.white,

@@ -23,6 +23,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               context: context,
               title: 'Privacy & Policy',
             ),
+            SizedBox(height: screenSize.height * .01),
             Image.asset(
               'assets/images/privacy_policy_image.png',
               width: screenSize.width * .64,
