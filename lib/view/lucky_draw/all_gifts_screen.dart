@@ -87,15 +87,15 @@ class _AllGiftsScreenState extends State<AllGiftsScreen> {
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      // color: Colors.white.withOpacity(.9),
-                      gradient: LinearGradient(
-                        colors: [
-                          const Color.fromRGBO(255, 221, 84, 1),
-                          Colors.white.withOpacity(.9),
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                      ),
+                      color: Colors.white.withOpacity(.9),
+                      // gradient: LinearGradient(
+                      //   colors: [
+                      //     const Color.fromRGBO(255, 221, 84, 1),
+                      //     Colors.white.withOpacity(.9),
+                      //   ],
+                      //   begin: Alignment.topCenter,
+                      //   end: Alignment.bottomCenter,
+                      // ),
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

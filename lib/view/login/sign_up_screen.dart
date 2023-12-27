@@ -2,20 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_radio_button.dart';
 import 'package:turning_point/view/login/segments/sign_up_text_field.dart';
 import 'package:turning_point/view/terms_and_conditions/terms_and_conditions_screen.dart';
 // part 'package:turning_point/lib/view/login/segments/sign_up_text_field_segment.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+  final bool isContractor;
+  const SignUpScreen({
+    required this.isContractor,
+    super.key,
+  });
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  bool isContractor = false;
+  late bool isContractor;
   int activeRadioNumber = 1;
 
   late final TextEditingController mobileController;
@@ -23,6 +26,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void initState() {
+    isContractor = widget.isContractor;
     mobileController = TextEditingController();
     contractorOrBusinessController = TextEditingController();
     super.initState();
@@ -43,7 +47,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           padding: EdgeInsets.symmetric(horizontal: screenSize.width * .041),
           child: Column(
             children: [
-              SizedBox(height: screenSize.height * .2),
+              SizedBox(height: screenSize.height * .17),
               Hero(
                 tag: 'furnipart_logo',
                 child: Image.asset(
@@ -52,60 +56,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: screenSize.height * .086,
                 ),
               ),
-              SizedBox(height: screenSize.height * .08),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isContractor = false;
-                        activeRadioNumber = 1;
-                      });
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        customRadioButton(
-                          isActive: activeRadioNumber == 1 ? true : false,
-                        ),
-                        SizedBox(width: screenSize.width * .01),
-                        Text(
-                          'Carpenter',
-                          style: GoogleFonts.roboto(
-                            fontSize: screenSize.width * .046,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
+              SizedBox(height: screenSize.height * .07),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Sign up to start\nEarning...',
+                  style: GoogleFonts.roboto(
+                    fontSize: screenSize.width * .08,
+                    fontWeight: FontWeight.w600,
+                    color: const Color.fromRGBO(16, 16, 16, 1),
                   ),
-                  SizedBox(width: screenSize.width * .08),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isContractor = true;
-                        activeRadioNumber = 2;
-                      });
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        customRadioButton(
-                          isActive: activeRadioNumber == 2 ? true : false,
-                        ),
-                        SizedBox(width: screenSize.width * .01),
-                        Text(
-                          'Contractor',
-                          style: GoogleFonts.roboto(
-                            fontSize: screenSize.width * .046,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                ),
               ),
               SizedBox(height: screenSize.height * .02),
               signUpTextField(
@@ -133,9 +94,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   tag: 'sign_in_sign_up_container',
                   child: Container(
                     width: double.infinity,
-                    height: screenSize.width * .12,
+                    height: screenSize.width * .14,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(30),
                       color: const Color.fromRGBO(52, 110, 241, 1),
                       boxShadow: const [
                         BoxShadow(
@@ -154,7 +115,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: Text(
                         'Sign Up',
                         style: GoogleFonts.roboto(
-                          fontSize: screenSize.width * .035,
+                          fontSize: screenSize.width * .036,
                           fontWeight: FontWeight.w700,
                           color: Colors.white,
                         ),

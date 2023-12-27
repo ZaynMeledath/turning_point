@@ -106,7 +106,9 @@ class _WhoIsSigningScreenState extends State<WhoIsSigningScreen> {
                       onTap: () {
                         Navigator.of(context).push(
                           PageTransition(
-                            child: const SignUpScreen(),
+                            child: const SignUpScreen(
+                              isContractor: true,
+                            ),
                             type: PageTransitionType.rightToLeft,
                             duration: const Duration(milliseconds: 350),
                             reverseDuration: const Duration(milliseconds: 350),
@@ -123,7 +125,9 @@ class _WhoIsSigningScreenState extends State<WhoIsSigningScreen> {
                       onTap: () {
                         Navigator.of(context).push(
                           PageTransition(
-                            child: const SignUpScreen(),
+                            child: const SignUpScreen(
+                              isContractor: false,
+                            ),
                             type: PageTransitionType.rightToLeft,
                             duration: const Duration(milliseconds: 350),
                             reverseDuration: const Duration(milliseconds: 350),

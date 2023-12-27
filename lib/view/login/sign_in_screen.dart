@@ -119,12 +119,12 @@ class _SignInScreenState extends State<SignInScreen> {
                 flightShuttleBuilder: flightShuttleBuilder,
                 child: Container(
                   width: screenSize.width * .85,
-                  height: screenSize.width * .12,
+                  height: screenSize.width * .13,
                   margin: EdgeInsets.only(
                     bottom: screenSize.height * .11,
                   ),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(18),
                     color: const Color.fromRGBO(52, 110, 241, 1),
                     boxShadow: const [
                       BoxShadow(
@@ -143,13 +143,12 @@ class _SignInScreenState extends State<SignInScreen> {
                     alignment: Alignment.center,
                     children: [
                       Positioned(
-                        left: screenSize.width * .1,
+                        left: screenSize.width * .125,
                         child: Image.asset(
                           'assets/icons/google_logo.png',
-                          width: screenSize.width * .095,
+                          width: screenSize.width * .09,
                         ),
                       ),
-                      SizedBox(width: screenSize.width * .1),
                       Text(
                         'Sign in with Google',
                         style: GoogleFonts.roboto(

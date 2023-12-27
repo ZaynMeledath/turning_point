@@ -120,7 +120,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                             if (!isAgreed) {
                               return;
                             }
-                            Navigator.of(context).push(
+                            Navigator.of(context).pushAndRemoveUntil(
                               PageTransition(
                                 child: const BoardingScreen(),
                                 type: PageTransitionType.rightToLeft,
@@ -128,6 +128,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                                 reverseDuration:
                                     const Duration(milliseconds: 350),
                               ),
+                              (_) => false,
                             );
                           },
                           child: Container(
