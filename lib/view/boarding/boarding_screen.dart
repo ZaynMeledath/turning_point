@@ -73,16 +73,6 @@ class _BoardingScreenState extends State<BoardingScreen> {
               ),
             ),
           ),
-          // Positioned(
-          //   top: screenSize.height * .13,
-          //   child: boardingScreenContentSegment(
-          //     title: 'PLAY LUCKY DRAW',
-          //     imagePath: 'assets/images/play_lucky_draw_boarding.png',
-          //     content:
-          //         'It is a long established fact that a reader will be distracted\nby the readable content of a page when looking at its\nlayout.',
-          //   ),
-          // ),
-
           PageView(
             controller: _pageController,
             children: [
@@ -122,12 +112,13 @@ class _BoardingScreenState extends State<BoardingScreen> {
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.linear);
                 } else {
-                  Navigator.of(context).pushReplacement(
+                  Navigator.of(context).pushAndRemoveUntil(
                     PageTransition(
                       child: const HomeScreen(),
                       type: PageTransitionType.fade,
                       duration: const Duration(milliseconds: 750),
                     ),
+                    (_) => false,
                   );
                 }
               },
