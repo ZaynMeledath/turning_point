@@ -6,6 +6,7 @@ Widget rewardsBodySegment({required Size screenSize}) {
   return Stack(
     alignment: Alignment.topCenter,
     children: [
+//====================Yellow Linear Gradient Container under Red Container====================//
       Container(
         height: screenSize.height * .34,
         decoration: const BoxDecoration(
@@ -19,6 +20,8 @@ Widget rewardsBodySegment({required Size screenSize}) {
           ),
         ),
       ),
+
+//====================Red Container====================//
       ClipPath(
         clipper: ClipperWidget(),
         child: Container(
@@ -39,6 +42,7 @@ Widget rewardsBodySegment({required Size screenSize}) {
               ),
             ],
           ),
+//====================Coins image on red container====================//
           child: Image.asset(
             'assets/images/coins_rain.png',
             fit: BoxFit.cover,

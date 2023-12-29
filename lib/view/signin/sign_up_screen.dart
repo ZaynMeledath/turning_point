@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/view/login/otp_verfication_screen.dart';
-import 'package:turning_point/view/login/segments/sign_up_text_field.dart';
+import 'package:turning_point/view/signin/otp_verfication_screen.dart';
+import 'package:turning_point/view/signin/segments/sign_up_text_field.dart';
 // part 'package:turning_point/lib/view/login/segments/sign_up_text_field_segment.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -49,6 +49,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Column(
               children: [
                 SizedBox(height: screenSize.height * .17),
+
+//====================Furnipart Logo====================//
                 Hero(
                   tag: 'furnipart_logo',
                   child: Image.asset(
@@ -58,6 +60,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
                 SizedBox(height: screenSize.height * .07),
+
+//====================Title====================//
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -69,6 +73,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                 ),
+
+//====================TextField Segment====================//
                 SizedBox(height: screenSize.height * .02),
                 signUpTextField(
                   controller: mobileController,
@@ -80,15 +86,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   title: isContractor ? 'Business Name' : 'Contractor ID',
                 ),
                 SizedBox(height: screenSize.height * .05),
+
+//====================Sign Up Button====================//
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(
-                      PageTransition(
-                        child: const OtpVerificationScreen(),
-                        type: PageTransitionType.rightToLeft,
-                        duration: const Duration(milliseconds: 350),
-                        reverseDuration: const Duration(milliseconds: 350),
-                      ),
+                    CustomNavigator.push(
+                      context: context,
+                      child: const OtpVerificationScreen(),
                     );
                   },
                   child: Hero(

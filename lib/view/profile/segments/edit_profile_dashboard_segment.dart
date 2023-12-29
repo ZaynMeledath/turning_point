@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/flight_shuttle.dart';
 import 'package:turning_point/view/dashboard/dashboard_screen.dart';
 import 'package:turning_point/view/edit_profile/edit_profile_screen.dart';
@@ -17,13 +17,9 @@ Widget editProfileDashboardSegment(
       children: [
 //====================Edit Profile Container====================//
         GestureDetector(
-          onTap: () => Navigator.of(context).push(
-            PageTransition(
-              child: const EditProfileScreen(),
-              duration: const Duration(milliseconds: 350),
-              reverseDuration: const Duration(milliseconds: 350),
-              type: PageTransitionType.rightToLeft,
-            ),
+          onTap: () => CustomNavigator.push(
+            context: context,
+            child: const EditProfileScreen(),
           ),
           child: Container(
             width: screenSize.width * .419,
@@ -54,13 +50,9 @@ Widget editProfileDashboardSegment(
 
 //====================Dashboard Container====================//
         GestureDetector(
-          onTap: () => Navigator.of(context).push(
-            PageTransition(
-              child: const DashBoardScreen(),
-              duration: const Duration(milliseconds: 350),
-              reverseDuration: const Duration(milliseconds: 350),
-              type: PageTransitionType.rightToLeft,
-            ),
+          onTap: () => CustomNavigator.push(
+            context: context,
+            child: const DashBoardScreen(),
           ),
           child: Container(
             width: screenSize.width * .419,

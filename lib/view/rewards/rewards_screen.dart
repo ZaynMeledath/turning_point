@@ -79,13 +79,13 @@ class _RewardsScreenState extends State<RewardsScreen>
               tabController: tabController,
             ),
           ),
-          Expanded(
-            child: SliverList(
-              delegate: SliverChildBuilderDelegate(childCount: rankList.length,
-                  (context, index) {
-                return rankListSegment(screenSize: screenSize, index: index);
-              }),
-            ),
+
+//====================Rank List====================//
+          SliverList(
+            delegate: SliverChildBuilderDelegate(childCount: rankList.length,
+                (context, index) {
+              return rankListSegment(screenSize: screenSize, index: index);
+            }),
           )
         ],
       ),

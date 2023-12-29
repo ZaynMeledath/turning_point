@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/helper/screen_size.dart';
 
 Future<Object?> showCouponGenerateDialog({
   required BuildContext context,
-  required Size screenSize,
 }) async {
   return showGeneralDialog(
     context: context,
@@ -15,13 +15,13 @@ Future<Object?> showCouponGenerateDialog({
       final curve = Curves.easeInOut.transform(a1.value);
       return Transform.scale(
         scale: curve,
-        child: dialog(screenSize),
+        child: dialog(),
       );
     },
   );
 }
 
-Widget dialog(Size screenSize) {
+Widget dialog() {
   return Container(
     margin: EdgeInsets.symmetric(
       horizontal: screenSize.width * .25,

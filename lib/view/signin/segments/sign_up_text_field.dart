@@ -13,7 +13,7 @@ Widget signUpTextField({
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          //====================TextField Container====================//
+//====================TextField Container====================//
           Container(
             width: double.infinity,
             height: screenSize.height * .056,
@@ -25,7 +25,7 @@ Widget signUpTextField({
                 color: const Color.fromRGBO(142, 142, 142, 1),
               ),
             ),
-            //====================TextField====================//
+//====================TextField====================//
             child: TextField(
               controller: controller,
               decoration: const InputDecoration(
@@ -33,7 +33,7 @@ Widget signUpTextField({
               ),
             ),
           ),
-          //====================floating TextField Title====================//
+//====================floating TextField Title====================//
           Positioned(
             top: 0,
             left: screenSize.width * .05,

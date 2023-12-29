@@ -33,12 +33,13 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
         child: Center(
           child: Column(
             children: [
+//====================AppBar====================//
               widget.isAccepted
                   ? customAppBar(
                       context: context, title: 'Terms and Conditions')
                   : Column(
                       children: [
-                        SizedBox(height: screenSize.height * .009),
+                        SizedBox(height: screenSize.height * .011),
                         Text(
                           'Terms and Conditions',
                           style: GoogleFonts.roboto(
@@ -48,7 +49,9 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                         ),
                       ],
                     ),
-              SizedBox(height: screenSize.height * .01),
+              SizedBox(height: screenSize.height * .008),
+
+//====================Terms and Conditions====================//
               Expanded(
                 child: Padding(
                   padding:
@@ -61,10 +64,14 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                       titleContentText(isTitle: false, text: contentText),
                       titleContentText(isTitle: true, text: titleText),
                       titleContentText(isTitle: false, text: contentText),
+                      titleContentText(isTitle: true, text: titleText),
+                      titleContentText(isTitle: false, text: contentText),
                     ],
                   ),
                 ),
               ),
+
+//====================Agree Terms Section====================//
               !widget.isAccepted
                   ? Column(
                       children: [
@@ -115,6 +122,8 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                           ],
                         ),
                         SizedBox(height: screenSize.height * .024),
+
+//====================Continue Button====================//
                         GestureDetector(
                           onTap: () {
                             if (!isAgreed) {
@@ -123,12 +132,11 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                             Navigator.of(context).pushAndRemoveUntil(
                               PageTransition(
                                 child: const BoardingScreen(),
-                                type: PageTransitionType.rightToLeft,
-                                duration: const Duration(milliseconds: 350),
-                                reverseDuration:
-                                    const Duration(milliseconds: 350),
+                                type: PageTransitionType.scale,
+                                alignment: Alignment.center,
+                                duration: const Duration(milliseconds: 400),
                               ),
-                              (_) => false,
+                              (route) => false,
                             );
                           },
                           child: Container(

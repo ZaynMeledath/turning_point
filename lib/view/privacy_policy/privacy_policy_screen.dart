@@ -19,16 +19,21 @@ class PrivacyPolicyScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
+//====================AppBar====================//
             customAppBar(
               context: context,
               title: 'Privacy & Policy',
             ),
             SizedBox(height: screenSize.height * .01),
+
+//====================Illustration====================//
             Image.asset(
               'assets/images/privacy_policy_image.png',
               width: screenSize.width * .64,
             ),
             SizedBox(height: screenSize.height * .02),
+
+//====================Title (Privacy & Policy)====================//
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -52,6 +57,8 @@ class PrivacyPolicyScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: screenSize.height * .01),
+
+//====================Privacy and Policy====================//
             Expanded(
               child: Padding(
                 padding:
@@ -73,6 +80,8 @@ class PrivacyPolicyScreen extends StatelessWidget {
                 ),
               ),
             ),
+
+//====================Accept Button====================//
             Visibility(
               visible: !isAccepted,
               child: Container(

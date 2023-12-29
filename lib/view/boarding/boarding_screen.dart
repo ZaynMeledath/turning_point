@@ -35,6 +35,7 @@ class _BoardingScreenState extends State<BoardingScreen> {
       body: Stack(
         alignment: Alignment.topCenter,
         children: [
+//====================Background Decoration Circles====================//
           Positioned(
             top: -screenSize.width * .22,
             left: -screenSize.width * .15,
@@ -75,6 +76,8 @@ class _BoardingScreenState extends State<BoardingScreen> {
               ),
             ),
           ),
+
+//====================Pages====================//
           PageView(
             controller: _pageController,
             onPageChanged: (value) {
@@ -113,6 +116,8 @@ class _BoardingScreenState extends State<BoardingScreen> {
               ),
             ],
           ),
+
+//====================Page Indicator====================//
           Positioned(
             bottom: screenSize.height * .21,
             right: screenSize.width * .051,
@@ -127,6 +132,8 @@ class _BoardingScreenState extends State<BoardingScreen> {
               ),
             ),
           ),
+
+//====================Skip Button====================//
           Positioned(
             bottom: screenSize.height * .07,
             left: screenSize.width * .051,
@@ -150,6 +157,8 @@ class _BoardingScreenState extends State<BoardingScreen> {
               ),
             ),
           ),
+
+//====================Next/Get Started Button====================//
           Positioned(
             bottom: screenSize.height * .06,
             right: screenSize.width * .051,

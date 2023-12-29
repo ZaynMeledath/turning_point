@@ -19,11 +19,14 @@ class _AllGiftsScreenState extends State<AllGiftsScreen> {
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
+//====================App Bar====================//
             customAppBar(
               context: context,
               title: 'Gifts',
               foregroundColor: Colors.black.withOpacity(.8),
             ),
+
+//====================Background Decoration Circles====================//
             Positioned(
               bottom: -screenSize.width * .82,
               width: screenSize.width * 1.3,
@@ -68,6 +71,8 @@ class _AllGiftsScreenState extends State<AllGiftsScreen> {
                 ),
               ),
             ),
+
+//====================Gifts Segment====================//
             Padding(
               padding: EdgeInsets.only(top: screenSize.height * .067),
               child: GridView.builder(

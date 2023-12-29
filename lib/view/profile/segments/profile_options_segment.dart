@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/view/contest/contest_screen.dart';
 import 'package:turning_point/view/kyc/kyc_screen.dart';
 import 'package:turning_point/view/points/points_screen.dart';
@@ -14,15 +14,12 @@ Widget profileOptionsSegment({
 }) {
   return Column(
     children: [
+//====================Points====================//
       GestureDetector(
         onTap: () {
-          Navigator.of(context).push(
-            PageTransition(
-              child: const PointsScreen(),
-              type: PageTransitionType.rightToLeft,
-              duration: const Duration(milliseconds: 350),
-              reverseDuration: const Duration(milliseconds: 350),
-            ),
+          CustomNavigator.push(
+            context: context,
+            child: const PointsScreen(),
           );
         },
         child: profileOption(
@@ -32,15 +29,13 @@ Widget profileOptionsSegment({
           containerColor: const Color.fromRGBO(250, 219, 129, 1),
         ),
       ),
+
+//====================Contest====================//
       GestureDetector(
         onTap: () {
-          Navigator.of(context).push(
-            PageTransition(
-              child: const ContestScreen(),
-              type: PageTransitionType.rightToLeft,
-              duration: const Duration(milliseconds: 350),
-              reverseDuration: const Duration(milliseconds: 350),
-            ),
+          CustomNavigator.push(
+            context: context,
+            child: const ContestScreen(),
           );
         },
         child: profileOption(
@@ -51,15 +46,13 @@ Widget profileOptionsSegment({
           containerPadding: screenSize.width * .016,
         ),
       ),
+
+//====================KYC====================//
       GestureDetector(
         onTap: () {
-          Navigator.of(context).push(
-            PageTransition(
-              child: const KycScreen(),
-              type: PageTransitionType.rightToLeft,
-              duration: const Duration(milliseconds: 350),
-              reverseDuration: const Duration(milliseconds: 350),
-            ),
+          CustomNavigator.push(
+            context: context,
+            child: const KycScreen(),
           );
         },
         child: profileOption(
@@ -70,17 +63,13 @@ Widget profileOptionsSegment({
           containerPadding: screenSize.width * .01,
         ),
       ),
+
+//====================Privacy & Policy====================//
       GestureDetector(
         onTap: () {
-          Navigator.of(context).push(
-            PageTransition(
-              child: const PrivacyPolicyScreen(
-                isAccepted: true,
-              ),
-              type: PageTransitionType.rightToLeft,
-              duration: const Duration(milliseconds: 350),
-              reverseDuration: const Duration(milliseconds: 350),
-            ),
+          CustomNavigator.push(
+            context: context,
+            child: const PrivacyPolicyScreen(isAccepted: true),
           );
         },
         child: profileOption(
@@ -90,17 +79,13 @@ Widget profileOptionsSegment({
           containerColor: const Color.fromRGBO(203, 227, 255, 1),
         ),
       ),
+
+//====================Terms & Conditions====================//
       GestureDetector(
         onTap: () {
-          Navigator.of(context).push(
-            PageTransition(
-              child: const TermsAndConditionsScreen(
-                isAccepted: true,
-              ),
-              type: PageTransitionType.rightToLeft,
-              duration: const Duration(milliseconds: 350),
-              reverseDuration: const Duration(milliseconds: 350),
-            ),
+          CustomNavigator.push(
+            context: context,
+            child: const TermsAndConditionsScreen(isAccepted: true),
           );
         },
         child: profileOption(
@@ -110,6 +95,8 @@ Widget profileOptionsSegment({
           containerColor: const Color.fromRGBO(255, 241, 241, 1),
         ),
       ),
+
+//====================About Us====================//
       GestureDetector(
         onTap: () {},
         child: profileOption(
@@ -119,6 +106,8 @@ Widget profileOptionsSegment({
           containerColor: const Color.fromRGBO(238, 215, 255, 1),
         ),
       ),
+
+//====================Settings====================//
       GestureDetector(
         onTap: () {},
         child: profileOption(

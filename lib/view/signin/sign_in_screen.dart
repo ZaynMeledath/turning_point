@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/flight_shuttle.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/view/login/who_is_signing_screen.dart';
+import 'package:turning_point/view/signin/who_is_signing_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -39,6 +39,7 @@ class _SignInScreenState extends State<SignInScreen> {
       body: Stack(
         alignment: Alignment.topCenter,
         children: [
+//====================Background Image Segment====================//
           Hero(
             tag: 'login_screen_image',
             child: Image.asset(
@@ -48,6 +49,8 @@ class _SignInScreenState extends State<SignInScreen> {
               fit: BoxFit.cover,
             ),
           ),
+
+//====================Half Screen Sized Black Container====================//
           Align(
             alignment: Alignment.bottomCenter,
             child: Hero(
@@ -58,6 +61,8 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
             ),
           ),
+
+//====================Logo====================//
           Positioned(
             bottom: screenSize.height * .475,
             child: Hero(
@@ -69,6 +74,8 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
             ),
           ),
+
+//====================Text Segment====================//
           Positioned(
             bottom: screenSize.height * .29,
             child: AnimatedOpacity(
@@ -101,30 +108,28 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
             ),
           ),
+
+//====================Google Sign in Button====================//
           Align(
             alignment: Alignment.bottomCenter,
             child: GestureDetector(
               onTap: () {
-                Navigator.of(context).push(
-                  PageTransition(
-                    child: const WhoIsSigningScreen(),
-                    type: PageTransitionType.rightToLeft,
-                    duration: const Duration(milliseconds: 350),
-                    reverseDuration: const Duration(milliseconds: 350),
-                  ),
+                CustomNavigator.pushAndRemove(
+                  context: context,
+                  child: const WhoIsSigningScreen(),
                 );
               },
               child: Hero(
                 tag: 'sign_in_sign_up_container',
                 flightShuttleBuilder: flightShuttleBuilder,
                 child: Container(
-                  width: screenSize.width * .85,
+                  width: screenSize.width * .8,
                   height: screenSize.width * .13,
                   margin: EdgeInsets.only(
                     bottom: screenSize.height * .11,
                   ),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18),
+                    borderRadius: BorderRadius.circular(16),
                     color: const Color.fromRGBO(52, 110, 241, 1),
                     boxShadow: const [
                       BoxShadow(
@@ -143,10 +148,10 @@ class _SignInScreenState extends State<SignInScreen> {
                     alignment: Alignment.center,
                     children: [
                       Positioned(
-                        left: screenSize.width * .125,
+                        left: screenSize.width * .09,
                         child: Image.asset(
                           'assets/icons/google_logo.png',
-                          width: screenSize.width * .09,
+                          width: screenSize.width * .1,
                         ),
                       ),
                       Text(
@@ -168,15 +173,3 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 }
-
-
-
-
-
-
-
-
-// left: screenSize.width * .075,
-//             right: screenSize.width * .075,
-//             top: screenSize.height * .046,
-//             bottom: screenSize.height * .023,

@@ -16,6 +16,7 @@ Widget countDownContainer({
     child: Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
+//====================Time Container====================//
         Expanded(
           child: Container(
             decoration: const BoxDecoration(
@@ -34,6 +35,8 @@ Widget countDownContainer({
             ),
           ),
         ),
+
+//====================Title Container (Days/Hours/Minutes/Seconds)====================//
         Container(
           height: screenSize.width * .062,
           decoration: const BoxDecoration(

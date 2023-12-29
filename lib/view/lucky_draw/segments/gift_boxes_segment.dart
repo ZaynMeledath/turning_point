@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/lucky_draw/segments/gift_box_container.dart';
 
+//====================Whole Gift Box Segment in Lucky Draw Screen====================//
 Widget giftBoxesSegment() {
   return Column(
     children: [

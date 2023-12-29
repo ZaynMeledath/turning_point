@@ -35,8 +35,6 @@ class _ContestScreenState extends State<ContestScreen> {
               margin: EdgeInsets.symmetric(horizontal: screenSize.width * .051),
               color: const Color.fromRGBO(237, 237, 237, 1),
             ),
-            // contestCard(),
-
             Expanded(
               child: StackedCardCarousel(
                   initialOffset: screenSize.height * .018,

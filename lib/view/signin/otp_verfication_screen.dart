@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/terms_and_conditions/terms_and_conditions_screen.dart';
 // part 'package:turning_point/view/login/segments/otp_container.dart';
@@ -60,6 +60,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       body: Stack(
         alignment: Alignment.topCenter,
         children: [
+//====================Background Decoration Circles====================//
           Positioned(
             top: -screenSize.width * .22,
             left: -screenSize.width * .15,
@@ -100,6 +101,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               ),
             ),
           ),
+
+//====================Illustration====================//
           Positioned(
             top: screenSize.height * .16,
             child: Center(
@@ -110,6 +113,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     width: screenSize.width * .6,
                   ),
                   SizedBox(height: screenSize.height * .03),
+
+//====================Body Texts Segment====================//
                   Text(
                     'VERIFICATION CODE',
                     style: GoogleFonts.roboto(
@@ -137,6 +142,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     ),
                   ),
                   SizedBox(height: screenSize.height * .025),
+
+//====================OTP Containers====================//
                   Row(
                     children: [
                       otpContainer(
@@ -153,6 +160,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     ],
                   ),
                   SizedBox(height: screenSize.height * .01),
+
+//====================Resend OTP====================//
                   Row(
                     children: [
                       Text(
@@ -173,15 +182,14 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     ],
                   ),
                   SizedBox(height: screenSize.height * .21),
+
+//====================Verify Button====================//
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushAndRemoveUntil(
-                        PageTransition(
-                          child:
-                              const TermsAndConditionsScreen(isAccepted: false),
-                          type: PageTransitionType.rightToLeft,
-                        ),
-                        (_) => false,
+                      CustomNavigator.pushAndRemove(
+                        context: context,
+                        child:
+                            const TermsAndConditionsScreen(isAccepted: false),
                       );
                     },
                     child: Container(

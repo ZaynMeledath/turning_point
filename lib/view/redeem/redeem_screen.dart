@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/dialog/coupon_generate_dialog.dart';
+import 'package:turning_point/dialog/show_coupon_generate_dialog.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/redeem/segments/available_points_container.dart';
@@ -119,8 +119,7 @@ class _RedeemScreenState extends State<RedeemScreen> {
             SizedBox(height: screenSize.height * .032),
             GestureDetector(
               onTap: () async {
-                showCouponGenerateDialog(
-                    context: context, screenSize: screenSize);
+                showCouponGenerateDialog(context: context);
                 await Future.delayed(
                   const Duration(milliseconds: 2000),
                   () {

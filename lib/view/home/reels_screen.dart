@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:turning_point/dialog/show_points_received_dialog.dart';
+import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/home/reels_page_viewer.dart';
 import 'package:turning_point/view/profile/profile_screen.dart';
@@ -94,13 +95,9 @@ class _ReelsScreenState extends State<ReelsScreen> {
             right: screenSize.width * .03,
             top: screenSize.height * .07,
             child: GestureDetector(
-              onTap: () => Navigator.of(context).push(
-                PageTransition(
-                  duration: const Duration(milliseconds: 350),
-                  reverseDuration: const Duration(milliseconds: 350),
-                  child: const ProfileScreen(),
-                  type: PageTransitionType.rightToLeft,
-                ),
+              onTap: () => CustomNavigator.push(
+                context: context,
+                child: const ProfileScreen(),
               ),
               child: const CircleAvatar(
                 foregroundImage: AssetImage('assets/images/avatar.jpg'),
@@ -117,6 +114,7 @@ class _ReelsScreenState extends State<ReelsScreen> {
               duration: const Duration(milliseconds: 200),
               child: GestureDetector(
                 onTap: () {
+                  showPointsReceivedDialog(context: context);
                   setState(() {
                     rupeeClicked = true;
                     rupeeScaled = true;

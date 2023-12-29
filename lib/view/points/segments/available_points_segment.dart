@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/view/redeem/redeem_screen.dart';
 
 Widget availablePointsSegment({
@@ -42,16 +42,10 @@ Widget availablePointsSegment({
         ],
       ),
       GestureDetector(
-        onTap: () {
-          Navigator.of(context).push(
-            PageTransition(
-              child: const RedeemScreen(),
-              duration: const Duration(milliseconds: 350),
-              reverseDuration: const Duration(milliseconds: 350),
-              type: PageTransitionType.rightToLeft,
-            ),
-          );
-        },
+        onTap: () => CustomNavigator.push(
+          context: context,
+          child: const RedeemScreen(),
+        ),
         child: Container(
           width: screenSize.width * .16,
           height: screenSize.width * .055,

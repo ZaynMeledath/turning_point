@@ -15,12 +15,14 @@ class ContestDetailsScreen extends StatelessWidget {
           children: [
             customAppBar(context: context, title: 'Contest Details'),
             SizedBox(height: screenSize.height * .01),
+
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: screenSize.width * .041,
               ),
               child: Stack(
                 children: [
+//====================Daily Contest Banner Segment====================//
                   ClipRRect(
                     borderRadius: BorderRadius.circular(4),
                     child: Image.asset(
@@ -70,6 +72,8 @@ class ContestDetailsScreen extends StatelessWidget {
                 ],
               ),
             ),
+
+//====================Contest Details Container Segment====================//
             Expanded(
               child: Container(
                 margin: EdgeInsets.symmetric(
@@ -222,6 +226,7 @@ class ContestDetailsScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: screenSize.height * .007),
+//====================Contest Count Down Timer Segment====================//
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -235,6 +240,8 @@ class ContestDetailsScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: screenSize.height * .028),
+
+//====================Enter Contest Button====================//
             Container(
               width: screenSize.width * .31,
               height: screenSize.width * .095,

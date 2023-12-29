@@ -17,7 +17,9 @@ class MyApp extends StatelessWidget {
       title: 'Turning Point',
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromRGBO(0, 99, 255, 1),
+        ),
         useMaterial3: true,
       ),
       home: const SplashScreen(),

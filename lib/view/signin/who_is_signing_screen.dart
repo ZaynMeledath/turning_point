@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/view/login/segments/who_is_signing_container.dart';
-import 'package:turning_point/view/login/sign_up_screen.dart';
+import 'package:turning_point/view/signin/segments/who_is_signing_container.dart';
+import 'package:turning_point/view/signin/sign_up_screen.dart';
 
 class WhoIsSigningScreen extends StatefulWidget {
   const WhoIsSigningScreen({super.key});
@@ -31,6 +31,7 @@ class _WhoIsSigningScreenState extends State<WhoIsSigningScreen> {
       body: Stack(
         alignment: Alignment.topCenter,
         children: [
+//====================Background Image====================//
           Hero(
             tag: 'login_screen_image',
             child: Image.asset(
@@ -40,13 +41,14 @@ class _WhoIsSigningScreenState extends State<WhoIsSigningScreen> {
               fit: BoxFit.cover,
             ),
           ),
+
+//====================Half Screen Sized Black Container====================//
           Align(
             alignment: Alignment.bottomCenter,
             child: Hero(
               tag: 'login_black_container',
               child: Container(
                 height: screenSize.height / 2 - screenSize.height * .075,
-                // color: Colors.black.withOpacity(1),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -63,6 +65,8 @@ class _WhoIsSigningScreenState extends State<WhoIsSigningScreen> {
               ),
             ),
           ),
+
+//====================Logo====================//
           Positioned(
             bottom: screenSize.height * .475,
             child: Hero(
@@ -74,6 +78,8 @@ class _WhoIsSigningScreenState extends State<WhoIsSigningScreen> {
               ),
             ),
           ),
+
+//====================Who is Signing Section====================//
           Positioned(
             bottom: screenSize.height * .36,
             // left: screenSize.width * .051,
@@ -104,15 +110,9 @@ class _WhoIsSigningScreenState extends State<WhoIsSigningScreen> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(
-                          PageTransition(
-                            child: const SignUpScreen(
-                              isContractor: true,
-                            ),
-                            type: PageTransitionType.rightToLeft,
-                            duration: const Duration(milliseconds: 350),
-                            reverseDuration: const Duration(milliseconds: 350),
-                          ),
+                        CustomNavigator.push(
+                          context: context,
+                          child: const SignUpScreen(isContractor: true),
                         );
                       },
                       child: whoIsSigningContainer(
@@ -123,15 +123,9 @@ class _WhoIsSigningScreenState extends State<WhoIsSigningScreen> {
                     SizedBox(width: screenSize.width * .051),
                     GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(
-                          PageTransition(
-                            child: const SignUpScreen(
-                              isContractor: false,
-                            ),
-                            type: PageTransitionType.rightToLeft,
-                            duration: const Duration(milliseconds: 350),
-                            reverseDuration: const Duration(milliseconds: 350),
-                          ),
+                        CustomNavigator.push(
+                          context: context,
+                          child: const SignUpScreen(isContractor: false),
                         );
                       },
                       child: whoIsSigningContainer(

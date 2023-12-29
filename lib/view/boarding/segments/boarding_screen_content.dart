@@ -20,6 +20,8 @@ Widget boardingScreenContent({
       children: [
         SizedBox(height: imageSpacing ?? 0),
         SizedBox(height: screenSize.height * .16),
+
+//====================Illustration====================//
         Center(
           child: Image.asset(
             imagePath,
@@ -31,6 +33,8 @@ Widget boardingScreenContent({
               ? screenSize.height * .05
               : screenSize.height * .06,
         ),
+
+//====================Boarding Title====================//
         Text(
           title,
           style: GoogleFonts.roboto(
@@ -40,6 +44,8 @@ Widget boardingScreenContent({
           ),
         ),
         SizedBox(height: contentSpacing ?? screenSize.height * .012),
+
+//====================Boarding Content====================//
         Text(
           content,
           style: GoogleFonts.roboto(
