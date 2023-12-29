@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/view/boarding/boarding_screen.dart';
+import 'package:turning_point/view/terms_and_conditions/terms_and_conditions_screen.dart';
 // part 'package:turning_point/view/login/segments/otp_container.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
@@ -176,7 +177,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     onTap: () {
                       Navigator.of(context).pushAndRemoveUntil(
                         PageTransition(
-                          child: const BoardingScreen(),
+                          child:
+                              const TermsAndConditionsScreen(isAccepted: false),
                           type: PageTransitionType.rightToLeft,
                         ),
                         (_) => false,
@@ -226,22 +228,35 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         ),
       ),
       child: TextField(
+        cursorColor: const Color.fromRGBO(0, 99, 255, 1),
         controller: controller,
         focusNode: focusNode,
+        textAlignVertical: TextAlignVertical.center,
         // autofocus: true,
-        showCursor: false,
-        maxLength: 1,
+        // showCursor: false,
         keyboardType: TextInputType.number,
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        maxLength: 1,
         textAlign: TextAlign.center,
         decoration: const InputDecoration(
           border: InputBorder.none,
           counterText: '',
         ),
         onChanged: (value) {
-          focusNode.nextFocus();
-          if (controller == _textController4) {
-            focusNode.unfocus();
+          if (value.isEmpty) {
+            if (controller == _textController1) {
+              return;
+            }
+            focusNode.previousFocus();
           }
+
+          if (value.isNotEmpty) {
+            focusNode.nextFocus();
+            if (controller == _textController4) {
+              focusNode.unfocus();
+            }
+          }
+
           setState(() {});
         },
         onTap: () {

@@ -7,46 +7,49 @@ Widget boardingScreenContent({
   required String imagePath,
   required double imageWidth,
   required String content,
-  String subTitle = '',
+  required int activePageNumber,
   double? imageSpacing,
+  double? contentSpacing,
 }) {
-  return Column(
-    children: [
-      SizedBox(height: imageSpacing),
-      SizedBox(height: screenSize.height * .16),
-      Image.asset(
-        imagePath,
-        width: imageWidth,
-      ),
-      SizedBox(height: screenSize.height * .04),
-      Text(
-        title,
-        style: GoogleFonts.roboto(
-          fontSize: screenSize.width * .061,
-          fontWeight: FontWeight.w700,
-          color: const Color.fromRGBO(24, 29, 61, 1),
+  return Padding(
+    padding: EdgeInsets.symmetric(horizontal: screenSize.width * .051),
+    child: Column(
+      crossAxisAlignment: activePageNumber == 3
+          ? CrossAxisAlignment.center
+          : CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: imageSpacing ?? 0),
+        SizedBox(height: screenSize.height * .16),
+        Center(
+          child: Image.asset(
+            imagePath,
+            width: imageWidth,
+          ),
         ),
-      ),
-      subTitle.isNotEmpty
-          ? Text(
-              subTitle,
-              style: GoogleFonts.roboto(
-                fontSize: screenSize.width * .051,
-                fontWeight: FontWeight.w600,
-                color: const Color.fromRGBO(24, 29, 61, 1),
-              ),
-            )
-          : const SizedBox(height: 0),
-      SizedBox(height: screenSize.height * .012),
-      Text(
-        content,
-        textAlign: TextAlign.center,
-        style: GoogleFonts.roboto(
-          height: 1.5,
-          fontSize: screenSize.width * .031,
-          fontWeight: FontWeight.w400,
+        SizedBox(
+          height: activePageNumber == 3
+              ? screenSize.height * .05
+              : screenSize.height * .06,
         ),
-      ),
-    ],
+        Text(
+          title,
+          style: GoogleFonts.roboto(
+            fontSize: screenSize.width * .091,
+            fontWeight: FontWeight.w700,
+            color: const Color.fromRGBO(0, 0, 0, 1),
+          ),
+        ),
+        SizedBox(height: contentSpacing ?? screenSize.height * .012),
+        Text(
+          content,
+          style: GoogleFonts.roboto(
+            height: 1.5,
+            fontSize: screenSize.width * .036,
+            fontWeight: FontWeight.w500,
+            color: Colors.black,
+          ),
+        ),
+      ],
+    ),
   );
 }
