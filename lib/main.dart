@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/view/splash_screen.dart';
+import 'package:turning_point/view/splash/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
