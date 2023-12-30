@@ -7,14 +7,26 @@ import 'package:turning_point/view/redeem/redeem_screen.dart';
 Widget dashboardAvailableBalanceContainer({required BuildContext context}) {
   return Container(
     width: double.infinity,
-    height: screenSize.height * .16,
+    height: screenSize.height * .15,
     padding: EdgeInsets.symmetric(
       horizontal: screenSize.width * .04,
-      vertical: screenSize.width * .038,
+      vertical: screenSize.width * .034,
+    ),
+    margin: EdgeInsets.only(
+      left: screenSize.width * .05,
+      right: screenSize.width * .05,
+      top: screenSize.width * .66,
     ),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(8),
-      color: Colors.blueGrey.withOpacity(.1),
+      color: Colors.white,
+      boxShadow: [
+        BoxShadow(
+          blurRadius: 4,
+          color: Colors.black.withOpacity(.25),
+          blurStyle: BlurStyle.outer,
+        ),
+      ],
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,6 +56,7 @@ Widget dashboardAvailableBalanceContainer({required BuildContext context}) {
           style: GoogleFonts.roboto(
             fontSize: screenSize.width * .09,
             fontWeight: FontWeight.w600,
+            color: const Color.fromRGBO(255, 176, 53, 1),
           ),
         ),
         Row(
@@ -57,8 +70,8 @@ Widget dashboardAvailableBalanceContainer({required BuildContext context}) {
                 );
               },
               child: Container(
-                width: screenSize.width * .15,
-                height: screenSize.width * .052,
+                width: screenSize.width * .16,
+                height: screenSize.width * .055,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(3),
                   gradient: const LinearGradient(
@@ -86,7 +99,8 @@ Widget dashboardAvailableBalanceContainer({required BuildContext context}) {
               'Total Contests Participated : 20',
               style: GoogleFonts.roboto(
                 fontSize: screenSize.width * .03,
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w600,
+                color: const Color.fromRGBO(78, 78, 78, 1),
               ),
             ),
           ],

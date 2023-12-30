@@ -22,7 +22,7 @@ Widget signUpTextField({
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 width: 1,
-                color: const Color.fromRGBO(142, 142, 142, 1),
+                color: const Color.fromRGBO(16, 16, 16, 1),
               ),
             ),
 //====================TextField====================//

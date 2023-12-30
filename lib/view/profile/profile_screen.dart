@@ -58,7 +58,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 3),
                         Text(
-                          'Furnipart',
+                          'Turning Point',
                           style: GoogleFonts.roboto(
                             fontSize: 20,
                             fontWeight: FontWeight.w500,

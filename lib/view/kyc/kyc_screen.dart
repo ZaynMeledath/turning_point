@@ -194,12 +194,14 @@ class _KycScreenState extends State<KycScreen>
               SizedBox(height: screenSize.height * .02),
               GestureDetector(
                 onTap: () {
-                  _tabController.animateTo(
-                    _tabController.index + 1,
-                    curve: Curves.bounceInOut,
-                    duration: const Duration(milliseconds: 200),
-                  );
-                  setState(() {});
+                  if (_tabController.index < 2) {
+                    _tabController.animateTo(
+                      _tabController.index + 1,
+                      curve: Curves.bounceInOut,
+                      duration: const Duration(milliseconds: 200),
+                    );
+                    setState(() {});
+                  }
                 },
                 child: Container(
                   width: screenSize.width * .38,

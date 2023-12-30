@@ -48,7 +48,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             padding: EdgeInsets.symmetric(horizontal: screenSize.width * .041),
             child: Column(
               children: [
-                SizedBox(height: screenSize.height * .17),
+                SizedBox(height: screenSize.height * .16),
 
 //====================Furnipart Logo====================//
                 Hero(
@@ -59,7 +59,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: screenSize.height * .086,
                   ),
                 ),
-                SizedBox(height: screenSize.height * .07),
+                SizedBox(height: screenSize.height * .065),
 
 //====================Title====================//
                 Align(
@@ -69,18 +69,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     style: GoogleFonts.roboto(
                       fontSize: screenSize.width * .08,
                       fontWeight: FontWeight.w600,
-                      color: const Color.fromRGBO(16, 16, 16, 1),
+                      color: const Color.fromRGBO(16, 16, 16, .8),
                     ),
                   ),
                 ),
 
 //====================TextField Segment====================//
-                SizedBox(height: screenSize.height * .02),
+                SizedBox(height: screenSize.height * .027),
                 signUpTextField(
                   controller: mobileController,
                   title: 'Mobile Number',
                 ),
-                SizedBox(height: screenSize.height * .03),
+                SizedBox(height: screenSize.height * .036),
                 signUpTextField(
                   controller: contractorOrBusinessController,
                   title: isContractor ? 'Business Name' : 'Contractor ID',
@@ -99,7 +99,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     tag: 'sign_in_sign_up_container',
                     child: Container(
                       width: double.infinity,
-                      height: screenSize.width * .14,
+                      height: screenSize.width * .13,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
                         color: const Color.fromRGBO(52, 110, 241, 1),
