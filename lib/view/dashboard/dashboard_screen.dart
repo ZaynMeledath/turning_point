@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
-import 'package:turning_point/view/dashboard/segments/contests_participated_container.dart';
 import 'package:turning_point/view/dashboard/segments/dashboard_available_balance_container.dart';
-import 'package:turning_point/view/dashboard/segments/dashboard_daily_contest_container.dart';
+import 'package:turning_point/view/dashboard/segments/dashboard_activity_container.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({super.key});
@@ -14,61 +13,185 @@ class DashBoardScreen extends StatefulWidget {
 }
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
+  bool startAnimation = false;
+  bool isWhite = false;
+
+  @override
+  void initState() {
+    Future.delayed(const Duration(milliseconds: 1), () {
+      setState(() {
+        startAnimation = true;
+      });
+    });
+
+    Future.delayed(const Duration(milliseconds: 700), () {
+      setState(() {
+        isWhite = true;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            customAppBar(context: context, title: 'Dashboard'),
-            Padding(
-              padding:
-                  EdgeInsets.symmetric(horizontal: screenSize.width * .041),
-              child: Column(
-                children: [
-                  SizedBox(height: screenSize.height * .015),
-                  Hero(
-                    tag: 'profile_picture',
-                    child: CircleAvatar(
-                      radius: screenSize.height * .058,
-                      backgroundColor: const Color.fromRGBO(225, 225, 225, .3),
-                      child: CircleAvatar(
-                        radius: (screenSize.height * .058) - 5,
-                        backgroundColor:
-                            const Color.fromRGBO(225, 225, 225, .6),
-                        child: CircleAvatar(
-                          radius: (screenSize.height * .058) - 10,
-                          foregroundImage:
-                              const AssetImage('assets/images/avatar.jpg'),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: screenSize.height * .02),
-                  dashboardAvailableBalanceContainer(context: context),
-                  SizedBox(height: screenSize.height * .025),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Activity',
-                      style: GoogleFonts.roboto(
-                        fontSize: screenSize.width * .041,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: screenSize.height * .016),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: contestsParticipatedContainer(),
-                  ),
-                  SizedBox(height: screenSize.height * .018),
-                  dashboardDailyContestContainer(),
-                ],
+      body: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          Positioned(
+            top: -screenSize.width * .92,
+            child: AnimatedContainer(
+              width: screenSize.width * 1.8,
+              height: startAnimation ? screenSize.width * 1.8 : 0,
+              duration: const Duration(milliseconds: 1000),
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  colors: [
+                    Color.fromRGBO(141, 193, 255, 1),
+                    Color.fromRGBO(89, 165, 255, 1),
+                  ],
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                ),
               ),
             ),
-          ],
-        ),
+          ),
+          SafeArea(
+            child: customAppBar(
+              context: context,
+              title: 'Dashboard',
+              foregroundColor: isWhite ? Colors.white : null,
+            ),
+          ),
+          Positioned(
+            top: screenSize.width * .28,
+            child: Column(
+              children: [
+                Hero(
+                  tag: 'profile_picture',
+                  child: CircleAvatar(
+                    radius: screenSize.height * .056,
+                    backgroundColor: const Color.fromRGBO(225, 225, 225, .3),
+                    child: CircleAvatar(
+                      radius: (screenSize.height * .056) - 4,
+                      backgroundColor: const Color.fromRGBO(225, 225, 225, .6),
+                      child: CircleAvatar(
+                        radius: (screenSize.height * .056) - 8,
+                        foregroundImage:
+                            const AssetImage('assets/images/avatar.jpg'),
+                      ),
+                    ),
+                  ),
+                ),
+                Text(
+                  'Turning Point',
+                  style: GoogleFonts.roboto(
+                    fontSize: screenSize.width * .041,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
+                  '+91********90',
+                  style: GoogleFonts.roboto(
+                    fontSize: screenSize.width * .026,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          dashboardAvailableBalanceContainer(context: context),
+          Positioned(
+            top: screenSize.height * .475,
+            left: screenSize.width * .081,
+            child: Text(
+              'Activity',
+              style: GoogleFonts.roboto(
+                fontSize: screenSize.width * .041,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.only(
+              top: screenSize.height * .515,
+              // left: screenSize.width * .05,
+              // right: screenSize.width * .05,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                dashboardActivityContainer(
+                  title: 'Contests Won',
+                  imagePath: 'assets/images/dashboard_contest_image.png',
+                  won: '16',
+                  participated: '20',
+                  imageHeight: screenSize.height * .054,
+                  imageContainerGradient: [
+                    const Color.fromRGBO(255, 227, 205, 1),
+                    const Color.fromRGBO(255, 245, 203, 1),
+                  ],
+                ),
+                dashboardActivityContainer(
+                    title: 'Challenges Won',
+                    imagePath: 'assets/images/dashboard_challenges_image.png',
+                    won: '16',
+                    participated: '20',
+                    imageHeight: screenSize.height * .058,
+                    imageContainerGradient: [
+                      const Color.fromRGBO(187, 221, 255, 1),
+                      const Color.fromRGBO(234, 244, 255, 1),
+                    ]),
+              ],
+            ),
+          ),
+          Container(
+            height: 1,
+            width: double.infinity,
+            margin: EdgeInsets.only(
+              top: screenSize.height * .725,
+              left: screenSize.width * .051,
+              right: screenSize.width * .051,
+            ),
+            color: const Color.fromRGBO(205, 205, 204, 1),
+          ),
+          Positioned(
+            top: screenSize.height * .74,
+            left: screenSize.width * .061,
+            child: Text(
+              'Coupon History',
+              style: GoogleFonts.roboto(
+                fontSize: screenSize.width * .041,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            height: screenSize.height * .1,
+            margin: EdgeInsets.only(top: screenSize.height * .783),
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding:
+                  EdgeInsets.symmetric(horizontal: screenSize.width * .051),
+              physics: const BouncingScrollPhysics(),
+              itemCount: 5,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: EdgeInsets.only(right: screenSize.width * .024),
+                  child: Image.asset(
+                    'assets/images/gift_voucher.png',
+                    height: screenSize.height * .1,
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
