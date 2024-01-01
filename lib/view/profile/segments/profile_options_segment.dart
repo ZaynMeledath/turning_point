@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
+import 'package:turning_point/view/about/about_us_screen.dart';
 import 'package:turning_point/view/contest/contest_screen.dart';
 import 'package:turning_point/view/kyc/kyc_screen.dart';
 import 'package:turning_point/view/points/points_screen.dart';
@@ -98,7 +99,12 @@ Widget profileOptionsSegment({
 
 //====================About Us====================//
       GestureDetector(
-        onTap: () {},
+        onTap: () {
+          CustomNavigator.push(
+            context: context,
+            child: const AboutUsScreen(),
+          );
+        },
         child: profileOption(
           screenSize: screenSize,
           iconPath: 'assets/icons/about_us_icon.png',
