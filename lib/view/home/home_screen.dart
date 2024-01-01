@@ -23,8 +23,12 @@ class _HomeScreenState extends State<HomeScreen> {
             currentIndex = index;
           });
         },
-        backgroundColor: currentIndex == 0 ? Colors.black : Colors.white,
-        unselectedItemColor: currentIndex == 0 ? Colors.white : Colors.black,
+        backgroundColor: currentIndex == 0 || currentIndex == 2
+            ? Colors.black
+            : Colors.white,
+        unselectedItemColor: currentIndex == 0 || currentIndex == 2
+            ? Colors.white
+            : Colors.black,
         enableFeedback: true,
         selectedItemColor: currentIndex == 0 ? Colors.yellow : Colors.blue,
         showUnselectedLabels: true,
@@ -51,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: Colors.white,
             label: 'Scan',
             icon: Image.asset(
-              currentIndex == 0
+              currentIndex == 0 || currentIndex == 2
                   ? 'assets/icons/scanner_icon_dark.png'
                   : 'assets/icons/scanner_icon_light.png',
               width: 35,
