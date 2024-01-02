@@ -151,7 +151,7 @@ class _BoardingScreenState extends State<BoardingScreen> {
                 'Skip',
                 style: GoogleFonts.roboto(
                   fontSize: screenSize.width * .036,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w500,
                   color: Colors.black,
                 ),
               ),

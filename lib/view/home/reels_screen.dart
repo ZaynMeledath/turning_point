@@ -4,6 +4,7 @@ import 'package:turning_point/dialog/show_points_received_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/home/reels_page_viewer.dart';
+import 'package:turning_point/view/points/points_screen.dart';
 import 'package:turning_point/view/profile/profile_screen.dart';
 
 class ReelsScreen extends StatefulWidget {
@@ -46,41 +47,49 @@ class _ReelsScreenState extends State<ReelsScreen> {
               children: [
                 Row(
                   children: [
-                    Container(
-                      padding: EdgeInsets.only(
-                        left: screenSize.width * .026,
-                        right: screenSize.width * .04,
-                        top: screenSize.width * .012,
-                        bottom: screenSize.width * .012,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        gradient: const LinearGradient(
-                          colors: [
-                            Color.fromRGBO(255, 215, 0, 1),
-                            Color.fromRGBO(255, 238, 141, 1),
-                          ],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
+                    GestureDetector(
+                      onTap: () {
+                        CustomNavigator.push(
+                          context: context,
+                          child: const PointsScreen(),
+                        );
+                      },
+                      child: Container(
+                        padding: EdgeInsets.only(
+                          left: screenSize.width * .026,
+                          right: screenSize.width * .04,
+                          top: screenSize.width * .012,
+                          bottom: screenSize.width * .012,
                         ),
-                      ),
-                      child: Center(
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              'assets/icons/coin_icon.png',
-                              width: screenSize.width * .06,
-                            ),
-                            const SizedBox(width: 1),
-                            Text(
-                              '10000',
-                              style: GoogleFonts.inter(
-                                fontSize: screenSize.width * .04,
-                                fontWeight: FontWeight.w700,
-                                color: const Color.fromRGBO(27, 27, 27, 1),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color.fromRGBO(255, 215, 0, 1),
+                              Color.fromRGBO(255, 238, 141, 1),
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
+                        ),
+                        child: Center(
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                'assets/icons/coin_icon.png',
+                                width: screenSize.width * .06,
                               ),
-                            ),
-                          ],
+                              const SizedBox(width: 1),
+                              Text(
+                                '10000',
+                                style: GoogleFonts.inter(
+                                  fontSize: screenSize.width * .04,
+                                  fontWeight: FontWeight.w700,
+                                  color: const Color.fromRGBO(27, 27, 27, 1),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

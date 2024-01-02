@@ -25,10 +25,11 @@ Future<Object?> showCameraPermissionRequestDialog({
 Widget dialog(BuildContext context) {
   return Container(
     margin: EdgeInsets.only(
-        left: screenSize.width * .071,
-        right: screenSize.width * .071,
-        top: screenSize.height * .68,
-        bottom: screenSize.height * .05),
+      left: screenSize.width * .071,
+      right: screenSize.width * .071,
+      top: screenSize.height * .63,
+      bottom: screenSize.height * .1,
+    ),
     padding: EdgeInsets.symmetric(
       horizontal: screenSize.width * .041,
       vertical: screenSize.height * .02,

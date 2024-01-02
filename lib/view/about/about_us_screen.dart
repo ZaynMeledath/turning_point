@@ -21,6 +21,7 @@ class AboutUsScreen extends StatelessWidget {
               'assets/images/splash_logo.png',
               width: screenSize.width * .2,
             ),
+            // SizedBox(height: screenSize.height * .005),
             Text(
               'FURNIPART',
               style: GoogleFonts.poppins(
@@ -30,11 +31,13 @@ class AboutUsScreen extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
+            // SizedBox(height: screenSize.height * .005),
             Text(
               'v1.0.0',
               style: GoogleFonts.roboto(
                 fontSize: screenSize.width * .041,
                 fontWeight: FontWeight.w400,
+                color: Colors.black,
               ),
             ),
             SizedBox(height: screenSize.height * .045),
