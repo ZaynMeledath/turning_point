@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:turning_point/dialog/show_camera_permission_request_dialog.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/scanner/segments/scanner_overlay.dart';
 
@@ -34,26 +35,36 @@ class _ScannerScreenState extends State<ScannerScreen> {
       body: Stack(
         alignment: Alignment.topCenter,
         children: [
+//====================Scanner====================//
           MobileScanner(
             controller: _scannerController,
             scanWindow: Rect.fromPoints(
               Offset(screenSize.width * .15, screenSize.height * .25),
               Offset(screenSize.width * .85, screenSize.height * .54),
             ),
+
+//====================Scanner Overlay====================//
             overlay: const ScannerOverlay(
               overlayColour: Color.fromRGBO(35, 35, 35, 0.6),
             ),
             onDetect: (barcodes) {},
           ),
+
+//====================Instruction Text====================//
           Positioned(
             top: screenSize.height * .08 + 50,
-            child: Text(
-              'Place the QR Code\nwithin the box to scan',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.nunito(
-                color: Colors.white,
-                fontSize: screenSize.width * .041,
-                fontWeight: FontWeight.w400,
+            child: InkWell(
+              onTap: () {
+                showCameraPermissionRequestDialog(context: context);
+              },
+              child: Text(
+                'Place the QR Code\nwithin the box to scan',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.nunito(
+                  color: Colors.white,
+                  fontSize: screenSize.width * .041,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ),
           ),

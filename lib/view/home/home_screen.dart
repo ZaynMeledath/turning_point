@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:turning_point/controller/home_provider.dart';
+import 'package:turning_point/dialog/show_connect_dialog.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,9 +20,13 @@ class _HomeScreenState extends State<HomeScreen> {
         type: BottomNavigationBarType.fixed,
         currentIndex: currentIndex,
         onTap: (index) {
-          setState(() {
-            currentIndex = index;
-          });
+          if (index == 4) {
+            showConnectDialog(context: context);
+          } else {
+            setState(() {
+              currentIndex = index;
+            });
+          }
         },
         backgroundColor: currentIndex == 0 || currentIndex == 2
             ? Colors.black
