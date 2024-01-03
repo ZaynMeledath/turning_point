@@ -6,6 +6,7 @@ import 'package:turning_point/view/kyc/kyc_screen.dart';
 import 'package:turning_point/view/points/points_screen.dart';
 import 'package:turning_point/view/privacy_policy/privacy_policy_screen.dart';
 import 'package:turning_point/view/profile/segments/profile_option.dart';
+import 'package:turning_point/view/settings/settings_screen.dart';
 import 'package:turning_point/view/terms_and_conditions/terms_and_conditions_screen.dart';
 
 //====================Individual options in profile screen====================//
@@ -115,7 +116,12 @@ Widget profileOptionsSegment({
 
 //====================Settings====================//
       GestureDetector(
-        onTap: () {},
+        onTap: () {
+          CustomNavigator.push(
+            context: context,
+            child: const SettingsScreen(),
+          );
+        },
         child: profileOption(
           screenSize: screenSize,
           iconPath: 'assets/icons/settings_icon.png',

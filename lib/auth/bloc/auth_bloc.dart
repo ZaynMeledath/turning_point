@@ -20,14 +20,36 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
+//====================GoogleSignInEvent====================//
     on<GoogleSignInEvent>(
       (event, emit) async {
         try {
-          await provider.signIn();
+          // await provider.signIn();
           emit(WhoIsSigningState());
         } catch (e) {
           //Exception Handling
         }
+      },
+    );
+
+//====================WhoIsSigningEvent====================//
+    on<WhoIsSigningEvent>(
+      (event, emit) {
+        emit(SignUpState(isContractor: event.isContractor));
+      },
+    );
+
+//====================SignUpEvent====================//
+    on<SignUpEvent>(
+      (event, emit) {
+        emit(OtpVerificationNeededState());
+      },
+    );
+
+//====================VerifyOtpEvent====================//
+    on<VerifyOtpEvent>(
+      (event, emit) {
+        emit(OtpVerifiedState());
       },
     );
   }

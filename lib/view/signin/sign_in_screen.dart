@@ -37,17 +37,17 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocListener<AuthBloc, AuthState>(
-        listener: (context, state) {
-          if (state is WhoIsSigningState) {
-            CustomNavigator.pushAndRemove(
-              context: context,
-              child: const WhoIsSigningScreen(),
-            );
-          }
-        },
-        child: Stack(
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is WhoIsSigningState) {
+          CustomNavigator.pushAndRemove(
+            context: context,
+            child: const WhoIsSigningScreen(),
+          );
+        }
+      },
+      child: Scaffold(
+        body: Stack(
           alignment: Alignment.topCenter,
           children: [
             //====================Background Image Segment====================//

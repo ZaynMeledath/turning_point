@@ -9,9 +9,14 @@ class SignInState extends AuthState {}
 
 class WhoIsSigningState extends AuthState {}
 
-class SignUpState extends AuthState {}
+class SignUpState extends AuthState {
+  final bool isContractor;
+  SignUpState({required this.isContractor});
+}
 
 class OtpVerificationNeededState extends AuthState {}
+
+class OtpVerifiedState extends AuthState {}
 
 class SignedInState extends AuthState {
   final UserModel user;

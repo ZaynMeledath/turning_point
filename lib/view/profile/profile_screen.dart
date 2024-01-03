@@ -16,59 +16,56 @@ class ProfileScreen extends StatelessWidget {
           children: [
 //====================Header segment with Back button, Profile Picture Stack and Name====================//
             SizedBox(height: screenSize.height * .007),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: screenSize.width * .03),
-              child: Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Hero(
-                      tag: 'back_button',
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.arrow_back_ios,
-                          size: screenSize.width * .054,
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
+            Stack(
+              alignment: Alignment.topCenter,
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Hero(
+                    tag: 'back_button',
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.arrow_back,
+                        size: screenSize.width * .061,
                       ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
                     ),
                   ),
-                  Center(
-                    child: Column(
-                      children: [
-                        SizedBox(height: screenSize.height * .012),
-                        Hero(
-                          tag: 'profile_picture',
-                          flightShuttleBuilder: flightShuttleBuilder,
+                ),
+                Center(
+                  child: Column(
+                    children: [
+                      SizedBox(height: screenSize.height * .012),
+                      Hero(
+                        tag: 'profile_picture',
+                        flightShuttleBuilder: flightShuttleBuilder,
+                        child: CircleAvatar(
+                          radius: screenSize.height * .063,
+                          backgroundColor: const Color(0xffe12826),
                           child: CircleAvatar(
-                            radius: screenSize.height * .063,
-                            backgroundColor: const Color(0xffe12826),
+                            radius: (screenSize.height * .063) - 1,
                             child: CircleAvatar(
-                              radius: (screenSize.height * .063) - 1,
-                              child: CircleAvatar(
-                                radius: (screenSize.height * .063) - 2,
-                                foregroundImage: const AssetImage(
-                                    'assets/images/avatar.jpg'),
-                              ),
+                              radius: (screenSize.height * .063) - 2,
+                              foregroundImage:
+                                  const AssetImage('assets/images/avatar.jpg'),
                             ),
                           ),
                         ),
-                        const SizedBox(height: 3),
-                        Text(
-                          'Turning Point',
-                          style: GoogleFonts.roboto(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                          ),
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        'Turning Point',
+                        style: GoogleFonts.roboto(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
             SizedBox(height: screenSize.height * .038),
 
