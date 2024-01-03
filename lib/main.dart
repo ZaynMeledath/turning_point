@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:turning_point/bloc/auth/auth_bloc.dart';
+import 'package:turning_point/auth/bloc/auth_bloc.dart';
+import 'package:turning_point/auth/firebase_auth_provider.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/splash/splash_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -15,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     getInitialScreenSize(context: context);
     return BlocProvider(
-      create: (context) => AuthBloc(),
+      create: (context) => AuthBloc(FirebaseAuthProvider()),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Turning Point',

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/bloc/auth/auth_bloc.dart';
+import 'package:turning_point/auth/bloc/auth_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/flight_shuttle.dart';
 import 'package:turning_point/helper/screen_size.dart';
@@ -40,7 +40,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return Scaffold(
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is GoogleSignInSucess) {
+          if (state is WhoIsSigningState) {
             CustomNavigator.pushAndRemove(
               context: context,
               child: const WhoIsSigningScreen(),
@@ -125,7 +125,7 @@ class _SignInScreenState extends State<SignInScreen> {
               alignment: Alignment.bottomCenter,
               child: GestureDetector(
                 onTap: () {
-                  context.read<AuthBloc>().add(SignInButtonPressedEvent());
+                  context.read<AuthBloc>().add(GoogleSignInEvent());
                 },
                 child: Hero(
                   tag: 'sign_in_sign_up_container',
