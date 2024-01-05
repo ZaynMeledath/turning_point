@@ -5,6 +5,8 @@ import 'package:turning_point/auth/bloc/auth_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/signin/otp_verfication_screen.dart';
+import 'package:turning_point/view/signin/segments/drop_down_container.dart';
+import 'package:turning_point/view/signin/segments/sign_up_radio_button_segment.dart';
 import 'package:turning_point/view/signin/segments/sign_up_text_field.dart';
 // part 'package:turning_point/lib/view/login/segments/sign_up_text_field_segment.dart';
 
@@ -60,7 +62,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   EdgeInsets.symmetric(horizontal: screenSize.width * .041),
               child: Column(
                 children: [
-                  SizedBox(height: screenSize.height * .16),
+                  SizedBox(height: screenSize.height * .14),
 
                   //====================Furnipart Logo====================//
                   Hero(
@@ -93,11 +95,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     title: 'Mobile Number',
                   ),
                   SizedBox(height: screenSize.height * .036),
-                  signUpTextField(
-                    controller: contractorOrBusinessController,
-                    title: isContractor ? 'Business Name' : 'Contractor ID',
+                  // signUpTextField(
+                  //   controller: contractorOrBusinessController,
+                  //   title: isContractor ? 'Business Name' : 'Contractor ID',
+                  // ),
+                  dropDownContainer(),
+                  Visibility(
+                    visible: !isContractor,
+                    child: Column(
+                      children: [
+                        SizedBox(height: screenSize.height * .03),
+
+                        //====================Radio Button====================//
+                        signUpRadioButtonSegment(
+                            title: 'My contractor is not listed',
+                            isActive: true),
+                        SizedBox(height: screenSize.height * .02),
+                        signUpRadioButtonSegment(
+                            title: "I don't have a contractor",
+                            isActive: false),
+                      ],
+                    ),
                   ),
-                  SizedBox(height: screenSize.height * .05),
+
+                  SizedBox(
+                    height: isContractor
+                        ? screenSize.height * .05
+                        : screenSize.height * .04,
+                  ),
 
                   //====================Sign Up Button====================//
                   GestureDetector(

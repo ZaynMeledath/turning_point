@@ -4,7 +4,7 @@ import 'package:turning_point/auth/bloc/auth_bloc.dart';
 import 'package:turning_point/auth/bloc/preload_bloc.dart';
 import 'package:turning_point/auth/firebase_auth_provider.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/view/home/home_screen.dart';
+import 'package:turning_point/view/splash/splash_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        home: const HomeScreen(),
+        home: const SplashScreen(),
       ),
     );
   }
