@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:turning_point/auth/bloc/preload_bloc.dart';
+import 'package:turning_point/repository/video_repository.dart';
 import 'package:turning_point/view/home/reels_player.dart';
 
 class ReelsPageViewer extends StatefulWidget {
@@ -11,12 +14,6 @@ class ReelsPageViewer extends StatefulWidget {
 class ReelsPageViewerState extends State<ReelsPageViewer> {
   late final PageController _pageController;
 
-  final videos = [
-    'https://assets.mixkit.co/videos/preview/mixkit-curvy-road-on-a-tree-covered-hill-41537-large.mp4',
-    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-  ];
-
   @override
   void initState() {
     _pageController = PageController();
@@ -25,14 +22,27 @@ class ReelsPageViewerState extends State<ReelsPageViewer> {
 
   @override
   Widget build(BuildContext context) {
-    return PageView(
-      scrollDirection: Axis.vertical,
-      controller: _pageController,
-      physics: const BouncingScrollPhysics(),
-      children: [
-        for (int i = 0; i < videos.length; i++)
-          ReelsPlayer(urlList: videos, index: i)
-      ],
+    context
+        .read<PreloadBloc>()
+        .add(PreloadEvent(currentIndex: 0, isInitial: true));
+    setState(() {});
+    return BlocBuilder<PreloadBloc, PreloadState>(
+      builder: (context, state) {
+        return PageView.builder(
+          itemCount: VideoRepository.urlList.length,
+          itemBuilder: (context, index) {
+            return ReelsPlayer(videoController: state.controllers[index]!);
+          },
+          onPageChanged: (index) {
+            context
+                .read<PreloadBloc>()
+                .add(PreloadEvent(currentIndex: index, isInitial: false));
+          },
+          scrollDirection: Axis.vertical,
+          controller: _pageController,
+          physics: const BouncingScrollPhysics(),
+        );
+      },
     );
   }
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/auth/bloc/auth_bloc.dart';
+import 'package:turning_point/auth/bloc/preload_bloc.dart';
 import 'package:turning_point/auth/firebase_auth_provider.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/view/splash/splash_screen.dart';
+import 'package:turning_point/view/home/home_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,8 +17,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     getInitialScreenSize(context: context);
-    return BlocProvider(
-      create: (context) => AuthBloc(FirebaseAuthProvider()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => AuthBloc(FirebaseAuthProvider()),
+        ),
+        BlocProvider(
+          create: (_) => PreloadBloc(),
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Turning Point',
@@ -28,7 +36,7 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        home: const SplashScreen(),
+        home: const HomeScreen(),
       ),
     );
   }

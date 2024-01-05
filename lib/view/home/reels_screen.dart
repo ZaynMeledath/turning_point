@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/auth/bloc/preload_bloc.dart';
 import 'package:turning_point/dialog/show_points_received_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
@@ -27,6 +28,12 @@ class _ReelsScreenState extends State<ReelsScreen> {
       });
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    PreloadBloc().disposeAllControllers();
+    super.dispose();
   }
 
   @override

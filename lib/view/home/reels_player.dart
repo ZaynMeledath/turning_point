@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:video_player/video_player.dart';
 
 class ReelsPlayer extends StatefulWidget {
-  final List<String> urlList;
-  final int index;
+  final VideoPlayerController videoController;
   const ReelsPlayer({
-    required this.urlList,
-    required this.index,
+    required this.videoController,
     super.key,
   });
 
@@ -17,27 +14,31 @@ class ReelsPlayer extends StatefulWidget {
 }
 
 class _ReelsPlayerState extends State<ReelsPlayer> {
-  late VideoPlayerController _videoController;
-
   @override
   void initState() {
-    _videoController = VideoPlayerController.networkUrl(
-      Uri.parse(widget.urlList[widget.index]),
-    );
+    // _videoController = VideoPlayerController.networkUrl(
+    //   Uri.parse(widget.urlList[widget.index]),
+    // );
     // _videoController = VideoPlayerController.asset('assets/videos/reel.mp4');
-    initializePlayer();
+    // initializePlayer();
+
+    widget.videoController.addListener(() {
+      if (widget.videoController.value.isInitialized) {
+        setState(() {});
+      }
+    });
     super.initState();
   }
 
-  void initializePlayer() async {
-    // _videoController = VideoPlayerController.networkUrl(
-    //     Uri.parse(widget.urlList[widget.index]));
-    await _videoController.initialize();
-    setState(() {
-      _videoController.play();
-      _videoController.setLooping(true);
-    });
-  }
+  // void initializePlayer() async {
+  //   // _videoController = VideoPlayerController.networkUrl(
+  //   //     Uri.parse(widget.urlList[widget.index]));
+  //   await _videoController.initialize();
+  //   setState(() {
+  //     _videoController.play();
+  //     _videoController.setLooping(true);
+  //   });
+  // }
 
 // //====================Initialize Video Player====================//
 //   void initializePlayer() async {
@@ -86,24 +87,14 @@ class _ReelsPlayerState extends State<ReelsPlayer> {
 //   }
 
   @override
-  void dispose() {
-    _videoController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Center(
-      child: _videoController.value.isInitialized
-          ? Expanded(
-              child: VideoPlayer(_videoController),
-            )
-          : Shimmer.fromColors(
-              baseColor: Colors.grey,
-              highlightColor: Colors.white.withOpacity(.8),
-              child: Expanded(
-                child: Container(color: Colors.grey),
-              ),
+      child: widget.videoController.value.isInitialized
+          ? VideoPlayer(widget.videoController)
+          : const CircularProgressIndicator.adaptive(
+              strokeWidth: 6,
+              backgroundColor: Colors.white,
+              valueColor: AlwaysStoppedAnimation(Colors.pink),
             ),
     );
   }
