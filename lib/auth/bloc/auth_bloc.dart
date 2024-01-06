@@ -41,7 +41,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
 //====================SignUpEvent====================//
     on<SignUpEvent>(
-      (event, emit) {
+      (event, emit) async {
         emit(OtpVerificationNeededState());
       },
     );

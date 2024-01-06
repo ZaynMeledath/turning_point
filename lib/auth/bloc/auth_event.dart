@@ -12,7 +12,10 @@ class WhoIsSigningEvent extends AuthEvent {
   WhoIsSigningEvent({required this.isContractor});
 }
 
-class SignUpEvent extends AuthEvent {}
+class SignUpEvent extends AuthEvent {
+  final String mobileNumber;
+  SignUpEvent({required this.mobileNumber});
+}
 
 class VerifyOtpEvent extends AuthEvent {}
 

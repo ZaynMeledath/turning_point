@@ -1,60 +1,65 @@
-// part of 'package:turning_point/lib/login/sign_up_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/helper/screen_size.dart';
+part of '../sign_up_screen.dart';
 
 Widget signUpTextField({
   required TextEditingController controller,
   required String title,
+  required String iconPath,
 }) {
   return Center(
-    child: SizedBox(
-      height: screenSize.height * .056 + (screenSize.height * .019) / 2,
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-//====================TextField Container====================//
-          Container(
-            width: double.infinity,
-            height: screenSize.height * .056,
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                width: 1,
-                color: const Color.fromRGBO(16, 16, 16, .5),
-              ),
-            ),
-//====================TextField====================//
-            child: TextField(
-              controller: controller,
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-              ),
-            ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: GoogleFonts.inter(
+            fontSize: screenSize.width * .036,
+            fontWeight: FontWeight.w600,
+            color: Colors.black.withOpacity(.9),
           ),
-//====================floating TextField Title====================//
-          Positioned(
-            top: 0,
-            left: screenSize.width * .05,
-            child: Container(
-              height: screenSize.height * .019,
-              padding:
-                  EdgeInsets.symmetric(horizontal: screenSize.width * .028),
-              color: Colors.white,
-              child: Center(
-                child: Text(
-                  title,
-                  style: GoogleFonts.inter(
-                    fontSize: screenSize.width * .031,
-                    fontWeight: FontWeight.w400,
+        ),
+        SizedBox(height: screenSize.height * .01),
+        //====================TextField Container====================//
+        Container(
+          width: double.infinity,
+          height: screenSize.height * .056,
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            // color: const Color.fromRGBO(246, 246, 246, 1),
+            borderRadius: BorderRadius.circular(8.5),
+            border: Border.all(
+              color: Colors.black.withOpacity(.25),
+              width: .8,
+            ),
+            boxShadow: [
+              BoxShadow(
+                offset: const Offset(-2, 2),
+                blurRadius: 2,
+                color: Colors.black.withOpacity(.25),
+                blurStyle: BlurStyle.normal,
+              ),
+            ],
+          ),
+          //====================TextField====================//
+          child: Row(
+            children: [
+              Image.asset(
+                iconPath,
+                width: screenSize.width * .04,
+              ),
+              SizedBox(width: screenSize.width * .031),
+              Flexible(
+                child: TextField(
+                  controller: controller,
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
                   ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     ),
   );
 }

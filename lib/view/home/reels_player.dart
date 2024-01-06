@@ -92,7 +92,7 @@ class _ReelsPlayerState extends State<ReelsPlayer> {
       child: widget.videoController.value.isInitialized
           ? VideoPlayer(widget.videoController)
           : const CircularProgressIndicator.adaptive(
-              strokeWidth: 6,
+              strokeWidth: 5,
               backgroundColor: Colors.white,
               valueColor: AlwaysStoppedAnimation(Colors.pink),
             ),

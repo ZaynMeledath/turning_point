@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_radio_button.dart';
+part of '../sign_up_screen.dart';
 
 Widget signUpRadioButtonSegment({
   required String title,
@@ -16,7 +13,7 @@ Widget signUpRadioButtonSegment({
         Text(
           title,
           style: GoogleFonts.roboto(
-            fontSize: screenSize.width * .034,
+            fontSize: screenSize.width * .036,
             fontWeight: FontWeight.w400,
           ),
         ),
