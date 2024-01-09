@@ -21,21 +21,16 @@ Widget signUpTextField({
         //====================TextField Container====================//
         Container(
           width: double.infinity,
-          height: screenSize.height * .056,
+          height: screenSize.height * .058,
           padding: const EdgeInsets.symmetric(horizontal: 15),
           decoration: BoxDecoration(
-            color: Colors.white,
-            // color: const Color.fromRGBO(246, 246, 246, 1),
+            color: const Color.fromRGBO(246, 246, 246, 1),
             borderRadius: BorderRadius.circular(8.5),
-            border: Border.all(
-              color: Colors.black.withOpacity(.25),
-              width: .8,
-            ),
             boxShadow: [
               BoxShadow(
-                offset: const Offset(-2, 2),
-                blurRadius: 2,
-                color: Colors.black.withOpacity(.25),
+                offset: const Offset(-2, 0),
+                blurRadius: 1,
+                color: Colors.black.withOpacity(.2),
                 blurStyle: BlurStyle.normal,
               ),
             ],
@@ -46,13 +41,22 @@ Widget signUpTextField({
               Image.asset(
                 iconPath,
                 width: screenSize.width * .04,
+                color: Colors.black.withOpacity(.7),
               ),
               SizedBox(width: screenSize.width * .031),
               Flexible(
-                child: TextField(
-                  controller: controller,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    bottom: screenSize.height * .01,
+                  ),
+                  child: TextField(
+                    style: GoogleFonts.roboto(
+                      fontSize: screenSize.width * .036,
+                    ),
+                    controller: controller,
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                    ),
                   ),
                 ),
               ),

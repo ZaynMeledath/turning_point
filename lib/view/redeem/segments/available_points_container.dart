@@ -5,13 +5,14 @@ Widget availablePointsContainer({required Size screenSize}) {
   return Container(
     width: double.infinity,
     height: screenSize.width * .33,
-    margin: EdgeInsets.symmetric(
-      horizontal: screenSize.width * .07,
-      vertical: screenSize.height * .15,
+    margin: EdgeInsets.only(
+      left: screenSize.width * .07,
+      right: screenSize.width * .07,
+      top: screenSize.height * .02,
     ),
     padding: EdgeInsets.all(screenSize.width * .025),
     decoration: BoxDecoration(
-      color: Colors.white.withOpacity(.7),
+      color: Colors.white.withOpacity(.8),
       borderRadius: BorderRadius.circular(21),
       boxShadow: [
         BoxShadow(

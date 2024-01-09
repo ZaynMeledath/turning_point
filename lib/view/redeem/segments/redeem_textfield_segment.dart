@@ -7,7 +7,7 @@ Widget redeemTextFieldSegment({
 }) {
   return Container(
     width: double.infinity,
-    height: screenSize.width * .12,
+    height: screenSize.width * .11,
     margin: EdgeInsets.symmetric(horizontal: screenSize.width * .05),
     padding: EdgeInsets.symmetric(horizontal: screenSize.width * .03),
     decoration: BoxDecoration(
@@ -21,15 +21,16 @@ Widget redeemTextFieldSegment({
         Flexible(
           child: TextField(
             controller: controller,
+            textAlignVertical: TextAlignVertical.center,
             keyboardType: TextInputType.number,
             style: GoogleFonts.inter(
-              fontSize: screenSize.width * .033,
+              fontSize: screenSize.width * .035,
               fontWeight: FontWeight.w400,
             ),
             decoration: InputDecoration(
               hintText: 'Enter the points you want to redeem',
               hintStyle: GoogleFonts.inter(
-                fontSize: screenSize.width * .033,
+                fontSize: screenSize.width * .035,
                 fontWeight: FontWeight.w400,
               ),
               border: InputBorder.none,

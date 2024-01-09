@@ -4,10 +4,16 @@ import 'package:turning_point/auth/bloc/auth_bloc.dart';
 import 'package:turning_point/auth/bloc/preload_bloc.dart';
 import 'package:turning_point/auth/firebase_auth_provider.dart';
 import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/preferences/app_preferences.dart';
+import 'package:turning_point/view/home/home_screen.dart';
 import 'package:turning_point/view/splash/splash_screen.dart';
 
-void main() {
+final GlobalKey<NavigatorState> globalNavigatorKey =
+    GlobalKey<NavigatorState>();
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await AppPreferences.init();
   runApp(const MyApp());
 }
 
@@ -16,6 +22,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final token = AppPreferences.getValueShared('auth_token');
     getInitialScreenSize(context: context);
     return MultiBlocProvider(
       providers: [
@@ -36,7 +43,7 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        home: const SplashScreen(),
+        home: token != null ? const HomeScreen() : const SplashScreen(),
       ),
     );
   }

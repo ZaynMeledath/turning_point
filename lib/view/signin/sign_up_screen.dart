@@ -197,7 +197,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final contractorList = ['JOHN', 'JACOB', 'SEAN', 'ADHIL'];
     return Container(
       width: double.infinity,
-      height: screenSize.height * .048,
+      height: screenSize.height * .052,
       margin: EdgeInsets.symmetric(horizontal: screenSize.width * .005),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -229,11 +229,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
               .map(
                 (item) => DropdownMenuItem(
                   value: item.toUpperCase(),
-                  child: Text(
-                    item.toUpperCase(),
-                    style: GoogleFonts.roboto(
-                      fontSize: screenSize.width * .034,
-                      fontWeight: FontWeight.w500,
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 6,
+                      horizontal: 6,
+                    ),
+                    margin: const EdgeInsets.only(bottom: 5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      item.toUpperCase(),
+                      style: GoogleFonts.roboto(
+                        fontSize: screenSize.width * .036,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ),
                 ),
@@ -272,14 +283,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
               margin: EdgeInsets.all(screenSize.width * .02),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                // border: Border.all(
-                //   color: Colors.black.withOpacity(.25),
-                // ),
+                borderRadius: BorderRadius.circular(8),
                 boxShadow: [
                   BoxShadow(
-                    offset: const Offset(-2, 2),
-                    blurRadius: 2,
+                    offset: const Offset(0, 1),
+                    blurRadius: 1,
                     color: Colors.black.withOpacity(.25),
                     blurStyle: BlurStyle.normal,
                   ),

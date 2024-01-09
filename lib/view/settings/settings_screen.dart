@@ -1,7 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:turning_point/dialog/show_logout_dialog.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/preferences/app_preferences.dart';
+import 'package:turning_point/view/signin/sign_in_screen.dart';
 
 part 'segments/settings_option.dart';
 
@@ -67,9 +73,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     iconPath: 'assets/icons/flag_icon.png',
                     title: 'Report a Problem',
                   ),
-                  settingsOption(
-                    iconPath: 'assets/icons/sign_out_icon.png',
-                    title: 'Sign Out',
+                  GestureDetector(
+                    onTap: () async {
+                      final shouldSignOut = await showLogoutDialog(context);
+                      if (shouldSignOut) {
+                        AppPreferences.clearSharedPreferences();
+                        Navigator.of(context).push(
+                          PageTransition(
+                            child: const SignInScreen(),
+                            childCurrent: const SettingsScreen(),
+                            type: PageTransitionType.fade,
+                            duration: const Duration(milliseconds: 1800),
+                          ),
+                        );
+                      }
+                    },
+                    child: settingsOption(
+                      iconPath: 'assets/icons/sign_out_icon.png',
+                      title: 'Sign Out',
+                    ),
                   ),
                 ],
               ),

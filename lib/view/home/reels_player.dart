@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 // import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:video_player/video_player.dart';
@@ -16,6 +18,7 @@ class ReelsPlayer extends StatefulWidget {
 class _ReelsPlayerState extends State<ReelsPlayer> {
   @override
   void initState() {
+    log('CONTROLLER DATASOURCE: ${widget.videoController.dataSource}');
     // _videoController = VideoPlayerController.networkUrl(
     //   Uri.parse(widget.urlList[widget.index]),
     // );

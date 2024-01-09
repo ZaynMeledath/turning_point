@@ -21,7 +21,7 @@ Widget settingsOption({
               title,
               style: GoogleFonts.inter(
                 fontSize: screenSize.width * .04,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ],

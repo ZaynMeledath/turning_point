@@ -28,15 +28,17 @@ dependencies:
   flutter_svg: ^2.0.9
   google_fonts: ^6.1.0
   google_sign_in: ^6.2.1
+  http: ^1.1.2
   mobile_scanner: ^3.5.5
   page_transition: ^2.1.0
   percent_indicator: ^4.2.3
+  shared_preferences: ^2.2.2
   shimmer: ^3.0.0
   smooth_page_indicator: ^1.1.0
   sqflite: ^2.3.0
   stacked_card_carousel: ^0.0.4
   video_player: ^2.8.1
-  http: ^1.1.2
+  
   
   
 
