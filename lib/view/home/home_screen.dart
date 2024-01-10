@@ -1,6 +1,15 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:turning_point/controller/home_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:turning_point/auth/bloc/home/home_screen_bloc.dart';
 import 'package:turning_point/dialog/show_connect_dialog.dart';
+import 'package:turning_point/view/home/reels_screen.dart';
+import 'package:turning_point/view/lucky_draw/lucky_draw_screen.dart';
+import 'package:turning_point/view/rewards/rewards_screen.dart';
+import 'package:turning_point/view/scanner/scanner_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,86 +19,146 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final pages = [
+    const ReelsScreen(),
+    const RewardsScreen(),
+    const ScannerScreen(),
+    const LuckyDrawScreen(),
+  ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: pages[currentIndex],
-
-//===============Bottom Navigation Bar===============//
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: currentIndex,
-        onTap: (index) {
-          if (index == 4) {
-            showConnectDialog(context: context);
-          } else {
-            setState(() {
-              currentIndex = index;
-            });
+    return BlocConsumer<HomeScreenBloc, HomeScreenState>(
+      listener: (context, state) async {
+        if (state is ConnectState) {
+          final isClosed = await showConnectDialog(context: context) as bool;
+          log('ISCLOSED : $isClosed');
+          if (isClosed) {
+            switch (state.previousState) {
+              case HomeState():
+                context.read<HomeScreenBloc>().add(HomePressedEvent());
+                break;
+              case RewardsState():
+                context.read<HomeScreenBloc>().add(RewardsPressedEvent());
+                break;
+              case ScannerState():
+                context.read<HomeScreenBloc>().add(ScannerPressedEvent());
+                break;
+              case LuckyDrawState():
+                context.read<HomeScreenBloc>().add(LuckyDrawPressedEvent());
+                break;
+              default:
+                break;
+            }
           }
-        },
-        backgroundColor: currentIndex == 0 || currentIndex == 2
-            ? Colors.black
-            : Colors.white,
-        unselectedItemColor: currentIndex == 0 || currentIndex == 2
-            ? Colors.white
-            : Colors.black,
-        enableFeedback: true,
-        selectedItemColor: currentIndex == 0 ? Colors.yellow : Colors.blue,
-        showUnselectedLabels: true,
-        items: [
-          BottomNavigationBarItem(
-            backgroundColor: Colors.black,
-            label: 'Home',
-            icon: Image.asset(
-              'assets/icons/home_icon.png',
-              width: 23,
-              height: 23,
-            ),
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          body: pages[state.currentIndex],
+          //===============Bottom Navigation Bar===============//
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            currentIndex: state.currentIndex,
+            onTap: (index) async {
+              switch (index) {
+                case 0:
+                  context.read<HomeScreenBloc>().add(HomePressedEvent());
+                  break;
+                case 1:
+                  context.read<HomeScreenBloc>().add(RewardsPressedEvent());
+                  break;
+                case 2:
+                  context.read<HomeScreenBloc>().add(ScannerPressedEvent());
+                  break;
+                case 3:
+                  context.read<HomeScreenBloc>().add(LuckyDrawPressedEvent());
+                  break;
+                case 4:
+                  context.read<HomeScreenBloc>().add(ConnectPressedEvent());
+                  break;
+              }
+            },
+            backgroundColor: state.currentIndex == 0 || state.currentIndex == 2
+                ? Colors.black
+                : Colors.white,
+            unselectedItemColor:
+                state.currentIndex == 0 || state.currentIndex == 2
+                    ? Colors.white
+                    : Colors.black,
+            enableFeedback: true,
+            selectedItemColor:
+                state.currentIndex == 0 || state.currentIndex == 2
+                    ? Colors.white
+                    : Colors.black,
+            showUnselectedLabels: true,
+            items: [
+              BottomNavigationBarItem(
+                backgroundColor: Colors.black,
+                label: 'Home',
+                icon: Image.asset(
+                  state.currentIndex == 0
+                      ? 'assets/icons/home_icon_purple.png'
+                      : state.currentIndex == 2 || state.currentIndex == 0
+                          ? 'assets/icons/home_icon_dark.png'
+                          : 'assets/icons/home_icon_light.png',
+                  width: 23,
+                  height: 23,
+                ),
+              ),
+              BottomNavigationBarItem(
+                backgroundColor: Colors.white,
+                label: 'Rewards',
+                icon: Image.asset(
+                  state.currentIndex == 1
+                      ? 'assets/icons/rewards_icon_purple.png'
+                      : state.currentIndex == 0 || state.currentIndex == 2
+                          ? 'assets/icons/rewards_icon_dark.png'
+                          : 'assets/icons/rewards_icon_light.png',
+                  width: 23,
+                  height: 23,
+                ),
+              ),
+              BottomNavigationBarItem(
+                backgroundColor: Colors.black,
+                label: 'Scan',
+                icon: Image.asset(
+                  state.currentIndex == 0 || state.currentIndex == 2
+                      ? 'assets/icons/scanner_icon_dark.png'
+                      : 'assets/icons/scanner_icon_light.png',
+                  width: 35,
+                  height: 35,
+                ),
+              ),
+              BottomNavigationBarItem(
+                backgroundColor: Colors.white,
+                label: 'Lucky Draw',
+                icon: Image.asset(
+                  state.currentIndex == 3
+                      ? 'assets/icons/lucky_draw_icon_purple.png'
+                      : state.currentIndex == 0 || state.currentIndex == 2
+                          ? 'assets/icons/lucky_draw_icon_dark.png'
+                          : 'assets/icons/lucky_draw_icon_light.png',
+                  width: 23,
+                  height: 23,
+                ),
+              ),
+              BottomNavigationBarItem(
+                backgroundColor: Colors.white,
+                label: 'Connect',
+                icon: Image.asset(
+                  state is ConnectState
+                      ? 'assets/icons/connect_icon_purple.png'
+                      : state.currentIndex == 0 || state.currentIndex == 2
+                          ? 'assets/icons/connect_icon_dark.png'
+                          : 'assets/icons/connect_icon_light.png',
+                  width: 23,
+                  height: 23,
+                ),
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            backgroundColor: Colors.white,
-            label: 'Rewards',
-            icon: Image.asset(
-              'assets/icons/rewards_icon.png',
-              width: 23,
-              height: 23,
-            ),
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Colors.white,
-            label: 'Scan',
-            icon: Image.asset(
-              currentIndex == 0 || currentIndex == 2
-                  ? 'assets/icons/scanner_icon_dark.png'
-                  : 'assets/icons/scanner_icon_light.png',
-              width: 35,
-              height: 35,
-              // color: currentIndex == 0
-              //     ? Colors.white
-              //     : Colors.black.withOpacity(.8),
-            ),
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Colors.white,
-            label: 'Lucky Draw',
-            icon: Image.asset(
-              'assets/icons/gift_box_icon.png',
-              width: 23,
-              height: 23,
-            ),
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Colors.white,
-            label: 'Connect',
-            icon: Image.asset(
-              'assets/icons/connect_icon.png',
-              width: 23,
-              height: 23,
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

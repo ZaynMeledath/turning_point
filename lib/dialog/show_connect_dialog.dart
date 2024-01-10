@@ -62,7 +62,7 @@ Widget dialog(BuildContext context) {
                   child: const Text('Customer Support'),
                 ),
                 GestureDetector(
-                  onTap: () => Navigator.pop(context),
+                  onTap: () => Navigator.of(context).pop(true),
                   child: Container(
                     width: screenSize.width * .061,
                     height: screenSize.width * .061,

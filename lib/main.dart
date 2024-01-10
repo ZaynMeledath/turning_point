@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:turning_point/auth/bloc/auth_bloc.dart';
-import 'package:turning_point/auth/bloc/preload_bloc.dart';
+import 'package:turning_point/auth/bloc/auth/auth_bloc.dart';
+import 'package:turning_point/auth/bloc/home/home_screen_bloc.dart';
+import 'package:turning_point/auth/bloc/preload/preload_bloc.dart';
+import 'package:turning_point/auth/bloc/redeem/redeem_bloc.dart';
 import 'package:turning_point/auth/firebase_auth_provider.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
@@ -31,6 +33,12 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => PreloadBloc(),
+        ),
+        BlocProvider(
+          create: (_) => RedeemBloc(),
+        ),
+        BlocProvider(
+          create: (_) => HomeScreenBloc(),
         ),
       ],
       child: MaterialApp(
