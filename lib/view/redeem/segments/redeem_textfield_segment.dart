@@ -2,8 +2,10 @@ part of '../redeem_screen.dart';
 
 Widget redeemTextFieldSegment({
   required Size screenSize,
-  required TextEditingController controller,
+  required BuildContext context,
 }) {
+  final redeemBloc = context.watch<RedeemBloc>();
+
   return Column(
     children: [
       Text(
@@ -17,40 +19,47 @@ Widget redeemTextFieldSegment({
       Container(
         width: double.infinity,
         height: screenSize.width * .11,
-        margin: EdgeInsets.symmetric(horizontal: screenSize.width * .05),
-        padding: EdgeInsets.only(
-          left: screenSize.width * .05,
-          right: screenSize.width * .03,
-        ),
+        margin: EdgeInsets.symmetric(horizontal: screenSize.width * .07),
         decoration: BoxDecoration(
           color: const Color.fromRGBO(246, 246, 246, 1),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 1.5,
+              color: Colors.black.withOpacity(.25),
+            ),
+          ],
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Flexible(
-              child: TextField(
-                controller: controller,
-                keyboardType: TextInputType.number,
-                style: GoogleFonts.inter(
-                  fontSize: screenSize.width * .035,
-                  fontWeight: FontWeight.w500,
-                ),
-                decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.only(bottom: screenSize.width * .016),
-                  hintText: 'Enter the points you want to redeem',
-                  hintStyle: GoogleFonts.inter(
-                    fontSize: screenSize.width * .035,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  border: InputBorder.none,
-                ),
-              ),
+            GestureDetector(
+              onTap: () {
+                context.read<RedeemBloc>().add(PointsDecrementEvent());
+              },
+              child: redeemPlusMinusContainer(isPlus: false),
             ),
-            Image.asset(
-              'assets/icons/redeem_screen_coin_icon.png',
-              width: screenSize.width * .061,
+            Row(
+              children: [
+                Image.asset(
+                  'assets/icons/redeem_screen_coin_icon.png',
+                  width: screenSize.width * .061,
+                ),
+                const SizedBox(width: 1),
+                Text(
+                  '${redeemBloc.state.redeemPoints}',
+                  style: GoogleFonts.roboto(
+                    fontSize: screenSize.width * .05,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+            GestureDetector(
+              onTap: () {
+                context.read<RedeemBloc>().add(PointsIncrementEvent());
+              },
+              child: redeemPlusMinusContainer(isPlus: true),
             ),
           ],
         ),

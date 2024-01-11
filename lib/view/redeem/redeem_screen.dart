@@ -11,6 +11,7 @@ import 'package:turning_point/view/redeem/segments/redeem_options_segment.dart';
 part 'segments/redeem_textfield_segment.dart';
 part 'segments/buy_coupons_segment.dart';
 part 'segments/bank_transfer_segment.dart';
+part 'segments/redeem_plus_minus_container.dart';
 
 class RedeemScreen extends StatefulWidget {
   const RedeemScreen({super.key});
@@ -20,17 +21,13 @@ class RedeemScreen extends StatefulWidget {
 }
 
 class _RedeemScreenState extends State<RedeemScreen> {
-  late final TextEditingController controller;
-
   @override
   void initState() {
-    controller = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
-    controller.dispose();
     super.dispose();
   }
 
@@ -71,7 +68,6 @@ class _RedeemScreenState extends State<RedeemScreen> {
                   case BuyCouponsState():
                     return buyCouponsSegment(
                       context: context,
-                      controller: controller,
                     );
 
                   case BankTransferState():

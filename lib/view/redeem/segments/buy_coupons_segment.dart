@@ -2,7 +2,6 @@ part of '../redeem_screen.dart';
 
 Widget buyCouponsSegment({
   required BuildContext context,
-  required TextEditingController controller,
 }) {
   return Column(
     children: [
@@ -31,7 +30,10 @@ Widget buyCouponsSegment({
         ],
       ),
       SizedBox(height: screenSize.height * .035),
-      redeemTextFieldSegment(screenSize: screenSize, controller: controller),
+      redeemTextFieldSegment(
+        screenSize: screenSize,
+        context: context,
+      ),
       SizedBox(height: screenSize.height * .025),
       Text(
         'Your Amount',
@@ -40,13 +42,18 @@ Widget buyCouponsSegment({
           fontWeight: FontWeight.w500,
         ),
       ),
-      Text(
-        '₹500',
-        style: GoogleFonts.roboto(
-          fontSize: screenSize.width * .07,
-          fontWeight: FontWeight.w500,
-          color: const Color.fromRGBO(3, 151, 0, 1),
-        ),
+      BlocBuilder<RedeemBloc, RedeemState>(
+        builder: (context, state) {
+          final pointsToRupees = (state.redeemPoints ~/ 5);
+          return Text(
+            '₹$pointsToRupees',
+            style: GoogleFonts.roboto(
+              fontSize: screenSize.width * .07,
+              fontWeight: FontWeight.w500,
+              color: const Color.fromRGBO(3, 151, 0, 1),
+            ),
+          );
+        },
       ),
       SizedBox(height: screenSize.height * .02),
       GestureDetector(

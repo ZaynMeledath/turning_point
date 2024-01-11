@@ -9,3 +9,7 @@ class BankTransferPressedEvent extends RedeemEvent {}
 class InAppPurchasePressedEvent extends RedeemEvent {}
 
 class UpiTransferPressedEvent extends RedeemEvent {}
+
+class PointsIncrementEvent extends RedeemEvent {}
+
+class PointsDecrementEvent extends RedeemEvent {}
