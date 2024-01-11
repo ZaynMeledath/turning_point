@@ -1,10 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
-
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:turning_point/auth/bloc/home/home_screen_bloc.dart';
+import 'package:turning_point/bloc/home/home_screen_bloc.dart';
 import 'package:turning_point/dialog/show_connect_dialog.dart';
 import 'package:turning_point/view/home/reels_screen.dart';
 import 'package:turning_point/view/lucky_draw/lucky_draw_screen.dart';
@@ -31,7 +28,6 @@ class _HomeScreenState extends State<HomeScreen> {
       listener: (context, state) async {
         if (state is ConnectState) {
           final isClosed = await showConnectDialog(context: context) as bool;
-          log('ISCLOSED : $isClosed');
           if (isClosed) {
             switch (state.previousState) {
               case HomeState():

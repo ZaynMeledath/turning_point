@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/auth/bloc/redeem/redeem_bloc.dart';
+import 'package:turning_point/bloc/redeem/redeem_bloc.dart';
 
 Widget redeemOptionsSegment({
   required BuildContext context,

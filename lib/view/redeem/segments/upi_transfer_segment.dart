@@ -29,7 +29,7 @@ Widget upiTransferSegment() {
             borderRadius: BorderRadius.circular(6),
             boxShadow: const [
               BoxShadow(
-                offset: Offset(-2, .5),
+                offset: Offset(-.5, .5),
                 blurRadius: 1.5,
                 color: Color.fromRGBO(0, 0, 0, .25),
               ),

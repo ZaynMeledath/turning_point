@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:turning_point/auth/auth_provider.dart';
+import 'package:turning_point/service/auth/auth_provider.dart';
 import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';

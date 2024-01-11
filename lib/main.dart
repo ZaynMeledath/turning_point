@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:turning_point/auth/bloc/auth/auth_bloc.dart';
-import 'package:turning_point/auth/bloc/home/home_screen_bloc.dart';
-import 'package:turning_point/auth/bloc/preload/preload_bloc.dart';
-import 'package:turning_point/auth/bloc/redeem/redeem_bloc.dart';
-import 'package:turning_point/auth/firebase_auth_provider.dart';
+
+import 'package:turning_point/service/auth/firebase_auth_provider.dart';
+import 'package:turning_point/bloc/auth/auth_bloc.dart';
+import 'package:turning_point/bloc/home/home_screen_bloc.dart';
+import 'package:turning_point/bloc/preload/preload_bloc.dart';
+import 'package:turning_point/bloc/redeem/redeem_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/view/home/home_screen.dart';

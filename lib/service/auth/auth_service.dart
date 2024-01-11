@@ -1,5 +1,5 @@
-import 'package:turning_point/auth/auth_provider.dart';
-import 'package:turning_point/auth/firebase_auth_provider.dart';
+import 'package:turning_point/service/auth/auth_provider.dart';
+import 'package:turning_point/service/auth/firebase_auth_provider.dart';
 import 'package:turning_point/model/user_model.dart';
 
 class AuthService implements AuthProvider {

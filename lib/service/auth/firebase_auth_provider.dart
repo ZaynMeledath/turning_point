@@ -2,8 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     show FirebaseAuth, FirebaseAuthException, GoogleAuthProvider;
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:turning_point/auth/auth_exceptions.dart';
-import 'package:turning_point/auth/auth_provider.dart';
+import 'package:turning_point/service/auth/auth_exceptions.dart';
+import 'package:turning_point/service/auth/auth_provider.dart';
 import 'package:turning_point/firebase_options.dart';
 import 'package:turning_point/model/user_model.dart';
 
