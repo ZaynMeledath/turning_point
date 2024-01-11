@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:turning_point/service/api/api_endpoints.dart';
 import 'package:turning_point/service/api/api_service.dart';
 
@@ -15,7 +14,6 @@ class VideoRepository {
     final data = decodedResponse['data'];
     final videoNames = data.map((e) => e['fileUrl']).toList();
     urlList = videoNames.map((e) => '${ApiEndpoints.getReels}/$e').toList();
-    log('URL LIST: $urlList');
 
     return urlList;
   }

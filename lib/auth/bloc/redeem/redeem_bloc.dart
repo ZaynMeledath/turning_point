@@ -5,32 +5,52 @@ part 'redeem_state.dart';
 
 class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
   RedeemBloc()
-      : super(BuyCouponsState(selectedOptionNumber: 1, redeemPoints: 500)) {
+      : super(BuyCouponsState(
+          selectedOptionNumber: 1,
+          redeemPoints: 500,
+          isTermsAgreed: false,
+        )) {
 //====================Buy Coupon Event====================//
     on<BuyCouponsPressedEvent>((event, emit) {
       emit(
-        BuyCouponsState(selectedOptionNumber: 1, redeemPoints: 500),
+        BuyCouponsState(
+          selectedOptionNumber: 1,
+          redeemPoints: 500,
+          isTermsAgreed: false,
+        ),
       );
     });
 
 //====================Bank Transfer Event====================//
     on<BankTransferPressedEvent>((event, emit) {
       emit(
-        BankTransferState(selectedOptionNumber: 2, redeemPoints: 500),
+        BankTransferState(
+          selectedOptionNumber: 2,
+          redeemPoints: 500,
+          isTermsAgreed: false,
+        ),
       );
     });
 
 //====================In-App Purchase Event====================//
     on<InAppPurchasePressedEvent>((event, emit) {
       emit(
-        InAppPurchaseState(selectedOptionNumber: 3, redeemPoints: 500),
+        InAppPurchaseState(
+          selectedOptionNumber: 3,
+          redeemPoints: 500,
+          isTermsAgreed: false,
+        ),
       );
     });
 
 //====================UPI Transfer Event====================//
     on<UpiTransferPressedEvent>((event, emit) {
       emit(
-        UpiTransferState(selectedOptionNumber: 4, redeemPoints: 500),
+        UpiTransferState(
+          selectedOptionNumber: 4,
+          redeemPoints: 500,
+          isTermsAgreed: false,
+        ),
       );
     });
 
@@ -41,32 +61,36 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
           case BuyCouponsState():
             emit(
               BuyCouponsState(
-                selectedOptionNumber: 1,
+                selectedOptionNumber: state.selectedOptionNumber,
                 redeemPoints: state.redeemPoints + 500,
+                isTermsAgreed: state.isTermsAgreed,
               ),
             );
             break;
           case BankTransferState():
             emit(
               BankTransferState(
-                selectedOptionNumber: 2,
+                selectedOptionNumber: state.selectedOptionNumber,
                 redeemPoints: state.redeemPoints + 500,
+                isTermsAgreed: state.isTermsAgreed,
               ),
             );
             break;
           case InAppPurchaseState():
             emit(
               InAppPurchaseState(
-                selectedOptionNumber: 3,
+                selectedOptionNumber: state.selectedOptionNumber,
                 redeemPoints: state.redeemPoints + 500,
+                isTermsAgreed: state.isTermsAgreed,
               ),
             );
             break;
           case UpiTransferState():
             emit(
               UpiTransferState(
-                selectedOptionNumber: 4,
+                selectedOptionNumber: state.selectedOptionNumber,
                 redeemPoints: state.redeemPoints + 500,
+                isTermsAgreed: state.isTermsAgreed,
               ),
             );
             break;
@@ -81,36 +105,82 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
           case BuyCouponsState():
             emit(
               BuyCouponsState(
-                selectedOptionNumber: 1,
+                selectedOptionNumber: state.selectedOptionNumber,
                 redeemPoints: state.redeemPoints - 500,
+                isTermsAgreed: state.isTermsAgreed,
               ),
             );
             break;
           case BankTransferState():
             emit(
               BankTransferState(
-                selectedOptionNumber: 2,
+                selectedOptionNumber: state.selectedOptionNumber,
                 redeemPoints: state.redeemPoints - 500,
+                isTermsAgreed: state.isTermsAgreed,
               ),
             );
             break;
           case InAppPurchaseState():
             emit(
               InAppPurchaseState(
-                selectedOptionNumber: 3,
+                selectedOptionNumber: state.selectedOptionNumber,
                 redeemPoints: state.redeemPoints - 500,
+                isTermsAgreed: state.isTermsAgreed,
               ),
             );
             break;
           case UpiTransferState():
             emit(
               UpiTransferState(
-                selectedOptionNumber: 4,
+                selectedOptionNumber: state.selectedOptionNumber,
                 redeemPoints: state.redeemPoints - 500,
+                isTermsAgreed: state.isTermsAgreed,
               ),
             );
             break;
         }
+      }
+    });
+
+//====================Points Decrement Event====================//
+    on<AgreeTermsPressedEvent>((event, emit) {
+      switch (state) {
+        case BuyCouponsState():
+          emit(
+            BuyCouponsState(
+              selectedOptionNumber: 1,
+              redeemPoints: state.redeemPoints,
+              isTermsAgreed: !state.isTermsAgreed,
+            ),
+          );
+          break;
+        case BankTransferState():
+          emit(
+            BankTransferState(
+              selectedOptionNumber: 2,
+              redeemPoints: state.redeemPoints,
+              isTermsAgreed: !state.isTermsAgreed,
+            ),
+          );
+          break;
+        case InAppPurchaseState():
+          emit(
+            InAppPurchaseState(
+              selectedOptionNumber: 3,
+              redeemPoints: state.redeemPoints,
+              isTermsAgreed: !state.isTermsAgreed,
+            ),
+          );
+          break;
+        case UpiTransferState():
+          emit(
+            UpiTransferState(
+              selectedOptionNumber: 4,
+              redeemPoints: state.redeemPoints,
+              isTermsAgreed: !state.isTermsAgreed,
+            ),
+          );
+          break;
       }
     });
   }

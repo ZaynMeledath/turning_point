@@ -96,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 backgroundColor: Colors.black,
                 label: 'Home',
                 icon: Image.asset(
-                  state.currentIndex == 0
+                  state.currentIndex == 0 && state is! ConnectState
                       ? 'assets/icons/home_icon_purple.png'
                       : state.currentIndex == 2 || state.currentIndex == 0
                           ? 'assets/icons/home_icon_dark.png'
@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 backgroundColor: Colors.white,
                 label: 'Rewards',
                 icon: Image.asset(
-                  state.currentIndex == 1
+                  state.currentIndex == 1 && state is! ConnectState
                       ? 'assets/icons/rewards_icon_purple.png'
                       : state.currentIndex == 0 || state.currentIndex == 2
                           ? 'assets/icons/rewards_icon_dark.png'
@@ -122,9 +122,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 backgroundColor: Colors.black,
                 label: 'Scan',
                 icon: Image.asset(
-                  state.currentIndex == 0 || state.currentIndex == 2
-                      ? 'assets/icons/scanner_icon_dark.png'
-                      : 'assets/icons/scanner_icon_light.png',
+                  state.currentIndex == 2 && state is! ConnectState
+                      ? 'assets/icons/scanner_icon_purple.png'
+                      : state.currentIndex == 0 || state.currentIndex == 2
+                          ? 'assets/icons/scanner_icon_dark.png'
+                          : 'assets/icons/scanner_icon_light.png',
                   width: 35,
                   height: 35,
                 ),
@@ -133,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 backgroundColor: Colors.white,
                 label: 'Lucky Draw',
                 icon: Image.asset(
-                  state.currentIndex == 3
+                  state.currentIndex == 3 && state is! ConnectState
                       ? 'assets/icons/lucky_draw_icon_purple.png'
                       : state.currentIndex == 0 || state.currentIndex == 2
                           ? 'assets/icons/lucky_draw_icon_dark.png'

@@ -8,10 +8,15 @@ import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/redeem/segments/available_points_container.dart';
 import 'package:turning_point/view/redeem/segments/redeem_options_segment.dart';
 
-part 'segments/redeem_textfield_segment.dart';
 part 'segments/buy_coupons_segment.dart';
 part 'segments/bank_transfer_segment.dart';
+part 'segments/upi_transfer_segment.dart';
+part 'segments/redeem_point_field_segment.dart';
 part 'segments/redeem_plus_minus_container.dart';
+part 'segments/your_amount_segment.dart';
+part 'segments/account_details_segment.dart';
+part 'segments/account_details_row.dart';
+part 'segments/agree_terms_segment.dart';
 
 class RedeemScreen extends StatefulWidget {
   const RedeemScreen({super.key});
@@ -36,7 +41,6 @@ class _RedeemScreenState extends State<RedeemScreen> {
     return Scaffold(
 //====================Header Segment with back button and title====================//
       body: SingleChildScrollView(
-        reverse: true,
         child: Column(
           children: [
             Container(
@@ -61,23 +65,29 @@ class _RedeemScreenState extends State<RedeemScreen> {
             ),
             SizedBox(height: screenSize.height * .04),
             redeemOptionsSegment(context: context, screenSize: screenSize),
-            SizedBox(height: screenSize.height * .04),
+            SizedBox(height: screenSize.height * .03),
             BlocBuilder<RedeemBloc, RedeemState>(
               builder: (context, state) {
                 switch (state) {
                   case BuyCouponsState():
-                    return buyCouponsSegment(
-                      context: context,
-                    );
+                    return buyCouponsSegment(context: context);
 
                   case BankTransferState():
-                    return bankTransferSegment();
+                    return bankTransferSegment(context: context);
+
+                  case UpiTransferState():
+                    return upiTransferSegment();
 
                   default:
-                    return CircularProgressIndicator.adaptive();
+                    return const Center(
+                      child: CircularProgressIndicator.adaptive(
+                        strokeWidth: 5,
+                      ),
+                    );
                 }
               },
             ),
+            SizedBox(height: screenSize.height * .02),
           ],
         ),
       ),

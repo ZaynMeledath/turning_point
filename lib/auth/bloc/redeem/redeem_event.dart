@@ -13,3 +13,5 @@ class UpiTransferPressedEvent extends RedeemEvent {}
 class PointsIncrementEvent extends RedeemEvent {}
 
 class PointsDecrementEvent extends RedeemEvent {}
+
+class AgreeTermsPressedEvent extends RedeemEvent {}
