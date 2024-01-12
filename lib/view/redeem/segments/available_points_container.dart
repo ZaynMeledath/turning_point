@@ -25,9 +25,12 @@ Widget availablePointsContainer({required Size screenSize}) {
     child: Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+//====================Avatar Image====================//
         const CircleAvatar(
           foregroundImage: AssetImage('assets/images/avatar.jpg'),
         ),
+
+//====================Title====================//
         Text(
           'Available Points to Redeem',
           style: GoogleFonts.roboto(
@@ -36,6 +39,8 @@ Widget availablePointsContainer({required Size screenSize}) {
             fontWeight: FontWeight.w500,
           ),
         ),
+
+//====================Available Points====================//
         Text(
           '10000',
           style: GoogleFonts.roboto(

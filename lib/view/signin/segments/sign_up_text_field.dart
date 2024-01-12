@@ -28,7 +28,7 @@ Widget signUpTextField({
             borderRadius: BorderRadius.circular(8.5),
             boxShadow: [
               BoxShadow(
-                offset: const Offset(-2, 0),
+                offset: const Offset(-1.5, 0),
                 blurRadius: 1,
                 color: Colors.black.withOpacity(.2),
                 blurStyle: BlurStyle.normal,

@@ -20,6 +20,8 @@ Widget agreeTermsSegment() {
                   color: const Color.fromRGBO(0, 99, 255, 1),
                 ),
               ),
+
+//====================Blue container is shown only when the state is agreed====================//
               child: Visibility(
                 visible: state.isTermsAgreed,
                 child: Center(

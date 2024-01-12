@@ -13,6 +13,8 @@ Widget redeemPlusMinusContainer({required bool isPlus}) {
             left: !isPlus ? const Radius.circular(8) : const Radius.circular(0),
           ),
         ),
+
+//====================Changes state according to the value====================//
         child: Center(
           child: isPlus
               ? Image.asset(

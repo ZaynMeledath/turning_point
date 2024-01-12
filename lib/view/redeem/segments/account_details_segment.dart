@@ -3,6 +3,7 @@ part of '../redeem_screen.dart';
 Widget accountDetailsSegment() {
   return Column(
     children: [
+//====================Title====================//
       Text(
         'Account Details',
         style: GoogleFonts.roboto(
@@ -11,6 +12,8 @@ Widget accountDetailsSegment() {
         ),
       ),
       SizedBox(height: screenSize.height * .02),
+
+//====================Account Details====================//
       accountDetailsRow(
         key: 'Account Name',
         value: 'Turning Point',

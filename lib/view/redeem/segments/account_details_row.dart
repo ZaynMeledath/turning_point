@@ -6,7 +6,7 @@ Widget accountDetailsRow({
   required double spacing,
 }) {
   return Padding(
-    padding: EdgeInsets.only(left: screenSize.width * .17),
+    padding: EdgeInsets.only(left: screenSize.width * .12),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

@@ -1,10 +1,11 @@
 part of '../redeem_screen.dart';
 
-Widget redeemPointFieldSegment() {
+Widget redeemPointsFieldSegment() {
   return BlocBuilder<RedeemBloc, RedeemState>(
     builder: (context, state) {
       return Column(
         children: [
+//====================Title====================//
           Text(
             'Enter the Points you want to Redeem',
             style: GoogleFonts.roboto(
@@ -13,6 +14,8 @@ Widget redeemPointFieldSegment() {
             ),
           ),
           SizedBox(height: screenSize.height * .01),
+
+//====================Points Field Container (Can change points using the + & - buttons)====================//
           Container(
             width: double.infinity,
             height: screenSize.width * .11,
@@ -61,6 +64,8 @@ Widget redeemPointFieldSegment() {
             ),
           ),
           const SizedBox(height: 5),
+
+//====================Note====================//
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

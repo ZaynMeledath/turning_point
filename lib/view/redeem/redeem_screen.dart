@@ -11,7 +11,7 @@ import 'package:turning_point/view/redeem/segments/redeem_options_segment.dart';
 part 'segments/buy_coupons_segment.dart';
 part 'segments/bank_transfer_segment.dart';
 part 'segments/upi_transfer_segment.dart';
-part 'segments/redeem_point_field_segment.dart';
+part 'segments/redeem_points_field_segment.dart';
 part 'segments/redeem_plus_minus_container.dart';
 part 'segments/your_amount_segment.dart';
 part 'segments/account_details_segment.dart';
@@ -59,13 +59,19 @@ class _RedeemScreenState extends State<RedeemScreen> {
                   SafeArea(
                     child: customAppBar(context: context, title: 'Redeem'),
                   ),
+
+//====================Available Points Segment====================//
                   availablePointsContainer(screenSize: screenSize),
                 ],
               ),
             ),
             SizedBox(height: screenSize.height * .04),
+
+//====================Redeem Options Segment====================//
             redeemOptionsSegment(context: context, screenSize: screenSize),
             SizedBox(height: screenSize.height * .03),
+
+//====================Redeem Options Body Segment====================//
             BlocBuilder<RedeemBloc, RedeemState>(
               builder: (context, state) {
                 switch (state) {

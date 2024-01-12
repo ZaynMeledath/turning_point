@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/service/auth/auth_provider.dart';
@@ -55,8 +54,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             requestMethod: 'POST',
             isTokenRequired: false,
           );
-
-          log('JSON DECODED : $decodedResponse');
 
           await AppPreferences.init();
           AppPreferences.addSharedPreference(

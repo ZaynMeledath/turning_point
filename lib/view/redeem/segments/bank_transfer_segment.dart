@@ -5,14 +5,23 @@ Widget bankTransferSegment({required BuildContext context}) {
     padding: EdgeInsets.symmetric(horizontal: screenSize.width * .061),
     child: Column(
       children: [
-        redeemPointFieldSegment(),
+//====================Points Field where points can be changed using + and - buttons====================//
+        redeemPointsFieldSegment(),
         SizedBox(height: screenSize.height * .03),
+
+//====================Amount in Rupees Segment====================//
         yourAmountSegment(),
         SizedBox(height: screenSize.height * .02),
+
+//====================Account Details Segment====================//
         accountDetailsSegment(),
         SizedBox(height: screenSize.height * .03),
+
+//====================Agree Terms Segment====================//
         agreeTermsSegment(),
         SizedBox(height: screenSize.height * .02),
+
+//====================Submit Button====================//
         Container(
           width: screenSize.width * .369,
           height: screenSize.width * .115,

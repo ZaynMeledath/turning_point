@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:turning_point/bloc/sign_up/contractor_bloc.dart';
 
 import 'package:turning_point/service/auth/firebase_auth_provider.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
@@ -41,6 +42,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => HomeScreenBloc(),
         ),
+        BlocProvider(
+          create: (_) => ContractorBloc(),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

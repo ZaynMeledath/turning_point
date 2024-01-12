@@ -13,9 +13,11 @@ Widget redeemOptionsSegment({
         padding: EdgeInsets.symmetric(horizontal: screenSize.width * .04),
         child: Column(
           children: [
+            //First Row
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+//====================Buy Coupons Container====================//
                 InkWell(
                   borderRadius: BorderRadius.circular(16),
                   onTap: () =>
@@ -49,6 +51,8 @@ Widget redeemOptionsSegment({
                   ),
                 ),
                 SizedBox(width: screenSize.width * .025),
+
+//====================Bank Transfer Container====================//
                 InkWell(
                   borderRadius: BorderRadius.circular(16),
                   onTap: () => context
@@ -85,9 +89,12 @@ Widget redeemOptionsSegment({
               ],
             ),
             SizedBox(height: screenSize.height * .019),
+
+            //Second Row
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+//====================In-App Purchase Container====================//
                 InkWell(
                   borderRadius: BorderRadius.circular(16),
                   onTap: () => context
@@ -122,6 +129,8 @@ Widget redeemOptionsSegment({
                   ),
                 ),
                 SizedBox(width: screenSize.width * .025),
+
+//====================UPI Transfer Container====================//
                 InkWell(
                   borderRadius: BorderRadius.circular(16),
                   onTap: () =>

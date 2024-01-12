@@ -5,10 +5,15 @@ Widget upiTransferSegment() {
     padding: EdgeInsets.symmetric(horizontal: screenSize.width * .061),
     child: Column(
       children: [
-        redeemPointFieldSegment(),
+//====================Points Field where points can be changed using + and - buttons====================//
+        redeemPointsFieldSegment(),
         SizedBox(height: screenSize.height * .04),
+
+//====================Amount in Rupees Segment====================//
         yourAmountSegment(),
         SizedBox(height: screenSize.height * .03),
+
+//====================Title====================//
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
@@ -20,6 +25,8 @@ Widget upiTransferSegment() {
           ),
         ),
         SizedBox(height: screenSize.height * .01),
+
+//====================UPI TextField====================//
         Container(
           width: double.infinity,
           height: screenSize.width * .1,
@@ -37,6 +44,8 @@ Widget upiTransferSegment() {
           ),
         ),
         SizedBox(height: screenSize.height * .04),
+
+//====================Submit Button====================//
         Container(
           width: screenSize.width * .369,
           height: screenSize.width * .115,

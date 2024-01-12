@@ -7,15 +7,22 @@ Widget buyCouponsSegment({
     padding: EdgeInsets.symmetric(horizontal: screenSize.width * .061),
     child: Column(
       children: [
+//====================Coupon Image====================//
         Image.asset(
           'assets/images/redeem_screen_gift_voucher.png',
           width: screenSize.width * .9,
         ),
         SizedBox(height: screenSize.height * .035),
-        redeemPointFieldSegment(),
+
+//====================Points Field where points can be changed using + and - buttons====================//
+        redeemPointsFieldSegment(),
         SizedBox(height: screenSize.height * .025),
+
+//====================Amount in Rupees Segment====================//
         yourAmountSegment(),
         SizedBox(height: screenSize.height * .02),
+
+//====================Redeem Button====================//
         GestureDetector(
           onTap: () async {
             showCouponGenerateDialog(context: context);

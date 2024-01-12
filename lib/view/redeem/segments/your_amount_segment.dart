@@ -3,6 +3,7 @@ part of '../redeem_screen.dart';
 Widget yourAmountSegment() {
   return Column(
     children: [
+//====================Title====================//
       Text(
         'Your Amount',
         style: GoogleFonts.roboto(
@@ -10,6 +11,8 @@ Widget yourAmountSegment() {
           fontWeight: FontWeight.w500,
         ),
       ),
+
+//====================Amount in Rupees Segment====================//
       BlocBuilder<RedeemBloc, RedeemState>(
         builder: (context, state) {
           final pointsToRupees = (state.redeemPoints ~/ 5);

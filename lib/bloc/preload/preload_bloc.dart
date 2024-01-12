@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/repository/video_repository.dart';
 import 'package:video_player/video_player.dart';
@@ -16,26 +15,34 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
           }
           _playControllerAtIndex(0);
           await _initializeControllerAtIndex(1);
-          emit(PreloadState(
-              controllers: state.controllers,
-              focusedIndex: event.currentIndex));
+          emit(
+            PreloadState(
+                controllers: state.controllers,
+                focusedIndex: event.currentIndex),
+          );
         } else {
           _playPrevious(event.currentIndex);
-          emit(PreloadState(
-              controllers: state.controllers,
-              focusedIndex: event.currentIndex));
+          emit(
+            PreloadState(
+                controllers: state.controllers,
+                focusedIndex: event.currentIndex),
+          );
         }
       } else {
         if (event.currentIndex < state.focusedIndex) {
           _playPrevious(event.currentIndex);
-          emit(PreloadState(
-              controllers: state.controllers,
-              focusedIndex: event.currentIndex));
+          emit(
+            PreloadState(
+                controllers: state.controllers,
+                focusedIndex: event.currentIndex),
+          );
         } else {
           _playNext(event.currentIndex);
-          emit(PreloadState(
-              controllers: state.controllers,
-              focusedIndex: event.currentIndex));
+          emit(
+            PreloadState(
+                controllers: state.controllers,
+                focusedIndex: event.currentIndex),
+          );
         }
       }
     });
@@ -80,8 +87,6 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
 
       /// Initialize
       await controller.initialize();
-
-      log('🚀🚀🚀 INITIALIZED $index');
     }
   }
 
@@ -93,8 +98,6 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
       /// Play controller
       controller.play();
       controller.setLooping(true);
-
-      log('🚀🚀🚀 PLAYING $index');
     }
   }
 
@@ -108,8 +111,6 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
 
       /// Reset postiton to beginning
       controller.seekTo(const Duration());
-
-      log('🚀🚀🚀 STOPPED $index');
     }
   }
 
@@ -127,8 +128,6 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
       if (controller != null) {
         state.controllers.remove(index);
       }
-
-      log('🚀🚀🚀 DISPOSED $index');
     }
   }
 
@@ -141,7 +140,5 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
     state.controllers.removeWhere(
       (key, value) => key != 0,
     );
-
-    log('CONTROLLERS : ${state.controllers}');
   }
 }
