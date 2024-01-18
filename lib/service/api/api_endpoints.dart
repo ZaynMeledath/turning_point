@@ -5,4 +5,5 @@ class ApiEndpoints {
   static const login = '$baseUrl/users/login';
   static const getReels = '$baseUrl/reels/getReels';
   static const getReelsPaginated = '$baseUrl/reels/getReelsPaginated';
+  static const uploads = '$baseUrl/uploads';
 }

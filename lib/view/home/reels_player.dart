@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:turning_point/bloc/preload/preload_bloc.dart';
 // import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:video_player/video_player.dart';
 
@@ -22,11 +24,6 @@ class _ReelsPlayerState extends State<ReelsPlayer> {
     // _videoController = VideoPlayerController.asset('assets/videos/reel.mp4');
     // initializePlayer();
 
-    widget.videoController.addListener(() {
-      if (widget.videoController.value.isInitialized) {
-        setState(() {});
-      }
-    });
     super.initState();
   }
 
@@ -88,14 +85,20 @@ class _ReelsPlayerState extends State<ReelsPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: widget.videoController.value.isInitialized
-          ? VideoPlayer(widget.videoController)
-          : const CircularProgressIndicator.adaptive(
+    return BlocBuilder<PreloadBloc, PreloadState>(
+      builder: (context, state) {
+        if (widget.videoController.value.isInitialized) {
+          return VideoPlayer(widget.videoController);
+        } else {
+          return const Center(
+            child: CircularProgressIndicator.adaptive(
               strokeWidth: 5,
               backgroundColor: Colors.white,
               valueColor: AlwaysStoppedAnimation(Colors.pink),
             ),
+          );
+        }
+      },
     );
   }
 }
