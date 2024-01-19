@@ -48,34 +48,29 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
     });
   }
 
+//====================Play Next Video====================//
   void _playNext(int index) {
-    /// Stop [index - 1] controller
     _stopControllerAtIndex(index - 1);
 
-    /// Dispose [index - 2] controller
     _disposeControllerAtIndex(index - 2);
 
-    /// Play current video (already initialized)
     _playControllerAtIndex(index);
 
-    /// Initialize [index + 1] controller
     _initializeControllerAtIndex(index + 1);
   }
 
+//====================Play Previous Video====================//
   void _playPrevious(int index) {
-    /// Stop [index + 1] controller
     _stopControllerAtIndex(index + 1);
 
-    /// Dispose [index + 2] controller
     _disposeControllerAtIndex(index + 2);
 
-    /// Play current video (already initialized)
     _playControllerAtIndex(index);
 
-    /// Initialize [index - 1] controller
     _initializeControllerAtIndex(index - 1);
   }
 
+//====================Initialize Controller on Given Index====================//
   Future _initializeControllerAtIndex(int index) async {
     if (state.urls.length > index && index >= 0) {
       /// Create new controller
@@ -90,6 +85,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
     }
   }
 
+//====================Play Video on Given Index====================//
   void _playControllerAtIndex(int index) {
     if (state.urls.length > index && index >= 0) {
       /// Get controller at [index]
@@ -101,6 +97,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
     }
   }
 
+//====================Stop video on Given Index====================//
   void _stopControllerAtIndex(int index) {
     if (state.urls.length > index && index >= 0) {
       /// Get controller at [index]
@@ -114,6 +111,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
     }
   }
 
+//====================Dispose Controller at Given Index====================//
   void _disposeControllerAtIndex(int index) {
     if (index == 0) {
       return;
@@ -131,6 +129,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
     }
   }
 
+//====================Dispose all Controllers====================//
   void disposeAllControllers() {
     state.controllers.forEach((key, value) {
       if (key != 0) {
