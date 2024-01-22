@@ -1,7 +1,7 @@
 part of 'preload_bloc.dart';
 
 class PreloadState {
-  final List<dynamic> urls = VideoRepository.urlList;
+  final List<dynamic> urls = ReelRepository.urlList;
   final Map<int, VideoPlayerController> controllers;
   final int focusedIndex;
   PreloadState({
@@ -13,7 +13,7 @@ class PreloadState {
         focusedIndex: 0,
         controllers: {
           0: VideoPlayerController.networkUrl(
-              Uri.parse(VideoRepository.urlList[0]!))
+              Uri.parse(ReelRepository.urlList[0]!))
         },
       );
 }

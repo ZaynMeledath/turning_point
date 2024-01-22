@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
-import 'package:turning_point/repository/video_repository.dart';
+import 'package:turning_point/resources/reel_repository.dart';
 import 'package:turning_point/view/home/reels_player.dart';
 
 class ReelsPageViewer extends StatefulWidget {
@@ -29,7 +29,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer> {
     return BlocBuilder<PreloadBloc, PreloadState>(
       builder: (context, state) {
         return PageView.builder(
-          itemCount: VideoRepository.urlList.length,
+          itemCount: ReelRepository.urlList.length,
           itemBuilder: (context, index) {
             return ReelsPlayer(videoController: state.controllers[index]!);
           },

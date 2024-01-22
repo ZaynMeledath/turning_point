@@ -4,7 +4,7 @@ import 'package:turning_point/bloc/sign_up/contractor_bloc.dart';
 
 import 'package:turning_point/service/auth/firebase_auth_provider.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
-import 'package:turning_point/bloc/home/home_screen_bloc.dart';
+import 'package:turning_point/bloc/home/home_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/redeem/redeem_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
           create: (_) => RedeemBloc(),
         ),
         BlocProvider(
-          create: (_) => HomeScreenBloc(),
+          create: (_) => HomeBloc(),
         ),
         BlocProvider(
           create: (_) => ContractorBloc(),

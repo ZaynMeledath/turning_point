@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/helper/flight_shuttle.dart';
 import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/view/profile/segments/edit_profile_dashboard_segment.dart';
 import 'package:turning_point/view/profile/segments/profile_options_segment.dart';
 
@@ -10,6 +11,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = UserRepository.getUserFromPreference()!;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -34,36 +36,33 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Center(
-                  child: Column(
-                    children: [
-                      SizedBox(height: screenSize.height * .012),
-                      Hero(
-                        tag: 'profile_picture',
-                        flightShuttleBuilder: flightShuttleBuilder,
+                Column(
+                  children: [
+                    SizedBox(height: screenSize.height * .012),
+                    Hero(
+                      tag: 'profile_picture',
+                      flightShuttleBuilder: flightShuttleBuilder,
+                      child: CircleAvatar(
+                        radius: screenSize.height * .063,
+                        backgroundColor: const Color(0xffe12826),
                         child: CircleAvatar(
-                          radius: screenSize.height * .063,
-                          backgroundColor: const Color(0xffe12826),
+                          radius: (screenSize.height * .063) - 1,
                           child: CircleAvatar(
-                            radius: (screenSize.height * .063) - 1,
-                            child: CircleAvatar(
-                              radius: (screenSize.height * .063) - 2,
-                              foregroundImage:
-                                  const AssetImage('assets/images/avatar.jpg'),
-                            ),
+                            radius: (screenSize.height * .063) - 2,
+                            foregroundImage: NetworkImage(user.data!.image!),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 3),
-                      Text(
-                        'Turning Point',
-                        style: GoogleFonts.roboto(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                        ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      user.data!.name!,
+                      style: GoogleFonts.roboto(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             ),

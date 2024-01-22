@@ -1,7 +1,8 @@
 part of 'auth_bloc.dart';
 
-@immutable
 sealed class AuthState {}
+
+class AuthLoading extends AuthState {}
 
 class InitialState extends AuthState {}
 
@@ -19,9 +20,7 @@ class OtpVerificationNeededState extends AuthState {}
 class OtpVerifiedState extends AuthState {}
 
 class SignedInState extends AuthState {
-  final UserModel user;
-
-  SignedInState({required this.user});
+  SignedInState();
 }
 
 class SignedOutState extends AuthState {}

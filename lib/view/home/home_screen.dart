@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:turning_point/bloc/home/home_screen_bloc.dart';
+import 'package:turning_point/bloc/home/home_bloc.dart';
 import 'package:turning_point/dialog/show_connect_dialog.dart';
 import 'package:turning_point/view/home/reels_screen.dart';
 import 'package:turning_point/view/lucky_draw/lucky_draw_screen.dart';
@@ -24,27 +24,12 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeScreenBloc, HomeScreenState>(
+    return BlocConsumer<HomeBloc, HomeState>(
       listener: (context, state) async {
         if (state is ConnectState) {
           final isClosed = await showConnectDialog(context: context) as bool;
           if (isClosed) {
-            switch (state.previousState) {
-              case HomeState():
-                context.read<HomeScreenBloc>().add(HomePressedEvent());
-                break;
-              case RewardsState():
-                context.read<HomeScreenBloc>().add(RewardsPressedEvent());
-                break;
-              case ScannerState():
-                context.read<HomeScreenBloc>().add(ScannerPressedEvent());
-                break;
-              case LuckyDrawState():
-                context.read<HomeScreenBloc>().add(LuckyDrawPressedEvent());
-                break;
-              default:
-                break;
-            }
+            context.read<HomeBloc>().add(TriggerEvent(state.currentIndex));
           }
         }
       },
@@ -56,23 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
             type: BottomNavigationBarType.fixed,
             currentIndex: state.currentIndex,
             onTap: (index) async {
-              switch (index) {
-                case 0:
-                  context.read<HomeScreenBloc>().add(HomePressedEvent());
-                  break;
-                case 1:
-                  context.read<HomeScreenBloc>().add(RewardsPressedEvent());
-                  break;
-                case 2:
-                  context.read<HomeScreenBloc>().add(ScannerPressedEvent());
-                  break;
-                case 3:
-                  context.read<HomeScreenBloc>().add(LuckyDrawPressedEvent());
-                  break;
-                case 4:
-                  context.read<HomeScreenBloc>().add(ConnectPressedEvent());
-                  break;
-              }
+              context.read<HomeBloc>().add(TriggerEvent(index));
             },
             backgroundColor: state.currentIndex == 0 || state.currentIndex == 2
                 ? Colors.black

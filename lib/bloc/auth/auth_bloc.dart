@@ -1,7 +1,6 @@
-import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/auth/auth_provider.dart';
-import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
 import 'package:turning_point/service/api/api_service.dart';
@@ -12,8 +11,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(AuthProvider provider) : super(InitialState()) {
 //====================Initialize====================//
     on<AuthInitializeEvent>((event, emit) async {
-      await provider.initialize();
-      final user = provider.currentUser;
+      // await provider.initialize();
+      // final user = provider.currentUser;
+      final user = await UserRepository.getUserById();
       if (user == null) {
         emit(SignedOutState());
       }
@@ -21,7 +21,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       //   emit(OtpVerificationNeededState());
       // }
       else {
-        emit(SignedInState(user: user));
+        emit(SignedInState());
       }
     });
 
@@ -73,6 +73,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<VerifyOtpEvent>(
       (event, emit) {
         emit(OtpVerifiedState());
+      },
+    );
+
+    on<SignInEvent>(
+      (event, emit) async {
+        await UserRepository.getUserById();
+
+        emit(SignedInState());
       },
     );
   }
