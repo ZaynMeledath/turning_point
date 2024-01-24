@@ -25,7 +25,7 @@ class UserModel {
 }
 
 class Data {
-  String? sId;
+  String? id;
   String? email;
   String? phone;
   String? name;
@@ -47,7 +47,7 @@ class Data {
   int? contestUniqueWonCount;
 
   Data(
-      {this.sId,
+      {this.id,
       this.email,
       this.phone,
       this.name,
@@ -69,7 +69,7 @@ class Data {
       this.contestUniqueWonCount});
 
   Data.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
+    id = json['_id'];
     email = json['email'];
     phone = json['phone'];
     name = json['name'];
@@ -98,7 +98,7 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['_id'] = sId;
+    data['_id'] = id;
     data['email'] = email;
     data['phone'] = phone;
     data['name'] = name;

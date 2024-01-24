@@ -5,6 +5,7 @@ import 'package:turning_point/bloc/redeem/redeem_bloc.dart';
 import 'package:turning_point/dialog/show_coupon_generate_dialog.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/view/redeem/segments/available_points_container.dart';
 import 'package:turning_point/view/redeem/segments/redeem_options_segment.dart';
 

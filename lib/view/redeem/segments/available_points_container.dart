@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/resources/user_repository.dart';
 
 Widget availablePointsContainer({required Size screenSize}) {
+  final user = UserRepository.getUserFromPreference()!;
+  final points = user.data!.points;
   return Container(
     width: double.infinity,
     height: screenSize.width * .33,
@@ -26,8 +29,8 @@ Widget availablePointsContainer({required Size screenSize}) {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
 //====================Avatar Image====================//
-        const CircleAvatar(
-          foregroundImage: AssetImage('assets/images/avatar.jpg'),
+        CircleAvatar(
+          foregroundImage: NetworkImage(user.data!.image!),
         ),
 
 //====================Title====================//
@@ -42,7 +45,7 @@ Widget availablePointsContainer({required Size screenSize}) {
 
 //====================Available Points====================//
         Text(
-          '10000',
+          '$points',
           style: GoogleFonts.roboto(
             fontSize: screenSize.width * .092,
             color: Colors.black,

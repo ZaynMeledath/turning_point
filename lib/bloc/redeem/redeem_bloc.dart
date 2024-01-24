@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:turning_point/resources/user_repository.dart';
 
 part 'redeem_event.dart';
 part 'redeem_state.dart';
@@ -56,7 +57,9 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
 
 //====================Points Increment Event====================//
     on<PointsIncrementEvent>((event, emit) {
-      if (state.redeemPoints + 500 <= 10000) {
+      final user = UserRepository.getUserFromPreference()!;
+
+      if (state.redeemPoints + 500 <= user.data!.points!) {
         switch (state) {
           case BuyCouponsState():
             emit(

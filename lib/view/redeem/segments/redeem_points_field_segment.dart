@@ -24,7 +24,7 @@ Widget redeemPointsFieldSegment() {
               borderRadius: BorderRadius.circular(8),
               boxShadow: [
                 BoxShadow(
-                  blurRadius: 1.5,
+                  blurRadius: .8,
                   color: Colors.black.withOpacity(.25),
                 ),
               ],

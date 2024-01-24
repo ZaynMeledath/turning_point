@@ -8,4 +8,5 @@ class ApiEndpoints {
   static const getReelsPaginated = '$baseUrl/reels/getReelsPaginated';
   static const uploads = '$baseUrl/uploads';
   static const getReelLike = '$baseUrl/reelLike/getLikeCount';
+  static const likeReel = '$baseUrl/reelLike/like';
 }

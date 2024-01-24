@@ -1,11 +1,11 @@
-class ReelModel {
+class ReelsModel {
   String? message;
   List<Data>? data;
   bool? success;
 
-  ReelModel({this.message, this.data, this.success});
+  ReelsModel({this.message, this.data, this.success});
 
-  ReelModel.fromJson(Map<String, dynamic> json) {
+  ReelsModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     if (json['data'] != null) {
       data = <Data>[];
@@ -28,7 +28,7 @@ class ReelModel {
 }
 
 class Data {
-  String? sId;
+  String? id;
   String? fileUrl;
   int? displayLikeAfter;
   int? points;
@@ -38,7 +38,7 @@ class Data {
   String? updatedAt;
 
   Data({
-    this.sId,
+    this.id,
     this.fileUrl,
     this.displayLikeAfter,
     this.points,
@@ -49,7 +49,7 @@ class Data {
   });
 
   Data.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
+    id = json['_id'];
     fileUrl = json['fileUrl'];
     displayLikeAfter = json['displayLikeAfter'];
     points = json['points'];
@@ -61,7 +61,7 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['_id'] = sId;
+    data['_id'] = id;
     data['fileUrl'] = fileUrl;
     data['displayLikeAfter'] = displayLikeAfter;
     data['points'] = points;

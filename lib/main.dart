@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/bloc/sign_up/contractor_bloc.dart';
 
 import 'package:turning_point/service/auth/firebase_auth_provider.dart';
@@ -26,7 +27,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final token = AppPreferences.getValueShared('auth_token');
     getInitialScreenSize(context: context);
     return MultiBlocProvider(
       providers: [
@@ -44,19 +44,29 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => ContractorBloc(),
+        ),
+        BlocProvider(
+          create: (_) => ReelsBloc(),
         )
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Turning Point',
-        theme: ThemeData(
-          scaffoldBackgroundColor: Colors.white,
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromRGBO(0, 99, 255, 1),
-          ),
-          useMaterial3: true,
-        ),
-        home: token != null ? const HomeScreen() : const SplashScreen(),
+      child: BlocBuilder<AuthBloc, AuthState>(
+        builder: (context, state) {
+          context.read<AuthBloc>().add(AuthInitializeEvent());
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Turning Point',
+            theme: ThemeData(
+              scaffoldBackgroundColor: Colors.white,
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: const Color.fromRGBO(0, 99, 255, 1),
+              ),
+              useMaterial3: true,
+            ),
+            home: state is SignedInState
+                ? const HomeScreen()
+                : const SplashScreen(),
+          );
+        },
       ),
     );
   }

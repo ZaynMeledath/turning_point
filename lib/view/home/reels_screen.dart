@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
-import 'package:turning_point/dialog/show_points_received_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/resources/reel_repository.dart';
 import 'package:turning_point/view/home/reels_page_viewer.dart';
@@ -19,13 +19,10 @@ class ReelsScreen extends StatefulWidget {
 
 class _ReelsScreenState extends State<ReelsScreen> {
   bool isLoaded = false;
-  bool rupeeClicked = false;
-  bool rupeeScaled = false;
 
   @override
   void initState() {
-    // log('${UserRepository.decodeJwt()}');
-    getReels();
+    getData();
     Future.delayed(const Duration(milliseconds: 200), () {
       setState(() {
         isLoaded = true;
@@ -40,8 +37,9 @@ class _ReelsScreenState extends State<ReelsScreen> {
     super.dispose();
   }
 
-  void getReels() async {
+  void getData() async {
     await ReelRepository.getReels();
+    await ReelRepository.getReelsMap();
   }
 
   @override
@@ -51,8 +49,9 @@ class _ReelsScreenState extends State<ReelsScreen> {
       body: FutureBuilder(
         future: UserRepository.getUserById(),
         builder: (context, snapshot) {
-          final user = UserRepository.getUserFromPreference();
+          UserModel? user = UserRepository.getUserFromPreference();
           if (user != null || snapshot.hasData) {
+            user ??= snapshot.data;
             return Stack(
               alignment: Alignment.center,
               children: [
@@ -61,13 +60,15 @@ class _ReelsScreenState extends State<ReelsScreen> {
                     future: ReelRepository.getReels(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return const ReelsPageViewer();
+                        return ReelsPageViewer(
+                          user: user!,
+                        );
                       } else {
                         return const Center(
                           child: CircularProgressIndicator.adaptive(
                             strokeWidth: 5,
                             backgroundColor: Colors.white,
-                            valueColor: AlwaysStoppedAnimation(Colors.pink),
+                            valueColor: AlwaysStoppedAnimation(Colors.amber),
                           ),
                         );
                       }
@@ -145,62 +146,6 @@ class _ReelsScreenState extends State<ReelsScreen> {
                     ),
                     child: CircleAvatar(
                       foregroundImage: NetworkImage(user.data!.image!),
-                    ),
-                  ),
-                ),
-
-                //====================Rupee Icon====================//
-                Positioned(
-                  right: screenSize.width * .03,
-                  bottom: screenSize.height * .14,
-                  child: AnimatedScale(
-                    scale: rupeeScaled ? 1.5 : 1,
-                    duration: const Duration(milliseconds: 200),
-                    child: GestureDetector(
-                      onTap: () {
-                        if (user.data!.points == 0) {
-                          showPointsReceivedDialog(context: context);
-                        }
-
-                        setState(() {
-                          rupeeClicked = true;
-                          rupeeScaled = true;
-                        });
-                        Future.delayed(const Duration(milliseconds: 200), () {
-                          setState(() {
-                            rupeeScaled = false;
-                          });
-                        });
-                      },
-                      child: Image.asset(
-                        'assets/icons/rupee_icon.png',
-                        width: screenSize.width * .081,
-                        height: screenSize.width * .081,
-                        color: rupeeClicked
-                            ? const Color.fromRGBO(255, 215, 0, 1)
-                            : Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-
-                //====================Download Icon====================//
-                Positioned(
-                  right: screenSize.width * .03,
-                  bottom: screenSize.height * .075,
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: const Icon(
-                      Icons.file_download_outlined,
-                      size: 35,
-                      color: Colors.white,
-                      shadows: [
-                        Shadow(
-                          offset: Offset(0, 2),
-                          color: Colors.grey,
-                          blurRadius: 5,
-                        ),
-                      ],
                     ),
                   ),
                 ),

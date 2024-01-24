@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/auth/auth_provider.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
@@ -13,7 +14,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthInitializeEvent>((event, emit) async {
       // await provider.initialize();
       // final user = provider.currentUser;
-      final user = await UserRepository.getUserById();
+      UserModel? user = UserRepository.getUserFromPreference();
       if (user == null) {
         emit(SignedOutState());
       }

@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
+import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/view/redeem/redeem_screen.dart';
 
 Widget availablePointsSegment({
   required Size screenSize,
   required BuildContext context,
 }) {
+  final user = UserRepository.getUserFromPreference()!;
+  final points = user.data!.points;
   return Column(
     children: [
 //====================Available Points Segment====================//
@@ -23,7 +26,7 @@ Widget availablePointsSegment({
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            '10000',
+            '$points',
             style: GoogleFonts.roboto(
               fontSize: screenSize.width * .127,
               fontWeight: FontWeight.w500,
