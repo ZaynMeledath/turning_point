@@ -12,7 +12,6 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
       : super(InitialReelState(UserRepository.getUserFromPreference())) {
     on<ReelLoadEvent>((event, emit) async {
       final reelData = ReelRepository.reelsModel.data![event.reelIndex];
-
       if (reelData.isLiked == true) {
         return emit(ReelLikedState(userModel!));
       } else {
@@ -28,6 +27,10 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
       if (reelData.isLiked != true) {
         reelData.isLiked = true;
         userModel!.data!.points = userModel!.data!.points! + reelData.points!;
+
+        //To ensure only the fileName is added to the userModel because the rest of the url will be appended from json to UserModel conversion
+        userModel!.data!.image = userModel!.data!.image!.split('/').last;
+        UserRepository.addUserToPreference(userModel!);
         emit(ReelLikedState(userModel!));
         await ReelRepository.likeReel(event.reelIndex);
       }

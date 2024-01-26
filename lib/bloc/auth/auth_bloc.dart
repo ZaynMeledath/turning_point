@@ -72,15 +72,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
 //====================VerifyOtpEvent====================//
     on<VerifyOtpEvent>(
-      (event, emit) {
+      (event, emit) async {
         emit(OtpVerifiedState());
       },
     );
 
+//====================SignInEvent====================//
     on<SignInEvent>(
       (event, emit) async {
         await UserRepository.getUserById();
-
         emit(SignedInState());
       },
     );

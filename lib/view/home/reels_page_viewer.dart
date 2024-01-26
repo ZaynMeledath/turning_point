@@ -72,58 +72,60 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                 ReelsPlayer(videoController: state.controllers[index]!),
 
                 //====================Rupee Icon====================//
-                BlocBuilder<ReelsBloc, ReelsState>(
-                  builder: (context, state) {
-                    return Positioned(
-                      right: screenSize.width * .03,
-                      bottom: screenSize.height * .14,
-                      child: ScaleTransition(
-                        scale: _animation,
-                        child: GestureDetector(
-                          onTap: () {
-                            if (state is LikeButtonActiveState) {
-                              _animationController.forward();
-
-                              context
-                                  .read<ReelsBloc>()
-                                  .add(ReelLikeEvent(reelIndex: index));
-
-                              if (user.data!.points == 0) {
-                                showPointsReceivedDialog(context: context);
-                              }
-                            }
-                          },
-                          child: Image.asset(
-                            'assets/icons/rupee_icon.png',
-                            width: screenSize.width * .081,
-                            height: screenSize.width * .081,
-                            color: state is ReelLikedState
-                                ? const Color.fromRGBO(255, 215, 0, 1)
-                                : state is LikeButtonActiveState
-                                    ? Colors.white
-                                    : Colors.grey,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-
-                //====================Download Icon====================//
                 Positioned(
                   right: screenSize.width * .03,
                   bottom: screenSize.height * .075,
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: const Icon(
-                      Icons.file_download_outlined,
-                      size: 35,
-                      color: Colors.white,
-                      shadows: [
-                        Shadow(
-                          offset: Offset(0, 2),
-                          color: Colors.grey,
-                          blurRadius: 5,
+                  child: Center(
+                    child: Column(
+                      children: [
+                        BlocBuilder<ReelsBloc, ReelsState>(
+                          builder: (context, state) {
+                            return ScaleTransition(
+                              scale: _animation,
+                              child: GestureDetector(
+                                  onTap: () {
+                                    if (state is LikeButtonActiveState) {
+                                      _animationController.forward();
+
+                                      context
+                                          .read<ReelsBloc>()
+                                          .add(ReelLikeEvent(reelIndex: index));
+
+                                      if (user.data!.points == 0) {
+                                        showPointsReceivedDialog(
+                                            context: context);
+                                      }
+                                    }
+                                  },
+                                  child: Image.asset(
+                                    'assets/icons/rupee_icon.png',
+                                    width: screenSize.width * .105,
+                                    height: screenSize.width * .105,
+                                    color: state is ReelLikedState
+                                        ? const Color.fromRGBO(255, 215, 0, 1)
+                                        : state is LikeButtonActiveState
+                                            ? Colors.white
+                                            : Colors.grey,
+                                  )),
+                            );
+                          },
+                        ),
+
+                        SizedBox(height: screenSize.height * .02),
+                        //====================Download Icon====================//
+                        GestureDetector(
+                          onTap: () {},
+                          child: Icon(
+                            Icons.file_download_outlined,
+                            size: screenSize.width * .09,
+                            color: Colors.white,
+                            shadows: [
+                              Shadow(
+                                color: Colors.black.withOpacity(.8),
+                                blurRadius: 4,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

@@ -20,6 +20,11 @@ class AppPreferences {
     _preferences.clear();
   }
 
+  /// ------------------ Remove data from SharedPreference ------------------ ///
+  static removeFromPreference(String key) {
+    _preferences.remove(key);
+  }
+
   /// ------------------ Reload data from SharedPreference ------------------ ///
 
   static reloadData() async {

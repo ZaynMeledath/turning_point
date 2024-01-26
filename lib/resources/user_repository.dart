@@ -31,10 +31,21 @@ class UserRepository {
     return UserModel.fromJson(response);
   }
 
+  static void addUserToPreference(UserModel userModel) {
+    AppPreferences.addSharedPreference(
+      key: 'user_json',
+      value: jsonEncode(userModel),
+    );
+  }
+
 //=====================Fetch and Decode userJson from SharedPreference====================//
   static UserModel? getUserFromPreference() {
-    final userJson = jsonDecode(AppPreferences.getValueShared('user_json'));
-
-    return UserModel.fromJson(userJson);
+    final prefData = AppPreferences.getValueShared('user_json');
+    if (prefData != null) {
+      final userJson = jsonDecode(prefData);
+      return UserModel.fromJson(userJson);
+    } else {
+      return null;
+    }
   }
 }
