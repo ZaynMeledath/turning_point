@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
+import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/model/user_model.dart';
@@ -39,7 +41,7 @@ class _ReelsScreenState extends State<ReelsScreen> {
 
   void getData() async {
     await ReelRepository.getReels();
-    await ReelRepository.getReelsMap();
+    await ReelRepository.getReelsModel();
   }
 
   @override
@@ -78,60 +80,64 @@ class _ReelsScreenState extends State<ReelsScreen> {
                 Positioned(
                   top: screenSize.height * .071,
                   left: screenSize.width * .031,
-                  child: Column(
-                    children: [
-                      Row(
+                  child: BlocBuilder<ReelsBloc, ReelsState>(
+                    builder: (context, state) {
+                      return Column(
                         children: [
-                          GestureDetector(
-                            onTap: () {
-                              CustomNavigator.push(
-                                context: context,
-                                child: const PointsScreen(),
-                              );
-                            },
-                            child: Container(
-                              padding: EdgeInsets.only(
-                                left: screenSize.width * .026,
-                                right: screenSize.width * .04,
-                                top: screenSize.width * .013,
-                                bottom: screenSize.width * .013,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                                gradient: const LinearGradient(
-                                  colors: [
-                                    Color.fromRGBO(255, 215, 0, 1),
-                                    Color.fromRGBO(255, 238, 141, 1),
-                                  ],
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
+                          Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  CustomNavigator.push(
+                                    context: context,
+                                    child: const PointsScreen(),
+                                  );
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.only(
+                                    left: screenSize.width * .026,
+                                    right: screenSize.width * .04,
+                                    top: screenSize.width * .013,
+                                    bottom: screenSize.width * .013,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(16),
+                                    gradient: const LinearGradient(
+                                      colors: [
+                                        Color.fromRGBO(255, 215, 0, 1),
+                                        Color.fromRGBO(255, 238, 141, 1),
+                                      ],
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          'assets/icons/coin_icon.png',
+                                          width: screenSize.width * .06,
+                                        ),
+                                        const SizedBox(width: 1),
+                                        Text(
+                                          '${state.userModel!.data!.points!}',
+                                          style: GoogleFonts.inter(
+                                            fontSize: screenSize.width * .04,
+                                            fontWeight: FontWeight.w700,
+                                            color: const Color.fromRGBO(
+                                                27, 27, 27, 1),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
-                              child: Center(
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      'assets/icons/coin_icon.png',
-                                      width: screenSize.width * .06,
-                                    ),
-                                    const SizedBox(width: 1),
-                                    Text(
-                                      '${user!.data!.points!}',
-                                      style: GoogleFonts.inter(
-                                        fontSize: screenSize.width * .04,
-                                        fontWeight: FontWeight.w700,
-                                        color:
-                                            const Color.fromRGBO(27, 27, 27, 1),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                            ],
                           ),
                         ],
-                      ),
-                    ],
+                      );
+                    },
                   ),
                 ),
 
@@ -145,7 +151,7 @@ class _ReelsScreenState extends State<ReelsScreen> {
                       child: const ProfileScreen(),
                     ),
                     child: CircleAvatar(
-                      foregroundImage: NetworkImage(user.data!.image!),
+                      foregroundImage: NetworkImage(user!.data!.image!),
                     ),
                   ),
                 ),

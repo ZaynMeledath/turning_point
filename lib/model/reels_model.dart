@@ -34,6 +34,7 @@ class Data {
   int? points;
   bool? isVideo;
   int? iV;
+  bool isLiked = false;
   String? createdAt;
   String? updatedAt;
 

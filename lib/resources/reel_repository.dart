@@ -7,8 +7,9 @@ import 'package:turning_point/service/api/api_service.dart';
 class ReelRepository {
   static List<dynamic> urlList = [];
   // static List<Map<String, dynamic>> reelsMap = [];
-  static StreamController<Map<String, dynamic>> reelsStreamController =
-      StreamController<Map<String, dynamic>>();
+  static ReelsModel reelsModel = ReelsModel();
+  // static StreamController<Map<String, dynamic>> reelsStreamController =
+  //     StreamController<Map<String, dynamic>>();
 
 //====================Get Reels Method====================//
   static Future<ReelsModel> getReels() async {
@@ -27,24 +28,6 @@ class ReelRepository {
         .toList();
 
     return ReelsModel.fromJson(response);
-  }
-
-//====================Get is Reel Liked Method====================//
-  static Future<bool> isLiked(int index) async {
-    final reelsModel = await getReels();
-    final reelId = reelsModel.data![index].id;
-    final userId = UserRepository.decodeJwt()['userId'];
-    final response = await ApiService().sendRequest(
-      url: ApiEndpoints.getReelLike,
-      requestMethod: 'POST',
-      data: {
-        "userId": userId,
-        "reelId": reelId,
-      },
-      isTokenRequired: true,
-    );
-
-    return response['data']['liked'];
   }
 
 //====================Like Reel Method====================//
@@ -66,14 +49,7 @@ class ReelRepository {
   }
 
 //====================Get ReelsMap Method====================//
-  static Future<void> getReelsMap() async {
-    final reelsModel = await getReels();
-    for (int i = 0; i < reelsModel.data!.length; i++) {
-      reelsStreamController.sink.add({
-        'id': reelsModel.data![i].id,
-        'fileUrl': reelsModel.data![i].fileUrl,
-        'isLiked': await isLiked(i),
-      });
-    }
+  static Future<void> getReelsModel() async {
+    reelsModel = await getReels();
   }
 }

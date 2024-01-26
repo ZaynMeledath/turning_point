@@ -1,10 +1,22 @@
 part of 'reels_bloc.dart';
 
-sealed class ReelsState {}
+sealed class ReelsState {
+  final UserModel? userModel;
 
-class InitialReelState extends ReelsState {}
+  ReelsState(this.userModel);
+}
 
-class ReelLikedState extends ReelsState {}
+class InitialReelState extends ReelsState {
+  InitialReelState(super.userModel);
+}
+
+class LikeButtonActiveState extends ReelsState {
+  LikeButtonActiveState(super.userModel);
+}
+
+class ReelLikedState extends ReelsState {
+  ReelLikedState(super.userModel);
+}
 
 // class ReelUnlikedState extends ReelsState {
 //   ReelUnlikedState({required super.reelsMap});
