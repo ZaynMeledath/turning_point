@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/resources/user_repository.dart';
@@ -7,7 +5,6 @@ import 'package:turning_point/resources/user_repository.dart';
 Widget availablePointsContainer({required Size screenSize}) {
   final user = UserRepository.getUserFromPreference()!;
   final points = user.data!.points;
-  log((user.data!.image!).toString());
   return Container(
     width: double.infinity,
     height: screenSize.width * .33,

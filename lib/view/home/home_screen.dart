@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
               context.read<HomeBloc>().add(TriggerEvent(index));
             },
             backgroundColor: state.currentIndex == 0 || state.currentIndex == 2
-                ? Colors.black
+                ? const Color(0xff0c1313)
                 : Colors.white,
             unselectedItemColor:
                 state.currentIndex == 0 || state.currentIndex == 2

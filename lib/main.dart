@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:turning_point/bloc/points_history/points_history_bloc.dart';
 import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/bloc/sign_up/contractor_bloc.dart';
-
 import 'package:turning_point/service/auth/firebase_auth_provider.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/bloc/home/home_bloc.dart';
@@ -47,7 +47,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => ReelsBloc(),
-        )
+        ),
+        BlocProvider(
+          create: (_) => PointsHistoryBloc(),
+        ),
       ],
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
