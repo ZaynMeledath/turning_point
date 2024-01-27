@@ -1,7 +1,7 @@
 part of 'reels_bloc.dart';
 
 sealed class ReelsState {
-  final UserModel? userModel;
+  final UserModelResponse? userModel;
 
   ReelsState(this.userModel);
 }

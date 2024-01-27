@@ -45,6 +45,11 @@ class ApiService {
           response = await http.put(Uri.parse(url),
               headers: headers, body: requestBody);
           break;
+        case 'PATCH':
+          final requestBody = data is String ? data : json.encode(data);
+          response = await http.patch(Uri.parse(url),
+              headers: headers, body: requestBody);
+          break;
         case 'DELETE':
           response = await http.delete(Uri.parse(url), headers: headers);
           break;

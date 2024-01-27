@@ -1,15 +1,15 @@
 import 'package:turning_point/service/api/api_endpoints.dart';
 
-class UserModel {
+class UserModelResponse {
   String? message;
-  Data? data;
+  UserModel? data;
   bool? success;
 
-  UserModel({this.message, this.data, this.success});
+  UserModelResponse({this.message, this.data, this.success});
 
-  UserModel.fromJson(Map<String, dynamic> json) {
+  UserModelResponse.fromJson(Map<String, dynamic> json) {
     message = json['message'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? UserModel.fromJson(json['data']) : null;
     success = json['success'];
   }
 
@@ -24,7 +24,7 @@ class UserModel {
   }
 }
 
-class Data {
+class UserModel {
   String? id;
   String? email;
   String? phone;
@@ -46,7 +46,7 @@ class Data {
   int? contestWonCount;
   int? contestUniqueWonCount;
 
-  Data(
+  UserModel(
       {this.id,
       this.email,
       this.phone,
@@ -68,7 +68,7 @@ class Data {
       this.contestWonCount,
       this.contestUniqueWonCount});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  UserModel.fromJson(Map<String, dynamic> json) {
     id = json['_id'];
     email = json['email'];
     phone = json['phone'];

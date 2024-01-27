@@ -7,12 +7,12 @@ import 'package:turning_point/service/api/api_service.dart';
 class ReelRepository {
   static List<dynamic> urlList = [];
   // static List<Map<String, dynamic>> reelsMap = [];
-  static ReelsModel reelsModel = ReelsModel();
+  static ReelsModelResponse reelsModel = ReelsModelResponse();
   // static StreamController<Map<String, dynamic>> reelsStreamController =
   //     StreamController<Map<String, dynamic>>();
 
 //====================Get Reels Method====================//
-  static Future<ReelsModel> getReels() async {
+  static Future<ReelsModelResponse> getReels() async {
     final response = await ApiService().sendRequest(
       url: '${ApiEndpoints.getReelsPaginated}/?page=1&limit=50',
       requestMethod: 'GET',
@@ -27,7 +27,7 @@ class ReelRepository {
         .map((videoName) => '${ApiEndpoints.uploads}/$videoName')
         .toList();
 
-    return ReelsModel.fromJson(response);
+    return ReelsModelResponse.fromJson(response);
   }
 
 //====================Like Reel Method====================//

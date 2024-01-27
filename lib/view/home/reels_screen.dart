@@ -51,7 +51,7 @@ class _ReelsScreenState extends State<ReelsScreen> {
       body: FutureBuilder(
         future: UserRepository.getUserById(),
         builder: (context, snapshot) {
-          UserModel? user = UserRepository.getUserFromPreference();
+          UserModelResponse? user = UserRepository.getUserFromPreference();
           if (user != null || snapshot.hasData) {
             user ??= snapshot.data;
             return Stack(

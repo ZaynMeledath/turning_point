@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/helper/screen_size.dart';
 
 Widget editProfilePictureSegment({
   required BuildContext context,
-  required Size screenSize,
+  required String imagePath,
 }) {
   return Column(
     children: [
@@ -19,7 +20,7 @@ Widget editProfilePictureSegment({
                 radius: (screenSize.height * .053) - 1,
                 child: CircleAvatar(
                   radius: (screenSize.height * .053) - 2,
-                  foregroundImage: const AssetImage('assets/images/avatar.jpg'),
+                  foregroundImage: NetworkImage(imagePath),
                 ),
               ),
             ),

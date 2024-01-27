@@ -12,10 +12,10 @@ class AuthService implements AuthProvider {
   Future<void> initialize() => provider.initialize();
 
   @override
-  UserModel? get currentUser => provider.currentUser;
+  UserModelResponse? get currentUser => provider.currentUser;
 
   @override
-  Future<UserModel> signIn() => provider.signIn();
+  Future<UserModelResponse> signIn() => provider.signIn();
 
   @override
   Future<void> signOut() => provider.signOut();

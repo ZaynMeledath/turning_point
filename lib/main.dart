@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/points_history/points_history_bloc.dart';
+import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/bloc/sign_up/contractor_bloc.dart';
 import 'package:turning_point/service/auth/firebase_auth_provider.dart';
@@ -19,7 +21,10 @@ final GlobalKey<NavigatorState> globalNavigatorKey =
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppPreferences.init();
-  runApp(const MyApp());
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((value) => runApp(const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -50,6 +55,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => PointsHistoryBloc(),
+        ),
+        BlocProvider(
+          create: (_) => ProfileBloc(),
         ),
       ],
       child: BlocBuilder<AuthBloc, AuthState>(

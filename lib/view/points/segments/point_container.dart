@@ -4,7 +4,7 @@ import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/model/points_history_model.dart';
 
 Widget pointContainer({
-  required Data pointsHistoryModel,
+  required PointsHistoryModel pointsHistoryModel,
 }) {
   final isCredited = pointsHistoryModel.type == 'CREDIT';
   return Container(

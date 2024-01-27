@@ -1,16 +1,16 @@
-class ReelsModel {
+class ReelsModelResponse {
   String? message;
-  List<Data>? data;
+  List<ReelsModel>? data;
   bool? success;
 
-  ReelsModel({this.message, this.data, this.success});
+  ReelsModelResponse({this.message, this.data, this.success});
 
-  ReelsModel.fromJson(Map<String, dynamic> json) {
+  ReelsModelResponse.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <ReelsModel>[];
       json['data'].forEach((v) {
-        data!.add(Data.fromJson(v));
+        data!.add(ReelsModel.fromJson(v));
       });
     }
     success = json['success'];
@@ -27,7 +27,7 @@ class ReelsModel {
   }
 }
 
-class Data {
+class ReelsModel {
   String? id;
   String? fileUrl;
   int? displayLikeAfter;
@@ -38,7 +38,7 @@ class Data {
   String? createdAt;
   String? updatedAt;
 
-  Data({
+  ReelsModel({
     this.id,
     this.fileUrl,
     this.displayLikeAfter,
@@ -49,7 +49,7 @@ class Data {
     this.updatedAt,
   });
 
-  Data.fromJson(Map<String, dynamic> json) {
+  ReelsModel.fromJson(Map<String, dynamic> json) {
     id = json['_id'];
     fileUrl = json['fileUrl'];
     displayLikeAfter = json['displayLikeAfter'];

@@ -4,14 +4,14 @@ import 'package:turning_point/service/api/api_endpoints.dart';
 import 'package:turning_point/service/api/api_service.dart';
 
 class PointsHistoryRespository {
-  static Future<PointsHistoryModel> getPointsHistory() async {
+  static Future<PointsHistoryModelResponse> getPointsHistory() async {
     final userId = UserRepository.getUserFromPreference()!.data!.id;
     final response = await ApiService().sendRequest(
-      url: '${ApiEndpoints.pointsHistory}?userId=$userId',
+      url: '${ApiEndpoints.pointsHistory}?userId=$userId&limit=20',
       requestMethod: 'GET',
       data: null,
       isTokenRequired: true,
     );
-    return PointsHistoryModel.fromJson(response);
+    return PointsHistoryModelResponse.fromJson(response);
   }
 }

@@ -8,7 +8,7 @@ import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/view/home/reels_player.dart';
 
 class ReelsPageViewer extends StatefulWidget {
-  final UserModel user;
+  final UserModelResponse user;
   const ReelsPageViewer({
     required this.user,
     super.key,
@@ -59,8 +59,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
     context
         .read<PreloadBloc>()
         .add(PreloadEvent(currentIndex: 0, isInitial: true));
-    context.read<ReelsBloc>().add(ReelLoadEvent(reelIndex: 0));
-
+    context.read<ReelsBloc>().add(const ReelLoadEvent(reelIndex: 0));
     return BlocBuilder<PreloadBloc, PreloadState>(
       builder: (context, state) {
         final user = widget.user;

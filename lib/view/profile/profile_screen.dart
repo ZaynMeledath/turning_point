@@ -71,7 +71,6 @@ class ProfileScreen extends StatelessWidget {
 //====================Body Segment====================//
             editProfileDashboardSegment(
               context: context,
-              screenSize: screenSize,
             ),
             SizedBox(height: screenSize.height * .022),
             Container(
@@ -85,30 +84,8 @@ class ProfileScreen extends StatelessWidget {
             ),
             profileOptionsSegment(
               context: context,
-              screenSize: screenSize,
             ),
-            // Expanded(
-            //   child: Align(
-            //     alignment: Alignment.bottomCenter,
-            //     child: Container(
-            //       width: screenSize.width * .205,
-            //       height: screenSize.height * .043,
-            //       decoration: BoxDecoration(
-            //         border: Border.all(color: Colors.black),
-            //         borderRadius: BorderRadius.circular(8),
-            //       ),
-            //       child: Center(
-            //         child: Text(
-            //           'Log Out',
-            //           style: GoogleFonts.roboto(
-            //             fontSize: screenSize.width * .036,
-            //             fontWeight: FontWeight.w500,
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
+
             SizedBox(height: screenSize.height * .047),
           ],
         ),

@@ -15,7 +15,7 @@ class FirebaseAuthProvider implements AuthProvider {
   }
 
   @override
-  UserModel? get currentUser {
+  UserModelResponse? get currentUser {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       return null;
@@ -25,7 +25,7 @@ class FirebaseAuthProvider implements AuthProvider {
   }
 
   @override
-  Future<UserModel> signIn() async {
+  Future<UserModelResponse> signIn() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 

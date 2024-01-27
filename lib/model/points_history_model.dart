@@ -1,19 +1,19 @@
-class PointsHistoryModel {
+class PointsHistoryModelResponse {
   String? message;
-  List<Data>? data;
+  List<PointsHistoryModel>? data;
   int? limit;
   int? page;
   bool? success;
 
-  PointsHistoryModel(
+  PointsHistoryModelResponse(
       {this.message, this.data, this.limit, this.page, this.success});
 
-  PointsHistoryModel.fromJson(Map<String, dynamic> json) {
+  PointsHistoryModelResponse.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <PointsHistoryModel>[];
       json['data'].forEach((v) {
-        data!.add(Data.fromJson(v));
+        data!.add(PointsHistoryModel.fromJson(v));
       });
     }
     limit = json['limit'];
@@ -34,7 +34,7 @@ class PointsHistoryModel {
   }
 }
 
-class Data {
+class PointsHistoryModel {
   String? sId;
   String? transactionId;
   String? userId;
@@ -47,7 +47,7 @@ class Data {
   String? origionalId;
   User? user;
 
-  Data(
+  PointsHistoryModel(
       {this.sId,
       this.transactionId,
       this.userId,
@@ -60,7 +60,7 @@ class Data {
       this.origionalId,
       this.user});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  PointsHistoryModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     transactionId = json['transactionId'];
     userId = json['userId'];

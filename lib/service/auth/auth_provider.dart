@@ -2,9 +2,9 @@ import 'package:turning_point/model/user_model.dart';
 
 abstract class AuthProvider {
   Future<void> initialize();
-  UserModel? get currentUser;
+  UserModelResponse? get currentUser;
 
-  Future<UserModel> signIn();
+  Future<UserModelResponse> signIn();
 
   Future<void> signOut();
 

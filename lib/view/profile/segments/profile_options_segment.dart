@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
+import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/about/about_us_screen.dart';
 import 'package:turning_point/view/contest/contest_screen.dart';
 import 'package:turning_point/view/kyc/kyc_screen.dart';
@@ -12,7 +13,6 @@ import 'package:turning_point/view/terms_and_conditions/terms_and_conditions_scr
 //====================Individual options in profile screen====================//
 Widget profileOptionsSegment({
   required BuildContext context,
-  required Size screenSize,
 }) {
   return Column(
     children: [

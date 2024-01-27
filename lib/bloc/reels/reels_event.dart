@@ -1,14 +1,15 @@
 part of 'reels_bloc.dart';
 
+@immutable
 sealed class ReelsEvent {
   final int reelIndex;
-  ReelsEvent({required this.reelIndex});
+  const ReelsEvent({required this.reelIndex});
 }
 
 class ReelLoadEvent extends ReelsEvent {
-  ReelLoadEvent({required super.reelIndex});
+  const ReelLoadEvent({required super.reelIndex});
 }
 
 class ReelLikeEvent extends ReelsEvent {
-  ReelLikeEvent({required super.reelIndex});
+  const ReelLikeEvent({required super.reelIndex});
 }

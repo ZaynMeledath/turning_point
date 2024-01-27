@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/resources/user_repository.dart';
@@ -14,7 +15,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthInitializeEvent>((event, emit) async {
       // await provider.initialize();
       // final user = provider.currentUser;
-      UserModel? user = UserRepository.getUserFromPreference();
+      UserModelResponse? user = UserRepository.getUserFromPreference();
       if (user == null) {
         emit(SignedOutState());
       }

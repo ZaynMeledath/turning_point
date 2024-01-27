@@ -1,5 +1,6 @@
 part of 'redeem_bloc.dart';
 
+@immutable
 sealed class RedeemEvent {}
 
 class BuyCouponsPressedEvent extends RedeemEvent {}

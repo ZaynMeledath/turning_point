@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/resources/reel_repository.dart';
