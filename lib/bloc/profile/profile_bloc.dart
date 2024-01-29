@@ -28,11 +28,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<ProfileUpdateEvent>((event, emit) async {
       UserModelResponse? userModelResponse =
           UserRepository.getUserFromPreference();
-      final isContractor = userModelResponse!.data!.role == 'CONTRACTOR';
       emit(ProfileLoadedState(
-          isLoading: true,
-          userModel: userModelResponse.data!,
-          isContractor: isContractor));
+        isLoading: true,
+        userModel: userModelResponse!.data!,
+        isContractor: event.isContractor,
+      ));
       userModelResponse = await UserRepository.updateUserProfile(
         name: event.name,
         phone: event.phone,
@@ -43,7 +43,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(ProfileLoadedState(
         isLoading: false,
         userModel: userModelResponse!.data!,
-        isContractor: isContractor,
+        isContractor: event.isContractor,
       ));
     });
 

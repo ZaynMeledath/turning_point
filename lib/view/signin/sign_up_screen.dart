@@ -130,7 +130,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         //====================Radio Button====================//
                         signUpRadioButtonSegment(
                             title: 'My contractor is not listed',
-                            isActive: true),
+                            isActive: false),
                         SizedBox(height: screenSize.height * .02),
                         signUpRadioButtonSegment(
                             title: "I don't have a contractor",

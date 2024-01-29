@@ -89,6 +89,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 return const Center(
                   child: CircularProgressIndicator.adaptive(),
                 );
+
+              case ProfileLoadErrorState():
+                return Center(
+                  child: Text(
+                    'Something Went Wrong',
+                    style: GoogleFonts.poppins(
+                      fontSize: screenSize.width * .05,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                );
+
               case ProfileLoadedState():
                 _addressController.text = state.userModel.shopName ?? '';
                 _businessController.text = state.userModel.shopName ?? '';
@@ -232,17 +244,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ),
                         SizedBox(height: screenSize.height * .023),
                       ],
-                    ),
-                  ),
-                );
-
-              case ProfileLoadErrorState():
-                return Center(
-                  child: Text(
-                    'Something Went Wrong',
-                    style: GoogleFonts.poppins(
-                      fontSize: screenSize.width * .05,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 );
