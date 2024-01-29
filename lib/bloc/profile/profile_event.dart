@@ -22,3 +22,9 @@ class ProfileUpdateEvent extends ProfileEvent {
     required this.email,
   });
 }
+
+class ProfileRadioTriggerEvent extends ProfileEvent {
+  final bool isContractor;
+
+  ProfileRadioTriggerEvent({required this.isContractor});
+}

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
+import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
@@ -23,8 +24,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   late final TextEditingController _addressController;
   late final TextEditingController _businessController;
   late final TextEditingController _emailController;
-  late bool isContractor;
-  int activeRadioNumber = 1;
+
+  CloseDialog? _closeDialogHandle;
 
   // late final FocusNode _nameNode;
   // late final FocusNode _mobileNode;
@@ -39,7 +40,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _addressController = TextEditingController();
     _businessController = TextEditingController();
     _emailController = TextEditingController();
-    isContractor = activeRadioNumber == 1 ? true : false;
 
     // _nameNode = FocusNode();
     // _mobileNode = FocusNode();
@@ -56,6 +56,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _addressController.dispose();
     _businessController.dispose();
     _emailController.dispose();
+    // loadingOverlay.dispose();
 
     // _nameNode.dispose();
     // _mobileNode.dispose();
@@ -71,20 +72,30 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Scaffold(
       body: SafeArea(
         child: BlocConsumer<ProfileBloc, ProfileState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if (state is ProfileLoadedState) {
+              final closeDialog = _closeDialogHandle;
+              if (state.isLoading && closeDialog == null) {
+                _closeDialogHandle = showLoadingDialog(context: context);
+              } else if (!state.isLoading && closeDialog != null) {
+                closeDialog();
+                _closeDialogHandle = null;
+              }
+            }
+          },
           builder: (context, state) {
             switch (state) {
               case ProfileLoadingState():
                 return const Center(
                   child: CircularProgressIndicator.adaptive(),
                 );
-
               case ProfileLoadedState():
                 _addressController.text = state.userModel.shopName ?? '';
                 _businessController.text = state.userModel.shopName ?? '';
                 _nameController.text = state.userModel.name!;
                 _phoneController.text = state.userModel.phone!;
                 _emailController.text = state.userModel.email!;
+
                 return SingleChildScrollView(
                   child: Center(
                     child: Column(
@@ -106,21 +117,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                setState(() {
-                                  isContractor = false;
-                                  activeRadioNumber = 1;
-                                });
+                                context.read<ProfileBloc>().add(
+                                    ProfileRadioTriggerEvent(
+                                        isContractor: true));
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   customRadioButton(
-                                    isActive:
-                                        activeRadioNumber == 1 ? true : false,
+                                    isActive: state.isContractor ? true : false,
                                   ),
                                   SizedBox(width: screenSize.width * .01),
                                   Text(
-                                    'Carpenter',
+                                    'Contractor',
                                     style: GoogleFonts.roboto(
                                       fontSize: screenSize.width * .046,
                                       fontWeight: FontWeight.w400,
@@ -132,21 +141,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             SizedBox(width: screenSize.width * .08),
                             GestureDetector(
                               onTap: () {
-                                setState(() {
-                                  isContractor = true;
-                                  activeRadioNumber = 2;
-                                });
+                                context.read<ProfileBloc>().add(
+                                    ProfileRadioTriggerEvent(
+                                        isContractor: false));
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   customRadioButton(
-                                    isActive:
-                                        activeRadioNumber == 2 ? true : false,
+                                    isActive: state.isContractor ? false : true,
                                   ),
                                   SizedBox(width: screenSize.width * .01),
                                   Text(
-                                    'Contractor',
+                                    'Carpenter',
                                     style: GoogleFonts.roboto(
                                       fontSize: screenSize.width * .046,
                                       fontWeight: FontWeight.w400,
@@ -180,7 +187,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         textFieldSegment(
                           screenSize: screenSize,
                           controller: _businessController,
-                          title: isContractor
+                          title: state.isContractor
                               ? 'Business Name'
                               : 'Contractor Name',
                         ),
@@ -195,7 +202,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           onTap: () {
                             context.read<ProfileBloc>().add(
                                   ProfileUpdateEvent(
-                                    isContractor: isContractor,
+                                    isContractor: state.isContractor,
                                     name: _nameController.text,
                                     phone: _phoneController.text,
                                     address: _addressController.text,

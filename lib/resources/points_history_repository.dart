@@ -7,7 +7,7 @@ class PointsHistoryRespository {
   static Future<PointsHistoryModelResponse> getPointsHistory() async {
     final userId = UserRepository.getUserFromPreference()!.data!.id;
     final response = await ApiService().sendRequest(
-      url: '${ApiEndpoints.pointsHistory}?userId=$userId&limit=20',
+      url: '${ApiEndpoints.pointsHistory}?userId=$userId',
       requestMethod: 'GET',
       data: null,
       isTokenRequired: true,

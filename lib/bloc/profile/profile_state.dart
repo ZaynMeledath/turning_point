@@ -6,11 +6,15 @@ sealed class ProfileState {}
 class ProfileLoadingState extends ProfileState {}
 
 class ProfileLoadedState extends ProfileState {
+  final bool isLoading;
   final UserModel userModel;
+  final bool isContractor;
 
-  ProfileLoadedState({required this.userModel});
+  ProfileLoadedState({
+    required this.isLoading,
+    required this.userModel,
+    required this.isContractor,
+  });
 }
-
-// class ProfileUpdateLoadingState extends ProfileState {}
 
 class ProfileLoadErrorState extends ProfileState {}

@@ -10,7 +10,8 @@ Widget availablePointsSegment({
   required BuildContext context,
 }) {
   final user = UserRepository.getUserFromPreference()!;
-  final points = user.data!.points;
+  final points = user.data!.points ?? 0;
+  final rewardPoints = points % 100;
   return Column(
     children: [
 //====================Available Points Segment====================//
@@ -107,7 +108,7 @@ Widget availablePointsSegment({
                   children: [
                     const SizedBox(width: 10),
                     Text(
-                      'You have 80 Points!',
+                      'You have $rewardPoints Points!',
                       style: GoogleFonts.roboto(
                         fontSize: screenSize.width * .035,
                         fontWeight: FontWeight.w400,
@@ -121,12 +122,12 @@ Widget availablePointsSegment({
                 LinearPercentIndicator(
                   backgroundColor: const Color.fromRGBO(254, 241, 218, 1),
                   progressColor: const Color.fromRGBO(252, 190, 74, 1),
-                  percent: .8,
+                  percent: rewardPoints / 100,
                   width: screenSize.width * .49,
                   lineHeight: 10,
                   barRadius: const Radius.circular(8.5),
                   trailing: Text(
-                    '80/100',
+                    '$rewardPoints/100',
                     style: GoogleFonts.roboto(
                       fontSize: screenSize.width * .031,
                       fontWeight: FontWeight.w400,
