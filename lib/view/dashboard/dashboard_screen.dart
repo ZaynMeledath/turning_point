@@ -36,6 +36,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    context.read<ProfileBloc>().add(ProfileLoadEvent());
     return Scaffold(
       body: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
@@ -127,7 +128,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       ],
                     ),
                   ),
-                  dashboardAvailableBalanceContainer(context: context),
+                  dashboardAvailableBalanceContainer(
+                    context: context,
+                    userModel: state.userModel,
+                  ),
                   Positioned(
                     top: screenSize.height * .475,
                     left: screenSize.width * .081,
@@ -153,8 +157,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           title: 'Contests Won',
                           imagePath:
                               'assets/images/dashboard_contest_image.png',
-                          won: '16',
-                          participated: '20',
+                          userModel: state.userModel,
                           imageHeight: screenSize.height * .054,
                           imageContainerGradient: [
                             const Color.fromRGBO(255, 227, 205, 1),
@@ -165,8 +168,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             title: 'Challenges Won',
                             imagePath:
                                 'assets/images/dashboard_challenges_image.png',
-                            won: '16',
-                            participated: '20',
+                            userModel: state.userModel,
                             imageHeight: screenSize.height * .058,
                             imageContainerGradient: [
                               const Color.fromRGBO(187, 221, 255, 1),

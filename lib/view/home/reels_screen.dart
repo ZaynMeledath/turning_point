@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +8,7 @@ import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/model/user_model.dart';
+import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/resources/reel_repository.dart';
 import 'package:turning_point/view/home/reels_page_viewer.dart';
@@ -24,6 +27,7 @@ class _ReelsScreenState extends State<ReelsScreen> {
 
   @override
   void initState() {
+    log(AppPreferences.getValueShared('auth_token'));
     getData();
     Future.delayed(const Duration(milliseconds: 200), () {
       setState(() {
@@ -36,6 +40,7 @@ class _ReelsScreenState extends State<ReelsScreen> {
   @override
   void dispose() {
     PreloadBloc().disposeAllControllers();
+
     super.dispose();
   }
 

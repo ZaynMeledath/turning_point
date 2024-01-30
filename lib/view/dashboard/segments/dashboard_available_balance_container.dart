@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/view/redeem/redeem_screen.dart';
 
-Widget dashboardAvailableBalanceContainer({required BuildContext context}) {
+Widget dashboardAvailableBalanceContainer({
+  required BuildContext context,
+  required UserModel userModel,
+}) {
   return Container(
     width: double.infinity,
     height: screenSize.height * .15,
@@ -43,7 +47,7 @@ Widget dashboardAvailableBalanceContainer({required BuildContext context}) {
               ),
             ),
             Text(
-              'Win Rate 80%',
+              'Win Rate ${(userModel.contestUniqueWonCount! / userModel.contestsParticipatedInCount! * 100).toInt()}%',
               style: GoogleFonts.roboto(
                 fontSize: screenSize.width * .03,
                 fontWeight: FontWeight.w400,
@@ -52,7 +56,7 @@ Widget dashboardAvailableBalanceContainer({required BuildContext context}) {
           ],
         ),
         Text(
-          '10000',
+          userModel.points!.toString(),
           style: GoogleFonts.roboto(
             fontSize: screenSize.width * .09,
             fontWeight: FontWeight.w600,
@@ -96,7 +100,7 @@ Widget dashboardAvailableBalanceContainer({required BuildContext context}) {
               ),
             ),
             Text(
-              'Total Contests Participated : 20',
+              'Total Contests Participated : ${userModel.contestsParticipatedInCount}',
               style: GoogleFonts.roboto(
                 fontSize: screenSize.width * .03,
                 fontWeight: FontWeight.w600,

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/model/user_model.dart';
 
 Widget dashboardActivityContainer({
   required String title,
-  required String won,
-  required String participated,
+  required UserModel userModel,
   required String imagePath,
   required double imageHeight,
   required List<Color> imageContainerGradient,
@@ -65,7 +65,7 @@ Widget dashboardActivityContainer({
           bottom: screenSize.height * .005,
           left: screenSize.height * .014,
           child: Text(
-            won,
+            userModel.contestUniqueWonCount.toString(),
             style: GoogleFonts.roboto(
               fontSize: screenSize.width * .051,
               fontWeight: FontWeight.w700,
@@ -76,7 +76,7 @@ Widget dashboardActivityContainer({
           bottom: screenSize.height * .011,
           right: screenSize.height * .014,
           child: Text(
-            'Participated: $participated',
+            'Participated: ${userModel.contestsParticipatedInCount}',
             style: GoogleFonts.roboto(
               fontSize: screenSize.width * .02,
               fontWeight: FontWeight.w600,
