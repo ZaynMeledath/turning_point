@@ -31,8 +31,9 @@ dependencies:
   http: ^1.1.2
   image_picker: ^1.0.7
   jwt_decoder: ^2.0.1
-  mobile_scanner: ^3.5.5
+  mobile_scanner: ^4.0.0
   page_transition: ^2.1.0
+  permission_handler: ^11.2.0
   percent_indicator: ^4.2.3
   shared_preferences: ^2.2.2
   shimmer: ^3.0.0

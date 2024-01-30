@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:turning_point/helper/screen_size.dart';
+part of '../scanner_screen.dart';
 
 class ScannerOverlay extends StatelessWidget {
   const ScannerOverlay({super.key, required this.overlayColour});
