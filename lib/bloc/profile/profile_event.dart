@@ -28,3 +28,5 @@ class ProfileRadioTriggerEvent extends ProfileEvent {
 
   ProfileRadioTriggerEvent({required this.isContractor});
 }
+
+class ProfilePictureUpdateEvent extends ProfileEvent {}

@@ -6,7 +6,9 @@ CloseDialog showLoadingDialog({
   required BuildContext context,
 }) {
   const dialog = Center(
-    child: CircularProgressIndicator.adaptive(),
+    child: CircularProgressIndicator.adaptive(
+      strokeWidth: 5,
+    ),
   );
 
   showDialog(

@@ -10,6 +10,9 @@ import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
 import 'package:turning_point/view/edit_profile/segments/edit_profile_picture_segment.dart';
 import 'package:turning_point/view/edit_profile/segments/text_field_segment.dart';
+import 'package:photo_view/photo_view.dart';
+
+part 'profile_picture_view.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -119,9 +122,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         //====================Body Segment====================//
                         editProfilePictureSegment(
                           context: context,
-                          imagePath: state.userModel.image!,
+                          userModel: state.userModel,
                         ),
-                        SizedBox(height: screenSize.height * .045),
+                        SizedBox(height: screenSize.height * .042),
 
                         //====================Radio Buttons====================//
                         Row(

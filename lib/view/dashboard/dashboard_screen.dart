@@ -43,7 +43,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           switch (state) {
             case ProfileLoadingState():
               return const Center(
-                child: CircularProgressIndicator.adaptive(),
+                child: CircularProgressIndicator.adaptive(
+                  strokeWidth: 5,
+                  backgroundColor: Colors.white,
+                  valueColor: AlwaysStoppedAnimation(Colors.amber),
+                ),
               );
 
             case ProfileLoadErrorState():

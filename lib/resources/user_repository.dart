@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:turning_point/exceptions/user_exceptions.dart';
 import 'package:turning_point/model/user_model.dart';
@@ -16,7 +17,7 @@ class UserRepository {
   }
 
 //====================Get User by ID====================//
-  static Future<UserModelResponse>? getUserById() async {
+  static Future<UserModelResponse?> getUserById() async {
     try {
       final id = decodeJwt()['userId'];
       final response = await ApiService().sendRequest(
@@ -58,6 +59,40 @@ class UserRepository {
       return userModelResponse;
     } catch (e) {
       throw CouldNotUpdateUserException();
+    }
+  }
+
+//====================Update User Profile Image====================//
+  static Future updateProfileImage(String imageString) async {
+    try {
+      await ApiService().sendRequest(
+        url: ApiEndpoints.updateProfileImage,
+        requestMethod: 'PATCH',
+        data: {
+          "image": imageString,
+        },
+        isTokenRequired: true,
+      );
+    } catch (_) {
+      throw CouldNotUpdateUserProfileImageException();
+    }
+  }
+
+//====================Get User Profile Image from Storage====================//
+  static Future<String?> fetchImageFromStorage() async {
+    final ImagePicker picker = ImagePicker();
+    try {
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        final base64Image = base64Encode(await image.readAsBytes());
+        final result =
+            'furnipart/${image.path.split('/').last};base64,$base64Image';
+        return result;
+      } else {
+        return null;
+      }
+    } catch (_) {
+      throw CouldNotFetchImageFromStorageException();
     }
   }
 
