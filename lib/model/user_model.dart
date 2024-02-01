@@ -30,6 +30,7 @@ class UserModel {
   String? phone;
   String? name;
   String? shopName;
+  String? pincode;
   int? points;
   bool? isActive;
   String? role;
@@ -37,7 +38,6 @@ class UserModel {
   List? shopImageArr;
   String? createdAt;
   String? updatedAt;
-  int? iV;
   String? image;
   String? idBackImage;
   String? idFrontImage;
@@ -53,13 +53,13 @@ class UserModel {
       this.name,
       this.shopName,
       this.points,
+      this.pincode,
       this.isActive,
       this.role,
       this.bankDetails,
       this.shopImageArr,
       this.createdAt,
       this.updatedAt,
-      this.iV,
       this.image,
       this.idBackImage,
       this.idFrontImage,
@@ -74,6 +74,7 @@ class UserModel {
     phone = json['phone'];
     name = json['name'];
     shopName = json['shopName'];
+    pincode = json['pincode'];
     points = json['points'];
     isActive = json['isActive'];
     role = json['role'];
@@ -86,7 +87,6 @@ class UserModel {
 
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
-    iV = json['__v'];
     image = '${ApiEndpoints.uploads}/${json['image']}';
     idBackImage = json['idBackImage'];
     idFrontImage = json['idFrontImage'];
@@ -103,6 +103,7 @@ class UserModel {
     data['phone'] = phone;
     data['name'] = name;
     data['shopName'] = shopName;
+    data['pincode'] = pincode;
     data['points'] = points;
     data['isActive'] = isActive;
     data['role'] = role;
@@ -112,7 +113,6 @@ class UserModel {
 
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
-    data['__v'] = iV;
     data['image'] = image;
     data['idBackImage'] = idBackImage;
     data['idFrontImage'] = idFrontImage;

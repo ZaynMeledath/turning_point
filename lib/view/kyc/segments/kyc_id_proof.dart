@@ -76,7 +76,7 @@ Widget kycIdProof({required Size screenSize}) {
             ],
           ),
         ),
-        SizedBox(height: screenSize.height * .042),
+        SizedBox(height: screenSize.height * .045),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Row(

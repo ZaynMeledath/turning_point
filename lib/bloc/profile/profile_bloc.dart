@@ -30,16 +30,21 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       try {
         UserModelResponse? userModelResponse =
             UserRepository.getUserFromPreference();
+
         emit(ProfileLoadedState(
           isLoading: true,
           userModel: userModelResponse!.data!,
           isContractor: event.isContractor,
         ));
+
+        userModelResponse.data!.name = event.name;
+        userModelResponse.data!.phone = event.phone;
+        userModelResponse.data!.shopName = event.businessName;
+        userModelResponse.data!.email = event.email;
+
         userModelResponse = await UserRepository.updateUserProfile(
-          name: event.name,
-          phone: event.phone,
-          businessName: event.businessName,
-          email: event.email,
+          userModel: userModelResponse.data!,
+          isKyc: false,
         );
 
         emit(ProfileLoadedState(

@@ -38,21 +38,29 @@ class UserRepository {
 
 //====================Update User Profile====================//
   static Future<UserModelResponse?> updateUserProfile({
-    required String name,
-    required String phone,
-    required String businessName,
-    required String email,
+    required UserModel userModel,
+    required bool isKyc,
   }) async {
     try {
       await ApiService().sendRequest(
         url: ApiEndpoints.updateUserProfile,
         requestMethod: 'PATCH',
-        data: {
-          "name": name,
-          "phone": phone,
-          "shopName": businessName,
-          "email": email,
-        },
+        data: isKyc
+            ? {
+                "pincode": userModel.pincode,
+                "bankDetails": {
+                  "type": userModel.bankDetails![0].banktype,
+                  "accountName": userModel.bankDetails![0].accountName,
+                  "accountNo": userModel.bankDetails![0].accountNo,
+                  "ifsc": userModel.bankDetails![0].ifsc,
+                },
+              }
+            : {
+                "name": userModel.name,
+                "phone": userModel.phone,
+                "shopName": userModel.shopName,
+                "email": userModel.email,
+              },
         isTokenRequired: true,
       );
       final userModelResponse = await getUserById();

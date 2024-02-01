@@ -40,13 +40,13 @@ Widget kycTextFieldSegment({
                               ? TextInputType.emailAddress
                               : TextInputType.text,
                       style: GoogleFonts.inter(
-                        fontSize: screenSize.width * .031,
+                        fontSize: screenSize.height * .017,
                         fontWeight: FontWeight.w400,
                       ),
                       decoration: InputDecoration(
                         hintText: title,
                         hintStyle: GoogleFonts.inter(
-                          fontSize: screenSize.width * .031,
+                          fontSize: screenSize.height * .017,
                           fontWeight: FontWeight.w400,
                         ),
                         border: InputBorder.none,

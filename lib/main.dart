@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:turning_point/bloc/kyc/kyc_bloc.dart';
 import 'package:turning_point/bloc/points_history/points_history_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/bloc/reels/reels_bloc.dart';
@@ -22,6 +23,8 @@ final GlobalKey<NavigatorState> globalNavigatorKey =
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppPreferences.init();
+  // await Firebase.initializeApp();
+  // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -62,6 +65,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => ScannerBloc(),
+        ),
+        BlocProvider(
+          create: (_) => KycBloc(),
         ),
       ],
       child: BlocBuilder<AuthBloc, AuthState>(
