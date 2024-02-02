@@ -10,7 +10,7 @@ class ProfilePictureView extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         foregroundColor: Colors.white,
-        backgroundColor: Colors.black.withOpacity(.3),
+        backgroundColor: Colors.black.withOpacity(.5),
         title: Text(
           'Profile Image',
           style: GoogleFonts.inter(

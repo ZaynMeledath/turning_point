@@ -3,7 +3,18 @@ part of 'kyc_bloc.dart';
 @immutable
 sealed class KycEvent {}
 
-class KycLoadEvent extends KycEvent {}
+class KycLoadEvent extends KycEvent {
+  final int tabIndex;
+  final String? name;
+  final String? email;
+  final String? pincode;
+  KycLoadEvent({
+    required this.tabIndex,
+    this.name,
+    this.email,
+    this.pincode,
+  });
+}
 
 class KycUpdateEvent extends KycEvent {
   final String name;
@@ -25,4 +36,10 @@ class KycUpdateEvent extends KycEvent {
     required this.accNum,
     required this.ifsc,
   });
+}
+
+class KycAccountTypeTriggerEvent extends KycEvent {
+  final bool isSavings;
+
+  KycAccountTypeTriggerEvent({required this.isSavings});
 }

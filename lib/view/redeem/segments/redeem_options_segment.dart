@@ -28,16 +28,28 @@ Widget redeemOptionsSegment({
                       vertical: screenSize.width * .019,
                     ),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: state.selectedOptionNumber == 1
-                          ? const Color.fromRGBO(0, 99, 255, 1)
-                          : Colors.white,
-                      border: state.selectedOptionNumber != 1
-                          ? Border.all(
-                              color: const Color.fromRGBO(218, 218, 218, 1),
-                            )
-                          : null,
-                    ),
+                        borderRadius: BorderRadius.circular(16),
+                        color: state.selectedOptionNumber == 1
+                            ? const Color.fromRGBO(0, 99, 255, 1)
+                            : Colors.white,
+                        boxShadow: state.selectedOptionNumber != 1
+                            ? [
+                                const BoxShadow(
+                                  offset: Offset(1.5, 2.5),
+                                  color: Color.fromRGBO(218, 218, 218, .8),
+                                ),
+                                const BoxShadow(
+                                  offset: Offset(-1.5, -1.5),
+                                  color: Color.fromRGBO(218, 218, 218, .8),
+                                ),
+                              ]
+                            : null
+                        // border: state.selectedOptionNumber != 1
+                        //     ? Border.all(
+                        //         color: const Color.fromRGBO(218, 218, 218, 1),
+                        //       )
+                        //     : null,
+                        ),
                     child: Text(
                       'Buy Coupons',
                       style: GoogleFonts.roboto(
@@ -64,16 +76,28 @@ Widget redeemOptionsSegment({
                       vertical: screenSize.width * .019,
                     ),
                     decoration: BoxDecoration(
-                      color: state.selectedOptionNumber == 2
-                          ? const Color.fromRGBO(0, 99, 255, 1)
-                          : Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      border: state.selectedOptionNumber != 2
-                          ? Border.all(
-                              color: const Color.fromRGBO(218, 218, 218, 1),
-                            )
-                          : null,
-                    ),
+                        color: state.selectedOptionNumber == 2
+                            ? const Color.fromRGBO(0, 99, 255, 1)
+                            : Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: state.selectedOptionNumber != 2
+                            ? [
+                                const BoxShadow(
+                                  offset: Offset(1.5, 2.5),
+                                  color: Color.fromRGBO(218, 218, 218, .8),
+                                ),
+                                const BoxShadow(
+                                  offset: Offset(-1.5, -1.5),
+                                  color: Color.fromRGBO(218, 218, 218, .8),
+                                ),
+                              ]
+                            : null
+                        // border: state.selectedOptionNumber != 2
+                        //     ? Border.all(
+                        //         color: const Color.fromRGBO(218, 218, 218, 1),
+                        //       )
+                        //     : null,
+                        ),
                     child: Text(
                       'Direct Bank Transfer',
                       style: GoogleFonts.roboto(
@@ -106,16 +130,28 @@ Widget redeemOptionsSegment({
                       vertical: screenSize.width * .019,
                     ),
                     decoration: BoxDecoration(
-                      color: state.selectedOptionNumber == 3
-                          ? const Color.fromRGBO(0, 99, 255, 1)
-                          : Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      border: state.selectedOptionNumber != 3
-                          ? Border.all(
-                              color: const Color.fromRGBO(218, 218, 218, 1),
-                            )
-                          : null,
-                    ),
+                        color: state.selectedOptionNumber == 3
+                            ? const Color.fromRGBO(0, 99, 255, 1)
+                            : Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: state.selectedOptionNumber != 3
+                            ? [
+                                const BoxShadow(
+                                  offset: Offset(1.5, 2.5),
+                                  color: Color.fromRGBO(218, 218, 218, .8),
+                                ),
+                                const BoxShadow(
+                                  offset: Offset(-1.5, -1.5),
+                                  color: Color.fromRGBO(218, 218, 218, .8),
+                                ),
+                              ]
+                            : null
+                        // border: state.selectedOptionNumber != 3
+                        //     ? Border.all(
+                        //         color: const Color.fromRGBO(218, 218, 218, 1),
+                        //       )
+                        //     : null,
+                        ),
                     child: Text(
                       'In-App Purchase',
                       style: GoogleFonts.roboto(
@@ -141,16 +177,28 @@ Widget redeemOptionsSegment({
                       vertical: screenSize.width * .019,
                     ),
                     decoration: BoxDecoration(
-                      color: state.selectedOptionNumber == 4
-                          ? const Color.fromRGBO(0, 99, 255, 1)
-                          : Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      border: state.selectedOptionNumber != 4
-                          ? Border.all(
-                              color: const Color.fromRGBO(218, 218, 218, 1),
-                            )
-                          : null,
-                    ),
+                        color: state.selectedOptionNumber == 4
+                            ? const Color.fromRGBO(0, 99, 255, 1)
+                            : Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: state.selectedOptionNumber != 4
+                            ? [
+                                const BoxShadow(
+                                  offset: Offset(1.5, 2.5),
+                                  color: Color.fromRGBO(218, 218, 218, .8),
+                                ),
+                                const BoxShadow(
+                                  offset: Offset(-1.5, -1.5),
+                                  color: Color.fromRGBO(218, 218, 218, .8),
+                                ),
+                              ]
+                            : null
+                        // border: state.selectedOptionNumber != 4
+                        //     ? Border.all(
+                        //         color: const Color.fromRGBO(218, 218, 218, 1),
+                        //       )
+                        //     : null,
+                        ),
                     child: Text(
                       'UPI Transfer',
                       style: GoogleFonts.roboto(

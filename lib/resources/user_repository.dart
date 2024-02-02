@@ -45,22 +45,19 @@ class UserRepository {
       await ApiService().sendRequest(
         url: ApiEndpoints.updateUserProfile,
         requestMethod: 'PATCH',
-        data: isKyc
-            ? {
-                "pincode": userModel.pincode,
-                "bankDetails": {
-                  "type": userModel.bankDetails![0].banktype,
-                  "accountName": userModel.bankDetails![0].accountName,
-                  "accountNo": userModel.bankDetails![0].accountNo,
-                  "ifsc": userModel.bankDetails![0].ifsc,
-                },
-              }
-            : {
-                "name": userModel.name,
-                "phone": userModel.phone,
-                "shopName": userModel.shopName,
-                "email": userModel.email,
-              },
+        data: {
+          "name": userModel.name,
+          "phone": userModel.phone,
+          "shopName": userModel.shopName,
+          "email": userModel.email,
+          "pincode": userModel.pincode,
+          "bankDetails": {
+            "type": userModel.bankDetails![0].banktype,
+            "accountName": userModel.bankDetails![0].accountName,
+            "accountNo": userModel.bankDetails![0].accountNo,
+            "ifsc": userModel.bankDetails![0].ifsc,
+          },
+        },
         isTokenRequired: true,
       );
       final userModelResponse = await getUserById();

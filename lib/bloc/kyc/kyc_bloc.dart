@@ -7,17 +7,19 @@ part 'kyc_event.dart';
 part 'kyc_state.dart';
 
 class KycBloc extends Bloc<KycEvent, KycState> {
-  KycBloc() : super(KycLoadingState()) {
+  KycBloc() : super(const KycLoadingState()) {
 //====================KYC Load Event====================//
     on<KycLoadEvent>((event, emit) {
       final userModel = UserRepository.getUserFromPreference()!.data!;
       emit(
         KycLoadedState(
           isLoading: false,
-          name: userModel.name!,
+          tabIndex: event.tabIndex,
+          isSavings: userModel.bankDetails![0].banktype == 'savings',
+          name: event.name ?? state.name ?? userModel.name!,
           phone: userModel.phone!,
-          email: userModel.email!,
-          pincode: userModel.pincode ?? '',
+          email: event.email ?? state.email ?? userModel.email!,
+          pincode: event.pincode ?? state.pincode ?? userModel.pincode ?? '',
         ),
       );
     });
@@ -26,16 +28,17 @@ class KycBloc extends Bloc<KycEvent, KycState> {
     on<KycUpdateEvent>((event, emit) async {
       try {
         UserModelResponse? userModelResponse =
-            UserRepository.getUserFromPreference();
-        final userModel = userModelResponse!.data!;
+            UserRepository.getUserFromPreference()!;
 
         emit(
           KycLoadedState(
             isLoading: true,
-            name: userModel.name!,
-            phone: userModel.phone!,
-            email: userModel.email!,
-            pincode: userModel.pincode ?? '',
+            tabIndex: 2,
+            isSavings: event.isSavings,
+            name: event.name,
+            phone: event.phone,
+            email: event.email,
+            pincode: event.pincode,
           ),
         );
 
@@ -56,8 +59,23 @@ class KycBloc extends Bloc<KycEvent, KycState> {
           isKyc: true,
         );
 
-        emit(KycSubmittedState());
+        emit(const KycSubmittedState());
       } catch (_) {}
+    });
+
+//====================KYC Account Type Trigger Event====================//
+    on<KycAccountTypeTriggerEvent>((event, emit) {
+      emit(
+        KycLoadedState(
+          isLoading: false,
+          tabIndex: 2,
+          isSavings: event.isSavings,
+          name: state.name,
+          email: state.email,
+          phone: state.phone,
+          pincode: state.pincode,
+        ),
+      );
     });
   }
 }

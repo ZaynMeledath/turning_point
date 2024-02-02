@@ -62,7 +62,7 @@ class _KycScreenState extends State<KycScreen>
 
   @override
   Widget build(BuildContext context) {
-    context.read<KycBloc>().add(KycLoadEvent());
+    context.read<KycBloc>().add(KycLoadEvent(tabIndex: 0));
     return Scaffold(
       body: SafeArea(
         child: BlocConsumer<KycBloc, KycState>(
@@ -93,9 +93,9 @@ class _KycScreenState extends State<KycScreen>
 
 //====================Loaded State====================//
               case KycLoadedState():
-                nameController.text = state.name;
-                phoneController.text = state.phone;
-                emailController.text = state.email;
+                nameController.text = state.name!;
+                phoneController.text = state.phone!;
+                emailController.text = state.email!;
 
                 return SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
@@ -109,15 +109,14 @@ class _KycScreenState extends State<KycScreen>
                             context: context,
                             title: 'KYC',
                           ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: screenSize.width * .12),
-                            child: Image.asset('assets/images/kyc_doodle.png'),
+                          SizedBox(height: screenSize.height * .01),
+                          Image.asset(
+                            'assets/images/kyc_doodle.png',
+                            width: screenSize.width * .45,
                           ),
-                          SizedBox(height: screenSize.height * .03),
                         ],
                       ),
-                      SizedBox(height: screenSize.height * .015),
+                      SizedBox(height: screenSize.height * .02),
 
 //====================Body Container====================//
                       Container(
@@ -148,41 +147,36 @@ class _KycScreenState extends State<KycScreen>
                                     physics:
                                         const NeverScrollableScrollPhysics(),
                                     onTap: (index) {
-                                      setState(() {});
+                                      if (index > state.tabIndex) {
+                                        _tabController.index = state.tabIndex;
+                                      } else {
+                                        context
+                                            .read<KycBloc>()
+                                            .add(KycLoadEvent(tabIndex: index));
+                                      }
                                     },
                                     overlayColor:
                                         const MaterialStatePropertyAll(
                                             Colors.transparent),
                                     tabs: [
                                       kycPageTitle(
-                                        screenSize: screenSize,
-                                        title: 'Personal Details',
-                                        titleNumber: '1',
-                                        isDoneOrActive:
-                                            _tabController.index == 0 ||
-                                                    _tabController.index == 1 ||
-                                                    _tabController.index == 2
-                                                ? true
-                                                : false,
-                                      ),
+                                          screenSize: screenSize,
+                                          title: 'Personal Details',
+                                          titleNumber: '1',
+                                          isDoneOrActive: true),
                                       kycPageTitle(
                                         screenSize: screenSize,
                                         title: 'ID Proof',
                                         titleNumber: '2',
                                         isDoneOrActive:
-                                            _tabController.index == 1 ||
-                                                    _tabController.index == 2
-                                                ? true
-                                                : false,
+                                            state.tabIndex > 0 ? true : false,
                                       ),
                                       kycPageTitle(
                                         screenSize: screenSize,
                                         title: 'Bank Details',
                                         titleNumber: '3',
                                         isDoneOrActive:
-                                            _tabController.index == 2
-                                                ? true
-                                                : false,
+                                            state.tabIndex > 1 ? true : false,
                                       ),
                                     ],
                                   ),
@@ -245,11 +239,16 @@ class _KycScreenState extends State<KycScreen>
                         onTap: () {
                           if (_tabController.index < 2) {
                             _tabController.animateTo(
-                              _tabController.index + 1,
+                              state.tabIndex + 1,
                               curve: Curves.bounceInOut,
                               duration: const Duration(milliseconds: 200),
                             );
-                            setState(() {});
+                            context.read<KycBloc>().add(KycLoadEvent(
+                                  tabIndex: _tabController.index,
+                                  name: nameController.text,
+                                  email: emailController.text,
+                                  pincode: pinController.text,
+                                ));
                           } else {
                             context.read<KycBloc>().add(
                                   KycUpdateEvent(
@@ -257,7 +256,7 @@ class _KycScreenState extends State<KycScreen>
                                     phone: phoneController.text,
                                     email: emailController.text,
                                     pincode: pinController.text,
-                                    isSavings: false,
+                                    isSavings: state.isSavings,
                                     accName: accNameController.text,
                                     accNum: accNumController.text,
                                     ifsc: ifscController.text,
