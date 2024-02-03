@@ -17,15 +17,19 @@ Widget redeemPointsFieldSegment() {
 
 //====================Points Field Container (Can change points using the + & - buttons)====================//
           Container(
-            width: double.infinity,
+            width: screenSize.width * .75,
             height: screenSize.width * .11,
             decoration: BoxDecoration(
               color: const Color.fromRGBO(246, 246, 246, 1),
               borderRadius: BorderRadius.circular(8),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
-                  blurRadius: .8,
-                  color: Colors.black.withOpacity(.25),
+                  offset: Offset(2, 3),
+                  color: Color.fromRGBO(218, 218, 218, .8),
+                ),
+                BoxShadow(
+                  offset: Offset(-2, -1),
+                  color: Color.fromRGBO(218, 218, 218, .8),
                 ),
               ],
             ),

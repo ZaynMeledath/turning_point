@@ -26,12 +26,13 @@ Widget editProfilePictureSegment({
                 ),
               ),
               child: CircleAvatar(
-                radius: screenSize.height * .053,
-                backgroundColor: const Color(0xffe12826),
+                radius: screenSize.height * .055,
+                // backgroundColor: const Color(0xffe12826),
+                backgroundColor: const Color.fromRGBO(225, 225, 225, .7),
                 child: CircleAvatar(
-                  radius: (screenSize.height * .053) - 1,
+                  radius: (screenSize.height * .055) - 3,
                   child: CircleAvatar(
-                    radius: (screenSize.height * .053) - 2,
+                    radius: (screenSize.height * .055) - 4,
                     foregroundImage: NetworkImage(userModel.image!),
                   ),
                 ),

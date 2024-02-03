@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
+import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
@@ -51,6 +52,7 @@ class _ReelsScreenState extends State<ReelsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    context.read<ProfileBloc>().add(ProfileLoadEvent());
     return Scaffold(
       backgroundColor: Colors.black,
       body: FutureBuilder(
@@ -147,18 +149,40 @@ class _ReelsScreenState extends State<ReelsScreen> {
                 ),
 
                 //====================Avatar Icon====================//
-                Positioned(
-                  right: screenSize.width * .03,
-                  top: screenSize.height * .07,
-                  child: GestureDetector(
-                    onTap: () => CustomNavigator.push(
-                      context: context,
-                      child: const ProfileScreen(),
-                    ),
-                    child: CircleAvatar(
-                      foregroundImage: NetworkImage(user!.data!.image!),
-                    ),
-                  ),
+                BlocBuilder<ProfileBloc, ProfileState>(
+                  builder: (context, state) {
+                    switch (state) {
+                      case ProfileLoadedState():
+                        return Positioned(
+                          right: screenSize.width * .03,
+                          top: screenSize.height * .07,
+                          child: GestureDetector(
+                            onTap: () => CustomNavigator.push(
+                              context: context,
+                              child: const ProfileScreen(),
+                            ),
+                            child: CircleAvatar(
+                              backgroundColor:
+                                  const Color.fromRGBO(225, 225, 225, .6),
+                              radius: 22,
+                              child: CircleAvatar(
+                                foregroundImage:
+                                    NetworkImage(state.userModel.image!),
+                              ),
+                            ),
+                          ),
+                        );
+
+                      default:
+                        return const Center(
+                          child: CircularProgressIndicator.adaptive(
+                            strokeWidth: 5,
+                            backgroundColor: Colors.white,
+                            valueColor: AlwaysStoppedAnimation(Colors.amber),
+                          ),
+                        );
+                    }
+                  },
                 ),
               ],
             );

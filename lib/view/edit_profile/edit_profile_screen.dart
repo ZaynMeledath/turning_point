@@ -1,10 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
-import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
@@ -28,7 +28,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   late final TextEditingController _businessController;
   late final TextEditingController _emailController;
 
-  CloseDialog? _closeDialogHandle;
+  // CloseDialog? _closeDialogHandle;
 
   // late final FocusNode _nameNode;
   // late final FocusNode _mobileNode;
@@ -69,6 +69,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     super.dispose();
   }
 
+  final loadingOverlay = OverlayEntry(builder: (_) {
+    return Positioned(
+      left: screenSize.width * .5 - 7,
+      top: screenSize.height * .25,
+      child: const CupertinoActivityIndicator(
+        radius: 12,
+        color: Color.fromRGBO(0, 99, 255, 1),
+      ),
+    );
+  });
+
   @override
   Widget build(BuildContext context) {
     context.read<ProfileBloc>().add(ProfileLoadEvent());
@@ -77,12 +88,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         child: BlocConsumer<ProfileBloc, ProfileState>(
           listener: (context, state) {
             if (state is ProfileLoadedState) {
-              final closeDialog = _closeDialogHandle;
-              if (state.isLoading && closeDialog == null) {
-                _closeDialogHandle = showLoadingDialog(context: context);
-              } else if (!state.isLoading && closeDialog != null) {
-                closeDialog();
-                _closeDialogHandle = null;
+              // final closeDialog = _closeDialogHandle;
+              // if (state.isLoading && closeDialog == null) {
+              //   _closeDialogHandle = showLoadingDialog(context: context);
+              // } else if (!state.isLoading && closeDialog != null) {
+              //   closeDialog();
+              //   _closeDialogHandle = null;
+              // }
+              if (state.isLoading) {
+                Overlay.of(context).insert(loadingOverlay);
+              } else {
+                loadingOverlay.remove();
               }
             }
           },
