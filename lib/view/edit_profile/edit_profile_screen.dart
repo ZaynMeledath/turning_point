@@ -69,39 +69,39 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     super.dispose();
   }
 
-  final loadingOverlay = OverlayEntry(builder: (_) {
-    return Positioned(
-      left: screenSize.width * .5 - 7,
-      top: screenSize.height * .25,
-      child: const CupertinoActivityIndicator(
-        radius: 12,
-        color: Color.fromRGBO(0, 99, 255, 1),
-      ),
-    );
-  });
+  // final loadingOverlay = OverlayEntry(builder: (_) {
+  //   return Positioned(
+  //     left: screenSize.width * .5 - 7,
+  //     top: screenSize.height * .25,
+  //     child: const CupertinoActivityIndicator(
+  //       radius: 12,
+  //       color: Color.fromRGBO(0, 99, 255, 1),
+  //     ),
+  //   );
+  // });
 
   @override
   Widget build(BuildContext context) {
     context.read<ProfileBloc>().add(ProfileLoadEvent());
     return Scaffold(
       body: SafeArea(
-        child: BlocConsumer<ProfileBloc, ProfileState>(
-          listener: (context, state) {
-            if (state is ProfileLoadedState) {
-              // final closeDialog = _closeDialogHandle;
-              // if (state.isLoading && closeDialog == null) {
-              //   _closeDialogHandle = showLoadingDialog(context: context);
-              // } else if (!state.isLoading && closeDialog != null) {
-              //   closeDialog();
-              //   _closeDialogHandle = null;
-              // }
-              if (state.isLoading) {
-                Overlay.of(context).insert(loadingOverlay);
-              } else {
-                loadingOverlay.remove();
-              }
-            }
-          },
+        child: BlocBuilder<ProfileBloc, ProfileState>(
+          // listener: (context, state) {
+          //   if (state is ProfileLoadedState) {
+          //     // final closeDialog = _closeDialogHandle;
+          //     // if (state.isLoading && closeDialog == null) {
+          //     //   _closeDialogHandle = showLoadingDialog(context: context);
+          //     // } else if (!state.isLoading && closeDialog != null) {
+          //     //   closeDialog();
+          //     //   _closeDialogHandle = null;
+          //     // }
+          //     if (state.isLoading) {
+          //       Overlay.of(context).insert(loadingOverlay);
+          //     } else {
+          //       loadingOverlay.remove();
+          //     }
+          //   }
+          // },
           builder: (context, state) {
             switch (state) {
               case ProfileLoadingState():
@@ -140,7 +140,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           context: context,
                           userModel: state.userModel,
                         ),
-                        SizedBox(height: screenSize.height * .042),
+                        state.isLoading
+                            ? Container(
+                                height: screenSize.height * .042,
+                                color: Colors.transparent,
+                                child: Center(
+                                  child: CupertinoActivityIndicator(
+                                    radius: screenSize.width * .031,
+                                    color: const Color.fromRGBO(0, 99, 255, 1),
+                                  ),
+                                ),
+                              )
+                            : SizedBox(height: screenSize.height * .042),
 
                         //====================Radio Buttons====================//
                         Row(
