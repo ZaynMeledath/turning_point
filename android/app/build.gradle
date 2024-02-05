@@ -67,4 +67,3 @@ flutter {
 
 dependencies {}
 
-apply plugin: 'com.google.firebase.crashlytics'
