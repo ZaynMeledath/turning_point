@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
-import 'package:turning_point/view/contest/segments/contest_count_down_container.dart';
+part of 'contest_screen.dart';
 
 class ContestDetailsScreen extends StatelessWidget {
-  const ContestDetailsScreen({super.key});
+  final ContestModel contestModel;
+  const ContestDetailsScreen({
+    required this.contestModel,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,56 +20,11 @@ class ContestDetailsScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                 horizontal: screenSize.width * .041,
               ),
-              child: Stack(
-                children: [
-//====================Daily Contest Banner Segment====================//
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(4),
-                    child: Image.asset(
-                      'assets/images/daily_contest_banner.png',
-                    ),
-                  ),
-                  Positioned(
-                    left: screenSize.width * .07,
-                    bottom: screenSize.width * .06,
-                    child: GestureDetector(
-                      onTap: () {
-                        //=======Navigator goes here=======//
-                      },
-                      child: Container(
-                        width: screenSize.width * .185,
-                        height: screenSize.width * .061,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          color: const Color.fromRGBO(251, 228, 2, 1),
-                          boxShadow: const [
-                            BoxShadow(
-                              offset: Offset(0, 1),
-                              blurRadius: 2,
-                              color: Color.fromRGBO(196, 177, 0, 1),
-                              blurStyle: BlurStyle.inner,
-                            ),
-                            BoxShadow(
-                              offset: Offset(0, 2),
-                              blurRadius: 4,
-                              color: Color.fromRGBO(255, 185, 81, 1),
-                              blurStyle: BlurStyle.inner,
-                            ),
-                          ],
-                        ),
-                        child: Center(
-                          child: Text(
-                            'PLAY NOW',
-                            style: GoogleFonts.poppins(
-                              fontSize: screenSize.width * .028,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: Image.asset(
+                  'assets/images/daily_contest_banner.png',
+                ),
               ),
             ),
 
@@ -105,7 +60,7 @@ class ContestDetailsScreen extends StatelessWidget {
                           children: [
                             SizedBox(height: screenSize.width * .03),
                             Text(
-                              'Contest Name',
+                              contestModel.name!,
                               style: GoogleFonts.poppins(
                                 fontStyle: FontStyle.italic,
                                 fontSize: screenSize.width * .041,
@@ -117,7 +72,7 @@ class ContestDetailsScreen extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  '500',
+                                  contestModel.points.toString(),
                                   style: GoogleFonts.roboto(
                                     fontSize: screenSize.width * .08,
                                     fontWeight: FontWeight.w600,
@@ -175,7 +130,7 @@ class ContestDetailsScreen extends StatelessWidget {
                     ),
                     SizedBox(height: screenSize.height * .008),
                     Text(
-                      'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
+                      contestModel.description!,
                       textAlign: TextAlign.center,
                       style: GoogleFonts.roboto(
                         height: 2,
@@ -184,36 +139,39 @@ class ContestDetailsScreen extends StatelessWidget {
                         color: const Color.fromRGBO(0, 29, 75, 1),
                       ),
                     ),
-                    Text(
-                      'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.roboto(
-                        height: 2,
-                        fontSize: screenSize.width * .03,
-                        fontWeight: FontWeight.w400,
-                        color: const Color.fromRGBO(0, 29, 75, 1),
+                    SizedBox(height: screenSize.height * .01),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Contest Rules',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.roboto(
+                          height: 2,
+                          fontSize: screenSize.width * .041,
+                          fontWeight: FontWeight.bold,
+                          color: const Color.fromRGBO(0, 29, 75, 1),
+                          decoration: TextDecoration.underline,
+                          decorationStyle: TextDecorationStyle.wavy,
+                        ),
                       ),
                     ),
-                    Text(
-                      'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.roboto(
-                        height: 2,
-                        fontSize: screenSize.width * .03,
-                        fontWeight: FontWeight.w400,
-                        color: const Color.fromRGBO(0, 29, 75, 1),
+                    for (int i = 0; i < contestModel.rulesArr!.length; i++)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '⦿  ${contestModel.rulesArr![i]}',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.roboto(
+                              height: 2,
+                              fontSize: screenSize.width * .03,
+                              fontWeight: FontWeight.w400,
+                              color: const Color.fromRGBO(0, 29, 75, 1),
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                        ],
                       ),
-                    ),
-                    Text(
-                      'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.roboto(
-                        height: 2,
-                        fontSize: screenSize.width * .03,
-                        fontWeight: FontWeight.w400,
-                        color: const Color.fromRGBO(0, 29, 75, 1),
-                      ),
-                    ),
                   ],
                 ),
               ),

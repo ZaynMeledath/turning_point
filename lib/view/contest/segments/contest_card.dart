@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/view/contest/segments/contest_card_inner_container.dart';
-import 'package:turning_point/view/contest/segments/contest_count_down_container.dart';
+part of '../contest_screen.dart';
 
-Widget contestCard({required BuildContext context}) {
+Widget contestCard({
+  required BuildContext context,
+  required int index,
+}) {
   return Container(
     width: double.infinity,
     height: screenSize.height * .32,
@@ -22,7 +21,7 @@ Widget contestCard({required BuildContext context}) {
     ),
     child: Column(
       children: [
-        contestCardInnerContainer(context: context),
+        contestCardInnerContainer(context: context, index: index),
         SizedBox(height: screenSize.height * .01),
         Text(
           'Time Left',

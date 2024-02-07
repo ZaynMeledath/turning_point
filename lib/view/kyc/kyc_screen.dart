@@ -283,6 +283,7 @@ class _KycScreenState extends State<KycScreen>
                           ),
                         ),
                       ),
+                      SizedBox(height: screenSize.height * .018)
                     ],
                   ),
                 );

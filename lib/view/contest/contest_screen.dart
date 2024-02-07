@@ -1,10 +1,20 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:stacked_card_carousel/stacked_card_carousel.dart';
+import 'package:turning_point/bloc/contest/contest_bloc.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/model/contest_model.dart';
 import 'package:turning_point/view/contest/segments/banner_segment.dart';
-import 'package:turning_point/view/contest/segments/contest_card.dart';
-import 'package:turning_point/view/contest/segments/contest_heading.dart';
+
+part 'segments/contest_card_inner_container.dart';
+part 'segments/contest_card.dart';
+part 'segments/contest_count_down_container.dart';
+part 'contest_details_screen.dart';
+part 'segments/contest_heading.dart';
 
 class ContestScreen extends StatefulWidget {
   const ContestScreen({super.key});
@@ -16,6 +26,7 @@ class ContestScreen extends StatefulWidget {
 class _ContestScreenState extends State<ContestScreen> {
   @override
   Widget build(BuildContext context) {
+    context.read<ContestBloc>().add(ContestLoadEvent());
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -35,17 +46,45 @@ class _ContestScreenState extends State<ContestScreen> {
               margin: EdgeInsets.symmetric(horizontal: screenSize.width * .051),
               color: const Color.fromRGBO(237, 237, 237, 1),
             ),
-            Expanded(
-              child: StackedCardCarousel(
-                  initialOffset: screenSize.height * .018,
-                  spaceBetweenItems: screenSize.height * .32,
-                  items: [
-                    contestCard(context: context),
-                    contestCard(context: context),
-                    contestCard(context: context),
-                    contestCard(context: context),
-                    contestCard(context: context),
-                  ]),
+            BlocBuilder<ContestBloc, ContestState>(
+              builder: (context, state) {
+                switch (state) {
+                  case ContestLoadingState():
+                    return Center(
+                      child: Column(
+                        children: [
+                          SizedBox(height: screenSize.height * .1),
+                          const CircularProgressIndicator.adaptive(
+                            strokeWidth: 5,
+                            backgroundColor: Colors.white,
+                            valueColor: AlwaysStoppedAnimation(Colors.amber),
+                          ),
+                        ],
+                      ),
+                    );
+                  case ContestLoadedState():
+                    return Expanded(
+                      child: StackedCardCarousel(
+                        initialOffset: screenSize.height * .018,
+                        spaceBetweenItems: screenSize.height * .32,
+                        items: [
+                          for (int i = 0;
+                              i < state.contestModelList.length;
+                              i++)
+                            contestCard(context: context, index: i),
+                        ],
+                      ),
+                    );
+                  default:
+                    return const Center(
+                      child: CircularProgressIndicator.adaptive(
+                        strokeWidth: 5,
+                        backgroundColor: Colors.white,
+                        valueColor: AlwaysStoppedAnimation(Colors.amber),
+                      ),
+                    );
+                }
+              },
             )
           ],
         ),

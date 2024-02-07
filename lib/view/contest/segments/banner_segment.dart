@@ -91,24 +91,6 @@ Widget bannerSegment() {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      // Container(
-                      //   width: screenSize.width * .194,
-                      //   height: screenSize.width * .066,
-                      //   decoration: BoxDecoration(
-                      //     borderRadius: BorderRadius.circular(5),
-                      //     color: const Color.fromRGBO(0, 99, 255, 1),
-                      //   ),
-                      //   child: Center(
-                      //     child: Text(
-                      //       'Play Now',
-                      //       style: GoogleFonts.poppins(
-                      //         color: Colors.white,
-                      //         fontSize: screenSize.width * .03,
-                      //         fontWeight: FontWeight.w500,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),
@@ -139,7 +121,7 @@ Widget bannerSegment() {
                 builder: (context, state) {
                   if (state is ProfileLoadedState) {
                     return Text(
-                      '10000',
+                      state.userModel.points!.toString(),
                       style: GoogleFonts.roboto(
                         color: const Color.fromRGBO(255, 152, 0, 1),
                         fontSize: screenSize.width * .032,

@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/helper/screen_size.dart';
+part of '../contest_screen.dart';
 
 Widget contestCountDownContainer({
   required String time,

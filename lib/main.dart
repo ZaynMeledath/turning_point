@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:turning_point/bloc/contest/contest_bloc.dart';
 import 'package:turning_point/bloc/kyc/kyc_bloc.dart';
 import 'package:turning_point/bloc/points_history/points_history_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
@@ -68,6 +69,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => KycBloc(),
+        ),
+        BlocProvider(
+          create: (_) => ContestBloc(),
         ),
       ],
       child: BlocBuilder<AuthBloc, AuthState>(
