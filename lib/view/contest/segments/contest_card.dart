@@ -31,17 +31,43 @@ Widget contestCard({
           ),
         ),
         SizedBox(height: screenSize.height * .007),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            contestCountDownContainer(time: '03', title: 'DAYS'),
-            SizedBox(width: screenSize.width * .021),
-            contestCountDownContainer(time: '03', title: 'HOURS'),
-            SizedBox(width: screenSize.width * .021),
-            contestCountDownContainer(time: '03', title: 'MINUTES'),
-            SizedBox(width: screenSize.width * .021),
-            contestCountDownContainer(time: '03', title: 'SECONDS'),
-          ],
+        BlocBuilder<ContestBloc, ContestState>(
+          builder: (context, state) {
+            switch (state) {
+              case ContestLoadingState():
+                return const Center(
+                  child: CircularProgressIndicator.adaptive(
+                    backgroundColor: Colors.white,
+                    valueColor: AlwaysStoppedAnimation(Colors.amber),
+                  ),
+                );
+              case ContestLoadedState():
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    contestCountDownContainer(
+                      time: state.timeList[index]['timeInDays']!,
+                      title: 'DAYS',
+                    ),
+                    SizedBox(width: screenSize.width * .021),
+                    contestCountDownContainer(
+                      time: state.timeList[index]['timeInHours']!,
+                      title: 'HOURS',
+                    ),
+                    SizedBox(width: screenSize.width * .021),
+                    contestCountDownContainer(
+                      time: state.timeList[index]['timeInMinutes']!,
+                      title: 'MINUTES',
+                    ),
+                    SizedBox(width: screenSize.width * .021),
+                    contestCountDownContainer(
+                      time: state.timeList[index]['timeInSeconds']!,
+                      title: 'SECONDS',
+                    ),
+                  ],
+                );
+            }
+          },
         )
       ],
     ),

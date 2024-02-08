@@ -24,17 +24,10 @@ class ReelsScreen extends StatefulWidget {
 }
 
 class _ReelsScreenState extends State<ReelsScreen> {
-  bool isLoaded = false;
-
   @override
   void initState() {
     log(AppPreferences.getValueShared('auth_token'));
-    getData();
-    Future.delayed(const Duration(milliseconds: 200), () {
-      setState(() {
-        isLoaded = true;
-      });
-    });
+
     super.initState();
   }
 
@@ -43,11 +36,6 @@ class _ReelsScreenState extends State<ReelsScreen> {
     PreloadBloc().disposeAllControllers();
 
     super.dispose();
-  }
-
-  void getData() async {
-    await ReelRepository.getReels();
-    await ReelRepository.getReelsModel();
   }
 
   @override

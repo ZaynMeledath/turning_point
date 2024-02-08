@@ -8,6 +8,7 @@ part 'preload_state.dart';
 class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
   PreloadBloc() : super(PreloadState.initial()) {
     on<PreloadEvent>((event, emit) async {
+      state.urls = ReelRepository.urlList;
       if (event.currentIndex == 0) {
         if (event.isInitial) {
           if (state.focusedIndex == 0) {

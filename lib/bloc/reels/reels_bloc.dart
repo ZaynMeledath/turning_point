@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/model/user_model.dart';
@@ -12,7 +14,8 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
   ReelsBloc()
       : super(InitialReelState(UserRepository.getUserFromPreference())) {
     on<ReelLoadEvent>((event, emit) async {
-      final reelData = ReelRepository.reelsModel.data![event.reelIndex];
+      final reelData = ReelRepository.reelsModelResponse.data![event.reelIndex];
+      log('REEL INDEX : ${event.reelIndex}');
       if (reelData.isLiked == true) {
         return emit(ReelLikedState(userModel!));
       } else {
@@ -23,7 +26,7 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
     });
 
     on<ReelLikeEvent>((event, emit) async {
-      final reelData = ReelRepository.reelsModel.data![event.reelIndex];
+      final reelData = ReelRepository.reelsModelResponse.data![event.reelIndex];
 
       if (reelData.isLiked != true) {
         reelData.isLiked = true;

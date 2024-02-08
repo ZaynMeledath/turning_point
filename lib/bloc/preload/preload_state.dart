@@ -1,7 +1,7 @@
 part of 'preload_bloc.dart';
 
 class PreloadState {
-  final List<dynamic> urls = ReelRepository.urlList;
+  List<dynamic> urls = ReelRepository.urlList;
   final Map<int, VideoPlayerController> controllers;
   final int focusedIndex;
   PreloadState({

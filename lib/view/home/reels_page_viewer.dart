@@ -95,6 +95,10 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                             context: context);
                                       }
                                     }
+
+                                    if (state is ReelLikedState) {
+                                      _animationController.forward();
+                                    }
                                   },
                                   child: Image.asset(
                                     'assets/icons/rupee_icon.png',
@@ -134,10 +138,10 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
             );
           },
           onPageChanged: (index) {
-            context.read<ReelsBloc>().add(ReelLoadEvent(reelIndex: index));
             context
                 .read<PreloadBloc>()
                 .add(PreloadEvent(currentIndex: index, isInitial: false));
+            context.read<ReelsBloc>().add(ReelLoadEvent(reelIndex: index));
           },
           scrollDirection: Axis.vertical,
           controller: _pageController,
