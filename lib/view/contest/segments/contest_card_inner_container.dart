@@ -15,7 +15,7 @@ Widget contestCardInnerContainer({
             ),
           );
         case ContestLoadedState():
-          final contestModel = state.contestModelList[index];
+          final contestModel = state.contestModelList![index];
           return Container(
             width: double.infinity,
             height: screenSize.height * .216,
@@ -68,7 +68,7 @@ Widget contestCardInnerContainer({
                           Navigator.of(context).push(
                             PageTransition(
                               child: ContestDetailsScreen(
-                                  contestModel: state.contestModelList[index]),
+                                  contestModel: state.contestModelList![index]),
                               type: PageTransitionType.scale,
                               alignment: Alignment.center,
                               duration: const Duration(milliseconds: 500),

@@ -14,7 +14,11 @@ class WhoIsSigningEvent extends AuthEvent {
 
 class SignUpEvent extends AuthEvent {
   final String mobileNumber;
-  SignUpEvent({required this.mobileNumber});
+  final bool isContractor;
+  SignUpEvent({
+    required this.mobileNumber,
+    required this.isContractor,
+  });
 }
 
 class VerifyOtpEvent extends AuthEvent {}

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:turning_point/model/reels_model.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
@@ -29,7 +28,6 @@ class ReelRepository {
     // );
 
     final data = response['data'];
-    log(data.toString());
 
     final videoNames = data.map((e) => e['fileUrl']).toList();
     urlList = videoNames

@@ -6,6 +6,7 @@ import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
 import 'package:turning_point/service/api/api_service.dart';
+import 'package:turning_point/service/auth/auth_exceptions.dart';
 
 class UserRepository {
 //====================Decode JWT====================//
@@ -14,6 +15,30 @@ class UserRepository {
     final Map<String, dynamic> decodedData = JwtDecoder.decode(token);
 
     return decodedData;
+  }
+
+  static Future<bool> userSignUp({required String mobileNumber}) async {
+    try {
+      final decodedResponse = await ApiService().sendRequest(
+        url: ApiEndpoints.login,
+        data: {"phone": mobileNumber},
+        requestMethod: 'POST',
+        isTokenRequired: false,
+      );
+
+      await AppPreferences.init();
+      AppPreferences.addSharedPreference(
+        key: 'auth_token',
+        value: decodedResponse["token"],
+      );
+      if (decodedResponse['success']) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      throw CouldNotSignUpUserAuthException;
+    }
   }
 
 //====================Get User by ID====================//

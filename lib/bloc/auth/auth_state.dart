@@ -13,7 +13,11 @@ class WhoIsSigningState extends AuthState {}
 
 class SignUpState extends AuthState {
   final bool isContractor;
-  SignUpState({required this.isContractor});
+  final bool isLoading;
+  SignUpState({
+    required this.isContractor,
+    required this.isLoading,
+  });
 }
 
 class OtpVerificationNeededState extends AuthState {}

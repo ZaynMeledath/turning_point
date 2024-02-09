@@ -10,6 +10,8 @@ class InvalidMobileNumberAuthException implements Exception {}
 
 class UserNotLoggedInAuthException implements Exception {}
 
+class CouldNotSignUpUserAuthException implements Exception {}
+
 // Generic Exceptions
 
 class NetworkRequestFailedAuthException implements Exception {}

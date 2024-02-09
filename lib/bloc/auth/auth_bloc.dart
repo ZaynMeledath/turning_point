@@ -3,9 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/auth/auth_provider.dart';
-import 'package:turning_point/preferences/app_preferences.dart';
-import 'package:turning_point/service/api/api_endpoints.dart';
-import 'package:turning_point/service/api/api_service.dart';
+
 part 'auth_event.dart';
 part 'auth_state.dart';
 
@@ -42,27 +40,26 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 //====================WhoIsSigningEvent====================//
     on<WhoIsSigningEvent>(
       (event, emit) {
-        emit(SignUpState(isContractor: event.isContractor));
+        emit(SignUpState(
+          isContractor: event.isContractor,
+          isLoading: false,
+        ));
       },
     );
 
 //====================SignUpEvent====================//
     on<SignUpEvent>(
       (event, emit) async {
+        emit(
+          SignUpState(
+            isContractor: event.isContractor,
+            isLoading: true,
+          ),
+        );
         try {
-          final decodedResponse = await ApiService().sendRequest(
-            url: ApiEndpoints.login,
-            data: {"phone": event.mobileNumber},
-            requestMethod: 'POST',
-            isTokenRequired: false,
-          );
-
-          await AppPreferences.init();
-          AppPreferences.addSharedPreference(
-            key: 'auth_token',
-            value: decodedResponse["token"],
-          );
-          if (decodedResponse['success']) {
+          final isSuccess =
+              await UserRepository.userSignUp(mobileNumber: event.mobileNumber);
+          if (isSuccess) {
             emit(OtpVerificationNeededState());
           }
         } catch (e) {

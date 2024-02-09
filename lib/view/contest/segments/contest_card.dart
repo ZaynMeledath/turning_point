@@ -46,22 +46,22 @@ Widget contestCard({
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     contestCountDownContainer(
-                      time: state.timeList[index]['timeInDays']!,
+                      time: state.timeList![index]['timeInDays']!,
                       title: 'DAYS',
                     ),
                     SizedBox(width: screenSize.width * .021),
                     contestCountDownContainer(
-                      time: state.timeList[index]['timeInHours']!,
+                      time: state.timeList![index]['timeInHours']!,
                       title: 'HOURS',
                     ),
                     SizedBox(width: screenSize.width * .021),
                     contestCountDownContainer(
-                      time: state.timeList[index]['timeInMinutes']!,
+                      time: state.timeList![index]['timeInMinutes']!,
                       title: 'MINUTES',
                     ),
                     SizedBox(width: screenSize.width * .021),
                     contestCountDownContainer(
-                      time: state.timeList[index]['timeInSeconds']!,
+                      time: state.timeList![index]['timeInSeconds']!,
                       title: 'SECONDS',
                     ),
                   ],

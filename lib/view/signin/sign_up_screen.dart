@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/bloc/sign_up/contractor_bloc.dart';
+import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
@@ -33,6 +36,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   late final TextEditingController businessController;
   late final TextEditingController searchController;
 
+  CloseDialog? _closeDialogHandle;
+
   @override
   void initState() {
     isContractor = widget.isContractor;
@@ -54,10 +59,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is OtpVerificationNeededState) {
+          log('SIGNED UP');
           CustomNavigator.push(
             context: context,
             child: const OtpVerificationScreen(),
           );
+        } else if (state is SignUpState) {
+          final closeDialog = _closeDialogHandle;
+          if (state.isLoading && closeDialog == null) {
+            _closeDialogHandle = showLoadingDialog(context: context);
+          } else if (!state.isLoading && closeDialog != null) {
+            closeDialog();
+            _closeDialogHandle = null;
+          }
+          // if (state.isLoading) {
+          //   Overlay.of(context).insert(loadingOverlay);
+          // } else {
+          //   loadingOverlay.remove();
+          // }
         }
       },
       child: Scaffold(
@@ -147,7 +166,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   GestureDetector(
                     onTap: () {
                       context.read<AuthBloc>().add(
-                            SignUpEvent(mobileNumber: mobileController.text),
+                            SignUpEvent(
+                              mobileNumber: mobileController.text,
+                              isContractor: isContractor,
+                            ),
                           );
                     },
                     child: Hero(

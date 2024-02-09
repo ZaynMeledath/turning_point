@@ -1,3 +1,4 @@
+// import 'dart:async';
 import 'dart:async';
 import 'dart:developer';
 
@@ -11,7 +12,10 @@ part 'contest_state.dart';
 
 class ContestBloc extends Bloc<ContestEvent, ContestState> {
   ContestBloc() : super(ContestLoadingState()) {
+//====================Contest Load Event====================//
     on<ContestLoadEvent>((event, emit) async {
+      emit(ContestLoadingState());
+
       final contestModelResponse = await ContestRepository.getContests();
       final List<Map<String, String>> timeList = [];
       final secondsLeftList = ContestRepository.getSecondsLeft(
@@ -22,7 +26,7 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
         int timeInSeconds = (seconds % 60);
         int timeInMinutes = (seconds ~/ 60) % 60;
         int timeInHours = (seconds ~/ 3600) % 24;
-        int timeInDays = (seconds ~/ 86400);
+        int timeInDays = (seconds ~/ 86400).abs();
 
         timeList.add({
           'timeInSeconds': timeInSeconds.toString().padLeft(2, '0'),
@@ -31,17 +35,29 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
           'timeInDays': timeInDays.toString().padLeft(2, '0'),
         });
       }
+      emit(
+        ContestLoadedState(
+          contestModelList: contestModelResponse.data!,
+          timeList: timeList,
+          secondsLeftList: secondsLeftList,
+        ),
+      );
+      add(ContestTimerUpdateEvent());
+    });
 
-      log('Timer loop starting');
-
-      Timer.periodic(const Duration(seconds: 1), (timer) {
-        log('second for loop starting');
-        for (int i = 0; i < timeList.length; i++) {
+//====================Timer Update Event====================//
+    on<ContestTimerUpdateEvent>((event, emit) async {
+      if (state.timeList != null && state.secondsLeftList != null) {
+        var timeList = state.timeList!;
+        var secondsLeftList = state.secondsLeftList!;
+        for (int i = 0; i < state.timeList!.length; i++) {
+          log('FOR LOOP STARTED');
           int seconds = secondsLeftList[i];
+
           int timeInSeconds = (seconds % 60);
           int timeInMinutes = (seconds ~/ 60) % 60;
           int timeInHours = (seconds ~/ 3600) % 24;
-          int timeInDays = (seconds ~/ 86400);
+          int timeInDays = (seconds ~/ 86400).abs();
 
           timeList[i] = {
             'timeInSeconds': timeInSeconds.toString().padLeft(2, '0'),
@@ -49,6 +65,7 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
             'timeInHours': timeInHours.toString().padLeft(2, '0'),
             'timeInDays': timeInDays.toString().padLeft(2, '0'),
           };
+          secondsLeftList[i] -= 1;
 
           final temp = timeList[i].values.map((e) => e == '00');
 
@@ -56,16 +73,27 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
             timeList.removeAt(i);
           }
         }
-        emit(
-          ContestLoadedState(
-            contestModelList: contestModelResponse.data!,
-            timeList: timeList,
-          ),
-        );
-        if (timeList.isEmpty) {
-          timer.cancel();
+
+        await Future.delayed(const Duration(seconds: 1));
+        if (timeList.isNotEmpty && state is ContestLoadedState) {
+          emit(
+            ContestLoadedState(
+              contestModelList: state.contestModelList,
+              timeList: timeList,
+              secondsLeftList: secondsLeftList,
+            ),
+          );
+          add(ContestTimerUpdateEvent());
         }
-      });
+      }
+    });
+
+    on<ContestTimerDisposeEvent>((event, emit) {
+      log('DISPOSE EXECUTING');
+      state.timeList = null;
+      state.secondsLeftList = null;
+      emit(ContestLoadingState());
+      log('DISPOSE EXECUTED');
     });
   }
 }
