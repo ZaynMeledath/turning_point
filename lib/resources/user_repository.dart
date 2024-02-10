@@ -44,6 +44,10 @@ class UserRepository {
 //====================Get User by ID====================//
   static Future<UserModelResponse?> getUserById() async {
     try {
+      final userModelResponse = getUserFromPreference();
+      if (userModelResponse != null) {
+        return userModelResponse;
+      }
       final id = decodeJwt()['userId'];
       final response = await ApiService().sendRequest(
         url: '${ApiEndpoints.getUser}/$id',

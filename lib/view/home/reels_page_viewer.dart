@@ -8,7 +8,7 @@ import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/view/home/reels_player.dart';
 
 class ReelsPageViewer extends StatefulWidget {
-  final UserModelResponse user;
+  final UserModel user;
   const ReelsPageViewer({
     required this.user,
     super.key,
@@ -90,7 +90,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                           .read<ReelsBloc>()
                                           .add(ReelLikeEvent(reelIndex: index));
 
-                                      if (user.data!.points == 0) {
+                                      if (user.points == 0) {
                                         showPointsReceivedDialog(
                                             context: context);
                                       }

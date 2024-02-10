@@ -68,7 +68,9 @@ Widget contestCardInnerContainer({
                           Navigator.of(context).push(
                             PageTransition(
                               child: ContestDetailsScreen(
-                                  contestModel: state.contestModelList![index]),
+                                contestModel: state.contestModelList![index],
+                                index: index,
+                              ),
                               type: PageTransitionType.scale,
                               alignment: Alignment.center,
                               duration: const Duration(milliseconds: 500),

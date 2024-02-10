@@ -14,35 +14,35 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
   ContestBloc() : super(ContestLoadingState()) {
 //====================Contest Load Event====================//
     on<ContestLoadEvent>((event, emit) async {
-      emit(ContestLoadingState());
+      if (state.timeList == null && state.secondsLeftList == null) {
+        final contestModelResponse = await ContestRepository.getContests();
+        final List<Map<String, String>> timeList = [];
+        final secondsLeftList = ContestRepository.getSecondsLeft(
+            contestModelList: contestModelResponse.data!);
+        log('First for loop starting');
+        for (int i = 0; i < contestModelResponse.data!.length; i++) {
+          int seconds = secondsLeftList[i];
+          int timeInSeconds = (seconds % 60);
+          int timeInMinutes = (seconds ~/ 60) % 60;
+          int timeInHours = (seconds ~/ 3600) % 24;
+          int timeInDays = (seconds ~/ 86400).abs();
 
-      final contestModelResponse = await ContestRepository.getContests();
-      final List<Map<String, String>> timeList = [];
-      final secondsLeftList = ContestRepository.getSecondsLeft(
-          contestModelList: contestModelResponse.data!);
-      log('First for loop starting');
-      for (int i = 0; i < contestModelResponse.data!.length; i++) {
-        int seconds = secondsLeftList[i];
-        int timeInSeconds = (seconds % 60);
-        int timeInMinutes = (seconds ~/ 60) % 60;
-        int timeInHours = (seconds ~/ 3600) % 24;
-        int timeInDays = (seconds ~/ 86400).abs();
-
-        timeList.add({
-          'timeInSeconds': timeInSeconds.toString().padLeft(2, '0'),
-          'timeInMinutes': timeInMinutes.toString().padLeft(2, '0'),
-          'timeInHours': timeInHours.toString().padLeft(2, '0'),
-          'timeInDays': timeInDays.toString().padLeft(2, '0'),
-        });
+          timeList.add({
+            'timeInSeconds': timeInSeconds.toString().padLeft(2, '0'),
+            'timeInMinutes': timeInMinutes.toString().padLeft(2, '0'),
+            'timeInHours': timeInHours.toString().padLeft(2, '0'),
+            'timeInDays': timeInDays.toString().padLeft(2, '0'),
+          });
+        }
+        emit(
+          ContestLoadedState(
+            contestModelList: contestModelResponse.data!,
+            timeList: timeList,
+            secondsLeftList: secondsLeftList,
+          ),
+        );
+        add(ContestTimerUpdateEvent());
       }
-      emit(
-        ContestLoadedState(
-          contestModelList: contestModelResponse.data!,
-          timeList: timeList,
-          secondsLeftList: secondsLeftList,
-        ),
-      );
-      add(ContestTimerUpdateEvent());
     });
 
 //====================Timer Update Event====================//
@@ -90,8 +90,6 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
 
     on<ContestTimerDisposeEvent>((event, emit) {
       log('DISPOSE EXECUTING');
-      state.timeList = null;
-      state.secondsLeftList = null;
       emit(ContestLoadingState());
       log('DISPOSE EXECUTED');
     });

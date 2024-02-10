@@ -40,7 +40,6 @@ class FirebaseAuthProvider implements AuthProvider {
       );
 
       // Once signed in, return the UserCredential
-
       await FirebaseAuth.instance.signInWithCredential(credential);
       final user = currentUser;
       if (user != null) {

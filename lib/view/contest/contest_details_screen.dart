@@ -2,8 +2,10 @@ part of 'contest_screen.dart';
 
 class ContestDetailsScreen extends StatelessWidget {
   final ContestModel contestModel;
+  final int index;
   const ContestDetailsScreen({
     required this.contestModel,
+    required this.index,
     super.key,
   });
 
@@ -185,17 +187,33 @@ class ContestDetailsScreen extends StatelessWidget {
             ),
             SizedBox(height: screenSize.height * .007),
 //====================Contest Count Down Timer Segment====================//
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                contestCountDownContainer(time: '03', title: 'DAYS'),
-                SizedBox(width: screenSize.width * .021),
-                contestCountDownContainer(time: '03', title: 'HOURS'),
-                SizedBox(width: screenSize.width * .021),
-                contestCountDownContainer(time: '03', title: 'MINUTES'),
-                SizedBox(width: screenSize.width * .021),
-                contestCountDownContainer(time: '03', title: 'SECONDS'),
-              ],
+            BlocBuilder<ContestBloc, ContestState>(
+              builder: (context, state) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    contestCountDownContainer(
+                      time: state.timeList![index]['timeInDays']!,
+                      title: 'DAYS',
+                    ),
+                    SizedBox(width: screenSize.width * .021),
+                    contestCountDownContainer(
+                      time: state.timeList![index]['timeInHours']!,
+                      title: 'HOURS',
+                    ),
+                    SizedBox(width: screenSize.width * .021),
+                    contestCountDownContainer(
+                      time: state.timeList![index]['timeInMinutes']!,
+                      title: 'MINUTES',
+                    ),
+                    SizedBox(width: screenSize.width * .021),
+                    contestCountDownContainer(
+                      time: state.timeList![index]['timeInSeconds']!,
+                      title: 'SECONDS',
+                    ),
+                  ],
+                );
+              },
             ),
             SizedBox(height: screenSize.height * .028),
 

@@ -22,10 +22,6 @@ class SignUpState extends AuthState {
 
 class OtpVerificationNeededState extends AuthState {}
 
-class OtpVerifiedState extends AuthState {}
-
-class SignedInState extends AuthState {
-  SignedInState();
-}
+class SignedInState extends AuthState {}
 
 class SignedOutState extends AuthState {}

@@ -23,6 +23,4 @@ class SignUpEvent extends AuthEvent {
 
 class VerifyOtpEvent extends AuthEvent {}
 
-class SignInEvent extends AuthEvent {}
-
 class SignOutEvent extends AuthEvent {}

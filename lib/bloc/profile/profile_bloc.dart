@@ -10,9 +10,8 @@ part 'profile_state.dart';
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(ProfileLoadingState()) {
 //====================Profile Load Event====================//
-    on<ProfileLoadEvent>((event, emit) {
-      final userModelResponse = UserRepository.getUserFromPreference();
-
+    on<ProfileLoadEvent>((event, emit) async {
+      final userModelResponse = await UserRepository.getUserById();
       if (userModelResponse != null && userModelResponse.data != null) {
         final isContractor = userModelResponse.data!.role == 'CONTRACTOR';
         emit(ProfileLoadedState(

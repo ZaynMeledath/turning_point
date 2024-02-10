@@ -5,12 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
-import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
-import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/resources/reel_repository.dart';
 import 'package:turning_point/view/home/reels_page_viewer.dart';
 import 'package:turning_point/view/points/points_screen.dart';
@@ -27,14 +24,12 @@ class _ReelsScreenState extends State<ReelsScreen> {
   @override
   void initState() {
     log(AppPreferences.getValueShared('auth_token'));
-
     super.initState();
   }
 
   @override
   void dispose() {
     PreloadBloc().disposeAllControllers();
-
     super.dispose();
   }
 
@@ -43,41 +38,61 @@ class _ReelsScreenState extends State<ReelsScreen> {
     context.read<ProfileBloc>().add(ProfileLoadEvent());
     return Scaffold(
       backgroundColor: Colors.black,
-      body: FutureBuilder(
-        future: UserRepository.getUserById(),
-        builder: (context, snapshot) {
-          UserModelResponse? user = UserRepository.getUserFromPreference();
-          if (user != null || snapshot.hasData) {
-            user ??= snapshot.data;
-            return Stack(
-              alignment: Alignment.center,
-              children: [
-                //====================Reels Player====================//
-                FutureBuilder(
-                    future: ReelRepository.getReels(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return ReelsPageViewer(
-                          user: user!,
-                        );
-                      } else {
-                        return const Center(
-                          child: CircularProgressIndicator.adaptive(
-                            strokeWidth: 5,
-                            backgroundColor: Colors.white,
-                            valueColor: AlwaysStoppedAnimation(Colors.amber),
-                          ),
-                        );
-                      }
-                    }),
+      body: BlocBuilder<ProfileBloc, ProfileState>(
+        builder: (context, state) {
+          switch (state) {
+            case ProfileLoadingState():
+              return const Center(
+                child: CircularProgressIndicator.adaptive(
+                  strokeWidth: 5,
+                  backgroundColor: Colors.white,
+                  valueColor: AlwaysStoppedAnimation(Colors.blue),
+                ),
+              );
+            case ProfileLoadErrorState():
+              return Expanded(
+                child: Container(
+                  color: Colors.black,
+                  child: Center(
+                    child: Text(
+                      'Something Went Wrong',
+                      style: GoogleFonts.roboto(
+                        fontSize: screenSize.width * .05,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            case ProfileLoadedState():
+              return Stack(
+                alignment: Alignment.center,
+                children: [
+                  //====================Reels Player====================//
+                  FutureBuilder(
+                      future: ReelRepository.getReels(),
+                      builder: (context, reelsSnapshot) {
+                        if (reelsSnapshot.hasData) {
+                          return ReelsPageViewer(
+                            user: state.userModel,
+                          );
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator.adaptive(
+                              strokeWidth: 5,
+                              backgroundColor: Colors.white,
+                              valueColor: AlwaysStoppedAnimation(Colors.amber),
+                            ),
+                          );
+                        }
+                      }),
 
-                //====================Points Container====================//
-                Positioned(
-                  top: screenSize.height * .071,
-                  left: screenSize.width * .031,
-                  child: BlocBuilder<ReelsBloc, ReelsState>(
-                    builder: (context, state) {
-                      return Column(
+                  //====================Points Container====================//
+                  Positioned(
+                      top: screenSize.height * .071,
+                      left: screenSize.width * .031,
+                      child: Column(
                         children: [
                           Row(
                             children: [
@@ -115,7 +130,7 @@ class _ReelsScreenState extends State<ReelsScreen> {
                                         ),
                                         const SizedBox(width: 1),
                                         Text(
-                                          '${state.userModel!.data!.points!}',
+                                          '${state.userModel.points!}',
                                           style: GoogleFonts.inter(
                                             fontSize: screenSize.width * .04,
                                             fontWeight: FontWeight.w700,
@@ -131,51 +146,29 @@ class _ReelsScreenState extends State<ReelsScreen> {
                             ],
                           ),
                         ],
-                      );
-                    },
+                      )),
+
+                  //====================Avatar Icon====================//
+                  Positioned(
+                    right: screenSize.width * .03,
+                    top: screenSize.height * .07,
+                    child: GestureDetector(
+                      onTap: () => CustomNavigator.push(
+                        context: context,
+                        child: const ProfileScreen(),
+                      ),
+                      child: CircleAvatar(
+                        backgroundColor:
+                            const Color.fromRGBO(225, 225, 225, .6),
+                        radius: 22,
+                        child: CircleAvatar(
+                          foregroundImage: NetworkImage(state.userModel.image!),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-
-                //====================Avatar Icon====================//
-                BlocBuilder<ProfileBloc, ProfileState>(
-                  builder: (context, state) {
-                    switch (state) {
-                      case ProfileLoadedState():
-                        return Positioned(
-                          right: screenSize.width * .03,
-                          top: screenSize.height * .07,
-                          child: GestureDetector(
-                            onTap: () => CustomNavigator.push(
-                              context: context,
-                              child: const ProfileScreen(),
-                            ),
-                            child: CircleAvatar(
-                              backgroundColor:
-                                  const Color.fromRGBO(225, 225, 225, .6),
-                              radius: 22,
-                              child: CircleAvatar(
-                                foregroundImage:
-                                    NetworkImage(state.userModel.image!),
-                              ),
-                            ),
-                          ),
-                        );
-
-                      default:
-                        return const Center(
-                          child: CircularProgressIndicator.adaptive(
-                            strokeWidth: 5,
-                            backgroundColor: Colors.white,
-                            valueColor: AlwaysStoppedAnimation(Colors.amber),
-                          ),
-                        );
-                    }
-                  },
-                ),
-              ],
-            );
-          } else {
-            return const Center(child: CircularProgressIndicator());
+                ],
+              );
           }
         },
       ),

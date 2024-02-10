@@ -35,16 +35,7 @@ class _BoardingScreenState extends State<BoardingScreen> {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is SignedInState) {
-          Navigator.of(context).pushAndRemoveUntil(
-            PageTransition(
-              child: const HomeScreen(),
-              type: PageTransitionType.fade,
-              duration: const Duration(milliseconds: 750),
-            ),
-            (_) => false,
-          );
-        }
+        if (state is SignedInState) {}
       },
       child: Scaffold(
         body: Stack(
@@ -154,7 +145,14 @@ class _BoardingScreenState extends State<BoardingScreen> {
               left: screenSize.width * .051,
               child: GestureDetector(
                 onTap: () {
-                  context.read<AuthBloc>().add(SignInEvent());
+                  Navigator.of(context).pushAndRemoveUntil(
+                    PageTransition(
+                      child: const HomeScreen(),
+                      type: PageTransitionType.fade,
+                      duration: const Duration(milliseconds: 750),
+                    ),
+                    (_) => false,
+                  );
                 },
                 child: Text(
                   'Skip',
@@ -178,7 +176,14 @@ class _BoardingScreenState extends State<BoardingScreen> {
                         duration: const Duration(milliseconds: 300),
                         curve: Curves.linear);
                   } else {
-                    context.read<AuthBloc>().add(SignInEvent());
+                    Navigator.of(context).pushAndRemoveUntil(
+                      PageTransition(
+                        child: const HomeScreen(),
+                        type: PageTransitionType.fade,
+                        duration: const Duration(milliseconds: 750),
+                      ),
+                      (_) => false,
+                    );
                   }
                 },
                 child: Container(
