@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:turning_point/model/contest_model.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
 import 'package:turning_point/service/api/api_service.dart';
@@ -13,8 +11,6 @@ class ContestRepository {
       isTokenRequired: true,
     );
 
-    log(response['data'].toString());
-
     return ContestModelResponse.fromJson(response);
   }
 
@@ -22,7 +18,6 @@ class ContestRepository {
       {required List<ContestModel> contestModelList}) {
     List<int> secondsLeftList = [];
     for (int i = 0; i < contestModelList.length; i++) {
-      // final startDate = contestModelList[i].startDate!.split('T')[0];
       final String endDateString = contestModelList[i].combinedEndDateTime!;
       final DateTime endDate = DateTime.parse(endDateString);
       final currentDateToSecondsSinceEpoch =

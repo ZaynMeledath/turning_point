@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/exceptions/user_exceptions.dart';
@@ -11,7 +13,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(ProfileLoadingState()) {
 //====================Profile Load Event====================//
     on<ProfileLoadEvent>((event, emit) async {
-      final userModelResponse = await UserRepository.getUserById();
+      final userModelResponse =
+          await UserRepository.getUserById(avoidGettingFromPreference: false);
       if (userModelResponse != null && userModelResponse.data != null) {
         final isContractor = userModelResponse.data!.role == 'CONTRACTOR';
         emit(ProfileLoadedState(
@@ -48,7 +51,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
         emit(ProfileLoadedState(
           isLoading: false,
-          userModel: userModelResponse!.data!,
+          userModel: userModelResponse.data!,
           isContractor: event.isContractor,
         ));
       } catch (_) {}
@@ -80,17 +83,18 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         final imageString = await UserRepository.fetchImageFromStorage();
 
         if (imageString != null) {
-          await UserRepository.updateProfileImage(imageString);
-          userModelResponse = await UserRepository.getUserById();
+          userModelResponse =
+              await UserRepository.updateProfileImage(imageString);
         }
         emit(
           ProfileLoadedState(
             isLoading: false,
-            userModel: userModelResponse!.data!,
+            userModel: userModelResponse.data!,
             isContractor: userModelResponse.data!.role == 'CONTRACTOR',
           ),
         );
       } catch (_) {
+        log('EXEPTION IN BLOC');
         throw CouldNotUpdateUserProfileImageException();
       }
     });

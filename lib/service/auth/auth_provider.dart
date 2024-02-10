@@ -4,7 +4,7 @@ abstract class AuthProvider {
   Future<void> initialize();
   UserModelResponse? get currentUser;
 
-  Future<UserModelResponse> signIn();
+  Future<void> signIn();
 
   Future<void> signOut();
 

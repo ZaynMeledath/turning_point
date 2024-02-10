@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:turning_point/exceptions/user_exceptions.dart';
@@ -42,11 +43,14 @@ class UserRepository {
   }
 
 //====================Get User by ID====================//
-  static Future<UserModelResponse?> getUserById() async {
+  static Future<UserModelResponse?> getUserById(
+      {required bool avoidGettingFromPreference}) async {
     try {
-      final userModelResponse = getUserFromPreference();
-      if (userModelResponse != null) {
-        return userModelResponse;
+      if (!avoidGettingFromPreference) {
+        final userModelResponse = getUserFromPreference();
+        if (userModelResponse != null) {
+          return userModelResponse;
+        }
       }
       final id = decodeJwt()['userId'];
       final response = await ApiService().sendRequest(
@@ -65,12 +69,15 @@ class UserRepository {
     }
   }
 
+//====================Get All Contractors====================//
+
 //====================Update User Profile====================//
-  static Future<UserModelResponse?> updateUserProfile({
+  static Future<UserModelResponse> updateUserProfile({
     required UserModel userModel,
     required bool isKyc,
   }) async {
     try {
+      log('UPDATING');
       await ApiService().sendRequest(
         url: ApiEndpoints.updateUserProfile,
         requestMethod: 'PATCH',
@@ -89,16 +96,19 @@ class UserRepository {
         },
         isTokenRequired: true,
       );
-      final userModelResponse = await getUserById();
-      return userModelResponse;
+      final userModelResponse =
+          await getUserById(avoidGettingFromPreference: true);
+      return userModelResponse!;
     } catch (e) {
       throw CouldNotUpdateUserException();
     }
   }
 
 //====================Update User Profile Image====================//
-  static Future updateProfileImage(String imageString) async {
+  static Future<UserModelResponse> updateProfileImage(
+      String imageString) async {
     try {
+      log('UPDATING');
       await ApiService().sendRequest(
         url: ApiEndpoints.updateProfileImage,
         requestMethod: 'PATCH',
@@ -107,7 +117,11 @@ class UserRepository {
         },
         isTokenRequired: true,
       );
+      final userModelResponse =
+          await getUserById(avoidGettingFromPreference: true);
+      return userModelResponse!;
     } catch (_) {
+      log('EXCEPTION');
       throw CouldNotUpdateUserProfileImageException();
     }
   }
@@ -141,7 +155,7 @@ class UserRepository {
 //=====================Fetch and Decode userJson from SharedPreference====================//
   static UserModelResponse? getUserFromPreference() {
     final prefData = AppPreferences.getValueShared('user_json');
-    if (prefData != null) {
+    if (prefData != null && prefData.isNotEmpty) {
       final userJson = jsonDecode(prefData);
       return UserModelResponse.fromJson(userJson);
     } else {

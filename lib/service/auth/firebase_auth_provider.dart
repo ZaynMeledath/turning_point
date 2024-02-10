@@ -1,7 +1,14 @@
+import 'dart:developer';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart'
-    show FirebaseAuth, FirebaseAuthException, GoogleAuthProvider;
+    show
+        AuthCredential,
+        FirebaseAuth,
+        FirebaseAuthException,
+        GoogleAuthProvider;
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/auth/auth_exceptions.dart';
 import 'package:turning_point/service/auth/auth_provider.dart';
 import 'package:turning_point/firebase_options.dart';
@@ -16,8 +23,8 @@ class FirebaseAuthProvider implements AuthProvider {
 
   @override
   UserModelResponse? get currentUser {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
+    final user = UserRepository.getUserById(avoidGettingFromPreference: false);
+    if (user is String) {
       return null;
     } else {
       return null;
@@ -25,7 +32,7 @@ class FirebaseAuthProvider implements AuthProvider {
   }
 
   @override
-  Future<UserModelResponse> signIn() async {
+  Future<void> signIn() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -33,18 +40,24 @@ class FirebaseAuthProvider implements AuthProvider {
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
 
+      log('ID TOKEN : ${googleAuth?.idToken}');
+
       // Create a new credential
-      final credential = GoogleAuthProvider.credential(
+      final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
 
+      log('CREDENTIALS: $credential');
+
       // Once signed in, return the UserCredential
-      await FirebaseAuth.instance.signInWithCredential(credential);
-      final user = currentUser;
+      final result =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      final user = result.user;
+      log('USER: $user');
       if (user != null) {
-        return user;
       } else {
+        log('EXCEPTION');
         throw UserNotLoggedInAuthException();
       }
     } on FirebaseAuthException catch (e) {

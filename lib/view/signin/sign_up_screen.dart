@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -58,8 +56,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
+        final closeDialog = _closeDialogHandle;
         if (state is OtpVerificationNeededState) {
-          log('SIGNED UP');
+          closeDialog!();
+          _closeDialogHandle = null;
+          Navigator.pop(context);
           CustomNavigator.push(
             context: context,
             child: const OtpVerificationScreen(),
@@ -71,12 +72,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
           } else if (!state.isLoading && closeDialog != null) {
             closeDialog();
             _closeDialogHandle = null;
+            Navigator.pop(context);
           }
-          // if (state.isLoading) {
-          //   Overlay.of(context).insert(loadingOverlay);
-          // } else {
-          //   loadingOverlay.remove();
-          // }
         }
       },
       child: Scaffold(

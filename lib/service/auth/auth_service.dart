@@ -15,7 +15,7 @@ class AuthService implements AuthProvider {
   UserModelResponse? get currentUser => provider.currentUser;
 
   @override
-  Future<UserModelResponse> signIn() => provider.signIn();
+  Future<void> signIn() => provider.signIn();
 
   @override
   Future<void> signOut() => provider.signOut();

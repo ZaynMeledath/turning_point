@@ -138,10 +138,10 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
             );
           },
           onPageChanged: (index) {
+            context.read<ReelsBloc>().add(ReelLoadEvent(reelIndex: index));
             context
                 .read<PreloadBloc>()
                 .add(PreloadEvent(currentIndex: index, isInitial: false));
-            context.read<ReelsBloc>().add(ReelLoadEvent(reelIndex: index));
           },
           scrollDirection: Axis.vertical,
           controller: _pageController,

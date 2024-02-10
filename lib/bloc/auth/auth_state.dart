@@ -14,9 +14,11 @@ class WhoIsSigningState extends AuthState {}
 class SignUpState extends AuthState {
   final bool isContractor;
   final bool isLoading;
+  final UserModel? contractors;
   SignUpState({
     required this.isContractor,
     required this.isLoading,
+    this.contractors,
   });
 }
 

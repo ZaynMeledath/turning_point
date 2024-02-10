@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/model/user_model.dart';
@@ -11,7 +13,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(AuthProvider provider) : super(InitialState()) {
 //====================Initialize====================//
     on<AuthInitializeEvent>((event, emit) async {
-      // await provider.initialize();
+      await provider.initialize();
       // final user = provider.currentUser;
       UserModelResponse? user = UserRepository.getUserFromPreference();
       if (user == null) {
@@ -29,7 +31,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<GoogleSignInEvent>(
       (event, emit) async {
         try {
-          // await provider.signIn();
+          await provider.signIn();
           emit(WhoIsSigningState());
         } catch (e) {
           //Exception Handling
@@ -63,6 +65,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             emit(OtpVerificationNeededState());
           }
         } catch (e) {
+          log('EXCEPTION');
           //Exception
         }
       },
@@ -74,13 +77,5 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(SignedInState());
       },
     );
-
-//====================SignInEvent====================//
-    // on<SignInEvent>(
-    //   (event, emit) async {
-    //     await UserRepository.getUserById();
-    //     emit(SignedInState());
-    //   },
-    // );
   }
 }
