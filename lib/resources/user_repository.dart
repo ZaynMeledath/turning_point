@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:turning_point/exceptions/user_exceptions.dart';
@@ -16,6 +17,26 @@ class UserRepository {
     final Map<String, dynamic> decodedData = JwtDecoder.decode(token);
 
     return decodedData;
+  }
+
+  static Future<void> userSignIn(User user) async {
+    try {
+      final response = await ApiService().sendRequest(
+        url: ApiEndpoints.googleSignIn,
+        requestMethod: 'POST',
+        data: {
+          "uid": user.uid,
+          "displayName": user.displayName,
+          "image": user.photoURL,
+          "email": user.email,
+        },
+        isTokenRequired: false,
+      );
+
+      log('RESPONSE: $response');
+    } catch (e) {
+      throw UserAlreadyRegisteredAuthException();
+    }
   }
 
   static Future<bool> userSignUp({required String mobileNumber}) async {

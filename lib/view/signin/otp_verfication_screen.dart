@@ -60,7 +60,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is SignedInState) {
+        if (state is OtpVerifiedState) {
           CustomNavigator.pushAndRemove(
             context: context,
             child: const TermsAndConditionsScreen(isAccepted: false),

@@ -49,7 +49,7 @@ Widget availablePointsContainer({required Size screenSize}) {
           '$points',
           style: GoogleFonts.roboto(
             fontSize: screenSize.width * .092,
-            color: Colors.amber,
+            color: Colors.black,
             fontWeight: FontWeight.w500,
           ),
         ),

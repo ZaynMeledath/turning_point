@@ -1,8 +1,6 @@
-// Sign in Exceptions
+class UserAlreadyRegisteredAuthException implements Exception {}
 
 class UserNotFoundAuthException implements Exception {}
-
-// Sign up Exceptions
 
 class MobileNumberAlreadyInUseAuthException implements Exception {}
 

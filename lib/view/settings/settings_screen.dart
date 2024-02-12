@@ -1,5 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
@@ -46,10 +49,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   SizedBox(height: screenSize.height * .015),
-                  settingsOption(
-                    iconPath: 'assets/icons/notifications_icon.png',
-                    title: 'Notification',
-                    isEnabled: true,
+                  GestureDetector(
+                    onTap: () async {},
+                    child: settingsOption(
+                      iconPath: 'assets/icons/notifications_icon.png',
+                      title: 'Notification',
+                      isEnabled: true,
+                    ),
                   ),
                   settingsOption(
                     iconPath: 'assets/icons/biometrics_icon.png',
@@ -69,9 +75,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   SizedBox(height: screenSize.height * .012),
-                  settingsOption(
-                    iconPath: 'assets/icons/flag_icon.png',
-                    title: 'Report a Problem',
+                  GestureDetector(
+                    onTap: () async {
+                      final token =
+                          await FirebaseAuth.instance.currentUser!.getIdToken();
+                      log('TOKEN: $token');
+                    },
+                    child: settingsOption(
+                      iconPath: 'assets/icons/flag_icon.png',
+                      title: 'Report a Problem',
+                    ),
                   ),
                   GestureDetector(
                     onTap: () async {

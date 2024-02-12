@@ -133,7 +133,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
 //====================Dispose all Controllers====================//
   void disposeAllControllers() {
     state.controllers.forEach((key, value) {
-      if (key != 0) {
+      if (key >= 0) {
         value.dispose();
       }
     });

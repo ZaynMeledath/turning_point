@@ -23,6 +23,7 @@ if (flutterVersionName == null) {
 }
 
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     namespace "com.example.turning_point"

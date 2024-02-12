@@ -4,7 +4,7 @@ class ApiEndpoints {
 
   static const register = '$baseUrl/users/register';
   static const login = '$baseUrl/users/login';
-  static const googleSignIn = '$baseUrl/users/googleSignIn';
+  static const googleSignIn = '$baseUrl/users/google-signIn';
   static const getUser = '$baseUrl/users/getUserById';
   static const getContractors = '$baseUrl/users/getContractors';
   static const updateUserProfile = '$baseUrl/users/update-profile';
