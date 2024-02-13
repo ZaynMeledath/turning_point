@@ -56,7 +56,6 @@ class KycBloc extends Bloc<KycEvent, KycState> {
 
         userModelResponse = await UserRepository.updateUserProfile(
           userModel: userModelResponse.data!,
-          isKyc: true,
         );
 
         emit(const KycSubmittedState());

@@ -34,8 +34,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   late final TextEditingController businessController;
   late final TextEditingController searchController;
 
-  CloseDialog? _closeDialogHandle;
-
   @override
   void initState() {
     isContractor = widget.isContractor;
@@ -56,24 +54,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        final closeDialog = _closeDialogHandle;
-        if (state is OtpVerificationNeededState) {
-          closeDialog!();
-          _closeDialogHandle = null;
+        if (state is AuthLoadingState) {
+          showLoadingDialog(context: context);
+        } else if (state is OtpVerificationNeededState) {
           Navigator.pop(context);
           CustomNavigator.push(
             context: context,
             child: const OtpVerificationScreen(),
           );
-        } else if (state is SignUpState) {
-          final closeDialog = _closeDialogHandle;
-          if (state.isLoading && closeDialog == null) {
-            _closeDialogHandle = showLoadingDialog(context: context);
-          } else if (!state.isLoading && closeDialog != null) {
-            closeDialog();
-            _closeDialogHandle = null;
-            Navigator.pop(context);
-          }
         }
       },
       child: Scaffold(

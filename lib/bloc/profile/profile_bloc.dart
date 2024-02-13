@@ -17,13 +17,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           await UserRepository.getUserById(avoidGettingFromPreference: false);
       if (userModelResponse != null && userModelResponse.data != null) {
         final isContractor = userModelResponse.data!.role == 'CONTRACTOR';
-        emit(ProfileLoadedState(
+        return emit(ProfileLoadedState(
           isLoading: false,
           userModel: userModelResponse.data!,
           isContractor: isContractor,
         ));
       } else {
-        emit(ProfileLoadErrorState());
+        return emit(ProfileLoadErrorState());
       }
     });
 
@@ -46,7 +46,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
         userModelResponse = await UserRepository.updateUserProfile(
           userModel: userModelResponse.data!,
-          isKyc: false,
         );
 
         emit(ProfileLoadedState(

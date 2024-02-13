@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:turning_point/exceptions/user_exceptions.dart';
@@ -19,31 +18,31 @@ class UserRepository {
     return decodedData;
   }
 
-  static Future<void> userSignIn(User user) async {
+  static Future<void> userSignIn(String token) async {
     try {
       final response = await ApiService().sendRequest(
         url: ApiEndpoints.googleSignIn,
         requestMethod: 'POST',
-        data: {
-          "uid": user.uid,
-          "displayName": user.displayName,
-          "image": user.photoURL,
-          "email": user.email,
-        },
+        data: {"idToken": token},
         isTokenRequired: false,
       );
 
       log('RESPONSE: $response');
     } catch (e) {
+      log('EXCEPTION : $e');
       throw UserAlreadyRegisteredAuthException();
     }
   }
 
   static Future<bool> userSignUp({required String mobileNumber}) async {
     try {
+      // final user = FirebaseAuth.instance.currentUser;
       final decodedResponse = await ApiService().sendRequest(
         url: ApiEndpoints.login,
-        data: {"phone": mobileNumber},
+        data: {
+          "phone": mobileNumber,
+          "email": 'siddik@gmail.com',
+        },
         requestMethod: 'POST',
         isTokenRequired: false,
       );
@@ -59,6 +58,7 @@ class UserRepository {
         return false;
       }
     } catch (e) {
+      log('EXCEPTION: $e');
       throw CouldNotSignUpUserAuthException;
     }
   }
@@ -95,7 +95,6 @@ class UserRepository {
 //====================Update User Profile====================//
   static Future<UserModelResponse> updateUserProfile({
     required UserModel userModel,
-    required bool isKyc,
   }) async {
     try {
       log('UPDATING');

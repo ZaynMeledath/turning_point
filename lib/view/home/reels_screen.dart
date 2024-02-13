@@ -7,6 +7,7 @@ import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/model/reels_model.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/resources/reel_repository.dart';
 import 'package:turning_point/view/home/reels_page_viewer.dart';
@@ -21,10 +22,18 @@ class ReelsScreen extends StatefulWidget {
 }
 
 class _ReelsScreenState extends State<ReelsScreen> {
+  Future<ReelsModelResponse>? reelsFuture;
   @override
   void initState() {
     log(AppPreferences.getValueShared('auth_token'));
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Check if the future is not already assigned to avoid unnecessary fetches.
+    reelsFuture ??= ReelRepository.getReels();
   }
 
   @override
@@ -35,13 +44,16 @@ class _ReelsScreenState extends State<ReelsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    log('REELS SCREEN BUILD EXECUTED');
     context.read<ProfileBloc>().add(ProfileLoadEvent());
     return Scaffold(
       backgroundColor: Colors.black,
       body: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
+          log('BUILDER EXECUTED');
           switch (state) {
             case ProfileLoadingState():
+              log('PROFILE LOADING STATE EXECUTED');
               return const Center(
                 child: CircularProgressIndicator.adaptive(
                   strokeWidth: 5,
@@ -49,7 +61,9 @@ class _ReelsScreenState extends State<ReelsScreen> {
                   valueColor: AlwaysStoppedAnimation(Colors.blue),
                 ),
               );
+
             case ProfileLoadErrorState():
+              log('PROFILE LOAD ERROR STATE EXECUTED');
               return Expanded(
                 child: Container(
                   color: Colors.black,
@@ -66,14 +80,16 @@ class _ReelsScreenState extends State<ReelsScreen> {
                 ),
               );
             case ProfileLoadedState():
+              log('PROFILE LOADED STATE');
               return Stack(
                 alignment: Alignment.center,
                 children: [
                   //====================Reels Player====================//
                   FutureBuilder(
-                      future: ReelRepository.getReels(),
+                      future: reelsFuture,
                       builder: (context, reelsSnapshot) {
                         if (reelsSnapshot.hasData) {
+                          log('REELS FUTURE EXECUTED');
                           return ReelsPageViewer(
                             user: state.userModel,
                           );

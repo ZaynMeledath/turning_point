@@ -6,8 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart'
         AuthCredential,
         FirebaseAuth,
         FirebaseAuthException,
-        GoogleAuthProvider,
-        User;
+        GoogleAuthProvider;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/auth/auth_exceptions.dart';
@@ -15,7 +14,7 @@ import 'package:turning_point/service/auth/auth_provider.dart';
 import 'package:turning_point/firebase_options.dart';
 import 'package:turning_point/model/user_model.dart';
 
-class FirebaseAuthProvider implements AuthProvider {
+class FirebaseAuthProvider implements CustomAuthProvider {
   @override
   Future<void> initialize() async {
     await Firebase.initializeApp(
@@ -33,15 +32,13 @@ class FirebaseAuthProvider implements AuthProvider {
   }
 
   @override
-  Future<User> signIn() async {
+  Future<String> signIn() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
       // Obtain the auth details from the request
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
-
-      log('Direct Token : ${googleAuth?.idToken}');
 
       // Create a new credential
       final AuthCredential credential = GoogleAuthProvider.credential(
@@ -59,7 +56,7 @@ class FirebaseAuthProvider implements AuthProvider {
       if (user != null) {
         final token = await FirebaseAuth.instance.currentUser!.getIdToken();
         log('TOKEN : $token');
-        return user;
+        return token!;
       } else {
         log('EXCEPTION');
         throw UserNotLoggedInAuthException();

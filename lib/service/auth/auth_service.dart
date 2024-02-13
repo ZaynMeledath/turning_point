@@ -1,10 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:turning_point/service/auth/auth_provider.dart';
 import 'package:turning_point/service/auth/firebase_auth_provider.dart';
 import 'package:turning_point/model/user_model.dart';
 
-class AuthService implements AuthProvider {
-  final AuthProvider provider;
+class AuthService implements CustomAuthProvider {
+  final CustomAuthProvider provider;
   AuthService(this.provider);
 
   factory AuthService.firebase() => AuthService(FirebaseAuthProvider());
@@ -16,7 +15,7 @@ class AuthService implements AuthProvider {
   UserModelResponse? get currentUser => provider.currentUser;
 
   @override
-  Future<User> signIn() => provider.signIn();
+  Future<String> signIn() => provider.signIn();
 
   @override
   Future<void> signOut() => provider.signOut();

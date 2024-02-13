@@ -22,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     const ScannerScreen(),
     const LuckyDrawScreen(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeBloc, HomeState>(

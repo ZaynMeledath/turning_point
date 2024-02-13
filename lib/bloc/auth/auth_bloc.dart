@@ -4,51 +4,44 @@ import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/resources/user_repository.dart';
-import 'package:turning_point/service/auth/auth_exceptions.dart';
 import 'package:turning_point/service/auth/auth_provider.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc(AuthProvider provider) : super(InitialState()) {
+  AuthBloc(CustomAuthProvider provider) : super(InitialState()) {
 //====================Initialize====================//
     on<AuthInitializeEvent>((event, emit) async {
       await provider.initialize();
       // final user = provider.currentUser;
       UserModelResponse? user = UserRepository.getUserFromPreference();
       if (user == null) {
-        emit(SignedOutState());
+        return emit(InitialState());
       }
       // else if (!user.isPhoneVerified) {
       //   emit(OtpVerificationNeededState());
       // }
       else {
-        emit(SignedInState());
+        return emit(SignedInState());
       }
     });
 
 //====================GoogleSignInEvent====================//
     on<GoogleSignInEvent>(
       (event, emit) async {
-        try {
-          final user = await provider.signIn();
-          await UserRepository.userSignIn(user);
-          emit(WhoIsSigningState());
-        } on UserAlreadyRegisteredAuthException {
-          await UserRepository.userSignUp(mobileNumber: '8140470004');
-          emit(SignedInState());
-        }
-      },
-    );
+        // try {
+        // final token = await provider.signIn();
+        // await UserRepository.userSignIn(token);
 
-//====================WhoIsSigningEvent====================//
-    on<WhoIsSigningEvent>(
-      (event, emit) {
-        emit(SignUpState(
-          isContractor: event.isContractor,
-          isLoading: false,
-        ));
+        await UserRepository.userSignUp(mobileNumber: '8140470004');
+
+        emit(SignedInState());
+        // emit(WhoIsSigningState());
+        // } on UserAlreadyRegisteredAuthException {
+        // await UserRepository.userSignUp(mobileNumber: '8140470004');
+        //   emit(SignedInState());
+        // }
       },
     );
 
@@ -56,10 +49,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignUpEvent>(
       (event, emit) async {
         emit(
-          SignUpState(
-            isContractor: event.isContractor,
-            isLoading: true,
-          ),
+          AuthLoadingState(),
         );
         try {
           final isSuccess =
