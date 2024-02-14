@@ -14,17 +14,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(CustomAuthProvider provider) : super(InitialState()) {
 //====================Initialize====================//
     on<AuthInitializeEvent>((event, emit) async {
-      await provider.initialize();
-      // final user = provider.currentUser;
-      UserModelResponse? user = UserRepository.getUserFromPreference();
-      if (user == null) {
-        return emit(InitialState());
-      }
-      // else if (!user.isPhoneVerified) {
-      //   emit(OtpVerificationNeededState());
-      // }
-      else {
-        return emit(SignedInState());
+      try {
+        await provider.initialize();
+        // final user = provider.currentUser;
+        UserModelResponse? user = UserRepository.getUserFromPreference();
+        if (user == null) {
+          return emit(InitialState());
+        }
+        // else if (!user.isPhoneVerified) {
+        //   emit(OtpVerificationNeededState());
+        // }
+        else {
+          return emit(SignedInState());
+        }
+      } catch (e) {
+        log('EXCEPTION IN AuthInitializeEvent : $e');
       }
     });
 

@@ -42,7 +42,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   }
 
   @override
-  void dispose() {
+  void dispose() async {
+    super.dispose();
     _textController1.dispose();
     _textController2.dispose();
     _textController3.dispose();
@@ -53,7 +54,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     _focusNode3.dispose();
     _focusNode4.dispose();
 
-    super.dispose();
+    // await authBloc.close();
   }
 
   @override

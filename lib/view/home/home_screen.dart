@@ -24,6 +24,14 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   @override
+  void dispose() async {
+    super.dispose();
+    // await homeBloc.close();
+    // await reelsBloc.close();
+    // await preloadBloc.close();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeBloc, HomeState>(
       listener: (context, state) async {

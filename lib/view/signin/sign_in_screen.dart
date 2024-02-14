@@ -20,6 +20,7 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   bool isLoaded = false;
+  bool shouldCloseBloc = false;
 
   @override
   void initState() {
@@ -32,14 +33,17 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   @override
-  void dispose() {
+  void dispose() async {
     super.dispose();
+    if (shouldCloseBloc) {
+      await authBloc.close();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is WhoIsSigningState) {
           log('WHO IS SIGNING STATE LISTENER EXECUTED');
           CustomNavigator.pushAndRemove(
@@ -49,6 +53,7 @@ class _SignInScreenState extends State<SignInScreen> {
           log('WHO IS SIGNING STATE LISTENER EXECUTED AFTER');
         } else if (state is SignedInState) {
           log('SIGN IN SCREEN BEFORE NAVIGATION');
+          shouldCloseBloc = true;
           Navigator.of(context).pushAndRemoveUntil(
             PageTransition(
               child: const HomeScreen(),
@@ -184,7 +189,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               fontWeight: FontWeight.w700,
                               color: Colors.white,
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),

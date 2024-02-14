@@ -27,8 +27,7 @@ class _ContestScreenState extends State<ContestScreen> {
   @override
   void dispose() async {
     super.dispose();
-    await contestBloc.close();
-    // contestBloc.add(ContestTimerDisposeEvent());
+    contestBloc.add(ContestTimerDisposeEvent());
   }
 
   @override
