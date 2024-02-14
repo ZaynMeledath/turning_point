@@ -150,12 +150,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   //====================Sign Up Button====================//
                   GestureDetector(
                     onTap: () {
-                      context.read<AuthBloc>().add(
-                            SignUpEvent(
-                              mobileNumber: mobileController.text,
-                              isContractor: isContractor,
-                            ),
-                          );
+                      authBloc.add(
+                        SignUpEvent(
+                          mobileNumber: mobileController.text,
+                          isContractor: isContractor,
+                        ),
+                      );
                     },
                     child: Hero(
                       tag: 'sign_in_sign_up_container',

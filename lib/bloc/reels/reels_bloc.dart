@@ -38,3 +38,5 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
     });
   }
 }
+
+final reelsBloc = ReelsBloc();

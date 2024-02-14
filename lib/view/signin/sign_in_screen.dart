@@ -140,7 +140,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 alignment: Alignment.bottomCenter,
                 child: GestureDetector(
                   onTap: () {
-                    context.read<AuthBloc>().add(GoogleSignInEvent());
+                    authBloc.add(GoogleSignInEvent());
                   },
                   child: Hero(
                     tag: 'sign_in_sign_up_container',

@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:async';
 import 'dart:convert';
 
@@ -10,12 +12,20 @@ import 'package:http/http.dart' as http;
 import 'package:turning_point/service/api/api_exception.dart';
 import 'package:turning_point/view/signin/sign_in_screen.dart';
 
+enum FetchMethod {
+  GET,
+  POST,
+  PATCH,
+  PUT,
+  DELETE,
+}
+
 class ApiService {
   String? token;
 
   Future sendRequest({
     required String url,
-    required String requestMethod,
+    required FetchMethod requestMethod,
     required dynamic data,
     required bool isTokenRequired,
   }) async {
@@ -32,10 +42,10 @@ class ApiService {
 
       dynamic response;
       switch (requestMethod) {
-        case 'GET':
+        case FetchMethod.GET:
           response = await http.get(Uri.parse(url), headers: headers);
           break;
-        case 'POST':
+        case FetchMethod.POST:
           final requestBody = data is String ? data : json.encode(data);
           response = await http.post(
             Uri.parse(url),
@@ -43,7 +53,7 @@ class ApiService {
             body: requestBody,
           );
           break;
-        case 'PUT':
+        case FetchMethod.PUT:
           final requestBody = data is String ? data : json.encode(data);
           response = await http.put(
             Uri.parse(url),
@@ -51,7 +61,7 @@ class ApiService {
             body: requestBody,
           );
           break;
-        case 'PATCH':
+        case FetchMethod.PATCH:
           final requestBody = data is String ? data : json.encode(data);
           response = await http.patch(
             Uri.parse(url),
@@ -59,7 +69,7 @@ class ApiService {
             body: requestBody,
           );
           break;
-        case 'DELETE':
+        case FetchMethod.DELETE:
           response = await http.delete(Uri.parse(url), headers: headers);
           break;
         default:

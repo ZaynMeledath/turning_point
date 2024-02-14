@@ -82,7 +82,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    context.read<ProfileBloc>().add(ProfileLoadEvent());
+    profileBloc.add(ProfileLoadEvent());
     return Scaffold(
       body: SafeArea(
         child: BlocBuilder<ProfileBloc, ProfileState>(
@@ -159,9 +159,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                context.read<ProfileBloc>().add(
-                                    ProfileRadioTriggerEvent(
-                                        isContractor: true));
+                                profileBloc.add(ProfileRadioTriggerEvent(
+                                    isContractor: true));
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -183,9 +182,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             SizedBox(width: screenSize.width * .08),
                             GestureDetector(
                               onTap: () {
-                                context.read<ProfileBloc>().add(
-                                    ProfileRadioTriggerEvent(
-                                        isContractor: false));
+                                profileBloc.add(ProfileRadioTriggerEvent(
+                                    isContractor: false));
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -242,16 +240,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         SizedBox(height: screenSize.height * .051),
                         GestureDetector(
                           onTap: () {
-                            context.read<ProfileBloc>().add(
-                                  ProfileUpdateEvent(
-                                    isContractor: state.isContractor,
-                                    name: _nameController.text,
-                                    phone: _phoneController.text,
-                                    address: _addressController.text,
-                                    businessName: _businessController.text,
-                                    email: _emailController.text,
-                                  ),
-                                );
+                            profileBloc.add(
+                              ProfileUpdateEvent(
+                                isContractor: state.isContractor,
+                                name: _nameController.text,
+                                phone: _phoneController.text,
+                                address: _addressController.text,
+                                businessName: _businessController.text,
+                                email: _emailController.text,
+                              ),
+                            );
                           },
                           child: Container(
                             width: screenSize.width * .38,

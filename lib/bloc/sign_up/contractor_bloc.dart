@@ -11,3 +11,5 @@ class ContractorBloc extends Bloc<ContractorEvent, ContractorState> {
     });
   }
 }
+
+final contractorBloc = ContractorBloc();

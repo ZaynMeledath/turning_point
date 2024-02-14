@@ -19,3 +19,5 @@ class PointsHistoryBloc extends Bloc<PointsHistoryEvent, PointsHistoryState> {
     });
   }
 }
+
+final pointsHistoryBloc = PointsHistoryBloc();

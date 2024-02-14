@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
@@ -46,7 +45,7 @@ Widget editProfilePictureSegment({
             right: 0,
             child: GestureDetector(
               onTap: () {
-                context.read<ProfileBloc>().add(ProfilePictureUpdateEvent());
+                profileBloc.add(ProfilePictureUpdateEvent());
               },
               child: CircleAvatar(
                 backgroundColor: Colors.white,

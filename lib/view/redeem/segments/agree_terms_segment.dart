@@ -8,7 +8,7 @@ Widget agreeTermsSegment() {
         children: [
           GestureDetector(
             onTap: () {
-              context.read<RedeemBloc>().add(AgreeTermsPressedEvent());
+              redeemBloc.add(AgreeTermsPressedEvent());
             },
             child: Container(
               width: screenSize.width * .041,

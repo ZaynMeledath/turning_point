@@ -201,7 +201,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     //====================Verify Button====================//
                     GestureDetector(
                       onTap: () {
-                        context.read<AuthBloc>().add(VerifyOtpEvent());
+                        authBloc.add(VerifyOtpEvent());
                       },
                       child: Container(
                         width: screenSize.width * .37,

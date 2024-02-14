@@ -142,3 +142,5 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
     );
   }
 }
+
+final preloadBloc = PreloadBloc();

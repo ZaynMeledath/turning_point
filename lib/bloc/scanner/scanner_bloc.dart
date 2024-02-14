@@ -9,3 +9,5 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
     //
   }
 }
+
+final scannerBloc = ScannerBloc();

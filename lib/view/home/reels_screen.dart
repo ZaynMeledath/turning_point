@@ -45,7 +45,7 @@ class _ReelsScreenState extends State<ReelsScreen> {
   @override
   Widget build(BuildContext context) {
     log('REELS SCREEN BUILD EXECUTED');
-    context.read<ProfileBloc>().add(ProfileLoadEvent());
+    profileBloc.add(ProfileLoadEvent());
     return Scaffold(
       backgroundColor: Colors.black,
       body: BlocBuilder<ProfileBloc, ProfileState>(

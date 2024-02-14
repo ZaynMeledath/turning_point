@@ -69,7 +69,7 @@ Widget scannerErrorWidget(BuildContext context) {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: () => context.read<HomeBloc>().add(TriggerEvent(0)),
+                    onTap: () => homeBloc.add(TriggerEvent(0)),
                     child: Container(
                       width: screenSize.width * .24,
                       height: screenSize.width * .065,

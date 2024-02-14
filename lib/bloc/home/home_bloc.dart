@@ -15,3 +15,5 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
   }
 }
+
+final homeBloc = HomeBloc();

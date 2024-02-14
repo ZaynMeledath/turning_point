@@ -24,17 +24,16 @@ class ContestScreen extends StatefulWidget {
 }
 
 class _ContestScreenState extends State<ContestScreen> {
-  final contestBloc = ContestBloc();
-
   @override
-  void dispose() {
-    contestBloc.add(ContestTimerDisposeEvent());
+  void dispose() async {
     super.dispose();
+    await contestBloc.close();
+    // contestBloc.add(ContestTimerDisposeEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    context.read<ContestBloc>().add(ContestLoadEvent());
+    contestBloc.add(ContestLoadEvent());
     return Scaffold(
       body: SafeArea(
         child: Column(

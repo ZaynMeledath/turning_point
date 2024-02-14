@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/auth/auth_provider.dart';
+import 'package:turning_point/service/auth/firebase_auth_provider.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -72,3 +73,5 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 }
+
+final authBloc = AuthBloc(FirebaseAuthProvider());

@@ -8,7 +8,6 @@ import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/bloc/scanner/scanner_bloc.dart';
 import 'package:turning_point/bloc/sign_up/contractor_bloc.dart';
-import 'package:turning_point/service/auth/firebase_auth_provider.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/bloc/home/home_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
@@ -41,42 +40,42 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => AuthBloc(FirebaseAuthProvider()),
+          create: (_) => authBloc,
         ),
         BlocProvider(
-          create: (_) => PreloadBloc(),
+          create: (_) => preloadBloc,
         ),
         BlocProvider(
-          create: (_) => RedeemBloc(),
+          create: (_) => redeemBloc,
         ),
         BlocProvider(
-          create: (_) => HomeBloc(),
+          create: (_) => homeBloc,
         ),
         BlocProvider(
-          create: (_) => ContractorBloc(),
+          create: (_) => contractorBloc,
         ),
         BlocProvider(
-          create: (_) => ReelsBloc(),
+          create: (_) => reelsBloc,
         ),
         BlocProvider(
-          create: (_) => PointsHistoryBloc(),
+          create: (_) => pointsHistoryBloc,
         ),
         BlocProvider(
-          create: (_) => ProfileBloc(),
+          create: (_) => profileBloc,
         ),
         BlocProvider(
-          create: (_) => ScannerBloc(),
+          create: (_) => scannerBloc,
         ),
         BlocProvider(
-          create: (_) => KycBloc(),
+          create: (_) => kycBloc,
         ),
         BlocProvider(
-          create: (_) => ContestBloc(),
+          create: (_) => contestBloc,
         ),
       ],
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
-          context.read<AuthBloc>().add(AuthInitializeEvent());
+          authBloc.add(AuthInitializeEvent());
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Turning Point',

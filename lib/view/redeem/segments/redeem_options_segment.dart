@@ -20,8 +20,7 @@ Widget redeemOptionsSegment({
 //====================Buy Coupons Container====================//
                 InkWell(
                   borderRadius: BorderRadius.circular(16),
-                  onTap: () =>
-                      context.read<RedeemBloc>().add(BuyCouponsPressedEvent()),
+                  onTap: () => redeemBloc.add(BuyCouponsPressedEvent()),
                   child: Container(
                     padding: EdgeInsets.symmetric(
                       horizontal: screenSize.width * .041,
@@ -169,8 +168,7 @@ Widget redeemOptionsSegment({
 //====================UPI Transfer Container====================//
                 InkWell(
                   borderRadius: BorderRadius.circular(16),
-                  onTap: () =>
-                      context.read<RedeemBloc>().add(UpiTransferPressedEvent()),
+                  onTap: () => redeemBloc.add(UpiTransferPressedEvent()),
                   child: Container(
                     padding: EdgeInsets.symmetric(
                       horizontal: screenSize.width * .041,

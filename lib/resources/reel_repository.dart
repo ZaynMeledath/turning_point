@@ -15,14 +15,14 @@ class ReelRepository {
   static Future<ReelsModelResponse> getReels() async {
     final response = await ApiService().sendRequest(
       url: '${ApiEndpoints.getReelsPaginated}/?page=1&limit=6',
-      requestMethod: 'GET',
+      requestMethod: FetchMethod.GET,
       data: null,
       isTokenRequired: true,
     );
 
     // final response = await ApiService().sendRequest(
     //   url: ApiEndpoints.getReels,
-    //   requestMethod: 'GET',
+    //   requestMethod: FetchMethod.GET,
     //   data: null,
     //   isTokenRequired: false,
     // );
@@ -46,7 +46,7 @@ class ReelRepository {
 
     final response = await ApiService().sendRequest(
       url: ApiEndpoints.likeReel,
-      requestMethod: 'POST',
+      requestMethod: FetchMethod.POST,
       data: {
         "userId": UserRepository.decodeJwt()['userId'],
         "reelId": reelId,

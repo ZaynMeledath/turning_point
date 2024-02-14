@@ -36,7 +36,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    context.read<ProfileBloc>().add(ProfileLoadEvent());
+    profileBloc.add(ProfileLoadEvent());
     return Scaffold(
       body: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {

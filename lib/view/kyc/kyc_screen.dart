@@ -62,7 +62,7 @@ class _KycScreenState extends State<KycScreen>
 
   @override
   Widget build(BuildContext context) {
-    context.read<KycBloc>().add(KycLoadEvent(tabIndex: 0));
+    kycBloc.add(KycLoadEvent(tabIndex: 0));
     return Scaffold(
       body: SafeArea(
         child: BlocConsumer<KycBloc, KycState>(
@@ -244,25 +244,25 @@ class _KycScreenState extends State<KycScreen>
                               curve: Curves.bounceInOut,
                               duration: const Duration(milliseconds: 200),
                             );
-                            context.read<KycBloc>().add(KycLoadEvent(
-                                  tabIndex: _tabController.index,
-                                  name: nameController.text,
-                                  email: emailController.text,
-                                  pincode: pinController.text,
-                                ));
+                            kycBloc.add(KycLoadEvent(
+                              tabIndex: _tabController.index,
+                              name: nameController.text,
+                              email: emailController.text,
+                              pincode: pinController.text,
+                            ));
                           } else {
-                            context.read<KycBloc>().add(
-                                  KycUpdateEvent(
-                                    name: nameController.text,
-                                    phone: phoneController.text,
-                                    email: emailController.text,
-                                    pincode: pinController.text,
-                                    isSavings: state.isSavings,
-                                    accName: accNameController.text,
-                                    accNum: accNumController.text,
-                                    ifsc: ifscController.text,
-                                  ),
-                                );
+                            kycBloc.add(
+                              KycUpdateEvent(
+                                name: nameController.text,
+                                phone: phoneController.text,
+                                email: emailController.text,
+                                pincode: pinController.text,
+                                isSavings: state.isSavings,
+                                accName: accNameController.text,
+                                accNum: accNumController.text,
+                                ifsc: ifscController.text,
+                              ),
+                            );
                           }
                         },
                         child: Container(

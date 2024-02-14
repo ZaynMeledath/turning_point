@@ -99,3 +99,5 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     });
   }
 }
+
+final profileBloc = ProfileBloc();

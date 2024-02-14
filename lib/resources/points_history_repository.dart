@@ -8,7 +8,7 @@ class PointsHistoryRespository {
     final userId = UserRepository.getUserFromPreference()!.data!.id;
     final response = await ApiService().sendRequest(
       url: '${ApiEndpoints.pointsHistory}?userId=$userId',
-      requestMethod: 'GET',
+      requestMethod: FetchMethod.GET,
       data: null,
       isTokenRequired: true,
     );

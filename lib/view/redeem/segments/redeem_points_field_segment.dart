@@ -38,7 +38,7 @@ Widget redeemPointsFieldSegment() {
               children: [
                 GestureDetector(
                   onTap: () {
-                    context.read<RedeemBloc>().add(PointsDecrementEvent());
+                    redeemBloc.add(PointsDecrementEvent());
                   },
                   child: redeemPlusMinusContainer(isPlus: false),
                 ),
@@ -60,7 +60,7 @@ Widget redeemPointsFieldSegment() {
                 ),
                 GestureDetector(
                   onTap: () {
-                    context.read<RedeemBloc>().add(PointsIncrementEvent());
+                    redeemBloc.add(PointsIncrementEvent());
                   },
                   child: redeemPlusMinusContainer(isPlus: true),
                 ),

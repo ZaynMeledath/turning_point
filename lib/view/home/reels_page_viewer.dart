@@ -56,10 +56,8 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
 
   @override
   Widget build(BuildContext context) {
-    context.read<ReelsBloc>().add(const ReelLoadEvent(reelIndex: 0));
-    context
-        .read<PreloadBloc>()
-        .add(PreloadEvent(currentIndex: 0, isInitial: true));
+    reelsBloc.add(const ReelLoadEvent(reelIndex: 0));
+    preloadBloc.add(PreloadEvent(currentIndex: 0, isInitial: true));
 
     return BlocBuilder<PreloadBloc, PreloadState>(
       builder: (context, state) {
@@ -139,7 +137,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
             );
           },
           onPageChanged: (index) {
-            context.read<ReelsBloc>().add(ReelLoadEvent(reelIndex: index));
+            reelsBloc.add(ReelLoadEvent(reelIndex: index));
             context
                 .read<PreloadBloc>()
                 .add(PreloadEvent(currentIndex: index, isInitial: false));

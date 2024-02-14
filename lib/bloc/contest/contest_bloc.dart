@@ -87,11 +87,7 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
         }
       }
     });
-
-    on<ContestTimerDisposeEvent>((event, emit) {
-      log('DISPOSE EXECUTING');
-      emit(ContestLoadingState());
-      log('DISPOSE EXECUTED');
-    });
   }
 }
+
+final contestBloc = ContestBloc();

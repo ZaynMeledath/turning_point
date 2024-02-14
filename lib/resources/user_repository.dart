@@ -22,7 +22,7 @@ class UserRepository {
     try {
       final response = await ApiService().sendRequest(
         url: ApiEndpoints.googleSignIn,
-        requestMethod: 'POST',
+        requestMethod: FetchMethod.POST,
         data: {"idToken": token},
         isTokenRequired: false,
       );
@@ -43,7 +43,7 @@ class UserRepository {
           "phone": mobileNumber,
           "email": 'siddik@gmail.com',
         },
-        requestMethod: 'POST',
+        requestMethod: FetchMethod.POST,
         isTokenRequired: false,
       );
 
@@ -76,7 +76,7 @@ class UserRepository {
       final id = decodeJwt()['userId'];
       final response = await ApiService().sendRequest(
         url: '${ApiEndpoints.getUser}/$id',
-        requestMethod: 'GET',
+        requestMethod: FetchMethod.GET,
         data: null,
         isTokenRequired: true,
       );
@@ -100,7 +100,7 @@ class UserRepository {
       log('UPDATING');
       await ApiService().sendRequest(
         url: ApiEndpoints.updateUserProfile,
-        requestMethod: 'PATCH',
+        requestMethod: FetchMethod.PATCH,
         data: {
           "name": userModel.name,
           "phone": userModel.phone,
@@ -131,7 +131,7 @@ class UserRepository {
       log('UPDATING');
       await ApiService().sendRequest(
         url: ApiEndpoints.updateProfileImage,
-        requestMethod: 'PATCH',
+        requestMethod: FetchMethod.PATCH,
         data: {
           "image": imageString,
         },

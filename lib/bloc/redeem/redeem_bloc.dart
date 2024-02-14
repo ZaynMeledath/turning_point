@@ -189,3 +189,5 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
     });
   }
 }
+
+final redeemBloc = RedeemBloc();

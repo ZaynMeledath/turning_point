@@ -78,3 +78,5 @@ class KycBloc extends Bloc<KycEvent, KycState> {
     });
   }
 }
+
+final kycBloc = KycBloc();
