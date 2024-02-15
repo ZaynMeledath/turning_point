@@ -31,6 +31,7 @@ class UserModel {
   String? name;
   String? shopName;
   String? pincode;
+  String? address;
   int? points;
   bool? isActive;
   String? role;
@@ -54,6 +55,7 @@ class UserModel {
       this.shopName,
       this.points,
       this.pincode,
+      this.address,
       this.isActive,
       this.role,
       this.bankDetails,
@@ -75,6 +77,7 @@ class UserModel {
     name = json['name'];
     shopName = json['shopName'];
     pincode = json['pincode'];
+    address = json['address'];
     points = json['points'];
     isActive = json['isActive'];
     role = json['role'];
@@ -104,6 +107,7 @@ class UserModel {
     data['name'] = name;
     data['shopName'] = shopName;
     data['pincode'] = pincode;
+    data['address'] = address;
     data['points'] = points;
     data['isActive'] = isActive;
     data['role'] = role;

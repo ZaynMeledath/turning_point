@@ -8,7 +8,7 @@ class ContestRepository {
   static Future<ContestModelResponse> getContests() async {
     final response = await ApiService().sendRequest(
       url: ApiEndpoints.getContests,
-      requestMethod: FetchMethod.GET,
+      requestMethod: RequestMethod.GET,
       data: null,
       isTokenRequired: true,
     );

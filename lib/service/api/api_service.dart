@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:turning_point/service/api/api_exception.dart';
 import 'package:turning_point/view/signin/sign_in_screen.dart';
 
-enum FetchMethod {
+enum RequestMethod {
   GET,
   POST,
   PATCH,
@@ -25,7 +25,7 @@ class ApiService {
 
   Future sendRequest({
     required String url,
-    required FetchMethod requestMethod,
+    required RequestMethod requestMethod,
     required dynamic data,
     required bool isTokenRequired,
   }) async {
@@ -42,10 +42,10 @@ class ApiService {
 
       dynamic response;
       switch (requestMethod) {
-        case FetchMethod.GET:
+        case RequestMethod.GET:
           response = await http.get(Uri.parse(url), headers: headers);
           break;
-        case FetchMethod.POST:
+        case RequestMethod.POST:
           final requestBody = data is String ? data : json.encode(data);
           response = await http.post(
             Uri.parse(url),
@@ -53,7 +53,7 @@ class ApiService {
             body: requestBody,
           );
           break;
-        case FetchMethod.PUT:
+        case RequestMethod.PUT:
           final requestBody = data is String ? data : json.encode(data);
           response = await http.put(
             Uri.parse(url),
@@ -61,7 +61,7 @@ class ApiService {
             body: requestBody,
           );
           break;
-        case FetchMethod.PATCH:
+        case RequestMethod.PATCH:
           final requestBody = data is String ? data : json.encode(data);
           response = await http.patch(
             Uri.parse(url),
@@ -69,7 +69,7 @@ class ApiService {
             body: requestBody,
           );
           break;
-        case FetchMethod.DELETE:
+        case RequestMethod.DELETE:
           response = await http.delete(Uri.parse(url), headers: headers);
           break;
         default:

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,11 +22,15 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   late final TextEditingController _textController2;
   late final TextEditingController _textController3;
   late final TextEditingController _textController4;
+  late final TextEditingController _textController5;
+  late final TextEditingController _textController6;
 
   late final FocusNode _focusNode1;
   late final FocusNode _focusNode2;
   late final FocusNode _focusNode3;
   late final FocusNode _focusNode4;
+  late final FocusNode _focusNode5;
+  late final FocusNode _focusNode6;
 
   @override
   void initState() {
@@ -32,11 +38,15 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     _textController2 = TextEditingController();
     _textController3 = TextEditingController();
     _textController4 = TextEditingController();
+    _textController5 = TextEditingController();
+    _textController6 = TextEditingController();
 
     _focusNode1 = FocusNode();
     _focusNode2 = FocusNode();
     _focusNode3 = FocusNode();
     _focusNode4 = FocusNode();
+    _focusNode5 = FocusNode();
+    _focusNode6 = FocusNode();
 
     super.initState();
   }
@@ -48,6 +58,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     _textController2.dispose();
     _textController3.dispose();
     _textController4.dispose();
+    _textController5.dispose();
+    _textController6.dispose();
 
     _focusNode1.dispose();
     _focusNode2.dispose();
@@ -173,8 +185,17 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         otpContainer(
                             controller: _textController4,
                             focusNode: _focusNode4),
+                        SizedBox(width: screenSize.width * .025),
+                        otpContainer(
+                            controller: _textController5,
+                            focusNode: _focusNode5),
+                        SizedBox(width: screenSize.width * .025),
+                        otpContainer(
+                            controller: _textController6,
+                            focusNode: _focusNode6),
                       ],
                     ),
+
                     SizedBox(height: screenSize.height * .01),
 
                     //====================Resend OTP====================//
@@ -200,28 +221,39 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     SizedBox(height: screenSize.height * .21),
 
                     //====================Verify Button====================//
-                    GestureDetector(
-                      onTap: () {
-                        authBloc.add(VerifyOtpEvent());
-                      },
-                      child: Container(
-                        width: screenSize.width * .37,
-                        height: screenSize.width * .11,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          color: const Color.fromRGBO(0, 99, 255, 1),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Verify',
-                            style: GoogleFonts.roboto(
-                              fontSize: screenSize.width * .031,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
+                    BlocBuilder<AuthBloc, AuthState>(
+                      builder: (context, state) {
+                        return GestureDetector(
+                          onTap: () {
+                            final otp = _textController1.text +
+                                _textController2.text +
+                                _textController3.text +
+                                _textController4.text +
+                                _textController5.text +
+                                _textController6.text;
+                            log('OTP: $otp');
+                            authBloc.add(VerifyOtpEvent(otp));
+                          },
+                          child: Container(
+                            width: screenSize.width * .37,
+                            height: screenSize.width * .11,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6),
+                              color: const Color.fromRGBO(0, 99, 255, 1),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Verify',
+                                style: GoogleFonts.roboto(
+                                  fontSize: screenSize.width * .031,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -273,7 +305,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
           if (value.isNotEmpty) {
             focusNode.nextFocus();
-            if (controller == _textController4) {
+            if (controller == _textController6) {
               focusNode.unfocus();
             }
           }

@@ -33,6 +33,7 @@ dependencies:
   http: ^1.1.2
   image_picker: ^1.0.7
   jwt_decoder: ^2.0.1
+  marquee: ^2.2.3
   mobile_scanner: ^4.0.0
   page_transition: ^2.1.0
   permission_handler: ^11.2.0

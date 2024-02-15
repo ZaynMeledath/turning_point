@@ -9,10 +9,10 @@ class GoogleSignInEvent extends AuthEvent {}
 
 class SignUpEvent extends AuthEvent {
   final String mobileNumber;
-  final bool isContractor;
+  final String contractorName;
   SignUpEvent({
     required this.mobileNumber,
-    required this.isContractor,
+    required this.contractorName,
   });
 }
 
@@ -22,6 +22,9 @@ class UpdateContractor extends AuthEvent {
   UpdateContractor({required this.contractor});
 }
 
-class VerifyOtpEvent extends AuthEvent {}
+class VerifyOtpEvent extends AuthEvent {
+  final String otp;
+  VerifyOtpEvent(this.otp);
+}
 
 class SignOutEvent extends AuthEvent {}

@@ -2,7 +2,6 @@ part of '../sign_up_screen.dart';
 
 Widget contractorDropDownContainer(
     {required TextEditingController searchController}) {
-  final contractorList = ['JOHN', 'JACOB', 'SEAN', 'ADHIL'];
   return BlocBuilder<ContractorBloc, ContractorState>(
     builder: (context, state) {
       return Align(
@@ -32,19 +31,12 @@ Widget contractorDropDownContainer(
           child: DropdownButtonHideUnderline(
             child: DropdownButton2<String>(
               isExpanded: true,
-              hint: Text(
-                'Select Contractor',
-                style: GoogleFonts.roboto(
-                  fontSize: screenSize.width * .032,
-                  color: const Color.fromRGBO(16, 16, 16, .8),
-                ),
-              ),
-              items: contractorList
+              items: state.contractorsList!
                   .map(
                     (item) => DropdownMenuItem(
-                      value: item.toUpperCase(),
+                      value: '${item.name} - ${item.shopName}',
                       child: Text(
-                        item.toUpperCase(),
+                        '${item.name} - ${item.shopName}',
                         style: GoogleFonts.roboto(
                           fontSize: screenSize.width * .036,
                           fontWeight: FontWeight.w400,
@@ -66,24 +58,40 @@ Widget contractorDropDownContainer(
                   color: const Color.fromRGBO(246, 246, 246, 1),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    width: screenSize.width * .1,
-                    height: screenSize.width * .12,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.horizontal(
-                        right: Radius.circular(8),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        state.contractorName ?? 'Select Contractor',
+                        style: GoogleFonts.roboto(
+                          fontSize: screenSize.width * .032,
+                          color: const Color.fromRGBO(16, 16, 16, .8),
+                        ),
                       ),
                     ),
-                    child: Center(
-                      child: Icon(
-                        Icons.arrow_drop_down_rounded,
-                        size: screenSize.width * .08,
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Container(
+                          width: screenSize.width * .1,
+                          height: screenSize.width * .12,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.horizontal(
+                              right: Radius.circular(8),
+                            ),
+                          ),
+                          child: Center(
+                            child: Icon(
+                              Icons.arrow_drop_down_rounded,
+                              size: screenSize.width * .08,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
               ),
               // buttonStyleData: ButtonStyleData(
@@ -106,12 +114,6 @@ Widget contractorDropDownContainer(
                 searchInnerWidgetHeight: 50,
                 searchInnerWidget: Container(
                   height: 40,
-                  padding: EdgeInsets.only(
-                    top: 8,
-                    bottom: 4,
-                    right: screenSize.width * .02,
-                    left: 8,
-                  ),
                   margin: EdgeInsets.all(screenSize.width * .02),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -125,22 +127,24 @@ Widget contractorDropDownContainer(
                       ),
                     ],
                   ),
-                  child: TextFormField(
-                    expands: false,
-                    maxLines: null,
-                    controller: searchController,
-                    style: GoogleFonts.roboto(
-                      fontSize: screenSize.width * .034,
-                    ),
-                    decoration: InputDecoration(
-                      isDense: true,
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 10),
-                      hintText: 'Search for the contractor...',
-                      hintStyle: GoogleFonts.roboto(
+                  child: Center(
+                    child: TextFormField(
+                      expands: false,
+                      maxLines: null,
+                      controller: searchController,
+                      style: GoogleFonts.roboto(
                         fontSize: screenSize.width * .034,
                       ),
-                      border: InputBorder.none,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 10),
+                        hintText: 'Search for the contractor...',
+                        hintStyle: GoogleFonts.roboto(
+                          fontSize: screenSize.width * .034,
+                        ),
+                        border: InputBorder.none,
+                      ),
                     ),
                   ),
                 ),

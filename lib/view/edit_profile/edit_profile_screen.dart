@@ -11,6 +11,7 @@ import 'package:turning_point/helper/widget/custom_radio_button.dart';
 import 'package:turning_point/view/edit_profile/segments/edit_profile_picture_segment.dart';
 import 'package:turning_point/view/edit_profile/segments/text_field_segment.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:turning_point/view/signin/sign_up_screen.dart';
 
 part 'profile_picture_view.dart';
 
@@ -27,6 +28,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   late final TextEditingController _addressController;
   late final TextEditingController _businessController;
   late final TextEditingController _emailController;
+  late final TextEditingController _searchController;
 
   // CloseDialog? _closeDialogHandle;
 
@@ -43,6 +45,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _addressController = TextEditingController();
     _businessController = TextEditingController();
     _emailController = TextEditingController();
+    _searchController = TextEditingController();
 
     // _nameNode = FocusNode();
     // _mobileNode = FocusNode();
@@ -59,6 +62,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _addressController.dispose();
     _businessController.dispose();
     _emailController.dispose();
+    _searchController.dispose();
     // loadingOverlay.dispose();
 
     // _nameNode.dispose();
@@ -224,13 +228,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           title: 'Address',
                         ),
                         SizedBox(height: screenSize.height * .037),
-                        textFieldSegment(
-                          screenSize: screenSize,
-                          controller: _businessController,
-                          title: state.isContractor
-                              ? 'Business Name'
-                              : 'Contractor Name',
-                        ),
+                        state.isContractor
+                            ? textFieldSegment(
+                                screenSize: screenSize,
+                                controller: _businessController,
+                                title: 'Business Name')
+                            : contractorDropDownContainer(
+                                searchController: _searchController,
+                              ),
                         SizedBox(height: screenSize.height * .037),
                         textFieldSegment(
                           screenSize: screenSize,
@@ -243,11 +248,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             profileBloc.add(
                               ProfileUpdateEvent(
                                 isContractor: state.isContractor,
-                                name: _nameController.text,
-                                phone: _phoneController.text,
-                                address: _addressController.text,
-                                businessName: _businessController.text,
-                                email: _emailController.text,
+                                name: _nameController.text.trim(),
+                                phone: _phoneController.text.trim(),
+                                address: _addressController.text.trim(),
+                                businessName: _businessController.text.trim(),
+                                email: _emailController.text.trim(),
                               ),
                             );
                           },

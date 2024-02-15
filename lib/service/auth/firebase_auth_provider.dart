@@ -1,12 +1,7 @@
 import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart'
-    show
-        AuthCredential,
-        FirebaseAuth,
-        FirebaseAuthException,
-        GoogleAuthProvider;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/auth/auth_exceptions.dart';
@@ -15,6 +10,7 @@ import 'package:turning_point/firebase_options.dart';
 import 'package:turning_point/model/user_model.dart';
 
 class FirebaseAuthProvider implements CustomAuthProvider {
+  static String verifyId = '';
   @override
   Future<void> initialize() async {
     await Firebase.initializeApp(
@@ -86,12 +82,41 @@ class FirebaseAuthProvider implements CustomAuthProvider {
   }
 
   @override
-  Future<void> sendPhoneVerification() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      await user.sendEmailVerification();
-    } else {
-      throw UserNotLoggedInAuthException();
+  Future<void> sendPhoneVerification({required String phone}) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        await FirebaseAuth.instance.verifyPhoneNumber(
+          phoneNumber: '+91$phone',
+          codeSent: (verificationId, forceResendingToken) {
+            verifyId = verificationId;
+          },
+          verificationCompleted: (phoneAuthCredential) {},
+          verificationFailed: (error) {
+            throw error;
+          },
+          codeAutoRetrievalTimeout: (verificationId) {},
+        );
+      } else {
+        throw UserNotLoggedInAuthException();
+      }
+    } catch (e) {
+      log('EXCEPTION IN PHONE VERIFICATION : $e');
+      throw Exception(e);
     }
+  }
+
+  @override
+  Future<void> verifyOtp({
+    required String verificationId,
+    required String otp,
+  }) async {
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+      verificationId: verificationId,
+      smsCode: otp,
+    );
+    final userCredential =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+    log('LOGGED IN : $userCredential');
   }
 }

@@ -1,16 +1,16 @@
-class ContractorModel {
+class ContractorModelResponse {
   String? message;
-  List<Data>? data;
+  List<ContractorModel>? data;
   bool? success;
 
-  ContractorModel({this.message, this.data, this.success});
+  ContractorModelResponse({this.message, this.data, this.success});
 
-  ContractorModel.fromJson(Map<String, dynamic> json) {
+  ContractorModelResponse.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <ContractorModel>[];
       json['data'].forEach((v) {
-        data!.add(Data.fromJson(v));
+        data!.add(ContractorModel.fromJson(v));
       });
     }
     success = json['success'];
@@ -27,13 +27,13 @@ class ContractorModel {
   }
 }
 
-class Data {
+class ContractorModel {
   String? name;
   String? shopName;
 
-  Data({this.name, this.shopName});
+  ContractorModel({this.name, this.shopName});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  ContractorModel.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     shopName = json['shopName'];
   }

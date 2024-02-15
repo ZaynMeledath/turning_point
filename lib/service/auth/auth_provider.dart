@@ -8,5 +8,10 @@ abstract class CustomAuthProvider {
 
   Future<void> signOut();
 
-  Future<void> sendPhoneVerification();
+  Future<void> sendPhoneVerification({required String phone});
+
+  Future<void> verifyOtp({
+    required String verificationId,
+    required String otp,
+  });
 }

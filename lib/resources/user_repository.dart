@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:turning_point/exceptions/user_exceptions.dart';
+import 'package:turning_point/model/contractor_model.dart';
 import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
@@ -22,7 +23,7 @@ class UserRepository {
     try {
       final response = await ApiService().sendRequest(
         url: ApiEndpoints.googleSignIn,
-        requestMethod: FetchMethod.POST,
+        requestMethod: RequestMethod.POST,
         data: {"idToken": token},
         isTokenRequired: false,
       );
@@ -41,9 +42,9 @@ class UserRepository {
         url: ApiEndpoints.login,
         data: {
           "phone": mobileNumber,
-          "email": 'siddik@gmail.com',
+          // "uid": ,
         },
-        requestMethod: FetchMethod.POST,
+        requestMethod: RequestMethod.POST,
         isTokenRequired: false,
       );
 
@@ -76,7 +77,7 @@ class UserRepository {
       final id = decodeJwt()['userId'];
       final response = await ApiService().sendRequest(
         url: '${ApiEndpoints.getUser}/$id',
-        requestMethod: FetchMethod.GET,
+        requestMethod: RequestMethod.GET,
         data: null,
         isTokenRequired: true,
       );
@@ -91,6 +92,16 @@ class UserRepository {
   }
 
 //====================Get All Contractors====================//
+  static Future<ContractorModelResponse> getContractors() async {
+    final response = await ApiService().sendRequest(
+      url: ApiEndpoints.getContractors,
+      requestMethod: RequestMethod.GET,
+      data: null,
+      isTokenRequired: false,
+    );
+
+    return ContractorModelResponse.fromJson(response);
+  }
 
 //====================Update User Profile====================//
   static Future<UserModelResponse> updateUserProfile({
@@ -100,7 +111,7 @@ class UserRepository {
       log('UPDATING');
       await ApiService().sendRequest(
         url: ApiEndpoints.updateUserProfile,
-        requestMethod: FetchMethod.PATCH,
+        requestMethod: RequestMethod.PATCH,
         data: {
           "name": userModel.name,
           "phone": userModel.phone,
@@ -131,7 +142,7 @@ class UserRepository {
       log('UPDATING');
       await ApiService().sendRequest(
         url: ApiEndpoints.updateProfileImage,
-        requestMethod: FetchMethod.PATCH,
+        requestMethod: RequestMethod.PATCH,
         data: {
           "image": imageString,
         },

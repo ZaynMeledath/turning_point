@@ -35,18 +35,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 //====================GoogleSignInEvent====================//
     on<GoogleSignInEvent>(
       (event, emit) async {
-        // try {
-        // final token = await provider.signIn();
-        // await UserRepository.userSignIn(token);
+        try {
+          final token = await provider.signIn();
+          await UserRepository.userSignIn(token);
 
-        await UserRepository.userSignUp(mobileNumber: '8140470004');
+          // await UserRepository.userSignUp(mobileNumber: '8140470004');
 
-        emit(SignedInState());
-        // emit(WhoIsSigningState());
-        // } on UserAlreadyRegisteredAuthException {
-        // await UserRepository.userSignUp(mobileNumber: '8140470004');
-        //   emit(SignedInState());
-        // }
+          // emit(SignedInState());
+          emit(WhoIsSigningState());
+        } catch (_) {
+          // await UserRepository.userSignUp(mobileNumber: '8140470004');
+          emit(WhoIsSigningState());
+          //   emit(SignedInState());
+        }
       },
     );
 
@@ -57,11 +58,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           AuthLoadingState(),
         );
         try {
-          final isSuccess =
-              await UserRepository.userSignUp(mobileNumber: event.mobileNumber);
-          if (isSuccess) {
-            emit(OtpVerificationNeededState());
-          }
+          await provider.sendPhoneVerification(phone: event.mobileNumber);
+          emit(OtpVerificationNeededState());
         } catch (e) {
           log('EXCEPTION');
           //Exception
@@ -72,6 +70,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 //====================VerifyOtpEvent====================//
     on<VerifyOtpEvent>(
       (event, emit) async {
+        try {
+          await provider.verifyOtp(
+            verificationId: FirebaseAuthProvider.verifyId,
+            otp: event.otp,
+          );
+        } catch (e) {
+          log('EXCEPTION IN VERIFY OTP EVENT');
+        }
+
         emit(OtpVerifiedState());
       },
     );
