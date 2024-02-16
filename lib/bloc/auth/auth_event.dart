@@ -9,10 +9,12 @@ class GoogleSignInEvent extends AuthEvent {}
 
 class SignUpEvent extends AuthEvent {
   final String mobileNumber;
-  final String contractorName;
+  final ContractorModel? contractor;
+  final String? businessName;
   SignUpEvent({
     required this.mobileNumber,
-    required this.contractorName,
+    this.contractor,
+    this.businessName,
   });
 }
 

@@ -12,16 +12,26 @@ class ContractorBloc extends Bloc<ContractorEvent, ContractorState> {
       final contractorModelResponse = await UserRepository.getContractors();
 
       emit(
-        ContractorLoadedState(contractorsList: contractorModelResponse.data),
+        ContractorLoadedState(
+          contractorsList: contractorModelResponse.data,
+          contractor: null,
+          contractorString: null,
+        ),
       );
     });
 
 //====================ContractorSelectedEvent====================//
     on<ContractorSelectedEvent>((event, emit) {
-      emit(ContractorLoadedState(
-        contractorsList: state.contractorsList,
-        contractorName: event.contractorName,
-      ));
+      final contractorDetails = event.contractorName!.split('-');
+      final contractorModel = ContractorModel(
+          name: contractorDetails[0], businessName: contractorDetails[1]);
+      emit(
+        ContractorLoadedState(
+          contractorsList: state.contractorsList,
+          contractorString: event.contractorName,
+          contractor: contractorModel,
+        ),
+      );
     });
   }
 }

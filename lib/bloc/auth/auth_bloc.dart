@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:turning_point/model/contractor_model.dart';
 import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/auth/auth_provider.dart';
@@ -37,16 +38,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (event, emit) async {
         try {
           final token = await provider.signIn();
-          await UserRepository.userSignIn(token);
+          final status = await UserRepository.userSignIn(token);
+          if (status) {
+            emit(SignedInState());
+          } else {
+            emit(WhoIsSigningState());
+          }
 
-          // await UserRepository.userSignUp(mobileNumber: '8140470004');
-
+          // UserRepository.userSignUp(mobileNumber: '8140470004');
           // emit(SignedInState());
-          emit(WhoIsSigningState());
-        } catch (_) {
-          // await UserRepository.userSignUp(mobileNumber: '8140470004');
-          emit(WhoIsSigningState());
-          //   emit(SignedInState());
+        } catch (e) {
+          log('EXCEPTION IN GOOGLE SIGN IN : $e');
         }
       },
     );
@@ -58,10 +60,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           AuthLoadingState(),
         );
         try {
+          await UserRepository.userSignUp(
+            mobileNumber: event.mobileNumber,
+            businessName: event.businessName,
+            contractor: event.contractor,
+          );
           await provider.sendPhoneVerification(phone: event.mobileNumber);
           emit(OtpVerificationNeededState());
         } catch (e) {
-          log('EXCEPTION');
+          log('EXCEPTION IN SIGNUP EVENT : $e');
           //Exception
         }
       },
@@ -75,11 +82,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             verificationId: FirebaseAuthProvider.verifyId,
             otp: event.otp,
           );
+
+          emit(OtpVerifiedState());
         } catch (e) {
           log('EXCEPTION IN VERIFY OTP EVENT');
         }
-
-        emit(OtpVerifiedState());
       },
     );
   }

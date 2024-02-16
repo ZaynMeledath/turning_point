@@ -9,6 +9,14 @@ Widget dashboardAvailableBalanceContainer({
   required BuildContext context,
   required UserModel userModel,
 }) {
+  int winRate = 0;
+  if (userModel.contestsParticipatedInCount != 0) {
+    winRate = (userModel.contestUniqueWonCount! /
+            userModel.contestsParticipatedInCount! *
+            100)
+        .toInt();
+  }
+
   return Container(
     width: double.infinity,
     height: screenSize.height * .15,
@@ -47,7 +55,7 @@ Widget dashboardAvailableBalanceContainer({
               ),
             ),
             Text(
-              'Win Rate ${(userModel.contestUniqueWonCount! / userModel.contestsParticipatedInCount! * 100).toInt()}%',
+              'Win Rate $winRate%',
               style: GoogleFonts.roboto(
                 fontSize: screenSize.width * .03,
                 fontWeight: FontWeight.w400,

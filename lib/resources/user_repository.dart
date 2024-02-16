@@ -9,6 +9,7 @@ import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
 import 'package:turning_point/service/api/api_service.dart';
 import 'package:turning_point/service/auth/auth_exceptions.dart';
+import 'package:turning_point/service/auth/auth_service.dart';
 
 class UserRepository {
 //====================Decode JWT====================//
@@ -19,7 +20,7 @@ class UserRepository {
     return decodedData;
   }
 
-  static Future<void> userSignIn(String token) async {
+  static Future<bool> userSignIn(String token) async {
     try {
       final response = await ApiService().sendRequest(
         url: ApiEndpoints.googleSignIn,
@@ -29,20 +30,40 @@ class UserRepository {
       );
 
       log('RESPONSE: $response');
+
+      await AppPreferences.init();
+      AppPreferences.addSharedPreference(
+        key: 'auth_token',
+        value: response["token"],
+      );
+
+      return response['status'];
     } catch (e) {
       log('EXCEPTION : $e');
-      throw UserAlreadyRegisteredAuthException();
+      throw CouldNotSignInUserAuthException();
     }
   }
 
-  static Future<bool> userSignUp({required String mobileNumber}) async {
+  static Future<bool> userSignUp({
+    required String mobileNumber,
+    ContractorModel? contractor,
+    String? businessName,
+  }) async {
     try {
-      // final user = FirebaseAuth.instance.currentUser;
-      final decodedResponse = await ApiService().sendRequest(
-        url: ApiEndpoints.login,
+      final authService = AuthService.firebase();
+      log('UID : ${authService.currentUser!.uid}');
+      final response = await ApiService().sendRequest(
+        url: ApiEndpoints.register,
         data: {
+          "uid": authService.currentUser!.uid,
           "phone": mobileNumber,
-          // "uid": ,
+          "role": businessName != null ? 'CONTRACTOR' : 'CARPENTER',
+          if (businessName != null) "shopName": businessName,
+          if (contractor != null)
+            "contractor": {
+              "contractorName": contractor.name,
+              "businessName": contractor.businessName,
+            }
         },
         requestMethod: RequestMethod.POST,
         isTokenRequired: false,
@@ -51,15 +72,21 @@ class UserRepository {
       await AppPreferences.init();
       AppPreferences.addSharedPreference(
         key: 'auth_token',
-        value: decodedResponse["token"],
+        value: response["token"],
       );
-      if (decodedResponse['success']) {
+
+      log('AUTH TOKEN FROM SERVER: ${response['token']}');
+
+      if (response['token'] == null) {
+        throw Exception('Token is Null');
+      }
+      if (response['status']) {
         return true;
       } else {
         return false;
       }
     } catch (e) {
-      log('EXCEPTION: $e');
+      log('EXCEPTION IN USER SIGNUP: $e');
       throw CouldNotSignUpUserAuthException;
     }
   }
@@ -85,8 +112,11 @@ class UserRepository {
         key: 'user_json',
         value: jsonEncode(response),
       );
+
+      log('GET USER BY ID FUNCTION: $response');
       return UserModelResponse.fromJson(response);
     } catch (e) {
+      log('EXCEPTION IN GET USER BY ID : $e');
       throw CouldNotFetchUserFromApiException();
     }
   }
@@ -115,7 +145,7 @@ class UserRepository {
         data: {
           "name": userModel.name,
           "phone": userModel.phone,
-          "shopName": userModel.shopName,
+          "businessName": userModel.businessName,
           "email": userModel.email,
           "pincode": userModel.pincode,
           "bankDetails": {

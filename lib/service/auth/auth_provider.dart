@@ -1,8 +1,8 @@
-import 'package:turning_point/model/user_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class CustomAuthProvider {
   Future<void> initialize();
-  UserModelResponse? get currentUser;
+  User? get currentUser;
 
   Future<String> signIn();
 

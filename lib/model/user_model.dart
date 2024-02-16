@@ -1,5 +1,3 @@
-import 'package:turning_point/service/api/api_endpoints.dart';
-
 class UserModelResponse {
   String? message;
   UserModel? data;
@@ -29,7 +27,7 @@ class UserModel {
   String? email;
   String? phone;
   String? name;
-  String? shopName;
+  String? businessName;
   String? pincode;
   String? address;
   int? points;
@@ -52,7 +50,7 @@ class UserModel {
       this.email,
       this.phone,
       this.name,
-      this.shopName,
+      this.businessName,
       this.points,
       this.pincode,
       this.address,
@@ -75,7 +73,7 @@ class UserModel {
     email = json['email'];
     phone = json['phone'];
     name = json['name'];
-    shopName = json['shopName'];
+    businessName = json['shopName'];
     pincode = json['pincode'];
     address = json['address'];
     points = json['points'];
@@ -90,7 +88,8 @@ class UserModel {
 
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
-    image = '${ApiEndpoints.uploads}/${json['image']}';
+    // image = '${ApiEndpoints.uploads}/${json['image']}';
+    image = json['image'];
     idBackImage = json['idBackImage'];
     idFrontImage = json['idFrontImage'];
     contestParticipationCount = json['contestParticipationCount'];
@@ -105,7 +104,7 @@ class UserModel {
     data['email'] = email;
     data['phone'] = phone;
     data['name'] = name;
-    data['shopName'] = shopName;
+    data['shopName'] = businessName;
     data['pincode'] = pincode;
     data['address'] = address;
     data['points'] = points;

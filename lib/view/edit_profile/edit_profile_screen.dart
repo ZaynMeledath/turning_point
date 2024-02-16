@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
+import 'package:turning_point/bloc/sign_up/contractor_bloc.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
@@ -125,8 +126,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 );
 
               case ProfileLoadedState():
-                _addressController.text = state.userModel.shopName ?? '';
-                _businessController.text = state.userModel.shopName ?? '';
+                if (!state.isContractor) {
+                  contractorBloc.add(ContractorLoadEvent());
+                }
+                _addressController.text = state.userModel.businessName ?? '';
+                _businessController.text = state.userModel.businessName ?? '';
                 _nameController.text = state.userModel.name!;
                 _phoneController.text = state.userModel.phone!;
                 _emailController.text = state.userModel.email!;
@@ -227,14 +231,57 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           controller: _addressController,
                           title: 'Address',
                         ),
+
                         SizedBox(height: screenSize.height * .037),
                         state.isContractor
                             ? textFieldSegment(
                                 screenSize: screenSize,
                                 controller: _businessController,
                                 title: 'Business Name')
-                            : contractorDropDownContainer(
-                                searchController: _searchController,
+                            : BlocBuilder<ContractorBloc, ContractorState>(
+                                builder: (context, state) {
+                                  switch (state) {
+                                    case ContractorLoadingState():
+                                      return Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Container(
+                                          width: screenSize.width,
+                                          height: screenSize.height * .052,
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal:
+                                                  screenSize.width * .041),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                offset: const Offset(-1.5, 1.5),
+                                                blurRadius: 1.5,
+                                                color: Colors.black
+                                                    .withOpacity(.2),
+                                                blurStyle: BlurStyle.normal,
+                                              ),
+                                            ],
+                                            border: Border.all(
+                                              width: .8,
+                                              color: const Color.fromRGBO(
+                                                  214, 214, 214, 1),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    case ContractorLoadedState():
+                                      return Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal:
+                                                screenSize.width * .041),
+                                        child: contractorDropDownContainer(
+                                          searchController: _searchController,
+                                        ),
+                                      );
+                                  }
+                                },
                               ),
                         SizedBox(height: screenSize.height * .037),
                         textFieldSegment(
@@ -242,6 +289,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           controller: _emailController,
                           title: 'Email',
                         ),
+
                         SizedBox(height: screenSize.height * .051),
                         GestureDetector(
                           onTap: () {

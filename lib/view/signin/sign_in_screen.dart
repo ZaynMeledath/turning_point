@@ -35,9 +35,9 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   void dispose() async {
     super.dispose();
-    if (shouldCloseBloc) {
-      await authBloc.close();
-    }
+    // if (shouldCloseBloc) {
+    //   await authBloc.close();
+    // }
   }
 
   @override

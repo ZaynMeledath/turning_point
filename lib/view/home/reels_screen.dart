@@ -25,7 +25,7 @@ class _ReelsScreenState extends State<ReelsScreen> {
   Future<ReelsModelResponse>? reelsFuture;
   @override
   void initState() {
-    log(AppPreferences.getValueShared('auth_token'));
+    log('${AppPreferences.getValueShared('auth_token')}');
     super.initState();
   }
 
@@ -58,7 +58,7 @@ class _ReelsScreenState extends State<ReelsScreen> {
                 child: CircularProgressIndicator.adaptive(
                   strokeWidth: 5,
                   backgroundColor: Colors.white,
-                  valueColor: AlwaysStoppedAnimation(Colors.blue),
+                  valueColor: AlwaysStoppedAnimation(Colors.purple),
                 ),
               );
 

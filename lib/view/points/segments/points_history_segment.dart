@@ -49,7 +49,7 @@ Widget pointsHistorySegment({required Size screenSize}) {
                 ),
               ),
               child: ListView.builder(
-                itemCount: 10,
+                itemCount: state.pointsHistoryModel!.length,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   return pointContainer(

@@ -7,9 +7,9 @@ Widget contractorDropDownContainer(
       return Align(
         alignment: Alignment.centerLeft,
         child: Container(
-          width: screenSize.width * .6,
+          width: screenSize.width,
           height: screenSize.height * .052,
-          margin: EdgeInsets.symmetric(horizontal: screenSize.width * .005),
+          // margin: EdgeInsets.symmetric(horizontal: screenSize.width * .005),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(8),
@@ -34,9 +34,9 @@ Widget contractorDropDownContainer(
               items: state.contractorsList!
                   .map(
                     (item) => DropdownMenuItem(
-                      value: '${item.name} - ${item.shopName}',
+                      value: '${item.name} - ${item.businessName}',
                       child: Text(
-                        '${item.name} - ${item.shopName}',
+                        '${item.name} - ${item.businessName}',
                         style: GoogleFonts.roboto(
                           fontSize: screenSize.width * .036,
                           fontWeight: FontWeight.w400,
@@ -45,7 +45,7 @@ Widget contractorDropDownContainer(
                     ),
                   )
                   .toList(),
-              value: state.contractorName,
+              value: state.contractorString,
               onChanged: (value) {
                 //ContractorSelectedEvent is called on change of value
                 context
@@ -61,9 +61,9 @@ Widget contractorDropDownContainer(
                 child: Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
+                      padding: EdgeInsets.only(left: screenSize.width * .028),
                       child: Text(
-                        state.contractorName ?? 'Select Contractor',
+                        state.contractorString ?? 'Select Contractor',
                         style: GoogleFonts.roboto(
                           fontSize: screenSize.width * .032,
                           color: const Color.fromRGBO(16, 16, 16, .8),

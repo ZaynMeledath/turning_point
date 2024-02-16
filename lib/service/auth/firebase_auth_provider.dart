@@ -3,14 +3,13 @@ import 'dart:developer';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/auth/auth_exceptions.dart';
 import 'package:turning_point/service/auth/auth_provider.dart';
 import 'package:turning_point/firebase_options.dart';
-import 'package:turning_point/model/user_model.dart';
 
 class FirebaseAuthProvider implements CustomAuthProvider {
   static String verifyId = '';
+  GoogleSignInAccount? googleUser;
   @override
   Future<void> initialize() async {
     await Firebase.initializeApp(
@@ -18,19 +17,12 @@ class FirebaseAuthProvider implements CustomAuthProvider {
   }
 
   @override
-  UserModelResponse? get currentUser {
-    final user = UserRepository.getUserById(avoidGettingFromPreference: false);
-    if (user is String) {
-      return null;
-    } else {
-      return null;
-    }
-  }
+  User? get currentUser => FirebaseAuth.instance.currentUser;
 
   @override
   Future<String> signIn() async {
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      googleUser = await GoogleSignIn().signIn();
 
       // Obtain the auth details from the request
       final GoogleSignInAuthentication? googleAuth =
@@ -48,9 +40,10 @@ class FirebaseAuthProvider implements CustomAuthProvider {
       final result =
           await FirebaseAuth.instance.signInWithCredential(credential);
       final user = result.user;
+
       log('USER: $user');
       if (user != null) {
-        final token = await FirebaseAuth.instance.currentUser!.getIdToken();
+        final token = await currentUser!.getIdToken();
         log('TOKEN : $token');
         return token!;
       } else {
@@ -63,6 +56,7 @@ class FirebaseAuthProvider implements CustomAuthProvider {
       } else if (e.code == 'network-request-failed') {
         throw NetworkRequestFailedAuthException();
       } else {
+        log('Exception in Google Sign In : $e');
         throw GenericAuthException();
       }
     } catch (e) {
@@ -73,8 +67,7 @@ class FirebaseAuthProvider implements CustomAuthProvider {
 
   @override
   Future<void> signOut() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
+    if (currentUser != null) {
       await FirebaseAuth.instance.signOut();
     } else {
       throw UserNotLoggedInAuthException();
@@ -84,9 +77,10 @@ class FirebaseAuthProvider implements CustomAuthProvider {
   @override
   Future<void> sendPhoneVerification({required String phone}) async {
     try {
-      final user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
+      if (currentUser != null) {
+        final session = await currentUser!.multiFactor.getSession();
         await FirebaseAuth.instance.verifyPhoneNumber(
+          multiFactorSession: session,
           phoneNumber: '+91$phone',
           codeSent: (verificationId, forceResendingToken) {
             verifyId = verificationId;
@@ -111,12 +105,33 @@ class FirebaseAuthProvider implements CustomAuthProvider {
     required String verificationId,
     required String otp,
   }) async {
-    PhoneAuthCredential credential = PhoneAuthProvider.credential(
-      verificationId: verificationId,
-      smsCode: otp,
-    );
-    final userCredential =
-        await FirebaseAuth.instance.signInWithCredential(credential);
-    log('LOGGED IN : $userCredential');
+    try {
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verificationId,
+        smsCode: otp,
+      );
+      await currentUser!.multiFactor.enroll(
+        PhoneMultiFactorGenerator.getAssertion(credential),
+      );
+
+      log('PHONE UID : ${currentUser!.uid}');
+
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      // Create a new credential
+      final AuthCredential googleCredential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      // Once signed in, return the UserCredential
+      await FirebaseAuth.instance.signInWithCredential(googleCredential);
+
+      log('GOOGLE UID : ${currentUser!.uid}');
+    } catch (e) {
+      log('EXCEPTION IN VERIFY OTP FUNCTION: $e');
+    }
   }
 }

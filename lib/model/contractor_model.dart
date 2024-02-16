@@ -29,19 +29,19 @@ class ContractorModelResponse {
 
 class ContractorModel {
   String? name;
-  String? shopName;
+  String? businessName;
 
-  ContractorModel({this.name, this.shopName});
+  ContractorModel({this.name, this.businessName});
 
   ContractorModel.fromJson(Map<String, dynamic> json) {
     name = json['name'];
-    shopName = json['shopName'];
+    businessName = json['shopName'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = name;
-    data['shopName'] = shopName;
+    data['shopName'] = businessName;
     return data;
   }
 }

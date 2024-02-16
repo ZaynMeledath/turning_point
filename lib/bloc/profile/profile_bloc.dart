@@ -17,6 +17,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           await UserRepository.getUserById(avoidGettingFromPreference: false);
       if (userModelResponse != null && userModelResponse.data != null) {
         final isContractor = userModelResponse.data!.role == 'CONTRACTOR';
+
         return emit(ProfileLoadedState(
           isLoading: false,
           userModel: userModelResponse.data!,
@@ -41,7 +42,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
         userModelResponse.data!.name = event.name;
         userModelResponse.data!.phone = event.phone;
-        userModelResponse.data!.shopName = event.businessName;
+        userModelResponse.data!.businessName = event.businessName;
         userModelResponse.data!.email = event.email;
 
         userModelResponse = await UserRepository.updateUserProfile(

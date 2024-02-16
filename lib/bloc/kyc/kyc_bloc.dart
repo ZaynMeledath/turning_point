@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/model/user_model.dart';
@@ -9,19 +11,35 @@ part 'kyc_state.dart';
 class KycBloc extends Bloc<KycEvent, KycState> {
   KycBloc() : super(const KycLoadingState()) {
 //====================KYC Load Event====================//
-    on<KycLoadEvent>((event, emit) {
+    on<KycLoadEvent>((event, emit) async {
+      log('KYCLOADEVENT USER MODEL :');
       final userModel = UserRepository.getUserFromPreference()!.data!;
-      emit(
-        KycLoadedState(
-          isLoading: false,
-          tabIndex: event.tabIndex,
-          isSavings: userModel.bankDetails![0].banktype == 'savings',
-          name: event.name ?? state.name ?? userModel.name!,
-          phone: userModel.phone!,
-          email: event.email ?? state.email ?? userModel.email!,
-          pincode: event.pincode ?? state.pincode ?? userModel.pincode ?? '',
-        ),
-      );
+      log('KYCLOADEVENT USER MODEL : ${userModel.name}, ${userModel.phone}, ${userModel.email}');
+      if (userModel.bankDetails != null && userModel.bankDetails!.isNotEmpty) {
+        emit(
+          KycLoadedState(
+            isLoading: false,
+            tabIndex: event.tabIndex,
+            isSavings: userModel.bankDetails![0].banktype == 'savings',
+            name: event.name ?? state.name ?? userModel.name!,
+            phone: userModel.phone!,
+            email: event.email ?? state.email ?? userModel.email!,
+            pincode: event.pincode ?? state.pincode ?? userModel.pincode ?? '',
+          ),
+        );
+      } else {
+        emit(
+          KycLoadedState(
+            isLoading: false,
+            tabIndex: event.tabIndex,
+            isSavings: true,
+            name: event.name ?? state.name ?? userModel.name!,
+            phone: userModel.phone!,
+            email: event.email ?? state.email ?? userModel.email!,
+            pincode: event.pincode ?? state.pincode ?? userModel.pincode ?? '',
+          ),
+        );
+      }
     });
 
 //====================KYC Update Event====================//
