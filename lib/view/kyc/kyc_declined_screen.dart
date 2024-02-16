@@ -3,8 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 
-class KycSubmittedScreen extends StatelessWidget {
-  const KycSubmittedScreen({super.key});
+class KycDeclinedScreen extends StatelessWidget {
+  const KycDeclinedScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +15,12 @@ class KycSubmittedScreen extends StatelessWidget {
             customAppBar(context: context, title: 'KYC'),
             SizedBox(height: screenSize.height * .2),
             Image.asset(
-              'assets/icons/kyc_submitted_icon.png',
+              'assets/icons/kyc_declined_icon.png',
               width: screenSize.width * .26,
             ),
             SizedBox(height: screenSize.height * .018),
             Text(
-              'Success',
+              'Oops!',
               style: GoogleFonts.inter(
                 fontSize: screenSize.width * .048,
                 fontWeight: FontWeight.w600,
@@ -29,7 +29,7 @@ class KycSubmittedScreen extends StatelessWidget {
             ),
             SizedBox(height: screenSize.height * .012),
             Text(
-              'Congratulations! Your KYC details have been\nsuccessfully submitted',
+              'There seems to be an issue with your\nsubmission. Please review your KYC details\nand make any necessary updates',
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
                 fontSize: screenSize.width * .036,

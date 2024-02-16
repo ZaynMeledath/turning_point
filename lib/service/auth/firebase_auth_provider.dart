@@ -44,7 +44,6 @@ class FirebaseAuthProvider implements CustomAuthProvider {
       log('USER: $user');
       if (user != null) {
         final token = await currentUser!.getIdToken();
-        log('TOKEN : $token');
         return token!;
       } else {
         log('EXCEPTION');
@@ -106,15 +105,16 @@ class FirebaseAuthProvider implements CustomAuthProvider {
     required String otp,
   }) async {
     try {
+      // Create a new credential
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId,
         smsCode: otp,
       );
-      await currentUser!.multiFactor.enroll(
-        PhoneMultiFactorGenerator.getAssertion(credential),
-      );
 
-      log('PHONE UID : ${currentUser!.uid}');
+      //Sign in using the credential
+      await FirebaseAuth.instance.signInWithCredential(credential);
+
+//-----Automatic Sign in with google again to set the google account as current user-----//
 
       // Obtain the auth details from the request
       final GoogleSignInAuthentication? googleAuth =
@@ -128,8 +128,6 @@ class FirebaseAuthProvider implements CustomAuthProvider {
 
       // Once signed in, return the UserCredential
       await FirebaseAuth.instance.signInWithCredential(googleCredential);
-
-      log('GOOGLE UID : ${currentUser!.uid}');
     } catch (e) {
       log('EXCEPTION IN VERIFY OTP FUNCTION: $e');
     }
