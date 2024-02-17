@@ -157,7 +157,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       ),
                       SizedBox(height: screenSize.height * .01),
                       Text(
-                        state.phone.toString(),
+                        '+91 ${state.phone}',
                         style: GoogleFonts.roboto(
                           fontSize: screenSize.width * .038,
                           fontWeight: FontWeight.w500,

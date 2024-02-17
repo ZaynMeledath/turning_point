@@ -59,7 +59,7 @@ class UserRepository {
           "uid": authService.currentUser!.uid,
           "phone": phone,
           "role": businessName != null ? 'CONTRACTOR' : 'CARPENTER',
-          if (businessName != null) "shopName": businessName,
+          if (businessName != null) "businessName": businessName,
           if (contractor != null)
             "contractor": {
               "contractorName": contractor.name,
@@ -153,6 +153,7 @@ class UserRepository {
           "name": userModel.name,
           "phone": userModel.phone,
           "businessName": userModel.businessName,
+          "address": userModel.address,
           "email": userModel.email,
           "pincode": userModel.pincode,
           "bankDetails": {

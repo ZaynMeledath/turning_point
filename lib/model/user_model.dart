@@ -73,7 +73,7 @@ class UserModel {
     email = json['email'];
     phone = json['phone'];
     name = json['name'];
-    businessName = json['shopName'];
+    businessName = json['businessName'];
     pincode = json['pincode'];
     address = json['address'];
     points = json['points'];
@@ -104,7 +104,7 @@ class UserModel {
     data['email'] = email;
     data['phone'] = phone;
     data['name'] = name;
-    data['shopName'] = businessName;
+    data['businessName'] = businessName;
     data['pincode'] = pincode;
     data['address'] = address;
     data['points'] = points;

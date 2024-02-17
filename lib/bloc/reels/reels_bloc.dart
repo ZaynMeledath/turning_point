@@ -9,17 +9,20 @@ part 'reels_event.dart';
 part 'reels_state.dart';
 
 class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
-  final userModel = UserRepository.getUserFromPreference();
-  ReelsBloc() : super(InitialReelState()) {
+  final userModelResponse = UserRepository.getUserFromPreference();
+  ReelsBloc()
+      : super(InitialReelState(
+            points: UserRepository.getUserFromPreference()!.data!.points!)) {
     on<ReelLoadEvent>((event, emit) async {
       final reelData = ReelRepository.reelsModelResponse.data![event.reelIndex];
 
       if (reelData.isLiked == true) {
-        return emit(ReelLikedState());
+        return emit(ReelLikedState(points: userModelResponse!.data!.points!));
       } else {
-        emit(InitialReelState());
+        emit(InitialReelState(points: userModelResponse!.data!.points!));
         await Future.delayed(Duration(seconds: reelData.displayLikeAfter!));
-        return emit(LikeButtonActiveState());
+        return emit(
+            LikeButtonActiveState(points: userModelResponse!.data!.points!));
       }
     });
 
@@ -28,14 +31,15 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
 
       if (reelData.isLiked != true) {
         reelData.isLiked = true;
-        userModel!.data!.points = userModel!.data!.points! + reelData.points!;
+        userModelResponse!.data!.points =
+            userModelResponse!.data!.points! + reelData.points!;
 
         //To ensure only the fileName is added to the userModel because the rest of the url will be appended from json to UserModel conversion
         // userModel!.data!.image = userModel!.data!.image!.split('/').last;
 
-        UserRepository.addUserToPreference(userModel!);
+        UserRepository.addUserToPreference(userModelResponse!);
 
-        emit(ReelLikedState());
+        emit(ReelLikedState(points: userModelResponse!.data!.points!));
         await ReelRepository.likeReel(event.reelIndex);
       }
     });

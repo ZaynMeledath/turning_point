@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
+import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/model/reels_model.dart';
@@ -151,14 +152,18 @@ class _ReelsScreenState extends State<ReelsScreen> {
                                         width: screenSize.width * .06,
                                       ),
                                       const SizedBox(width: 1),
-                                      Text(
-                                        '${state.userModel.points!}',
-                                        style: GoogleFonts.inter(
-                                          fontSize: screenSize.width * .04,
-                                          fontWeight: FontWeight.w700,
-                                          color: const Color.fromRGBO(
-                                              27, 27, 27, 1),
-                                        ),
+                                      BlocBuilder<ReelsBloc, ReelsState>(
+                                        builder: (context, state) {
+                                          return Text(
+                                            '${state.points}',
+                                            style: GoogleFonts.inter(
+                                              fontSize: screenSize.width * .04,
+                                              fontWeight: FontWeight.w700,
+                                              color: const Color.fromRGBO(
+                                                  27, 27, 27, 1),
+                                            ),
+                                          );
+                                        },
                                       ),
                                     ],
                                   ),

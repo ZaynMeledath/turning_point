@@ -50,6 +50,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         userModelResponse.data!.name = event.name;
         userModelResponse.data!.phone = event.phone;
         userModelResponse.data!.businessName = event.businessName;
+        userModelResponse.data!.address = event.address;
         userModelResponse.data!.email = event.email;
 
         userModelResponse = await UserRepository.updateUserProfile(

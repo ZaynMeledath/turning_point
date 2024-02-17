@@ -170,10 +170,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   SignUpEvent(
                                     phone: mobileController.text,
                                     contractor: state.contractor,
+                                    businessName: null,
+                                  ),
+                                );
+                              } else {
+                                authBloc.add(
+                                  SignUpEvent(
+                                    phone: mobileController.text,
+                                    contractor: null,
                                     businessName:
-                                        businessController.text.isEmpty
-                                            ? null
-                                            : businessController.text,
+                                        businessController.text.trim(),
                                   ),
                                 );
                               }

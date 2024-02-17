@@ -133,7 +133,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 if (!state.isContractor) {
                   contractorBloc.add(ContractorLoadEvent());
                 }
-                _addressController.text = state.userModel.businessName ?? '';
+                _addressController.text = state.userModel.address ?? '';
                 _businessController.text = state.userModel.businessName ?? '';
                 _nameController.text = state.userModel.name!;
                 _phoneController.text = state.userModel.phone!;
