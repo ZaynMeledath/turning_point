@@ -77,9 +77,7 @@ class FirebaseAuthProvider implements CustomAuthProvider {
   Future<void> sendPhoneVerification({required String phone}) async {
     try {
       if (currentUser != null) {
-        final session = await currentUser!.multiFactor.getSession();
         await FirebaseAuth.instance.verifyPhoneNumber(
-          multiFactorSession: session,
           phoneNumber: '+91$phone',
           codeSent: (verificationId, forceResendingToken) {
             verifyId = verificationId;
@@ -100,7 +98,7 @@ class FirebaseAuthProvider implements CustomAuthProvider {
   }
 
   @override
-  Future<void> verifyOtp({
+  Future<String?> verifyOtp({
     required String verificationId,
     required String otp,
   }) async {
@@ -128,8 +126,16 @@ class FirebaseAuthProvider implements CustomAuthProvider {
 
       // Once signed in, return the UserCredential
       await FirebaseAuth.instance.signInWithCredential(googleCredential);
+      final token = await currentUser!.getIdToken();
+      if (token != null) {
+        return token;
+      } else {
+        log('COULD NOT FETCH ID TOKEN AUTH EXCEPTION');
+        throw CouldNotFetchIdTokenAuthException();
+      }
     } catch (e) {
       log('EXCEPTION IN VERIFY OTP FUNCTION: $e');
+      throw Exception(e);
     }
   }
 }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/boarding/first_boarding_screen.dart';
+import 'package:turning_point/view/home/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     clearCache();
-
+    authBloc.add(AuthInitializeEvent());
     Future.delayed(const Duration(milliseconds: 800), () {
       setState(() {
         startFadeInAnimation = true;
@@ -35,7 +38,15 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.of(context).pushReplacement(PageTransition(
         type: PageTransitionType.fade,
         duration: const Duration(milliseconds: 1000),
-        child: const FirstBoardingScreen(),
+        child: BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, state) {
+            if (state is SignedInState) {
+              return const HomeScreen();
+            } else {
+              return const FirstBoardingScreen();
+            }
+          },
+        ),
         curve: Curves.linear,
       ));
     });

@@ -25,7 +25,7 @@ class AuthService implements CustomAuthProvider {
       provider.sendPhoneVerification(phone: phone);
 
   @override
-  Future<void> verifyOtp(
+  Future<String?> verifyOtp(
           {required String verificationId, required String otp}) =>
       provider.verifyOtp(
         verificationId: verificationId,

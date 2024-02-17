@@ -12,6 +12,8 @@ class CouldNotSignUpUserAuthException implements Exception {}
 
 class CouldNotSignInUserAuthException implements Exception {}
 
+class CouldNotFetchIdTokenAuthException implements Exception {}
+
 // Generic Exceptions
 
 class NetworkRequestFailedAuthException implements Exception {}

@@ -14,7 +14,6 @@ import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/redeem/redeem_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
-import 'package:turning_point/view/home/home_screen.dart';
 import 'package:turning_point/view/splash/splash_screen.dart';
 
 final GlobalKey<NavigatorState> globalNavigatorKey =
@@ -75,21 +74,17 @@ class MyApp extends StatelessWidget {
       ],
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
-          authBloc.add(AuthInitializeEvent());
           return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Turning Point',
-            theme: ThemeData(
-              scaffoldBackgroundColor: Colors.white,
-              colorScheme: ColorScheme.fromSeed(
-                seedColor: const Color.fromRGBO(0, 99, 255, 1),
+              debugShowCheckedModeBanner: false,
+              title: 'Turning Point',
+              theme: ThemeData(
+                scaffoldBackgroundColor: Colors.white,
+                colorScheme: ColorScheme.fromSeed(
+                  seedColor: const Color.fromRGBO(0, 99, 255, 1),
+                ),
+                useMaterial3: true,
               ),
-              useMaterial3: true,
-            ),
-            home: state is SignedInState
-                ? const HomeScreen()
-                : const SplashScreen(),
-          );
+              home: const SplashScreen());
         },
       ),
     );

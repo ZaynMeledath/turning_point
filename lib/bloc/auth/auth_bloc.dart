@@ -60,13 +60,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           AuthLoadingState(),
         );
         try {
-          await UserRepository.userSignUp(
-            mobileNumber: event.mobileNumber,
+          // await UserRepository.userSignUp(
+          //   mobileNumber: event.phone,
+          //   businessName: event.businessName,
+          //   contractor: event.contractor,
+          // );
+          emit(OtpVerificationNeededState(
+            phone: event.phone,
             businessName: event.businessName,
             contractor: event.contractor,
-          );
-          await provider.sendPhoneVerification(phone: event.mobileNumber);
-          emit(OtpVerificationNeededState());
+          ));
+          await provider.sendPhoneVerification(phone: event.phone);
         } catch (e) {
           log('EXCEPTION IN SIGNUP EVENT : $e');
           //Exception
@@ -78,17 +82,31 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<VerifyOtpEvent>(
       (event, emit) async {
         try {
-          await provider.verifyOtp(
+          final token = await provider.verifyOtp(
             verificationId: FirebaseAuthProvider.verifyId,
             otp: event.otp,
           );
 
+          log('PHONE NUMBER FROM VERIFTY OTP EVENT: ${state.phone}');
+          await UserRepository.userSignUp(
+            phone: state.phone!,
+            businessName: state.businessName,
+            contractor: state.contractor,
+            token: token,
+          );
+
           emit(OtpVerifiedState());
         } catch (e) {
-          log('EXCEPTION IN VERIFY OTP EVENT');
+          log('EXCEPTION IN VERIFY OTP EVENT: $e');
         }
       },
     );
+  }
+  @override
+  void onChange(Change<AuthState> change) {
+    log('CURRENT STATE : ${change.currentState}');
+    log('NEXT STATE: ${change.nextState}');
+    super.onChange(change);
   }
 }
 

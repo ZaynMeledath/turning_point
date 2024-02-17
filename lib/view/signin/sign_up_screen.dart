@@ -168,7 +168,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               if (state.contractorString != null) {
                                 authBloc.add(
                                   SignUpEvent(
-                                    mobileNumber: mobileController.text,
+                                    phone: mobileController.text,
                                     contractor: state.contractor,
                                     businessName:
                                         businessController.text.isEmpty

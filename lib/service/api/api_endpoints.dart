@@ -3,7 +3,7 @@ class ApiEndpoints {
   static const baseUrl = 'http://192.168.1.148:4023';
 
   static const register = '$baseUrl/users/register';
-  static const login = '$baseUrl/users/login';
+  // static const login = '$baseUrl/users/login';
   static const googleSignIn = '$baseUrl/users/google-signIn';
   static const getUser = '$baseUrl/users/getUserById';
   static const getContractors = '$baseUrl/users/getContractors';

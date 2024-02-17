@@ -45,9 +45,10 @@ class UserRepository {
   }
 
   static Future<bool> userSignUp({
-    required String mobileNumber,
+    required String phone,
     ContractorModel? contractor,
     String? businessName,
+    String? token,
   }) async {
     try {
       final authService = AuthService.firebase();
@@ -56,14 +57,15 @@ class UserRepository {
         url: ApiEndpoints.register,
         data: {
           "uid": authService.currentUser!.uid,
-          "phone": mobileNumber,
+          "phone": phone,
           "role": businessName != null ? 'CONTRACTOR' : 'CARPENTER',
           if (businessName != null) "shopName": businessName,
           if (contractor != null)
             "contractor": {
               "contractorName": contractor.name,
               "businessName": contractor.businessName,
-            }
+            },
+          "idToken": token,
         },
         requestMethod: RequestMethod.POST,
         isTokenRequired: false,
