@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/resources/user_repository.dart';
@@ -187,6 +189,12 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
           break;
       }
     });
+  }
+  @override
+  void onChange(Change<RedeemState> change) {
+    log('CURRENT STATE : ${change.currentState}');
+    log('NEXT STATE: ${change.nextState}');
+    super.onChange(change);
   }
 }
 

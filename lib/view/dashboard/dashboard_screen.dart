@@ -6,6 +6,7 @@ import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/view/dashboard/segments/dashboard_available_balance_container.dart';
 import 'package:turning_point/view/dashboard/segments/dashboard_activity_container.dart';
+import 'package:turning_point/view/home/profile_inactive_screen.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({super.key});
@@ -49,6 +50,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   valueColor: AlwaysStoppedAnimation(Colors.amber),
                 ),
               );
+
+            case ProfileInactiveState():
+              return const ProfileInactiveScreen();
 
             case ProfileLoadErrorState():
               return Center(

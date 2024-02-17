@@ -12,6 +12,11 @@ class ApiExceptions implements Exception {
   }
 }
 
+class ProfileInactiveException extends ApiExceptions {
+  ProfileInactiveException([String? message])
+      : super(message, 'Profile is Inactive');
+}
+
 class FetechDataException extends ApiExceptions {
   FetechDataException([String? message])
       : super(message, 'Error During Communication');

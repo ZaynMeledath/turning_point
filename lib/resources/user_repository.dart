@@ -39,7 +39,7 @@ class UserRepository {
 
       return response['status'];
     } catch (e) {
-      log('EXCEPTION : $e');
+      log('EXCEPTION IN USER SIGN IN : $e');
       throw CouldNotSignInUserAuthException();
     }
   }
@@ -72,6 +72,7 @@ class UserRepository {
       );
 
       await AppPreferences.init();
+      AppPreferences.removeFromPreference('auth_token');
       AppPreferences.addSharedPreference(
         key: 'auth_token',
         value: response["token"],
@@ -94,8 +95,9 @@ class UserRepository {
   }
 
 //====================Get User by ID====================//
-  static Future<UserModelResponse?> getUserById(
-      {required bool avoidGettingFromPreference}) async {
+  static Future<UserModelResponse?> getUserById({
+    required bool avoidGettingFromPreference,
+  }) async {
     try {
       if (!avoidGettingFromPreference) {
         final userModelResponse = getUserFromPreference();
@@ -110,6 +112,9 @@ class UserRepository {
         data: null,
         isTokenRequired: true,
       );
+
+      AppPreferences.init();
+      AppPreferences.removeFromPreference('user_json');
       AppPreferences.addSharedPreference(
         key: 'user_json',
         value: jsonEncode(response),
@@ -119,7 +124,7 @@ class UserRepository {
       return UserModelResponse.fromJson(response);
     } catch (e) {
       log('EXCEPTION IN GET USER BY ID : $e');
-      throw CouldNotFetchUserFromApiException();
+      rethrow;
     }
   }
 

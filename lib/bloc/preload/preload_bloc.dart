@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/resources/reel_repository.dart';
 import 'package:video_player/video_player.dart';
@@ -140,6 +141,13 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
     state.controllers.removeWhere(
       (key, value) => key != 0,
     );
+  }
+
+  @override
+  void onChange(Change<PreloadState> change) {
+    log('CURRENT STATE : ${change.currentState}');
+    log('NEXT STATE: ${change.nextState}');
+    super.onChange(change);
   }
 }
 

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/model/points_history_model.dart';
 import 'package:turning_point/resources/points_history_repository.dart';
@@ -17,6 +19,12 @@ class PointsHistoryBloc extends Bloc<PointsHistoryEvent, PointsHistoryState> {
       }
       emit(PointsHistoryLoadedState(pointsHistoryModelResponse.data));
     });
+  }
+  @override
+  void onChange(Change<PointsHistoryState> change) {
+    log('CURRENT STATE : ${change.currentState}');
+    log('NEXT STATE: ${change.nextState}');
+    super.onChange(change);
   }
 }
 

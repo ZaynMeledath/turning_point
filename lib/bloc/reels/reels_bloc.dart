@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/resources/reel_repository.dart';
@@ -29,13 +31,20 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
         userModel!.data!.points = userModel!.data!.points! + reelData.points!;
 
         //To ensure only the fileName is added to the userModel because the rest of the url will be appended from json to UserModel conversion
-        userModel!.data!.image = userModel!.data!.image!.split('/').last;
+        // userModel!.data!.image = userModel!.data!.image!.split('/').last;
 
         UserRepository.addUserToPreference(userModel!);
+
         emit(ReelLikedState());
         await ReelRepository.likeReel(event.reelIndex);
       }
     });
+  }
+  @override
+  void onChange(Change<ReelsState> change) {
+    log('CURRENT STATE : ${change.currentState}');
+    log('NEXT STATE: ${change.nextState}');
+    super.onChange(change);
   }
 }
 

@@ -26,6 +26,9 @@ class ProfilePictureView extends StatelessWidget {
               color: Colors.blue,
             );
 
+          case ProfileInactiveState():
+            return const ProfileInactiveScreen();
+
           case ProfileLoadErrorState():
             return CupertinoActivityIndicator(
               radius: screenSize.width * .036,

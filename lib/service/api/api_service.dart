@@ -5,6 +5,7 @@ import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/main.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
@@ -40,7 +41,7 @@ class ApiService {
         'Content-Type': 'application/json',
       };
 
-      dynamic response;
+      Response response;
       switch (requestMethod) {
         case RequestMethod.GET:
           response = await http.get(Uri.parse(url), headers: headers);
@@ -99,6 +100,8 @@ class ApiService {
     switch (statusCode) {
       case 200:
         return responseJson;
+      case 202:
+        throw ProfileInactiveException(responseJson.toString());
       case 204:
         throw NoContentException(responseJson.toString());
       case 400:

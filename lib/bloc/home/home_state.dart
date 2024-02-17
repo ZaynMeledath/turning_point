@@ -10,5 +10,5 @@ class TriggeredState extends HomeState {
 }
 
 class ConnectState extends HomeState {
-  ConnectState() : super(4);
+  ConnectState(super.currentIndex);
 }

@@ -17,4 +17,6 @@ class ProfileLoadedState extends ProfileState {
   });
 }
 
+class ProfileInactiveState extends ProfileState {}
+
 class ProfileLoadErrorState extends ProfileState {}

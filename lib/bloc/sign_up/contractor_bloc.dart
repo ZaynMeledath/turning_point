@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/model/contractor_model.dart';
 import 'package:turning_point/resources/user_repository.dart';
@@ -33,6 +35,12 @@ class ContractorBloc extends Bloc<ContractorEvent, ContractorState> {
         ),
       );
     });
+  }
+  @override
+  void onChange(Change<ContractorState> change) {
+    log('CURRENT STATE : ${change.currentState}');
+    log('NEXT STATE: ${change.nextState}');
+    super.onChange(change);
   }
 }
 

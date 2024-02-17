@@ -26,9 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() async {
     super.dispose();
-    // await homeBloc.close();
-    // await reelsBloc.close();
-    // await preloadBloc.close();
   }
 
   @override

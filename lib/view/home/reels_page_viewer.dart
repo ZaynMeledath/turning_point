@@ -85,8 +85,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                     if (state is LikeButtonActiveState) {
                                       _animationController.forward();
 
-                                      context
-                                          .read<ReelsBloc>()
+                                      reelsBloc
                                           .add(ReelLikeEvent(reelIndex: index));
 
                                       if (user.points == 0) {

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/exceptions/user_exceptions.dart';
 import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/resources/user_repository.dart';
+import 'package:turning_point/service/api/api_exception.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';
@@ -13,18 +14,24 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(ProfileLoadingState()) {
 //====================Profile Load Event====================//
     on<ProfileLoadEvent>((event, emit) async {
-      final userModelResponse =
-          await UserRepository.getUserById(avoidGettingFromPreference: false);
-      if (userModelResponse != null && userModelResponse.data != null) {
-        final isContractor = userModelResponse.data!.role == 'CONTRACTOR';
+      try {
+        final userModelResponse =
+            await UserRepository.getUserById(avoidGettingFromPreference: false);
 
-        return emit(ProfileLoadedState(
-          isLoading: false,
-          userModel: userModelResponse.data!,
-          isContractor: isContractor,
-        ));
-      } else {
-        return emit(ProfileLoadErrorState());
+        if (userModelResponse != null && userModelResponse.data != null) {
+          final isContractor = userModelResponse.data!.role == 'CONTRACTOR';
+
+          return emit(ProfileLoadedState(
+            isLoading: false,
+            userModel: userModelResponse.data!,
+            isContractor: isContractor,
+          ));
+        } else {
+          return emit(ProfileLoadErrorState());
+        }
+      } on ProfileInactiveException {
+        log('EMITTING PROFILE INACTIVE STATE');
+        // return emit(ProfileInactiveState());
       }
     });
 
@@ -98,6 +105,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         throw CouldNotUpdateUserProfileImageException();
       }
     });
+  }
+  @override
+  void onChange(Change<ProfileState> change) {
+    log('CURRENT STATE : ${change.currentState}');
+    log('NEXT STATE: ${change.nextState}');
+    super.onChange(change);
   }
 }
 

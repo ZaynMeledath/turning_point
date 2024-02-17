@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'home_event.dart';
@@ -8,11 +10,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 //====================Home Pressed Event====================//
     on<TriggerEvent>((event, emit) {
       if (event.index == 4) {
-        emit(ConnectState());
+        return emit(ConnectState(state.currentIndex));
       } else {
-        emit(TriggeredState(event.index));
+        return emit(TriggeredState(event.index));
       }
     });
+  }
+  @override
+  void onChange(Change<HomeState> change) {
+    log('CURRENT STATE : ${change.currentState}');
+    log('NEXT STATE: ${change.nextState}');
+    super.onChange(change);
   }
 }
 

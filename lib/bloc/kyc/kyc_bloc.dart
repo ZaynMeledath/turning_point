@@ -95,6 +95,12 @@ class KycBloc extends Bloc<KycEvent, KycState> {
       );
     });
   }
+  @override
+  void onChange(Change<KycState> change) {
+    log('CURRENT STATE : ${change.currentState}');
+    log('NEXT STATE: ${change.nextState}');
+    super.onChange(change);
+  }
 }
 
 final kycBloc = KycBloc();

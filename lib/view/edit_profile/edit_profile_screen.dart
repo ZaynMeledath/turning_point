@@ -12,6 +12,7 @@ import 'package:turning_point/helper/widget/custom_radio_button.dart';
 import 'package:turning_point/view/edit_profile/segments/edit_profile_picture_segment.dart';
 import 'package:turning_point/view/edit_profile/segments/text_field_segment.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:turning_point/view/home/profile_inactive_screen.dart';
 import 'package:turning_point/view/signin/sign_up_screen.dart';
 
 part 'profile_picture_view.dart';
@@ -113,6 +114,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 return const Center(
                   child: CircularProgressIndicator.adaptive(),
                 );
+
+              case ProfileInactiveState():
+                return const ProfileInactiveScreen();
 
               case ProfileLoadErrorState():
                 return Center(
