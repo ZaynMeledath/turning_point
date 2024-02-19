@@ -113,6 +113,7 @@ class UserRepository {
         isTokenRequired: true,
       );
 
+//---google account image will have the whole url, but image from server will only have the image name---//
       if (!response['data']['image'].startsWith('https')) {
         response['data']['image'] =
             '${ApiEndpoints.uploads}/${response['data']['image']}';

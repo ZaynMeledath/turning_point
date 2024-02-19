@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
@@ -39,12 +38,12 @@ class _ReelsScreenState extends State<ReelsScreen> {
     reelsFuture ??= ReelRepository.getReels();
   }
 
-  @override
-  void dispose() {
-    preloadBloc.disposeAllControllers();
-    log('######## REELS SCREEN DISPOSED #########');
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   preloadBloc.disposeAllControllers();
+  //   log('######## REELS SCREEN DISPOSED #########');
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
