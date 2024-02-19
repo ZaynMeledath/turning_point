@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/bloc/sign_up/contractor_bloc.dart';
-import 'package:turning_point/dialog/show_loading_dialog.dart';
+import 'package:turning_point/dialog/show_custom_loading_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
@@ -57,7 +57,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthLoadingState) {
-          showLoadingDialog(context: context);
+          showCustomLoadingDialog(context);
         } else if (state is OtpVerificationNeededState) {
           Navigator.pop(context);
           CustomNavigator.push(

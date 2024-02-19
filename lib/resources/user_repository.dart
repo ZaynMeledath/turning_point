@@ -188,7 +188,9 @@ class UserRepository {
       );
       final userModelResponse =
           await getUserById(avoidGettingFromPreference: true);
-      return userModelResponse!;
+      userModelResponse!.data!.image =
+          '${ApiEndpoints.uploads}/${userModelResponse.data!.image}';
+      return userModelResponse;
     } catch (_) {
       log('EXCEPTION');
       throw CouldNotUpdateUserProfileImageException();

@@ -13,7 +13,13 @@ sealed class AuthState {
   });
 }
 
-class AuthLoadingState extends AuthState {}
+class AuthLoadingState extends AuthState {
+  const AuthLoadingState({
+    super.phone,
+    super.businessName,
+    super.contractor,
+  });
+}
 
 class InitialState extends AuthState {}
 

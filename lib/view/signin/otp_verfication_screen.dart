@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
+import 'package:turning_point/dialog/show_custom_loading_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/terms_and_conditions/terms_and_conditions_screen.dart';
@@ -63,15 +64,16 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     _focusNode2.dispose();
     _focusNode3.dispose();
     _focusNode4.dispose();
-
-    // await authBloc.close();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is OtpVerifiedState) {
+        if (state is AuthLoadingState) {
+          showCustomLoadingDialog(context);
+        } else if (state is OtpVerifiedState) {
+          Navigator.pop(context);
           CustomNavigator.pushAndRemove(
             context: context,
             child: const TermsAndConditionsScreen(isAccepted: false),

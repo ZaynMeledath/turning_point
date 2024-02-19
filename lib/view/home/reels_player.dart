@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:turning_point/dialog/custom_loading.dart';
 import 'package:video_player/video_player.dart';
 
 class ReelsPlayer extends StatefulWidget {
@@ -21,11 +22,7 @@ class _ReelsPlayerState extends State<ReelsPlayer> {
           return Center(
             child: value.isInitialized
                 ? VideoPlayer(widget.videoController)
-                : const CircularProgressIndicator.adaptive(
-                    strokeWidth: 5,
-                    backgroundColor: Colors.white,
-                    valueColor: AlwaysStoppedAnimation(Colors.pink),
-                  ),
+                : circleLoading(),
           );
         });
   }

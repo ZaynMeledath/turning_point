@@ -1,10 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
+import 'package:turning_point/dialog/show_custom_loading_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/flight_shuttle.dart';
 import 'package:turning_point/helper/screen_size.dart';
@@ -20,7 +19,6 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   bool isLoaded = false;
-  bool shouldCloseBloc = false;
 
   @override
   void initState() {
@@ -35,25 +33,22 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   void dispose() async {
     super.dispose();
-    // if (shouldCloseBloc) {
-    //   await authBloc.close();
-    // }
+   
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) async {
-        if (state is WhoIsSigningState) {
-          log('WHO IS SIGNING STATE LISTENER EXECUTED');
+        if (state is AuthLoadingState) {
+          showCustomLoadingDialog(context);
+        } else if (state is WhoIsSigningState) {
+          Navigator.pop(context);
           CustomNavigator.pushAndRemove(
             context: context,
             child: const WhoIsSigningScreen(),
           );
-          log('WHO IS SIGNING STATE LISTENER EXECUTED AFTER');
         } else if (state is SignedInState) {
-          log('SIGN IN SCREEN BEFORE NAVIGATION');
-          shouldCloseBloc = true;
           Navigator.of(context).pushAndRemoveUntil(
             PageTransition(
               child: const HomeScreen(),
@@ -62,7 +57,6 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
             (_) => false,
           );
-          log('SIGN IN SCREEN AFTER NAVIGATION');
         }
       },
       builder: (context, state) {

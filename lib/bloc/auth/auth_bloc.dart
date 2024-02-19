@@ -17,15 +17,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthInitializeEvent>((event, emit) async {
       try {
         await provider.initialize();
-        // final user = provider.currentUser;
         UserModelResponse? user = UserRepository.getUserFromPreference();
         if (user == null) {
+          if (provider.currentUser != null) {
+            provider.signOut();
+          }
           return emit(InitialState());
-        }
-        // else if (!user.isPhoneVerified) {
-        //   emit(OtpVerificationNeededState());
-        // }
-        else {
+        } else {
           return emit(SignedInState());
         }
       } catch (e) {
@@ -36,6 +34,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 //====================GoogleSignInEvent====================//
     on<GoogleSignInEvent>(
       (event, emit) async {
+        emit(const AuthLoadingState());
         try {
           final token = await provider.signIn();
           final status = await UserRepository.userSignIn(token);
@@ -44,9 +43,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           } else {
             emit(WhoIsSigningState());
           }
-
-          // UserRepository.userSignUp(mobileNumber: '8140470004');
-          // emit(SignedInState());
         } catch (e) {
           log('EXCEPTION IN GOOGLE SIGN IN : $e');
         }
@@ -57,23 +53,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignUpEvent>(
       (event, emit) async {
         emit(
-          AuthLoadingState(),
+          const AuthLoadingState(),
         );
         try {
-          // await UserRepository.userSignUp(
-          //   mobileNumber: event.phone,
-          //   businessName: event.businessName,
-          //   contractor: event.contractor,
-          // );
-          emit(OtpVerificationNeededState(
-            phone: event.phone,
-            businessName: event.businessName,
-            contractor: event.contractor,
-          ));
+          emit(
+            OtpVerificationNeededState(
+              phone: event.phone,
+              businessName: event.businessName,
+              contractor: event.contractor,
+            ),
+          );
           await provider.sendPhoneVerification(phone: event.phone);
         } catch (e) {
           log('EXCEPTION IN SIGNUP EVENT : $e');
-          //Exception
         }
       },
     );
@@ -81,13 +73,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 //====================VerifyOtpEvent====================//
     on<VerifyOtpEvent>(
       (event, emit) async {
+        emit(
+          AuthLoadingState(
+            phone: state.phone,
+            businessName: state.businessName,
+            contractor: state.contractor,
+          ),
+        );
         try {
           final token = await provider.verifyOtp(
             verificationId: FirebaseAuthProvider.verifyId,
             otp: event.otp,
           );
 
-          log('PHONE NUMBER FROM VERIFTY OTP EVENT: ${state.phone}');
+          log('PHONE NUMBER FROM VERIFY OTP EVENT: ${state.phone}');
           await UserRepository.userSignUp(
             phone: state.phone!,
             businessName: state.businessName,
