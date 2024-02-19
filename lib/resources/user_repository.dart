@@ -113,6 +113,11 @@ class UserRepository {
         isTokenRequired: true,
       );
 
+      if (!response['data']['image'].startsWith('https')) {
+        response['data']['image'] =
+            '${ApiEndpoints.uploads}/${response['data']['image']}';
+      }
+
       AppPreferences.init();
       AppPreferences.removeFromPreference('user_json');
       AppPreferences.addSharedPreference(
@@ -121,7 +126,8 @@ class UserRepository {
       );
 
       log('GET USER BY ID FUNCTION: $response');
-      return UserModelResponse.fromJson(response);
+      final userModelResponse = UserModelResponse.fromJson(response);
+      return userModelResponse;
     } catch (e) {
       log('EXCEPTION IN GET USER BY ID : $e');
       rethrow;
@@ -156,6 +162,10 @@ class UserRepository {
           "address": userModel.address,
           "email": userModel.email,
           "pincode": userModel.pincode,
+          "contractor": {
+            "contractorName": userModel.contractor?.name,
+            "businessName": userModel.contractor?.businessName,
+          },
           "bankDetails": {
             "type": userModel.bankDetails![0].banktype,
             "accountName": userModel.bankDetails![0].accountName,
@@ -169,6 +179,7 @@ class UserRepository {
           await getUserById(avoidGettingFromPreference: true);
       return userModelResponse!;
     } catch (e) {
+      log('EXCEPTION IN UPDATE USER PROFILE : $e');
       throw CouldNotUpdateUserException();
     }
   }
@@ -188,11 +199,10 @@ class UserRepository {
       );
       final userModelResponse =
           await getUserById(avoidGettingFromPreference: true);
-      userModelResponse!.data!.image =
-          '${ApiEndpoints.uploads}/${userModelResponse.data!.image}';
-      return userModelResponse;
-    } catch (_) {
-      log('EXCEPTION');
+
+      return userModelResponse!;
+    } catch (e) {
+      log('EXCEPTION IN UPDATE PROFILE IMAGE : $e');
       throw CouldNotUpdateUserProfileImageException();
     }
   }

@@ -28,6 +28,7 @@ class _ReelsScreenState extends State<ReelsScreen> {
   @override
   void initState() {
     log('${AppPreferences.getValueShared('auth_token')}');
+
     super.initState();
   }
 
@@ -40,7 +41,8 @@ class _ReelsScreenState extends State<ReelsScreen> {
 
   @override
   void dispose() {
-    PreloadBloc().disposeAllControllers();
+    preloadBloc.disposeAllControllers();
+    log('######## REELS SCREEN DISPOSED #########');
     super.dispose();
   }
 

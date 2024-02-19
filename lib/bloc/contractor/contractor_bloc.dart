@@ -12,12 +12,15 @@ class ContractorBloc extends Bloc<ContractorEvent, ContractorState> {
 //====================ContractorLoadEvent====================//
     on<ContractorLoadEvent>((event, emit) async {
       final contractorModelResponse = await UserRepository.getContractors();
-
+      final userModelResponse = UserRepository.getUserFromPreference();
+      final contractor = userModelResponse?.data?.contractor;
       emit(
         ContractorLoadedState(
           contractorsList: contractorModelResponse.data,
-          contractor: null,
-          contractorString: null,
+          contractor: contractor,
+          contractorString: contractor != null
+              ? '${contractor.name} - ${contractor.businessName}'
+              : null,
         ),
       );
     });

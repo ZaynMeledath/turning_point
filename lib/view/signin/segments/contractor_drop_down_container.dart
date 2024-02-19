@@ -55,7 +55,8 @@ Widget contractorDropDownContainer(
               customButton: Container(
                 width: screenSize.width * .6,
                 decoration: BoxDecoration(
-                  color: const Color.fromRGBO(246, 246, 246, 1),
+                  // color: const Color.fromRGBO(246, 246, 246, 1),
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(

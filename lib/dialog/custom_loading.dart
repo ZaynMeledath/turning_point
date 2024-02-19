@@ -8,7 +8,9 @@ Widget spinningLinesLoading() {
 }
 
 Widget circleLoading() {
-  return Center(
-    child: SpinKitCircle(),
+  return const Center(
+    child: SpinKitFadingCircle(
+      color: Colors.pink,
+    ),
   );
 }

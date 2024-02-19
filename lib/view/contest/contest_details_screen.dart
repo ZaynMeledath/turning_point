@@ -61,13 +61,16 @@ class ContestDetailsScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(height: screenSize.width * .03),
-                            Text(
-                              contestModel.name!,
-                              style: GoogleFonts.poppins(
-                                fontStyle: FontStyle.italic,
-                                fontSize: screenSize.width * .041,
-                                fontWeight: FontWeight.w600,
-                                color: const Color.fromRGBO(0, 31, 36, 1),
+                            SizedBox(
+                              width: screenSize.width * .42,
+                              child: Text(
+                                contestModel.name!,
+                                style: GoogleFonts.poppins(
+                                  fontStyle: FontStyle.italic,
+                                  fontSize: screenSize.width * .041,
+                                  fontWeight: FontWeight.w600,
+                                  color: const Color.fromRGBO(0, 31, 36, 1),
+                                ),
                               ),
                             ),
                             SizedBox(height: screenSize.height * .005),

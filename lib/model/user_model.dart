@@ -1,3 +1,5 @@
+import 'package:turning_point/model/contractor_model.dart';
+
 class UserModelResponse {
   String? message;
   UserModel? data;
@@ -33,6 +35,7 @@ class UserModel {
   int? points;
   bool? isActive;
   String? role;
+  ContractorModel? contractor;
   List<BankDetails>? bankDetails;
   List? shopImageArr;
   String? createdAt;
@@ -56,6 +59,7 @@ class UserModel {
       this.address,
       this.isActive,
       this.role,
+      this.contractor,
       this.bankDetails,
       this.shopImageArr,
       this.createdAt,
@@ -79,6 +83,7 @@ class UserModel {
     points = json['points'];
     isActive = json['isActive'];
     role = json['role'];
+    contractor = ContractorModel.fromJson(json['contractor']);
     if (json['bankDetails'] != null) {
       bankDetails = <BankDetails>[];
       json['bankDetails'].forEach((v) {
@@ -110,6 +115,7 @@ class UserModel {
     data['points'] = points;
     data['isActive'] = isActive;
     data['role'] = role;
+    data['contractor'] = ContractorModel().toJson();
     if (bankDetails != null) {
       data['bankDetails'] = bankDetails!.map((v) => v.toJson()).toList();
     }

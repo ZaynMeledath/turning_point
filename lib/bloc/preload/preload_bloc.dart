@@ -131,6 +131,11 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
     }
   }
 
+  //====================Pause Current Controller====================//
+  void pauseCurrentController() {
+    state.controllers[state.focusedIndex]!.pause();
+  }
+
 //====================Dispose all Controllers====================//
   void disposeAllControllers() {
     state.controllers.forEach((key, value) {

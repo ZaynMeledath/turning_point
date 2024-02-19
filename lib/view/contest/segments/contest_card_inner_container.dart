@@ -55,17 +55,17 @@ Widget contestCardInnerContainer({
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        children: [
-                          Text(
-                            contestModel.name!,
-                            style: GoogleFonts.poppins(
-                              fontSize: screenSize.width * .041,
-                              fontWeight: FontWeight.w700,
-                              color: const Color.fromRGBO(83, 83, 83, 1),
-                            ),
+                      SizedBox(
+                        width: screenSize.width * .42,
+                        child: Text(
+                          contestModel.name!,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.poppins(
+                            fontSize: screenSize.width * .041,
+                            fontWeight: FontWeight.w700,
+                            color: const Color.fromRGBO(83, 83, 83, 1),
                           ),
-                        ],
+                        ),
                       ),
                       GestureDetector(
                         onTap: () {
