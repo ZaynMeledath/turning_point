@@ -32,8 +32,11 @@ Widget textFieldSegment({
                   Flexible(
                     child: TextField(
                       controller: controller,
-                      style: GoogleFonts.poppins(
-                          fontSize: screenSize.height * .017),
+                      style: GoogleFonts.inter(
+                        letterSpacing: 1,
+                        fontSize: screenSize.height * .017,
+                        color: const Color.fromRGBO(16, 16, 16, 1),
+                      ),
                       decoration: const InputDecoration(
                         border: InputBorder.none,
                       ),

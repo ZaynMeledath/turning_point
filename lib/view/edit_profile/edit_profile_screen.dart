@@ -282,6 +282,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                 screenSize.width * .041),
                                         child: contractorDropDownContainer(
                                           searchController: _searchController,
+                                          color: Colors.white,
                                         ),
                                       );
                                   }

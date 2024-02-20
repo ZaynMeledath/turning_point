@@ -1,7 +1,9 @@
 part of '../sign_up_screen.dart';
 
-Widget contractorDropDownContainer(
-    {required TextEditingController searchController}) {
+Widget contractorDropDownContainer({
+  required TextEditingController searchController,
+  Color? color,
+}) {
   return BlocBuilder<ContractorBloc, ContractorState>(
     builder: (context, state) {
       return Align(
@@ -14,17 +16,25 @@ Widget contractorDropDownContainer(
             color: Colors.white,
             borderRadius: BorderRadius.circular(8),
             boxShadow: [
-              BoxShadow(
-                offset: const Offset(-1.5, 1.5),
-                blurRadius: 1.5,
-                color: Colors.black.withOpacity(.2),
-                blurStyle: BlurStyle.normal,
-              ),
+              color == null
+                  ? const BoxShadow(
+                      offset: Offset(-.5, .5),
+                      blurRadius: 1,
+                      color: Color.fromRGBO(214, 214, 214, 1),
+                      blurStyle: BlurStyle.normal,
+                    )
+                  : BoxShadow(
+                      offset: const Offset(-.5, .5),
+                      blurRadius: .5,
+                      color: Colors.black.withOpacity(.2),
+                    ),
             ],
-            border: Border.all(
-              width: .8,
-              color: const Color.fromRGBO(214, 214, 214, 1),
-            ),
+            border: color != null
+                ? Border.all(
+                    width: .8,
+                    color: Colors.black.withOpacity(.3),
+                  )
+                : null,
           ),
 
           //====================Drop Down Button and decoration====================//
@@ -37,6 +47,7 @@ Widget contractorDropDownContainer(
                       value: '${item.name} - ${item.businessName}',
                       child: Text(
                         '${item.name} - ${item.businessName}',
+                        overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.roboto(
                           fontSize: screenSize.width * .036,
                           fontWeight: FontWeight.w400,
@@ -56,8 +67,8 @@ Widget contractorDropDownContainer(
               customButton: Container(
                 width: screenSize.width * .6,
                 decoration: BoxDecoration(
-                  // color: const Color.fromRGBO(246, 246, 246, 1),
-                  color: Colors.white,
+                  color: color ?? const Color.fromRGBO(246, 246, 246, 1),
+                  // color: Colors.white,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(
@@ -66,9 +77,11 @@ Widget contractorDropDownContainer(
                       padding: EdgeInsets.only(left: screenSize.width * .028),
                       child: Text(
                         state.selectedContractor ?? 'Select Contractor',
-                        style: GoogleFonts.roboto(
-                          fontSize: screenSize.width * .032,
-                          color: const Color.fromRGBO(16, 16, 16, .8),
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.inter(
+                          letterSpacing: 1,
+                          fontSize: screenSize.width * .034,
+                          color: const Color.fromRGBO(16, 16, 16, 1),
                         ),
                       ),
                     ),
