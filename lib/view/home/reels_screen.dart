@@ -38,12 +38,12 @@ class _ReelsScreenState extends State<ReelsScreen> {
     reelsFuture ??= ReelRepository.getReels();
   }
 
-  // @override
-  // void dispose() {
-  //   preloadBloc.disposeAllControllers();
-  //   log('######## REELS SCREEN DISPOSED #########');
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    // preloadBloc.disposeAllControllers();
+    log('######## REELS SCREEN DISPOSED #########');
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

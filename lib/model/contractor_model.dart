@@ -44,4 +44,13 @@ class ContractorModel {
     data['businessName'] = businessName;
     return data;
   }
+
+  // @override
+  // bool operator ==(other) =>
+  //     other is ContractorModel &&
+  //     other.name == name &&
+  //     other.businessName == businessName;
+
+  // @override
+  // int get hashCode => name.hashCode ^ businessName.hashCode;
 }

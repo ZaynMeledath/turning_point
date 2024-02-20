@@ -24,12 +24,19 @@ Widget signUpTextField({
           height: screenSize.height * .058,
           padding: const EdgeInsets.symmetric(horizontal: 15),
           decoration: BoxDecoration(
-            color: const Color.fromRGBO(246, 246, 246, 1),
+            // color: const Color.fromRGBO(246, 246, 246, 1),
+            color: Colors.white,
             borderRadius: BorderRadius.circular(8.5),
             boxShadow: [
               BoxShadow(
                 offset: const Offset(-1.5, 1.5),
-                blurRadius: 1,
+                blurRadius: 1.5,
+                color: Colors.black.withOpacity(.2),
+                blurStyle: BlurStyle.normal,
+              ),
+              BoxShadow(
+                offset: const Offset(1, -.2),
+                blurRadius: 1.5,
                 color: Colors.black.withOpacity(.2),
                 blurStyle: BlurStyle.normal,
               ),

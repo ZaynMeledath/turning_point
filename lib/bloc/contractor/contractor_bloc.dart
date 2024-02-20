@@ -15,27 +15,31 @@ class ContractorBloc extends Bloc<ContractorEvent, ContractorState> {
       final userModelResponse = UserRepository.getUserFromPreference();
       final contractor = userModelResponse?.data?.contractor;
       log('CONTRACTOR NAME : ${contractor?.name}');
+      log('BUSINESS NAME : ${contractor?.businessName}');
+      log('CONTRACTOR: ${contractor?.name} - ${contractor?.businessName}');
 
       emit(
         ContractorLoadedState(
           contractorsList: contractorModelResponse.data,
-          contractor: null,
-          contractorString: null,
+          contractor: contractor,
+          selectedContractor: contractor != null
+              ? '${contractor.name} - ${contractor.businessName}'
+              : null,
         ),
       );
     });
 
 //====================ContractorSelectedEvent====================//
     on<ContractorSelectedEvent>((event, emit) {
-      final contractorDetails = event.contractorString!.split('-');
+      final contractorDetails = event.selectedContractor!.split('-');
       final contractorModel = ContractorModel(
-        name: contractorDetails[0],
-        businessName: contractorDetails[1],
+        name: contractorDetails[0].trim(),
+        businessName: contractorDetails[1].trim(),
       );
       emit(
         ContractorLoadedState(
           contractorsList: state.contractorsList,
-          contractorString: event.contractorString,
+          selectedContractor: event.selectedContractor,
           contractor: contractorModel,
         ),
       );

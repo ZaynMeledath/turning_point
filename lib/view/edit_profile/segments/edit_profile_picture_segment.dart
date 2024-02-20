@@ -42,7 +42,7 @@ Widget editProfilePictureSegment({
 //====================Camera Icon Stack====================//
           Positioned(
             bottom: 0,
-            right: 0,
+            right: 1,
             child: GestureDetector(
               onTap: () {
                 profileBloc.add(ProfilePictureUpdateEvent());

@@ -130,7 +130,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 );
 
               case ProfileLoadedState():
-                if (!state.isContractor) {
+                if (!state.isContractor && !state.isLoading) {
                   contractorBloc.add(ContractorLoadEvent());
                 }
                 _addressController.text = state.userModel.address ?? '';
@@ -297,16 +297,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         SizedBox(height: screenSize.height * .051),
                         GestureDetector(
                           onTap: () {
-                            profileBloc.add(
-                              ProfileUpdateEvent(
-                                isContractor: state.isContractor,
-                                name: _nameController.text.trim(),
-                                phone: _phoneController.text.trim(),
-                                address: _addressController.text.trim(),
-                                businessName: _businessController.text.trim(),
-                                email: _emailController.text.trim(),
-                              ),
-                            );
+                            if (contractorBloc.state.contractor != null) {
+                              profileBloc.add(
+                                ProfileUpdateEvent(
+                                  isContractor: state.isContractor,
+                                  name: _nameController.text.trim(),
+                                  phone: _phoneController.text.trim(),
+                                  address: _addressController.text.trim(),
+                                  businessName: _businessController.text.trim(),
+                                  email: _emailController.text.trim(),
+                                  contractor: contractorBloc.state.contractor!,
+                                ),
+                              );
+                            }
                           },
                           child: Container(
                             width: screenSize.width * .38,

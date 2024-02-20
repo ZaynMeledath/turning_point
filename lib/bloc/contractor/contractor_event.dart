@@ -5,6 +5,6 @@ sealed class ContractorEvent {}
 class ContractorLoadEvent extends ContractorEvent {}
 
 class ContractorSelectedEvent extends ContractorEvent {
-  final String? contractorString;
-  ContractorSelectedEvent(this.contractorString);
+  final String? selectedContractor;
+  ContractorSelectedEvent(this.selectedContractor);
 }

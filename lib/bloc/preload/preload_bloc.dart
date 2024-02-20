@@ -13,7 +13,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
       if (event.currentIndex == 0) {
         if (event.isInitial) {
           if (state.focusedIndex == 0) {
-            await _initializeControllerAtIndex(0);
+            _initializeControllerAtIndex(0);
           }
           _playControllerAtIndex(0);
           await _initializeControllerAtIndex(1);

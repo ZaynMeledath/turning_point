@@ -62,7 +62,7 @@ class UserRepository {
           if (businessName != null) "businessName": businessName,
           if (contractor != null)
             "contractor": {
-              "contractorName": contractor.name,
+              "name": contractor.name,
               "businessName": contractor.businessName,
             },
           "idToken": token,
@@ -164,15 +164,17 @@ class UserRepository {
           "email": userModel.email,
           "pincode": userModel.pincode,
           "contractor": {
-            "contractorName": userModel.contractor?.name,
+            "name": userModel.contractor?.name,
             "businessName": userModel.contractor?.businessName,
           },
-          "bankDetails": {
-            "type": userModel.bankDetails![0].banktype,
-            "accountName": userModel.bankDetails![0].accountName,
-            "accountNo": userModel.bankDetails![0].accountNo,
-            "ifsc": userModel.bankDetails![0].ifsc,
-          },
+          if (userModel.bankDetails != null &&
+              userModel.bankDetails!.isNotEmpty)
+            "bankDetails": {
+              "type": userModel.bankDetails![0].banktype,
+              "accountName": userModel.bankDetails![0].accountName,
+              "accountNo": userModel.bankDetails![0].accountNo,
+              "ifsc": userModel.bankDetails![0].ifsc,
+            },
         },
         isTokenRequired: true,
       );

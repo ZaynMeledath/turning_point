@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/exceptions/user_exceptions.dart';
+import 'package:turning_point/model/contractor_model.dart';
 import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/api/api_exception.dart';
@@ -41,17 +42,18 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         UserModelResponse? userModelResponse =
             UserRepository.getUserFromPreference();
 
-        emit(ProfileLoadedState(
-          isLoading: true,
-          userModel: userModelResponse!.data!,
-          isContractor: event.isContractor,
-        ));
-
-        userModelResponse.data!.name = event.name;
+        userModelResponse!.data!.name = event.name;
         userModelResponse.data!.phone = event.phone;
         userModelResponse.data!.businessName = event.businessName;
         userModelResponse.data!.address = event.address;
         userModelResponse.data!.email = event.email;
+        userModelResponse.data!.contractor = event.contractor;
+
+        emit(ProfileLoadedState(
+          isLoading: true,
+          userModel: userModelResponse.data!,
+          isContractor: event.isContractor,
+        ));
 
         userModelResponse = await UserRepository.updateUserProfile(
           userModel: userModelResponse.data!,

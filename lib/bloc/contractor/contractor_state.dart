@@ -2,11 +2,11 @@ part of 'contractor_bloc.dart';
 
 sealed class ContractorState {
   final List<ContractorModel>? contractorsList;
-  final String? contractorString;
+  final String? selectedContractor;
   final ContractorModel? contractor;
   ContractorState({
     required this.contractorsList,
-    required this.contractorString,
+    required this.selectedContractor,
     required this.contractor,
   });
 }
@@ -15,7 +15,7 @@ class ContractorLoadingState extends ContractorState {
   ContractorLoadingState()
       : super(
           contractor: null,
-          contractorString: null,
+          selectedContractor: null,
           contractorsList: null,
         );
 }
@@ -23,7 +23,7 @@ class ContractorLoadingState extends ContractorState {
 class ContractorLoadedState extends ContractorState {
   ContractorLoadedState({
     required super.contractorsList,
-    required super.contractorString,
+    required super.selectedContractor,
     required super.contractor,
   });
 }

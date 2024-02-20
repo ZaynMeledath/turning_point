@@ -165,7 +165,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                           GestureDetector(
                             onTap: () {
-                              if (state.contractorString != null) {
+                              if (state.selectedContractor != null) {
                                 authBloc.add(
                                   SignUpEvent(
                                     phone: mobileController.text,

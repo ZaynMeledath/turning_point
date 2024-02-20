@@ -45,7 +45,8 @@ Widget contractorDropDownContainer(
                     ),
                   )
                   .toList(),
-              value: state.contractorString,
+              value: state.selectedContractor,
+
               onChanged: (value) {
                 //ContractorSelectedEvent is called on change of value
                 context
@@ -64,7 +65,7 @@ Widget contractorDropDownContainer(
                     Padding(
                       padding: EdgeInsets.only(left: screenSize.width * .028),
                       child: Text(
-                        state.contractorString ?? 'Select Contractor',
+                        state.selectedContractor ?? 'Select Contractor',
                         style: GoogleFonts.roboto(
                           fontSize: screenSize.width * .032,
                           color: const Color.fromRGBO(16, 16, 16, .8),
