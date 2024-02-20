@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
+import 'package:turning_point/bloc/contest/join_contest_bloc.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/bloc/kyc/kyc_bloc.dart';
 import 'package:turning_point/bloc/points_history/points_history_bloc.dart';
@@ -70,6 +71,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => contestBloc,
+        ),
+        BlocProvider(
+          create: (_) => joinContestBloc,
         ),
       ],
       child: BlocBuilder<AuthBloc, AuthState>(

@@ -221,20 +221,25 @@ class ContestDetailsScreen extends StatelessWidget {
             SizedBox(height: screenSize.height * .028),
 
 //====================Enter Contest Button====================//
-            Container(
-              width: screenSize.width * .31,
-              height: screenSize.width * .095,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                color: const Color.fromRGBO(0, 99, 255, 1),
+            GestureDetector(
+              onTap: () => joinContestBloc.add(
+                JoinContestEvent(contestModel),
               ),
-              child: Center(
-                child: Text(
-                  'Enter Contest',
-                  style: GoogleFonts.roboto(
-                    fontSize: screenSize.width * .032,
-                    fontWeight: FontWeight.w500,
-                    color: const Color.fromRGBO(255, 255, 255, 1),
+              child: Container(
+                width: screenSize.width * .31,
+                height: screenSize.width * .095,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  color: const Color.fromRGBO(0, 99, 255, 1),
+                ),
+                child: Center(
+                  child: Text(
+                    'Enter Contest',
+                    style: GoogleFonts.roboto(
+                      fontSize: screenSize.width * .032,
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromRGBO(255, 255, 255, 1),
+                    ),
                   ),
                 ),
               ),

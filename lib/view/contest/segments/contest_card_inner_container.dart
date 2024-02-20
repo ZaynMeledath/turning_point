@@ -148,21 +148,27 @@ Widget contestCardInnerContainer({
                         Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Container(
-                              width: screenSize.width * .31,
-                              height: screenSize.width * .092,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                color: const Color.fromRGBO(0, 99, 255, 1),
+                            GestureDetector(
+                              onTap: () => joinContestBloc.add(
+                                JoinContestEvent(
+                                    state.contestModelList![index]),
                               ),
-                              child: Center(
-                                child: Text(
-                                  'Enter Contest',
-                                  style: GoogleFonts.roboto(
-                                    fontSize: screenSize.width * .032,
-                                    fontWeight: FontWeight.w500,
-                                    color:
-                                        const Color.fromRGBO(255, 255, 255, 1),
+                              child: Container(
+                                width: screenSize.width * .31,
+                                height: screenSize.width * .092,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25),
+                                  color: const Color.fromRGBO(0, 99, 255, 1),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Enter Contest',
+                                    style: GoogleFonts.roboto(
+                                      fontSize: screenSize.width * .032,
+                                      fontWeight: FontWeight.w500,
+                                      color: const Color.fromRGBO(
+                                          255, 255, 255, 1),
+                                    ),
                                   ),
                                 ),
                               ),

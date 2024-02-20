@@ -28,7 +28,7 @@ class ContestModelResponse {
 }
 
 class ContestModel {
-  String? sId;
+  String? id;
   String? name;
   String? contestId;
   String? subtitle;
@@ -50,7 +50,7 @@ class ContestModel {
   List<PrizeArr>? prizeArr;
 
   ContestModel(
-      {this.sId,
+      {this.id,
       this.name,
       this.contestId,
       this.subtitle,
@@ -72,7 +72,7 @@ class ContestModel {
       this.prizeArr});
 
   ContestModel.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
+    id = json['_id'];
     name = json['name'];
     contestId = json['contestId'];
     subtitle = json['subtitle'];
@@ -101,7 +101,7 @@ class ContestModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['_id'] = sId;
+    data['_id'] = id;
     data['name'] = name;
     data['contestId'] = contestId;
     data['subtitle'] = subtitle;
@@ -128,7 +128,7 @@ class ContestModel {
 }
 
 class PrizeArr {
-  String? sId;
+  String? id;
   String? name;
   String? description;
   String? contestId;
@@ -138,7 +138,7 @@ class PrizeArr {
   int? iV;
 
   PrizeArr(
-      {this.sId,
+      {this.id,
       this.name,
       this.description,
       this.contestId,
@@ -148,7 +148,7 @@ class PrizeArr {
       this.iV});
 
   PrizeArr.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
+    id = json['_id'];
     name = json['name'];
     description = json['description'];
     contestId = json['contestId'];
@@ -160,7 +160,7 @@ class PrizeArr {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['_id'] = sId;
+    data['_id'] = id;
     data['name'] = name;
     data['description'] = description;
     data['contestId'] = contestId;
