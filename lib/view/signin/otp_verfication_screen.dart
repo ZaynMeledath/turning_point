@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:otp_text_field/otp_field.dart';
+import 'package:otp_text_field/otp_field_style.dart';
+import 'package:otp_text_field/style.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/dialog/show_custom_loading_dialog.dart';
+import 'package:turning_point/dialog/show_generic_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/terms_and_conditions/terms_and_conditions_screen.dart';
@@ -17,53 +20,11 @@ class OtpVerificationScreen extends StatefulWidget {
 }
 
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
-  late final TextEditingController _textController1;
-  late final TextEditingController _textController2;
-  late final TextEditingController _textController3;
-  late final TextEditingController _textController4;
-  late final TextEditingController _textController5;
-  late final TextEditingController _textController6;
-
-  late final FocusNode _focusNode1;
-  late final FocusNode _focusNode2;
-  late final FocusNode _focusNode3;
-  late final FocusNode _focusNode4;
-  late final FocusNode _focusNode5;
-  late final FocusNode _focusNode6;
+  String otp = '';
 
   @override
   void initState() {
-    _textController1 = TextEditingController();
-    _textController2 = TextEditingController();
-    _textController3 = TextEditingController();
-    _textController4 = TextEditingController();
-    _textController5 = TextEditingController();
-    _textController6 = TextEditingController();
-
-    _focusNode1 = FocusNode();
-    _focusNode2 = FocusNode();
-    _focusNode3 = FocusNode();
-    _focusNode4 = FocusNode();
-    _focusNode5 = FocusNode();
-    _focusNode6 = FocusNode();
-
     super.initState();
-  }
-
-  @override
-  void dispose() async {
-    super.dispose();
-    _textController1.dispose();
-    _textController2.dispose();
-    _textController3.dispose();
-    _textController4.dispose();
-    _textController5.dispose();
-    _textController6.dispose();
-
-    _focusNode1.dispose();
-    _focusNode2.dispose();
-    _focusNode3.dispose();
-    _focusNode4.dispose();
   }
 
   @override
@@ -169,32 +130,19 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       SizedBox(height: screenSize.height * .025),
 
                       //====================OTP Containers====================//
-                      Row(
-                        children: [
-                          otpContainer(
-                              controller: _textController1,
-                              focusNode: _focusNode1),
-                          SizedBox(width: screenSize.width * .025),
-                          otpContainer(
-                              controller: _textController2,
-                              focusNode: _focusNode2),
-                          SizedBox(width: screenSize.width * .025),
-                          otpContainer(
-                              controller: _textController3,
-                              focusNode: _focusNode3),
-                          SizedBox(width: screenSize.width * .025),
-                          otpContainer(
-                              controller: _textController4,
-                              focusNode: _focusNode4),
-                          SizedBox(width: screenSize.width * .025),
-                          otpContainer(
-                              controller: _textController5,
-                              focusNode: _focusNode5),
-                          SizedBox(width: screenSize.width * .025),
-                          otpContainer(
-                              controller: _textController6,
-                              focusNode: _focusNode6),
-                        ],
+                      OTPTextField(
+                        fieldStyle: FieldStyle.box,
+                        length: 6,
+                        outlineBorderRadius: 8,
+                        fieldWidth: screenSize.width * .09,
+                        otpFieldStyle: OtpFieldStyle(
+                          borderColor: const Color.fromRGBO(155, 155, 155, 1),
+                        ),
+                        width: screenSize.width * .7,
+                        onChanged: (value) {},
+                        onCompleted: (value) {
+                          otp = value;
+                        },
                       ),
 
                       SizedBox(height: screenSize.height * .01),
@@ -226,13 +174,16 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         builder: (context, state) {
                           return GestureDetector(
                             onTap: () {
-                              final otp = _textController1.text +
-                                  _textController2.text +
-                                  _textController3.text +
-                                  _textController4.text +
-                                  _textController5.text +
-                                  _textController6.text;
-                              authBloc.add(VerifyOtpEvent(otp));
+                              if (otp.length == 6) {
+                                authBloc.add(VerifyOtpEvent(otp));
+                              } else {
+                                showGenericDialog(
+                                  context: context,
+                                  title: 'OTP Incorrect',
+                                  content: 'Please enter all the 6 digits',
+                                  options: {'OK': null},
+                                );
+                              }
                             },
                             child: Container(
                               width: screenSize.width * .37,
@@ -266,57 +217,57 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     );
   }
 
-  Widget otpContainer({
-    required TextEditingController controller,
-    required FocusNode focusNode,
-  }) {
-    return Container(
-      width: screenSize.width * .09,
-      height: screenSize.width * .09,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4),
-        border: Border.all(
-          color: focusNode.hasFocus
-              ? Colors.blue
-              : const Color.fromRGBO(155, 155, 155, 1),
-        ),
-      ),
-      child: TextField(
-        cursorColor: const Color.fromRGBO(0, 99, 255, 1),
-        controller: controller,
-        focusNode: focusNode,
-        textAlignVertical: TextAlignVertical.center,
-        // autofocus: true,
-        // showCursor: false,
-        keyboardType: TextInputType.number,
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        maxLength: 1,
-        textAlign: TextAlign.center,
-        decoration: const InputDecoration(
-          border: InputBorder.none,
-          counterText: '',
-        ),
-        onChanged: (value) {
-          if (value.isEmpty) {
-            if (controller == _textController1) {
-              return;
-            }
-            focusNode.previousFocus();
-          }
+//   Widget otpContainer({
+//     required TextEditingController controller,
+//     required FocusNode focusNode,
+//   }) {
+//     return Container(
+//       width: screenSize.width * .09,
+//       height: screenSize.width * .09,
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(4),
+//         border: Border.all(
+//           color: focusNode.hasFocus
+//               ? Colors.blue
+//               : const Color.fromRGBO(155, 155, 155, 1),
+//         ),
+//       ),
+//       child: TextField(
+//         cursorColor: const Color.fromRGBO(0, 99, 255, 1),
+//         controller: controller,
+//         focusNode: focusNode,
+//         textAlignVertical: TextAlignVertical.center,
+//         // autofocus: true,
+//         // showCursor: false,
+//         keyboardType: TextInputType.number,
+//         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+//         maxLength: 1,
+//         textAlign: TextAlign.center,
+//         decoration: const InputDecoration(
+//           border: InputBorder.none,
+//           counterText: '',
+//         ),
+//         onChanged: (value) {
+//           if (value.isEmpty) {
+//             if (controller == _textController1) {
+//               return;
+//             }
+//             focusNode.previousFocus();
+//           }
 
-          if (value.isNotEmpty) {
-            focusNode.nextFocus();
-            if (controller == _textController6) {
-              focusNode.unfocus();
-            }
-          }
+//           if (value.isNotEmpty) {
+//             focusNode.nextFocus();
+//             if (controller == _textController6) {
+//               focusNode.unfocus();
+//             }
+//           }
 
-          setState(() {});
-        },
-        onTap: () {
-          setState(() {});
-        },
-      ),
-    );
-  }
+//           setState(() {});
+//         },
+//         onTap: () {
+//           setState(() {});
+//         },
+//       ),
+//     );
+//   }
 }
