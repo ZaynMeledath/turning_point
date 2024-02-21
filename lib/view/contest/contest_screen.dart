@@ -6,7 +6,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:stacked_card_carousel/stacked_card_carousel.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
 import 'package:turning_point/bloc/contest/join_contest_bloc.dart';
-import 'package:turning_point/dialog/show_generic_dialog.dart';
+import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/model/contest_model.dart';
@@ -41,21 +41,29 @@ class _ContestScreenState extends State<ContestScreen> {
         if (state is JoinContestErrorState) {
           switch (state.exception) {
             case InsufficientBalanceToJoinContestException():
-              showGenericDialog(
-                context: context,
-                title: 'Error',
-                content: 'Insufficient Balance to join the contest',
-                options: {'Dismiss': null},
-              );
+              showAnimatedGenericDialog(
+                  context: context,
+                  iconPath: 'assets/icons/kyc_declined_icon.png',
+                  title: 'Oops',
+                  content: 'Insufficient Balance to join the contest',
+                  buttonTitle: 'Dismiss');
               break;
             default:
-              showGenericDialog(
-                context: context,
-                title: 'Error',
-                content: 'Something Went Wrong',
-                options: {'Dismiss': null},
-              );
+              showAnimatedGenericDialog(
+                  context: context,
+                  iconPath: 'assets/icons/kyc_declined_icon.png',
+                  title: 'Error',
+                  content: 'Something Went Wrong',
+                  buttonTitle: 'Dismiss');
           }
+        } else if (state is ContestJoinedState) {
+          showAnimatedGenericDialog(
+            context: context,
+            iconPath: 'assets/images/points_received_dialog_image.png',
+            title: 'Joined Contest!',
+            content: 'You have Successfully joined ${state.contestModel.name}',
+            buttonTitle: 'Done',
+          );
         }
       },
       child: Scaffold(

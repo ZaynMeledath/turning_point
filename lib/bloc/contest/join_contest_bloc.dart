@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/model/contest_model.dart';
 import 'package:turning_point/resources/contest_repository.dart';
 import 'package:turning_point/resources/user_repository.dart';
@@ -11,10 +12,14 @@ class JoinContestBloc extends Bloc<JoinContestEvent, JoinContestState> {
   JoinContestBloc() : super(JoinContestInitialState()) {
     on<JoinContestEvent>((event, emit) async {
       try {
-        final userModel = UserRepository.getUserFromPreference()!.data!;
-        if (userModel.points! >= event.contestModel.points!) {
-          ContestRepository.joinContest(event.contestModel.id!);
-          emit(ContestJoinedState());
+        final userModelResponse = UserRepository.getUserFromPreference()!;
+        if (userModelResponse.data!.points! >= event.contestModel.points!) {
+          await ContestRepository.joinContest(event.contestModel.id!);
+          userModelResponse.data!.points =
+              userModelResponse.data!.points! - event.contestModel.points!;
+          profileBloc.add(ProfileLoadEvent());
+          UserRepository.addUserToPreference(userModelResponse);
+          emit(ContestJoinedState(event.contestModel));
         } else {
           emit(
             JoinContestErrorState(
