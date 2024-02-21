@@ -9,14 +9,11 @@ part 'contractor_state.dart';
 
 class ContractorBloc extends Bloc<ContractorEvent, ContractorState> {
   ContractorBloc() : super(ContractorLoadingState()) {
-//====================ContractorLoadEvent====================//
+//====================Contractor Load Event====================//
     on<ContractorLoadEvent>((event, emit) async {
       final contractorModelResponse = await UserRepository.getContractors();
       final userModelResponse = UserRepository.getUserFromPreference();
       final contractor = userModelResponse?.data?.contractor;
-      log('CONTRACTOR NAME : ${contractor?.name}');
-      log('BUSINESS NAME : ${contractor?.businessName}');
-      log('CONTRACTOR: ${contractor?.name} - ${contractor?.businessName}');
 
       emit(
         ContractorLoadedState(
@@ -29,7 +26,7 @@ class ContractorBloc extends Bloc<ContractorEvent, ContractorState> {
       );
     });
 
-//====================ContractorSelectedEvent====================//
+//====================Contractor Selected Event====================//
     on<ContractorSelectedEvent>((event, emit) {
       final contractorDetails = event.selectedContractor!.split('-');
       final contractorModel = ContractorModel(
@@ -41,6 +38,35 @@ class ContractorBloc extends Bloc<ContractorEvent, ContractorState> {
           contractorsList: state.contractorsList,
           selectedContractor: event.selectedContractor,
           contractor: contractorModel,
+        ),
+      );
+    });
+
+//====================Contractor Not Listed Event====================//
+    on<ContractorNotListedEvent>((event, emit) {
+      emit(
+        ContractorLoadedState(
+          contractorsList: state.contractorsList,
+          selectedContractor: state.selectedContractor,
+          contractor: state.contractor,
+          contractorNotListed: state.contractorNotListed != null
+              ? !state.contractorNotListed!
+              : true,
+          haveNoContractor: false,
+        ),
+      );
+    });
+
+//====================Have No Contractor Event====================//
+    on<HaveNoContractorEvent>((event, emit) {
+      emit(
+        ContractorLoadedState(
+          contractorsList: state.contractorsList,
+          selectedContractor: state.selectedContractor,
+          contractor: state.contractor,
+          haveNoContractor:
+              state.haveNoContractor != null ? !state.haveNoContractor! : true,
+          contractorNotListed: false,
         ),
       );
     });

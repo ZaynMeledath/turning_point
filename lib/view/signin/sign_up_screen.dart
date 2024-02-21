@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
+import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/dialog/show_custom_loading_dialog.dart';
+import 'package:turning_point/dialog/show_generic_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
@@ -69,14 +71,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: Scaffold(
         body: SafeArea(
           child: BlocBuilder<ContractorBloc, ContractorState>(
-            builder: (context, state) {
-              switch (state) {
+            builder: (context, contractorState) {
+              switch (contractorState) {
                 case ContractorLoadingState():
                   return const Center(
                     child: CircularProgressIndicator.adaptive(
                       strokeWidth: 5,
                     ),
                   );
+
                 case ContractorLoadedState():
                   return SingleChildScrollView(
                     reverse: true,
@@ -146,13 +149,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 SizedBox(height: screenSize.height * .035),
 
                                 //====================Radio Button====================//
-                                signUpRadioButtonSegment(
+                                GestureDetector(
+                                  onTap: () => contractorBloc.add(
+                                    ContractorNotListedEvent(),
+                                  ),
+                                  child: signUpRadioButtonSegment(
                                     title: 'My contractor is not listed',
-                                    isActive: false),
+                                    isActive:
+                                        contractorState.contractorNotListed ==
+                                            true,
+                                  ),
+                                ),
                                 SizedBox(height: screenSize.height * .02),
-                                signUpRadioButtonSegment(
+                                GestureDetector(
+                                  onTap: () => contractorBloc.add(
+                                    HaveNoContractorEvent(),
+                                  ),
+                                  child: signUpRadioButtonSegment(
                                     title: "I don't have a contractor",
-                                    isActive: false),
+                                    isActive:
+                                        contractorState.haveNoContractor ==
+                                            true,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -165,15 +184,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                           GestureDetector(
                             onTap: () {
-                              if (state.selectedContractor != null) {
-                                authBloc.add(
-                                  SignUpEvent(
-                                    phone: mobileController.text,
-                                    contractor: state.contractor,
-                                    businessName: null,
-                                  ),
-                                );
-                              } else {
+                              if (widget.isContractor) {
                                 authBloc.add(
                                   SignUpEvent(
                                     phone: mobileController.text,
@@ -182,6 +193,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         businessController.text.trim(),
                                   ),
                                 );
+                              } else {
+                                if (contractorState.selectedContractor !=
+                                        null &&
+                                    mobileController.text.isNotEmpty) {
+                                  authBloc.add(
+                                    SignUpEvent(
+                                      phone: mobileController.text,
+                                      contractor:
+                                          contractorState.contractorNotListed !=
+                                                      true &&
+                                                  contractorState
+                                                          .haveNoContractor !=
+                                                      true
+                                              ? contractorState.contractor
+                                              : DEFAULT_CONTRACTOR,
+                                      businessName: null,
+                                    ),
+                                  );
+                                } else {
+                                  showGenericDialog(
+                                    context: context,
+                                    title: 'Fill All Details',
+                                    content:
+                                        'Please fill all the required details to continue',
+                                    options: {'Dismiss': null},
+                                  );
+                                }
                               }
                             },
                             child: Hero(

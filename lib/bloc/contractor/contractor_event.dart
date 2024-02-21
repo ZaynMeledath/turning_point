@@ -8,3 +8,7 @@ class ContractorSelectedEvent extends ContractorEvent {
   final String? selectedContractor;
   ContractorSelectedEvent(this.selectedContractor);
 }
+
+class ContractorNotListedEvent extends ContractorEvent {}
+
+class HaveNoContractorEvent extends ContractorEvent {}

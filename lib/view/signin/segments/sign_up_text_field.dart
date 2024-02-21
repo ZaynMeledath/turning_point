@@ -48,7 +48,7 @@ Widget signUpTextField({
               Image.asset(
                 iconPath,
                 width: screenSize.width * .04,
-                color: Colors.black.withOpacity(.7),
+                color: const Color.fromRGBO(16, 16, 16, .8),
               ),
               SizedBox(width: screenSize.width * .031),
               Flexible(

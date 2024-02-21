@@ -83,7 +83,9 @@ class UserModel {
     points = json['points'];
     isActive = json['isActive'];
     role = json['role'];
-    contractor = ContractorModel.fromJson(json['contractor']);
+    contractor = json['contractor'] != null
+        ? ContractorModel.fromJson(json['contractor'])
+        : null;
     if (json['bankDetails'] != null) {
       bankDetails = <BankDetails>[];
       json['bankDetails'].forEach((v) {
