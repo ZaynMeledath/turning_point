@@ -61,7 +61,7 @@ class _ContestScreenState extends State<ContestScreen> {
             context: context,
             iconPath: 'assets/images/points_received_dialog_image.png',
             title: 'Joined Contest!',
-            content: 'You have Successfully joined ${state.contestModel.name}',
+            content: 'You have Successfully joined\n${state.contestModel.name}',
             buttonTitle: 'Done',
           );
         }

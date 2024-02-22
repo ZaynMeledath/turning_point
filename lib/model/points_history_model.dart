@@ -35,11 +35,12 @@ class PointsHistoryModelResponse {
 }
 
 class PointsHistoryModel {
-  String? sId;
+  String? id;
   String? transactionId;
   String? userId;
   int? amount;
   String? description;
+  String? mobileDescription;
   String? type;
   String? status;
   String? createdAt;
@@ -47,25 +48,28 @@ class PointsHistoryModel {
   String? origionalId;
   User? user;
 
-  PointsHistoryModel(
-      {this.sId,
-      this.transactionId,
-      this.userId,
-      this.amount,
-      this.description,
-      this.type,
-      this.status,
-      this.createdAt,
-      this.updatedAt,
-      this.origionalId,
-      this.user});
+  PointsHistoryModel({
+    this.id,
+    this.transactionId,
+    this.userId,
+    this.amount,
+    this.description,
+    this.mobileDescription,
+    this.type,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    this.origionalId,
+    this.user,
+  });
 
   PointsHistoryModel.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
+    id = json['_id'];
     transactionId = json['transactionId'];
     userId = json['userId'];
     amount = json['amount'];
     description = json['description'];
+    mobileDescription = json['mobileDescription'];
     type = json['type'];
     status = json['status'];
     createdAt = json['createdAt'].split('T')[0];
@@ -76,11 +80,12 @@ class PointsHistoryModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['_id'] = sId;
+    data['_id'] = id;
     data['transactionId'] = transactionId;
     data['userId'] = userId;
     data['amount'] = amount;
     data['description'] = description;
+    data['mobileDescription'] = description;
     data['type'] = type;
     data['status'] = status;
     data['createdAt'] = createdAt;

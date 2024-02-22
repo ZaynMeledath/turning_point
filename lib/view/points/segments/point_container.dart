@@ -47,7 +47,7 @@ Widget pointContainer({
         ),
 //====================Date of Transaction====================//
         Positioned(
-          left: screenSize.width * .28,
+          left: screenSize.width * .26,
           child: Text(
             pointsHistoryModel.createdAt!,
             style: GoogleFonts.roboto(
@@ -57,6 +57,24 @@ Widget pointContainer({
             ),
           ),
         ),
+
+//====================Transaction Description====================//
+        Positioned(
+          left: screenSize.width * .44,
+          child: SizedBox(
+            width: screenSize.width * .2,
+            child: Center(
+              child: Text(
+                pointsHistoryModel.mobileDescription.toString(),
+                style: GoogleFonts.roboto(
+                    fontSize: screenSize.width * .03,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black.withOpacity(.6)),
+              ),
+            ),
+          ),
+        ),
+
 //====================Trailing Points Transaction Amount Container====================//
         Positioned(
           right: 0,
