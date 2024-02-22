@@ -4,6 +4,7 @@ Widget signUpTextField({
   required TextEditingController controller,
   required String title,
   required String iconPath,
+  bool? isNumber,
 }) {
   return Center(
     child: Column(
@@ -56,11 +57,13 @@ Widget signUpTextField({
                   padding: EdgeInsets.only(
                     bottom: screenSize.height * .01,
                   ),
-                  child: TextField(
+                  child: TextFormField(
                     style: GoogleFonts.roboto(
                       fontSize: screenSize.width * .036,
                     ),
                     controller: controller,
+                    keyboardType:
+                        isNumber == true ? TextInputType.number : null,
                     decoration: const InputDecoration(
                       border: InputBorder.none,
                     ),
