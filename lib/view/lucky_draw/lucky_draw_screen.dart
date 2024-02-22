@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/lucky_draw/all_gifts_screen.dart';
 import 'package:turning_point/view/lucky_draw/segments/count_down_timer_segment.dart';
@@ -26,10 +26,10 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
   int timeInDays = 0;
 
   Map<String, String> time = {
-    'timeInSeconds': '0',
-    'timeInMinutes': '0',
-    'timeInHours': '0',
-    'timeInDays': '0',
+    'timeInSeconds': '00',
+    'timeInMinutes': '00',
+    'timeInHours': '00',
+    'timeInDays': '00',
   };
 
   @override
@@ -61,10 +61,10 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
 
     // return '${timeInDays.toString().padLeft(2, '0')} : ${timeInHours.toString().padLeft(2, '0')} : ${timeInMinutes.toString().padLeft(2, '0')} : ${timeInSeconds.toString().padLeft(2, '0')}';
     time = {
-      'timeInSeconds': timeInSeconds.toString(),
-      'timeInMinutes': timeInMinutes.toString(),
-      'timeInHours': timeInHours.toString(),
-      'timeInDays': timeInDays.toString(),
+      'timeInSeconds': timeInSeconds.toString().padLeft(2, '0'),
+      'timeInMinutes': timeInMinutes.toString().padLeft(2, '0'),
+      'timeInHours': timeInHours.toString().padLeft(2, '0'),
+      'timeInDays': timeInDays.toString().padLeft(2, '0'),
     };
   }
 
@@ -82,6 +82,7 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
+//====================Lucky Draw Image====================//
             Positioned(
               top: screenSize.height * .045,
               child: Image.asset(
@@ -89,10 +90,14 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
                 width: screenSize.width * .7,
               ),
             ),
+
+//====================Days Left Blue Container====================//
             Positioned(
               top: screenSize.height * .33,
               child: daysLeftContainer(),
             ),
+
+//====================Count Down Timer====================//
             Positioned(
               top: screenSize.height * .42,
               child: countDownTimerSegment(
@@ -102,6 +107,8 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
                 seconds: time['timeInSeconds']!,
               ),
             ),
+
+//====================Background Decoration Circles====================//
             Positioned(
               bottom: -screenSize.width * .82,
               width: screenSize.width * 1.3,
@@ -146,6 +153,8 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
                 ),
               ),
             ),
+
+//====================Gifts Segment====================//
             Positioned(
               top: screenSize.height * .555,
               left: screenSize.width * .075,
@@ -162,13 +171,9 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
               top: screenSize.height * .56,
               right: screenSize.width * .075,
               child: GestureDetector(
-                onTap: () => Navigator.of(context).push(
-                  PageTransition(
-                    child: const AllGiftsScreen(),
-                    type: PageTransitionType.rightToLeft,
-                    duration: const Duration(milliseconds: 350),
-                    reverseDuration: const Duration(milliseconds: 350),
-                  ),
+                onTap: () => CustomNavigator.push(
+                  context: context,
+                  child: const AllGiftsScreen(),
                 ),
                 child: Text(
                   'View All',

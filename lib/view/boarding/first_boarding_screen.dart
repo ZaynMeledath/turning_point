@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/flight_shuttle.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/view/login/sign_in_screen.dart';
+import 'package:turning_point/view/signin/sign_in_screen.dart';
 
 class FirstBoardingScreen extends StatefulWidget {
   const FirstBoardingScreen({super.key});
@@ -32,6 +32,7 @@ class _FirstBoardingScreenState extends State<FirstBoardingScreen> {
       body: Stack(
         alignment: Alignment.topCenter,
         children: [
+//====================Background Image====================//
           Hero(
             tag: 'login_screen_image',
             child: Image.asset(
@@ -41,6 +42,8 @@ class _FirstBoardingScreenState extends State<FirstBoardingScreen> {
               fit: BoxFit.cover,
             ),
           ),
+
+//====================Half Screen Sized Black Container====================//
           Align(
             alignment: Alignment.bottomCenter,
             child: Hero(
@@ -51,6 +54,7 @@ class _FirstBoardingScreenState extends State<FirstBoardingScreen> {
               ),
             ),
           ),
+//====================Logo====================//
           Positioned(
             bottom: screenSize.height * .475,
             child: Hero(
@@ -62,6 +66,8 @@ class _FirstBoardingScreenState extends State<FirstBoardingScreen> {
               ),
             ),
           ),
+
+//====================Text Segment====================//
           Positioned(
             bottom: screenSize.height * .34,
             child: AnimatedOpacity(
@@ -94,17 +100,15 @@ class _FirstBoardingScreenState extends State<FirstBoardingScreen> {
               ),
             ),
           ),
+
+//====================Get Started Button====================//
           Align(
             alignment: Alignment.bottomCenter,
             child: GestureDetector(
               onTap: () {
-                Navigator.of(context).push(
-                  PageTransition(
-                    child: const SignInScreen(),
-                    type: PageTransitionType.rightToLeft,
-                    duration: const Duration(milliseconds: 350),
-                    reverseDuration: const Duration(milliseconds: 350),
-                  ),
+                CustomNavigator.push(
+                  context: context,
+                  child: const SignInScreen(),
                 );
               },
               child: Hero(

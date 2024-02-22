@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/model/points_history_model.dart';
 
-Widget pointContainer({required Size screenSize, required bool isCredited}) {
+Widget pointContainer({
+  required PointsHistoryModel pointsHistoryModel,
+}) {
+  final isCredited = pointsHistoryModel.type == 'CREDIT';
   return Container(
     margin: const EdgeInsets.only(bottom: 15, top: 5),
     padding: EdgeInsets.symmetric(horizontal: screenSize.width * .026),
@@ -44,7 +49,7 @@ Widget pointContainer({required Size screenSize, required bool isCredited}) {
         Positioned(
           left: screenSize.width * .28,
           child: Text(
-            '13-DEC-2023',
+            pointsHistoryModel.createdAt!,
             style: GoogleFonts.roboto(
               fontSize: screenSize.width * .026,
               fontWeight: FontWeight.w400,
@@ -60,6 +65,8 @@ Widget pointContainer({required Size screenSize, required bool isCredited}) {
             padding: const EdgeInsets.only(
               left: 2,
               right: 6,
+              top: 2,
+              bottom: 2,
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
@@ -80,7 +87,7 @@ Widget pointContainer({required Size screenSize, required bool isCredited}) {
                   width: 29,
                 ),
                 Text(
-                  isCredited ? '+100' : '-100',
+                  pointsHistoryModel.amount.toString(),
                   style: GoogleFonts.inter(
                     fontSize: screenSize.width * .031,
                     fontWeight: FontWeight.w800,

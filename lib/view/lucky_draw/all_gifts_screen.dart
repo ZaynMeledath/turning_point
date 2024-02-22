@@ -19,11 +19,14 @@ class _AllGiftsScreenState extends State<AllGiftsScreen> {
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
+//====================App Bar====================//
             customAppBar(
               context: context,
               title: 'Gifts',
               foregroundColor: Colors.black.withOpacity(.8),
             ),
+
+//====================Background Decoration Circles====================//
             Positioned(
               bottom: -screenSize.width * .82,
               width: screenSize.width * 1.3,
@@ -68,6 +71,8 @@ class _AllGiftsScreenState extends State<AllGiftsScreen> {
                 ),
               ),
             ),
+
+//====================Gifts Segment====================//
             Padding(
               padding: EdgeInsets.only(top: screenSize.height * .067),
               child: GridView.builder(
@@ -87,15 +92,15 @@ class _AllGiftsScreenState extends State<AllGiftsScreen> {
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      // color: Colors.white.withOpacity(.9),
-                      gradient: LinearGradient(
-                        colors: [
-                          const Color.fromRGBO(255, 221, 84, 1),
-                          Colors.white.withOpacity(.9),
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                      ),
+                      color: Colors.white.withOpacity(.9),
+                      // gradient: LinearGradient(
+                      //   colors: [
+                      //     const Color.fromRGBO(255, 221, 84, 1),
+                      //     Colors.white.withOpacity(.9),
+                      //   ],
+                      //   begin: Alignment.topCenter,
+                      //   end: Alignment.bottomCenter,
+                      // ),
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -39,14 +39,14 @@ Widget kycTextFieldSegment({
                           : isEmail == true
                               ? TextInputType.emailAddress
                               : TextInputType.text,
-                      style: GoogleFonts.inter(
-                        fontSize: screenSize.width * .031,
+                      style: GoogleFonts.poppins(
+                        fontSize: screenSize.height * .017,
                         fontWeight: FontWeight.w400,
                       ),
                       decoration: InputDecoration(
                         hintText: title,
-                        hintStyle: GoogleFonts.inter(
-                          fontSize: screenSize.width * .031,
+                        hintStyle: GoogleFonts.poppins(
+                          fontSize: screenSize.height * .017,
                           fontWeight: FontWeight.w400,
                         ),
                         border: InputBorder.none,

@@ -1,20 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/view/redeem/redeem_screen.dart';
 
-Widget dashboardAvailableBalanceContainer({required BuildContext context}) {
+Widget dashboardAvailableBalanceContainer({
+  required BuildContext context,
+  required UserModel userModel,
+}) {
+  int winRate = 0;
+  if (userModel.contestsParticipatedInCount != 0) {
+    winRate = (userModel.contestUniqueWonCount! /
+            userModel.contestsParticipatedInCount! *
+            100)
+        .toInt();
+  }
+
   return Container(
     width: double.infinity,
-    height: screenSize.height * .16,
+    height: screenSize.height * .15,
     padding: EdgeInsets.symmetric(
       horizontal: screenSize.width * .04,
-      vertical: screenSize.width * .038,
+      vertical: screenSize.width * .034,
+    ),
+    margin: EdgeInsets.only(
+      left: screenSize.width * .05,
+      right: screenSize.width * .05,
+      top: screenSize.width * .66,
     ),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(8),
-      color: Colors.blueGrey.withOpacity(.1),
+      color: Colors.white,
+      boxShadow: [
+        BoxShadow(
+          blurRadius: 4,
+          color: Colors.black.withOpacity(.25),
+          blurStyle: BlurStyle.outer,
+        ),
+      ],
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,7 +55,7 @@ Widget dashboardAvailableBalanceContainer({required BuildContext context}) {
               ),
             ),
             Text(
-              'Win Rate 80%',
+              'Win Rate $winRate%',
               style: GoogleFonts.roboto(
                 fontSize: screenSize.width * .03,
                 fontWeight: FontWeight.w400,
@@ -40,10 +64,11 @@ Widget dashboardAvailableBalanceContainer({required BuildContext context}) {
           ],
         ),
         Text(
-          '10000',
+          userModel.points!.toString(),
           style: GoogleFonts.roboto(
             fontSize: screenSize.width * .09,
             fontWeight: FontWeight.w600,
+            color: const Color.fromRGBO(255, 176, 53, 1),
           ),
         ),
         Row(
@@ -51,18 +76,14 @@ Widget dashboardAvailableBalanceContainer({required BuildContext context}) {
           children: [
             GestureDetector(
               onTap: () {
-                Navigator.of(context).push(
-                  PageTransition(
-                    child: const RedeemScreen(),
-                    duration: const Duration(milliseconds: 350),
-                    reverseDuration: const Duration(milliseconds: 350),
-                    type: PageTransitionType.rightToLeft,
-                  ),
+                CustomNavigator.push(
+                  context: context,
+                  child: const RedeemScreen(),
                 );
               },
               child: Container(
-                width: screenSize.width * .15,
-                height: screenSize.width * .052,
+                width: screenSize.width * .16,
+                height: screenSize.width * .055,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(3),
                   gradient: const LinearGradient(
@@ -87,10 +108,11 @@ Widget dashboardAvailableBalanceContainer({required BuildContext context}) {
               ),
             ),
             Text(
-              'Total Contests Participated : 20',
+              'Total Contests Participated : ${userModel.contestsParticipatedInCount}',
               style: GoogleFonts.roboto(
                 fontSize: screenSize.width * .03,
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w600,
+                color: const Color.fromRGBO(78, 78, 78, 1),
               ),
             ),
           ],

@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/resources/user_repository.dart';
 
 Widget availablePointsContainer({required Size screenSize}) {
+  final user = UserRepository.getUserFromPreference()!;
+  final points = user.data!.points;
   return Container(
     width: double.infinity,
     height: screenSize.width * .33,
-    margin: EdgeInsets.symmetric(
-      horizontal: screenSize.width * .07,
-      vertical: screenSize.height * .15,
+    margin: EdgeInsets.only(
+      left: screenSize.width * .07,
+      right: screenSize.width * .07,
+      top: screenSize.height * .02,
     ),
     padding: EdgeInsets.all(screenSize.width * .025),
     decoration: BoxDecoration(
-      color: Colors.white.withOpacity(.7),
+      color: Colors.white.withOpacity(.8),
       borderRadius: BorderRadius.circular(21),
       boxShadow: [
         BoxShadow(
@@ -24,9 +28,13 @@ Widget availablePointsContainer({required Size screenSize}) {
     child: Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const CircleAvatar(
-          foregroundImage: AssetImage('assets/images/avatar.jpg'),
+//====================Avatar Image====================//
+        CircleAvatar(
+          foregroundImage: NetworkImage(user.data!.image!),
         ),
+
+//====================Title====================//
+        SizedBox(height: screenSize.height * .005),
         Text(
           'Available Points to Redeem',
           style: GoogleFonts.roboto(
@@ -35,8 +43,10 @@ Widget availablePointsContainer({required Size screenSize}) {
             fontWeight: FontWeight.w500,
           ),
         ),
+
+//====================Available Points====================//
         Text(
-          '10000',
+          '$points',
           style: GoogleFonts.roboto(
             fontSize: screenSize.width * .092,
             color: Colors.black,

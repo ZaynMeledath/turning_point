@@ -32,6 +32,11 @@ Widget textFieldSegment({
                   Flexible(
                     child: TextField(
                       controller: controller,
+                      style: GoogleFonts.inter(
+                        letterSpacing: 1,
+                        fontSize: screenSize.height * .017,
+                        color: const Color.fromRGBO(16, 16, 16, 1),
+                      ),
                       decoration: const InputDecoration(
                         border: InputBorder.none,
                       ),
@@ -59,7 +64,7 @@ Widget textFieldSegment({
                     title,
                     style: GoogleFonts.inter(
                       fontSize: screenSize.width * .031,
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),

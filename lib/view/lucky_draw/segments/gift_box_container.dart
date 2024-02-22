@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:turning_point/helper/screen_size.dart';
 
+//====================Individual Gift Container Styling====================//
 Widget giftBoxContainer() {
   return Container(
     width: screenSize.width * .24,

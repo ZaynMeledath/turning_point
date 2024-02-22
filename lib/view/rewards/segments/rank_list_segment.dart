@@ -53,6 +53,8 @@ Widget rankListSegment({
         horizontal: screenSize.width * .061,
       ),
       horizontalTitleGap: screenSize.width * .04,
+
+//====================Rank====================//
       leading: Text(
         '#${index + 4}',
         style: GoogleFonts.roboto(
@@ -60,6 +62,8 @@ Widget rankListSegment({
           fontWeight: FontWeight.w700,
         ),
       ),
+
+//====================Avatar and Name====================//
       title: Row(
         children: [
           const CircleAvatar(
@@ -75,6 +79,8 @@ Widget rankListSegment({
           ),
         ],
       ),
+
+//====================Points Container====================//
       trailing: Container(
         width: screenSize.width * .17,
         height: screenSize.height * .03,

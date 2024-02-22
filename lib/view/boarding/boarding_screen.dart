@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/boarding/segments/boarding_screen_content.dart';
 import 'package:turning_point/view/home/home_screen.dart';
@@ -14,6 +15,7 @@ class BoardingScreen extends StatefulWidget {
 
 class _BoardingScreenState extends State<BoardingScreen> {
   late final PageController _pageController;
+  int currentIndex = 0;
 
   @override
   void initState() {
@@ -33,6 +35,7 @@ class _BoardingScreenState extends State<BoardingScreen> {
       body: Stack(
         alignment: Alignment.topCenter,
         children: [
+          //====================Background Decoration Circles====================//
           Positioned(
             top: -screenSize.width * .22,
             left: -screenSize.width * .15,
@@ -73,41 +76,96 @@ class _BoardingScreenState extends State<BoardingScreen> {
               ),
             ),
           ),
+
+          //====================Pages====================//
           PageView(
             controller: _pageController,
+            onPageChanged: (value) {
+              setState(() {
+                currentIndex = value;
+              });
+            },
             children: [
               boardingScreenContent(
-                title: 'EARN POINTS',
-                subTitle: 'GET REWARDS',
+                title: 'Earn Points\nGet Reward!',
                 imagePath: 'assets/images/earn_rewards_boarding.png',
                 imageWidth: screenSize.width * .52,
                 content:
                     'It is a long established fact that a reader will be distracted\nby the readable content of a page when looking at its\nlayout.',
+                activePageNumber: 1,
                 imageSpacing: screenSize.height * .012,
+                contentSpacing: screenSize.height * .016,
               ),
               boardingScreenContent(
-                title: 'EARN POINTS',
-                subTitle: 'GET DISCOUNTS ON SHOP',
+                title: 'Get Discount on\non shop using Points',
                 imagePath: 'assets/images/shop_discount_boarding.png',
                 imageWidth: screenSize.width * .84,
                 content:
                     'It is a long established fact that a reader will be distracted\nby the readable content of a page when looking at its\nlayout.',
+                activePageNumber: 2,
                 imageSpacing: screenSize.height * .05,
               ),
               boardingScreenContent(
-                title: 'PARTICIPATE IN LUCKY DRAW',
+                title: 'Lucky Draw',
                 imagePath: 'assets/images/play_lucky_draw_boarding.png',
                 imageWidth: screenSize.width * .76,
                 content:
                     'It is a long established fact that a reader will be distracted\nby the readable content of a page when looking at its\nlayout.',
+                activePageNumber: 3,
+                contentSpacing: screenSize.height * .022,
               ),
             ],
           ),
+
+          //====================Page Indicator====================//
           Positioned(
-            bottom: screenSize.height * .08,
+            bottom: screenSize.height * .21,
+            right: screenSize.width * .051,
+            child: SmoothPageIndicator(
+              controller: _pageController,
+              count: 3,
+              effect: ExpandingDotsEffect(
+                dotHeight: screenSize.width * .02,
+                dotWidth: screenSize.width * .02,
+                dotColor: Colors.black,
+                activeDotColor: Colors.black,
+              ),
+            ),
+          ),
+
+          //====================Skip Button====================//
+          Positioned(
+            bottom: screenSize.height * .07,
+            left: screenSize.width * .051,
             child: GestureDetector(
               onTap: () {
-                if (_pageController.page! < 2) {
+                Navigator.of(context).pushAndRemoveUntil(
+                  PageTransition(
+                    child: const HomeScreen(),
+                    type: PageTransitionType.fade,
+                    duration: const Duration(milliseconds: 750),
+                  ),
+                  (_) => false,
+                );
+              },
+              child: Text(
+                'Skip',
+                style: GoogleFonts.roboto(
+                  fontSize: screenSize.width * .036,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ),
+
+          //====================Next/Get Started Button====================//
+          Positioned(
+            bottom: screenSize.height * .06,
+            right: screenSize.width * .051,
+            child: GestureDetector(
+              onTap: () {
+                if (currentIndex < 2) {
                   _pageController.nextPage(
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.linear);
@@ -123,15 +181,15 @@ class _BoardingScreenState extends State<BoardingScreen> {
                 }
               },
               child: Container(
-                width: screenSize.width * .37,
+                width: screenSize.width * .3,
                 height: screenSize.width * .11,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
+                  borderRadius: BorderRadius.circular(16),
                   color: const Color.fromRGBO(0, 99, 255, 1),
                 ),
                 child: Center(
                   child: Text(
-                    'Next',
+                    currentIndex < 2 ? 'Next' : 'Get Started',
                     style: GoogleFonts.roboto(
                       fontSize: screenSize.width * .031,
                       fontWeight: FontWeight.w700,

@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:turning_point/helper/custom_navigator.dart';
+import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/view/redeem/redeem_screen.dart';
 
 Widget availablePointsSegment({
   required Size screenSize,
   required BuildContext context,
 }) {
+  final user = UserRepository.getUserFromPreference()!;
+  final points = user.data!.points ?? 0;
+  final rewardPoints = points % 100;
   return Column(
     children: [
 //====================Available Points Segment====================//
@@ -23,7 +27,7 @@ Widget availablePointsSegment({
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            '10000',
+            '$points',
             style: GoogleFonts.roboto(
               fontSize: screenSize.width * .127,
               fontWeight: FontWeight.w500,
@@ -42,16 +46,10 @@ Widget availablePointsSegment({
         ],
       ),
       GestureDetector(
-        onTap: () {
-          Navigator.of(context).push(
-            PageTransition(
-              child: const RedeemScreen(),
-              duration: const Duration(milliseconds: 350),
-              reverseDuration: const Duration(milliseconds: 350),
-              type: PageTransitionType.rightToLeft,
-            ),
-          );
-        },
+        onTap: () => CustomNavigator.push(
+          context: context,
+          child: const RedeemScreen(),
+        ),
         child: Container(
           width: screenSize.width * .16,
           height: screenSize.width * .055,
@@ -110,7 +108,7 @@ Widget availablePointsSegment({
                   children: [
                     const SizedBox(width: 10),
                     Text(
-                      'You have 80 Points!',
+                      'You have $rewardPoints Points!',
                       style: GoogleFonts.roboto(
                         fontSize: screenSize.width * .035,
                         fontWeight: FontWeight.w400,
@@ -124,12 +122,12 @@ Widget availablePointsSegment({
                 LinearPercentIndicator(
                   backgroundColor: const Color.fromRGBO(254, 241, 218, 1),
                   progressColor: const Color.fromRGBO(252, 190, 74, 1),
-                  percent: .8,
+                  percent: rewardPoints / 100,
                   width: screenSize.width * .49,
                   lineHeight: 10,
                   barRadius: const Radius.circular(8.5),
                   trailing: Text(
-                    '80/100',
+                    '$rewardPoints/100',
                     style: GoogleFonts.roboto(
                       fontSize: screenSize.width * .031,
                       fontWeight: FontWeight.w400,

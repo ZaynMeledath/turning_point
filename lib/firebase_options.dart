@@ -63,6 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '307677340790',
     projectId: 'turning-point-vapi',
     storageBucket: 'turning-point-vapi.appspot.com',
+    androidClientId: '307677340790-qsj59j2khamaodtvg7g5ajv1hsgossu2.apps.googleusercontent.com',
+    iosClientId: '307677340790-fo6gtkidmoo4d06raeaojhp7v229bugi.apps.googleusercontent.com',
     iosBundleId: 'com.example.turningPoint',
   );
 }
