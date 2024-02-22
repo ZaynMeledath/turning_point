@@ -10,7 +10,7 @@ class ProfileUpdateEvent extends ProfileEvent {
   final String name;
   final String phone;
   final String address;
-  final String businessName;
+  final String? businessName;
   final String email;
   final ContractorModel? contractor;
 

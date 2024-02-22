@@ -20,7 +20,7 @@ class ContractorBloc extends Bloc<ContractorEvent, ContractorState> {
         ContractorLoadedState(
           contractorsList: contractorModelResponse.data,
           contractor: contractor,
-          selectedContractor: contractor != null
+          selectedContractor: contractor != null && contractor.name != null
               ? '${contractor.name} - ${contractor.businessName}'
               : null,
         ),

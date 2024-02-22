@@ -14,7 +14,7 @@ class ReelRepository {
 //====================Get Reels Method====================//
   static Future<ReelsModelResponse> getReels() async {
     final response = await ApiService().sendRequest(
-      url: '${ApiEndpoints.getReelsPaginated}/?page=1&limit=6',
+      url: ApiEndpoints.getReelsPaginated,
       requestMethod: RequestMethod.GET,
       data: null,
       isTokenRequired: true,

@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
+import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/exceptions/user_exceptions.dart';
 import 'package:turning_point/model/contractor_model.dart';
 import 'package:turning_point/model/user_model.dart';
@@ -20,7 +22,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             await UserRepository.getUserById(avoidGettingFromPreference: false);
 
         if (userModelResponse != null && userModelResponse.data != null) {
-          final isContractor = userModelResponse.data!.role == 'CONTRACTOR';
+          final isContractor = userModelResponse.data!.role == Role.CONTRACTOR;
 
           return emit(ProfileLoadedState(
             isLoading: false,
@@ -43,11 +45,18 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             UserRepository.getUserFromPreference();
 
         userModelResponse!.data!.name = event.name;
+        userModelResponse.data!.contractor = event.contractor;
         userModelResponse.data!.phone = event.phone;
         userModelResponse.data!.businessName = event.businessName;
         userModelResponse.data!.address = event.address;
         userModelResponse.data!.email = event.email;
-        userModelResponse.data!.contractor = event.contractor;
+        userModelResponse.data!.role =
+            event.isContractor ? Role.CONTRACTOR : Role.CARPENTER;
+
+        if (!event.isContractor &&
+            (userModelResponse.data!.contractor?.name == null)) {
+          userModelResponse.data!.contractor = DEFAULT_CONTRACTOR;
+        }
 
         emit(ProfileLoadedState(
           isLoading: true,
@@ -58,7 +67,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         userModelResponse = await UserRepository.updateUserProfile(
           userModel: userModelResponse.data!,
         );
-
+        contractorBloc.add(ContractorLoadEvent());
         emit(ProfileLoadedState(
           isLoading: false,
           userModel: userModelResponse.data!,
@@ -87,7 +96,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           ProfileLoadedState(
             isLoading: true,
             userModel: userModelResponse!.data!,
-            isContractor: userModelResponse.data!.role == 'CONTRACTOR',
+            isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
           ),
         );
         final imageString = await UserRepository.fetchImageFromStorage();
@@ -100,7 +109,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           ProfileLoadedState(
             isLoading: false,
             userModel: userModelResponse.data!,
-            isContractor: userModelResponse.data!.role == 'CONTRACTOR',
+            isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
           ),
         );
       } catch (_) {

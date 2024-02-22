@@ -16,6 +16,7 @@ import 'package:turning_point/view/home/profile_inactive_screen.dart';
 import 'package:turning_point/view/signin/sign_up_screen.dart';
 
 part 'profile_picture_view.dart';
+part 'segments/edit_profile_email_container.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -89,6 +90,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     profileBloc.add(ProfileLoadEvent());
+    contractorBloc.add(ContractorLoadEvent());
+
     return Scaffold(
       body: SafeArea(
         child: BlocBuilder<ProfileBloc, ProfileState>(
@@ -130,9 +133,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 );
 
               case ProfileLoadedState():
-                if (!state.isContractor && !state.isLoading) {
-                  contractorBloc.add(ContractorLoadEvent());
-                }
                 _addressController.text = state.userModel.address ?? '';
                 _businessController.text = state.userModel.businessName ?? '';
                 _nameController.text = state.userModel.name!;
@@ -228,6 +228,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           screenSize: screenSize,
                           controller: _phoneController,
                           title: 'Mobile Number',
+                          isNumber: true,
                         ),
                         SizedBox(height: screenSize.height * .037),
                         textFieldSegment(
@@ -246,32 +247,28 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 builder: (context, state) {
                                   switch (state) {
                                     case ContractorLoadingState():
-                                      return Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Container(
-                                          width: screenSize.width,
-                                          height: screenSize.height * .052,
-                                          margin: EdgeInsets.symmetric(
-                                              horizontal:
-                                                  screenSize.width * .041),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                offset: const Offset(-1.5, 1.5),
-                                                blurRadius: 1.5,
-                                                color: Colors.black
-                                                    .withOpacity(.2),
-                                                blurStyle: BlurStyle.normal,
-                                              ),
-                                            ],
-                                            border: Border.all(
-                                              width: .8,
-                                              color: const Color.fromRGBO(
-                                                  214, 214, 214, 1),
+                                      return Container(
+                                        width: screenSize.width,
+                                        height: screenSize.height * .052,
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal:
+                                                screenSize.width * .041),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              offset: const Offset(-.5, .5),
+                                              blurRadius: .5,
+                                              color:
+                                                  Colors.black.withOpacity(.2),
                                             ),
+                                          ],
+                                          border: Border.all(
+                                            width: .8,
+                                            color: const Color.fromRGBO(
+                                                214, 214, 214, 1),
                                           ),
                                         ),
                                       );
@@ -289,11 +286,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 },
                               ),
                         SizedBox(height: screenSize.height * .037),
-                        textFieldSegment(
-                          screenSize: screenSize,
-                          controller: _emailController,
-                          title: 'Email',
-                        ),
+                        editProfileEmailContainer(
+                            email: state.userModel.email!),
 
                         SizedBox(height: screenSize.height * .051),
                         GestureDetector(
@@ -304,9 +298,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 name: _nameController.text.trim(),
                                 phone: _phoneController.text.trim(),
                                 address: _addressController.text.trim(),
-                                businessName: _businessController.text.trim(),
+                                businessName: state.isContractor
+                                    ? _businessController.text.trim()
+                                    : null,
                                 email: _emailController.text.trim(),
-                                contractor: contractorBloc.state.contractor,
+                                contractor: !state.isContractor
+                                    ? contractorBloc.state.contractor
+                                    : null,
                               ),
                             );
                           },
