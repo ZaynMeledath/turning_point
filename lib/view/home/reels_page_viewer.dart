@@ -90,7 +90,10 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
 
                                       if (user.points == 0) {
                                         showPointsReceivedDialog(
-                                            context: context);
+                                          context: context,
+                                          points:
+                                              state.reelsModel![index].points!,
+                                        );
                                       }
                                     }
 

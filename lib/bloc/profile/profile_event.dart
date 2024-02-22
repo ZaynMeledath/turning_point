@@ -12,7 +12,7 @@ class ProfileUpdateEvent extends ProfileEvent {
   final String address;
   final String businessName;
   final String email;
-  final ContractorModel contractor;
+  final ContractorModel? contractor;
 
   ProfileUpdateEvent({
     required this.isContractor,

@@ -4,6 +4,7 @@ import 'package:turning_point/helper/screen_size.dart';
 
 Future<Object?> showPointsReceivedDialog({
   required BuildContext context,
+  required int points,
 }) async {
   return showGeneralDialog(
     context: context,
@@ -15,17 +16,23 @@ Future<Object?> showPointsReceivedDialog({
       final curve = Curves.easeInOut.transform(a1.value);
       return Transform.scale(
         scale: curve,
-        child: dialog(context),
+        child: dialog(
+          context: context,
+          points: points,
+        ),
       );
     },
   );
 }
 
-Widget dialog(BuildContext context) {
+Widget dialog({
+  required BuildContext context,
+  required int points,
+}) {
   return Container(
     margin: EdgeInsets.symmetric(
-      horizontal: screenSize.width * .071,
-      vertical: screenSize.height * .31,
+      horizontal: screenSize.width * .1,
+      vertical: screenSize.height * .34,
     ),
     decoration: BoxDecoration(
       color: Colors.white,
@@ -33,15 +40,15 @@ Widget dialog(BuildContext context) {
     ),
     child: Column(
       children: [
-        SizedBox(height: screenSize.height * .025),
+        SizedBox(height: screenSize.height * .024),
         Image.asset(
           'assets/images/points_received_dialog_image.png',
           width: screenSize.width * .20,
         ),
-        SizedBox(height: screenSize.height * .021),
+        SizedBox(height: screenSize.height * .018),
         DefaultTextStyle(
           style: GoogleFonts.roboto(
-            fontSize: screenSize.width * .061,
+            fontSize: screenSize.width * .051,
             fontWeight: FontWeight.w500,
             color: Colors.black,
           ),
@@ -50,32 +57,32 @@ Widget dialog(BuildContext context) {
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: screenSize.height * .012),
+        SizedBox(height: screenSize.height * .01),
         DefaultTextStyle(
           style: GoogleFonts.roboto(
-            fontSize: screenSize.width * .061,
+            fontSize: screenSize.width * .051,
             fontWeight: FontWeight.w400,
             color: Colors.black,
           ),
-          child: const Text(
-            '25 Points Successfully\nReceived',
+          child: Text(
+            '$points Points Successfully\nReceived',
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: screenSize.height * .05),
+        SizedBox(height: screenSize.height * .03),
         GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Container(
-            width: screenSize.width * .2,
-            height: screenSize.width * .094,
+            width: screenSize.width * .25,
+            height: screenSize.width * .085,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               color: const Color.fromRGBO(0, 99, 255, 1),
             ),
             child: DefaultTextStyle(
               style: GoogleFonts.roboto(
-                fontSize: screenSize.width * .061,
-                fontWeight: FontWeight.w400,
+                fontSize: screenSize.width * .051,
+                fontWeight: FontWeight.w500,
                 color: Colors.white,
               ),
               child: const Center(

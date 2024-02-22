@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
+import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/model/contest_model.dart';
 import 'package:turning_point/resources/contest_repository.dart';
 import 'package:turning_point/resources/user_repository.dart';
@@ -19,6 +20,7 @@ class JoinContestBloc extends Bloc<JoinContestEvent, JoinContestState> {
               userModelResponse.data!.points! - event.contestModel.points!;
           profileBloc.add(ProfileLoadEvent());
           UserRepository.addUserToPreference(userModelResponse);
+          reelsBloc.state.points = userModelResponse.data!.points!;
           emit(ContestJoinedState(event.contestModel));
         } else {
           emit(

@@ -298,19 +298,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         SizedBox(height: screenSize.height * .051),
                         GestureDetector(
                           onTap: () {
-                            if (contractorBloc.state.contractor != null) {
-                              profileBloc.add(
-                                ProfileUpdateEvent(
-                                  isContractor: state.isContractor,
-                                  name: _nameController.text.trim(),
-                                  phone: _phoneController.text.trim(),
-                                  address: _addressController.text.trim(),
-                                  businessName: _businessController.text.trim(),
-                                  email: _emailController.text.trim(),
-                                  contractor: contractorBloc.state.contractor!,
-                                ),
-                              );
-                            }
+                            profileBloc.add(
+                              ProfileUpdateEvent(
+                                isContractor: state.isContractor,
+                                name: _nameController.text.trim(),
+                                phone: _phoneController.text.trim(),
+                                address: _addressController.text.trim(),
+                                businessName: _businessController.text.trim(),
+                                email: _emailController.text.trim(),
+                                contractor: contractorBloc.state.contractor,
+                              ),
+                            );
                           },
                           child: Container(
                             width: screenSize.width * .38,

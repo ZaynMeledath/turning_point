@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/bloc/profile/profile_bloc.dart';
+import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
 
 Widget bannerSegment() {
@@ -117,22 +117,16 @@ Widget bannerSegment() {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              BlocBuilder<ProfileBloc, ProfileState>(
+              BlocBuilder<ReelsBloc, ReelsState>(
                 builder: (context, state) {
-                  if (state is ProfileLoadedState) {
-                    return Text(
-                      state.userModel.points!.toString(),
-                      style: GoogleFonts.roboto(
-                        color: const Color.fromRGBO(255, 152, 0, 1),
-                        fontSize: screenSize.width * .032,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    );
-                  } else {
-                    return const CupertinoActivityIndicator(
-                      color: Color.fromRGBO(0, 99, 255, 1),
-                    );
-                  }
+                  return Text(
+                    state.points.toString(),
+                    style: GoogleFonts.roboto(
+                      color: const Color.fromRGBO(255, 152, 0, 1),
+                      fontSize: screenSize.width * .032,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  );
                 },
               ),
             ],
