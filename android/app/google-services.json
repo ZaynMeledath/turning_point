@@ -12,7 +12,20 @@
           "package_name": "com.example.turning_point"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "307677340790-qsj59j2khamaodtvg7g5ajv1hsgossu2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.turning_point",
+            "certificate_hash": "95ba77f1090825075357d8491b5d484e36264671"
+          }
+        },
+        {
+          "client_id": "307677340790-g3evk2f0scv2p8n0hqu0u6pqfjd62eo8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBSHP3FHVKXYgLNB4WkY3Vr3PFdmy6-deA"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "307677340790-g3evk2f0scv2p8n0hqu0u6pqfjd62eo8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "307677340790-fo6gtkidmoo4d06raeaojhp7v229bugi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.turningPoint"
+              }
+            }
+          ]
         }
       }
     }
