@@ -109,6 +109,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       }
     });
   }
+
+//====================State Change Logger====================//
   @override
   void onChange(Change<ProfileState> change) {
     log('CURRENT STATE : ${change.currentState}');

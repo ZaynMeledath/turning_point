@@ -92,6 +92,8 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
       emit(ContestLoadingState());
     });
   }
+
+//====================State Change Logger====================//
   @override
   void onChange(Change<ContestState> change) {
     log('CURRENT STATE : ${change.currentState}');

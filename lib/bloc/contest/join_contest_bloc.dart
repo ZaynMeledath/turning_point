@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/bloc/reels/reels_bloc.dart';
@@ -30,9 +32,19 @@ class JoinContestBloc extends Bloc<JoinContestEvent, JoinContestState> {
           );
         }
       } catch (e) {
-        emit(JoinContestErrorState(Exception(e)));
+        emit(
+          JoinContestErrorState(Exception(e)),
+        );
       }
     });
+  }
+
+//====================State Change Logger====================//
+  @override
+  void onChange(Change<JoinContestState> change) {
+    log('CURRENT STATE : ${change.currentState}');
+    log('NEXT STATE: ${change.nextState}');
+    super.onChange(change);
   }
 }
 

@@ -20,6 +20,8 @@ class PointsHistoryBloc extends Bloc<PointsHistoryEvent, PointsHistoryState> {
       emit(PointsHistoryLoadedState(pointsHistoryModelResponse.data));
     });
   }
+
+//====================State Change Logger====================//
   @override
   void onChange(Change<PointsHistoryState> change) {
     log('CURRENT STATE : ${change.currentState}');

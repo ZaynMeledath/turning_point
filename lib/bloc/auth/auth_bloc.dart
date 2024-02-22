@@ -101,6 +101,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
     );
   }
+
+//====================State Change Logger====================//
   @override
   void onChange(Change<AuthState> change) {
     log('CURRENT STATE : ${change.currentState}');

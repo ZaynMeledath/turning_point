@@ -190,6 +190,8 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
       }
     });
   }
+
+//====================State Change Logger====================//
   @override
   void onChange(Change<RedeemState> change) {
     log('CURRENT STATE : ${change.currentState}');

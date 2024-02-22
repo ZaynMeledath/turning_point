@@ -48,9 +48,6 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
         userModelResponse!.data!.points =
             userModelResponse.data!.points! + reelData.points!;
 
-        //To ensure only the fileName is added to the userModel because the rest of the url will be appended from json to UserModel conversion
-        // userModel!.data!.image = userModel!.data!.image!.split('/').last;
-
         UserRepository.addUserToPreference(userModelResponse);
 
         emit(ReelLikedState(
@@ -61,6 +58,8 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
       }
     });
   }
+
+//====================State Change Logger====================//
   @override
   void onChange(Change<ReelsState> change) {
     log('CURRENT STATE : ${change.currentState}');

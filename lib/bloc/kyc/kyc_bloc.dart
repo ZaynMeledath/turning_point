@@ -95,6 +95,8 @@ class KycBloc extends Bloc<KycEvent, KycState> {
       );
     });
   }
+
+//====================State Change Logger====================//
   @override
   void onChange(Change<KycState> change) {
     log('CURRENT STATE : ${change.currentState}');

@@ -1,12 +1,13 @@
 part of 'contractor_bloc.dart';
 
+@immutable
 sealed class ContractorState {
   final List<ContractorModel>? contractorsList;
   final String? selectedContractor;
   final ContractorModel? contractor;
   final bool? contractorNotListed;
   final bool? haveNoContractor;
-  ContractorState({
+  const ContractorState({
     required this.contractorsList,
     required this.selectedContractor,
     required this.contractor,
@@ -16,7 +17,7 @@ sealed class ContractorState {
 }
 
 class ContractorLoadingState extends ContractorState {
-  ContractorLoadingState()
+  const ContractorLoadingState()
       : super(
           contractor: null,
           selectedContractor: null,
@@ -25,7 +26,7 @@ class ContractorLoadingState extends ContractorState {
 }
 
 class ContractorLoadedState extends ContractorState {
-  ContractorLoadedState({
+  const ContractorLoadedState({
     required super.contractorsList,
     required super.selectedContractor,
     required super.contractor,

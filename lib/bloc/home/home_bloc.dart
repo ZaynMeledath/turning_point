@@ -16,6 +16,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
     });
   }
+
+//====================State Change Logger====================//
   @override
   void onChange(Change<HomeState> change) {
     log('CURRENT STATE : ${change.currentState}');

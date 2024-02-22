@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/model/contractor_model.dart';
 import 'package:turning_point/resources/user_repository.dart';
@@ -8,7 +9,7 @@ part 'contractor_event.dart';
 part 'contractor_state.dart';
 
 class ContractorBloc extends Bloc<ContractorEvent, ContractorState> {
-  ContractorBloc() : super(ContractorLoadingState()) {
+  ContractorBloc() : super(const ContractorLoadingState()) {
 //====================Contractor Load Event====================//
     on<ContractorLoadEvent>((event, emit) async {
       final contractorModelResponse = await UserRepository.getContractors();
@@ -71,6 +72,8 @@ class ContractorBloc extends Bloc<ContractorEvent, ContractorState> {
       );
     });
   }
+
+//====================State Change Logger====================//
   @override
   void onChange(Change<ContractorState> change) {
     log('CURRENT STATE : ${change.currentState}');

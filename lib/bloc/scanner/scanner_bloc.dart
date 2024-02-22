@@ -10,6 +10,8 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
   ScannerBloc() : super(ScannerInitial()) {
     //
   }
+
+//====================State Change Logger====================//
   @override
   void onChange(Change<ScannerState> change) {
     log('CURRENT STATE : ${change.currentState}');

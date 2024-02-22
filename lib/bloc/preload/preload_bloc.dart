@@ -148,6 +148,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
     );
   }
 
+//====================State Change Logger====================//
   @override
   void onChange(Change<PreloadState> change) {
     log('CURRENT STATE : ${change.currentState}');
