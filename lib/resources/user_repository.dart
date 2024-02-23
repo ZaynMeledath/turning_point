@@ -11,6 +11,7 @@ import 'package:turning_point/service/api/api_endpoints.dart';
 import 'package:turning_point/service/api/api_service.dart';
 import 'package:turning_point/service/auth/auth_exceptions.dart';
 import 'package:turning_point/service/auth/auth_service.dart';
+import 'package:turning_point/service/auth/firebase_auth_provider.dart';
 
 class UserRepository {
 //====================Decode JWT====================//
@@ -141,8 +142,8 @@ class UserRepository {
     final response = await ApiService().sendRequest(
       url: ApiEndpoints.getContractors,
       requestMethod: RequestMethod.GET,
-      data: null,
-      isTokenRequired: true,
+      data: {'email': FirebaseAuthProvider().currentUser!.email},
+      isTokenRequired: false,
     );
 
     return ContractorModelResponse.fromJson(response);

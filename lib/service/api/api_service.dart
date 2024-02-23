@@ -85,10 +85,8 @@ class ApiService {
     } on UnauthenticatedException {
       token = null;
       sendUserToLoginScreen();
-    } on ServerErrorException {
-      throw ServerErrorException('Our servers are currently busy');
     } catch (e) {
-      throw Exception('An error occurred: $e');
+      throw Exception(e);
     }
     return responseJson;
   }
