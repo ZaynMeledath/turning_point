@@ -25,16 +25,18 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
           emit(ScannerCodeDetectedState(couponModel: couponModel));
         }
       } on CouponAlreadyAppliedException {
+        log('COUPON ALREADY USED EXCEPTION ON SCANNER BLOC');
         emit(
           ScannerCodeDetectedState(
             couponModel: CouponModel(
-              message: 'Coupon already applied',
+              message: 'Coupon has already been applied',
               points: 0,
               success: true,
             ),
           ),
         );
       } catch (e) {
+        log('NORMAL EXCEPTION ON SCANNER BLOC');
         emit(
           ScannerCodeDetectedState(
             couponModel: CouponModel(

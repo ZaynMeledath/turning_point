@@ -85,6 +85,8 @@ class ApiService {
     } on UnauthenticatedException {
       token = null;
       sendUserToLoginScreen();
+    } on CustomException {
+      rethrow;
     } catch (e) {
       throw Exception(e);
     }
@@ -113,7 +115,7 @@ class ApiService {
       case 500:
         throw ServerErrorException(responseJson.toString());
       case 700:
-        throw CustomException(responseJson.toString());
+        throw CustomException(responseJson['message']);
       default:
         throw FetchDataException(
           'Error occurred while communicating with the server with status code $statusCode',

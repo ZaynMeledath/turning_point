@@ -104,6 +104,6 @@ class CustomException implements Exception {
   CustomException(this.message);
   @override
   String toString() {
-    return 'ServerErrorException: $message';
+    return message;
   }
 }

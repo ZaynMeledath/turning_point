@@ -69,12 +69,12 @@ class _ScannerScreenState extends State<ScannerScreen> {
                   scannerController: _scannerController,
                 );
                 break;
-              case 'Coupon already applied':
+              case 'Coupon has already been applied':
                 showScannerCouponDialog(
                   context: context,
                   iconPath: 'assets/images/points_received_dialog_image.png',
                   title: 'Coupon Already Applied',
-                  content: 'Coupon is already applied',
+                  content: 'Coupon has already been applied',
                   buttonTitle: 'OK',
                   scannerController: _scannerController,
                 );
