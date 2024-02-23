@@ -5,7 +5,10 @@ sealed class AuthEvent {}
 
 class AuthInitializeEvent extends AuthEvent {}
 
-class GoogleSignInEvent extends AuthEvent {}
+class GoogleSignInEvent extends AuthEvent {
+  final bool? isUpdating;
+  GoogleSignInEvent({this.isUpdating});
+}
 
 class SignUpEvent extends AuthEvent {
   final String phone;

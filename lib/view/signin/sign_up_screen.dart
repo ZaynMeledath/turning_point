@@ -132,6 +132,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           signUpTextField(
                               controller: mobileController,
                               title: 'Mobile Number',
+                              isNumber: true,
                               iconPath: 'assets/icons/sign_up_phone_icon.png'),
                           SizedBox(height: screenSize.height * .03),
                           isContractor
@@ -184,42 +185,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                           GestureDetector(
                             onTap: () {
-                              if (widget.isContractor) {
-                                authBloc.add(
-                                  SignUpEvent(
-                                    phone: mobileController.text,
-                                    contractor: null,
-                                    businessName:
-                                        businessController.text.trim(),
-                                  ),
+                              final status = validate();
+                              if (!status) {
+                                showGenericDialog(
+                                  context: context,
+                                  title: 'Fill All Details',
+                                  content:
+                                      'Please fill all the required details to continue',
+                                  options: {'Dismiss': null},
                                 );
-                              } else {
-                                if (contractorState.selectedContractor !=
-                                        null &&
-                                    mobileController.text.isNotEmpty) {
-                                  authBloc.add(
-                                    SignUpEvent(
-                                      phone: mobileController.text,
-                                      contractor:
-                                          contractorState.contractorNotListed !=
-                                                      true &&
-                                                  contractorState
-                                                          .haveNoContractor !=
-                                                      true
-                                              ? contractorState.contractor
-                                              : DEFAULT_CONTRACTOR,
-                                      businessName: null,
-                                    ),
-                                  );
-                                } else {
-                                  showGenericDialog(
-                                    context: context,
-                                    title: 'Fill All Details',
-                                    content:
-                                        'Please fill all the required details to continue',
-                                    options: {'Dismiss': null},
-                                  );
-                                }
                               }
                             },
                             child: Hero(
@@ -268,5 +242,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
+  }
+
+  bool validate() {
+    if (widget.isContractor) {
+      if (mobileController.text.isNotEmpty &&
+          businessController.text.isNotEmpty &&
+          mobileController.text.length > 9 &&
+          businessController.text.length > 1) {
+        authBloc.add(
+          SignUpEvent(
+            phone: mobileController.text,
+            contractor: null,
+            businessName: businessController.text.trim(),
+          ),
+        );
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if (contractorBloc.state.selectedContractor != null &&
+          mobileController.text.isNotEmpty &&
+          mobileController.text.length > 9) {
+        authBloc.add(
+          SignUpEvent(
+            phone: mobileController.text,
+            contractor: contractorBloc.state.contractorNotListed != true &&
+                    contractorBloc.state.haveNoContractor != true
+                ? contractorBloc.state.contractor
+                : DEFAULT_CONTRACTOR,
+            businessName: null,
+          ),
+        );
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 }

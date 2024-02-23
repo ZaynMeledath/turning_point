@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/exceptions/user_exceptions.dart';
 import 'package:turning_point/model/contractor_model.dart';
 import 'package:turning_point/model/user_model.dart';
@@ -10,6 +11,7 @@ import 'package:turning_point/service/api/api_endpoints.dart';
 import 'package:turning_point/service/api/api_service.dart';
 import 'package:turning_point/service/auth/auth_exceptions.dart';
 import 'package:turning_point/service/auth/auth_service.dart';
+import 'package:turning_point/service/auth/firebase_auth_provider.dart';
 
 class UserRepository {
 //====================Decode JWT====================//
@@ -58,7 +60,7 @@ class UserRepository {
         data: {
           "uid": authService.currentUser!.uid,
           "phone": phone,
-          "role": businessName != null ? 'CONTRACTOR' : 'CARPENTER',
+          "role": businessName != null ? Role.CONTRACTOR : Role.CARPENTER,
           if (businessName != null) "businessName": businessName,
           if (contractor != null)
             "contractor": {
@@ -140,7 +142,7 @@ class UserRepository {
     final response = await ApiService().sendRequest(
       url: ApiEndpoints.getContractors,
       requestMethod: RequestMethod.GET,
-      data: null,
+      data: {'email': FirebaseAuthProvider().currentUser!.email},
       isTokenRequired: false,
     );
 
@@ -163,6 +165,7 @@ class UserRepository {
           "address": userModel.address,
           "email": userModel.email,
           "pincode": userModel.pincode,
+          "role": userModel.role,
           "contractor": {
             "name": userModel.contractor?.name,
             "businessName": userModel.contractor?.businessName,

@@ -5,16 +5,15 @@ Widget contractorDropDownContainer({
   Color? color,
 }) {
   return BlocBuilder<ContractorBloc, ContractorState>(
-    builder: (context, state) {
+    builder: (context, contractorState) {
       return Align(
         alignment: Alignment.centerLeft,
         child: AbsorbPointer(
-          absorbing: state.contractorNotListed == true ||
-              state.haveNoContractor == true,
+          absorbing: contractorState.contractorNotListed == true ||
+              contractorState.haveNoContractor == true,
           child: Container(
             width: screenSize.width,
             height: screenSize.height * .052,
-            // margin: EdgeInsets.symmetric(horizontal: screenSize.width * .005),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(8),
@@ -44,7 +43,7 @@ Widget contractorDropDownContainer({
             child: DropdownButtonHideUnderline(
               child: DropdownButton2<String>(
                 isExpanded: true,
-                items: state.contractorsList!
+                items: contractorState.contractorsList!
                     .map(
                       (item) => DropdownMenuItem(
                         value: '${item.name} - ${item.businessName}',
@@ -59,7 +58,7 @@ Widget contractorDropDownContainer({
                       ),
                     )
                     .toList(),
-                value: state.selectedContractor,
+                value: contractorState.selectedContractor,
 
                 onChanged: (value) {
                   //ContractorSelectedEvent is called on change of value
@@ -79,14 +78,15 @@ Widget contractorDropDownContainer({
                       Padding(
                         padding: EdgeInsets.only(left: screenSize.width * .028),
                         child: Text(
-                          state.haveNoContractor == true
+                          contractorState.haveNoContractor == true
                               ? DEFAULT_CONTRACTOR_STRING
-                              : state.selectedContractor ?? 'Select Contractor',
+                              : contractorState.selectedContractor ??
+                                  'Select Contractor',
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.roboto(
                             letterSpacing: 1,
                             fontSize: screenSize.width * .034,
-                            color: state.contractorNotListed == true
+                            color: contractorState.contractorNotListed == true
                                 ? Colors.grey.withOpacity(.5)
                                 : const Color.fromRGBO(16, 16, 16, 1),
                           ),
@@ -107,8 +107,9 @@ Widget contractorDropDownContainer({
                             child: Center(
                               child: Icon(
                                 Icons.arrow_drop_down_rounded,
-                                color: state.contractorNotListed == true ||
-                                        state.haveNoContractor == true
+                                color: contractorState.contractorNotListed ==
+                                            true ||
+                                        contractorState.haveNoContractor == true
                                     ? Colors.grey.withOpacity(.5)
                                     : null,
                                 size: screenSize.width * .08,

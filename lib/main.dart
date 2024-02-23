@@ -76,21 +76,17 @@ class MyApp extends StatelessWidget {
           create: (_) => joinContestBloc,
         ),
       ],
-      child: BlocBuilder<AuthBloc, AuthState>(
-        builder: (context, state) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Turning Point',
-            theme: ThemeData(
-              scaffoldBackgroundColor: Colors.white,
-              colorScheme: ColorScheme.fromSeed(
-                seedColor: const Color.fromRGBO(0, 99, 255, 1),
-              ),
-              useMaterial3: true,
-            ),
-            home: const SplashScreen(),
-          );
-        },
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Turning Point',
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromRGBO(0, 99, 255, 1),
+          ),
+          useMaterial3: true,
+        ),
+        home: const SplashScreen(),
       ),
     );
   }

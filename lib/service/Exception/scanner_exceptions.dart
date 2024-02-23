@@ -1,0 +1,1 @@
+class CouponAlreadyAppliedException implements Exception {}

@@ -11,7 +11,7 @@ class ScannerOverlay extends StatelessWidget {
     double scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)
         ? 250.0
-        : 330.0;
+        : 300.0;
     return Stack(children: [
       ColorFiltered(
         colorFilter: ColorFilter.mode(

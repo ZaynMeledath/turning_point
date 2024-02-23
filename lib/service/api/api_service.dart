@@ -85,10 +85,10 @@ class ApiService {
     } on UnauthenticatedException {
       token = null;
       sendUserToLoginScreen();
-    } on ServerErrorException {
-      throw ServerErrorException('Our servers are currently busy');
+    } on CustomException {
+      rethrow;
     } catch (e) {
-      throw Exception('An error occurred: $e');
+      throw Exception(e);
     }
     return responseJson;
   }
@@ -114,6 +114,8 @@ class ApiService {
         throw NotFoundException(responseJson.toString());
       case 500:
         throw ServerErrorException(responseJson.toString());
+      case 700:
+        throw CustomException(responseJson['message']);
       default:
         throw FetchDataException(
           'Error occurred while communicating with the server with status code $statusCode',

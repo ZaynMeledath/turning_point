@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:turning_point/helper/screen_size.dart';
 
-Future<Object?> showAnimatedGenericDialog({
+Future<Object?> showScannerCouponDialog({
   required BuildContext context,
   required String iconPath,
   required String title,
   required String content,
   required String buttonTitle,
+  required MobileScannerController scannerController,
   Size? iconWidth,
   Size? containerSize,
 }) async {
@@ -27,6 +29,7 @@ Future<Object?> showAnimatedGenericDialog({
           title: title,
           content: content,
           buttonTitle: buttonTitle,
+          scannerController: scannerController,
         ),
       );
     },
@@ -39,6 +42,7 @@ Widget dialog({
   required String title,
   required String content,
   required String buttonTitle,
+  required MobileScannerController scannerController,
   Size? iconWidth,
 }) {
   return Container(
@@ -85,7 +89,10 @@ Widget dialog({
         ),
         SizedBox(height: screenSize.height * .03),
         GestureDetector(
-          onTap: () => Navigator.pop(context),
+          onTap: () {
+            scannerController.start();
+            Navigator.pop(context);
+          },
           child: Container(
             width: screenSize.width * .25,
             height: screenSize.width * .085,

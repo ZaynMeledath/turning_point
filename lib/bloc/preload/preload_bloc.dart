@@ -17,6 +17,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
           }
           _playControllerAtIndex(0);
           await _initializeControllerAtIndex(1);
+          _playControllerAtIndex(0);
           emit(
             PreloadState(
                 controllers: state.controllers,

@@ -5,6 +5,7 @@ Widget textFieldSegment({
   required Size screenSize,
   required TextEditingController controller,
   required String title,
+  bool? isNumber,
 }) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: screenSize.width * .041),
@@ -30,9 +31,11 @@ Widget textFieldSegment({
               child: Row(
                 children: [
                   Flexible(
-                    child: TextField(
+                    child: TextFormField(
                       controller: controller,
-                      style: GoogleFonts.inter(
+                      keyboardType:
+                          isNumber == true ? TextInputType.number : null,
+                      style: GoogleFonts.roboto(
                         letterSpacing: 1,
                         fontSize: screenSize.height * .017,
                         color: const Color.fromRGBO(16, 16, 16, 1),
@@ -63,7 +66,7 @@ Widget textFieldSegment({
                   child: Text(
                     title,
                     style: GoogleFonts.inter(
-                      fontSize: screenSize.width * .031,
+                      fontSize: screenSize.width * .028,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
