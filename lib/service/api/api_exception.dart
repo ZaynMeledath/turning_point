@@ -97,3 +97,13 @@ class TimeoutException implements Exception {
     return message;
   }
 }
+
+class CustomException implements Exception {
+  final String message;
+
+  CustomException(this.message);
+  @override
+  String toString() {
+    return 'ServerErrorException: $message';
+  }
+}

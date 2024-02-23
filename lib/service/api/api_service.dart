@@ -112,6 +112,8 @@ class ApiService {
         throw NotFoundException(responseJson.toString());
       case 500:
         throw ServerErrorException(responseJson.toString());
+      case 700:
+        throw CustomException(responseJson.toString());
       default:
         throw FetchDataException(
           'Error occurred while communicating with the server with status code $statusCode',

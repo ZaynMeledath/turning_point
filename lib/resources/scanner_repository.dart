@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:turning_point/model/coupon_model.dart';
 import 'package:turning_point/service/Exception/scanner_exceptions.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
+import 'package:turning_point/service/api/api_exception.dart';
 import 'package:turning_point/service/api/api_service.dart';
 
 class ScannerRepository {
@@ -15,13 +16,16 @@ class ScannerRepository {
         isTokenRequired: true,
       );
       return CouponModel.fromJson(response);
-    } catch (e) {
-      log('EXCEPTION IN APPLY COUPON METHOD IN SCANNER REPOSITORY: $e');
-      if (e == 'Coupon is already applied') {
+    } on CustomException catch (e) {
+      if (e.message == 'Coupon is already applied') {
         throw CouponAlreadyAppliedException();
       } else {
         throw Exception(e);
       }
+    } catch (e) {
+      log('EXCEPTION IN APPLY COUPON METHOD IN SCANNER REPOSITORY: $e');
+
+      throw Exception(e);
     }
   }
 }

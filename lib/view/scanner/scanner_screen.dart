@@ -56,6 +56,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                   content:
                       '${state.couponModel!.points} points has been credited to your account',
                   buttonTitle: 'OK',
+                  scannerController: _scannerController,
                 );
                 break;
               case 'Better luck next time':
@@ -65,6 +66,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                   title: 'Better Luck Next Time',
                   content: 'You are gonna be lucky next time',
                   buttonTitle: 'OK',
+                  scannerController: _scannerController,
                 );
                 break;
               case 'Coupon already applied':
@@ -74,6 +76,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                   title: 'Coupon Already Applied',
                   content: 'Coupon is already applied',
                   buttonTitle: 'OK',
+                  scannerController: _scannerController,
                 );
 
               default:
@@ -84,6 +87,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                   content:
                       'Something went wrong while connecting to the server',
                   buttonTitle: 'OK',
+                  scannerController: _scannerController,
                 );
                 break;
             }
@@ -94,33 +98,31 @@ class _ScannerScreenState extends State<ScannerScreen> {
             alignment: Alignment.topCenter,
             children: [
               //====================Scanner====================//
-              state is ScannerInitialState
-                  ? ValueListenableBuilder(
-                      valueListenable: permissionNotifier,
-                      builder: (context, value, child) {
-                        return MobileScanner(
-                          errorBuilder: (context, exception, child) =>
-                              scannerErrorWidget(context),
-                          controller: _scannerController,
-                          scanWindow: Rect.fromPoints(
-                            Offset(screenSize.width * .15,
-                                screenSize.height * .25),
-                            Offset(screenSize.width * .85,
-                                screenSize.height * .54),
-                          ),
 
-                          //====================Scanner Overlay====================//
-                          overlay: const ScannerOverlay(
-                            overlayColour: Color.fromRGBO(35, 35, 35, 0.6),
-                          ),
+              ValueListenableBuilder(
+                valueListenable: permissionNotifier,
+                builder: (context, value, child) {
+                  return MobileScanner(
+                    errorBuilder: (context, exception, child) =>
+                        scannerErrorWidget(context),
+                    controller: _scannerController,
+                    scanWindow: Rect.fromPoints(
+                      Offset(screenSize.width * .15, screenSize.height * .25),
+                      Offset(screenSize.width * .85, screenSize.height * .54),
+                    ),
 
-                          onDetect: (capture) {
-                            scannerBloc
-                                .add(ScannerCodeDetectEvent(capture: capture));
-                          },
-                        );
-                      })
-                  : Container(),
+                    //====================Scanner Overlay====================//
+                    overlay: const ScannerOverlay(
+                      overlayColour: Color.fromRGBO(35, 35, 35, 0.6),
+                    ),
+
+                    onDetect: (capture) {
+                      _scannerController.stop();
+                      scannerBloc.add(ScannerCodeDetectEvent(capture: capture));
+                    },
+                  );
+                },
+              ),
 
               //====================Instruction Text====================//
               Positioned(
