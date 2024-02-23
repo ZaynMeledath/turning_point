@@ -142,7 +142,7 @@ class UserRepository {
       url: ApiEndpoints.getContractors,
       requestMethod: RequestMethod.GET,
       data: null,
-      isTokenRequired: false,
+      isTokenRequired: true,
     );
 
     return ContractorModelResponse.fromJson(response);

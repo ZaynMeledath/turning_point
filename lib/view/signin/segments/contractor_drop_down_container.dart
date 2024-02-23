@@ -14,7 +14,6 @@ Widget contractorDropDownContainer({
           child: Container(
             width: screenSize.width,
             height: screenSize.height * .052,
-            // margin: EdgeInsets.symmetric(horizontal: screenSize.width * .005),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(8),

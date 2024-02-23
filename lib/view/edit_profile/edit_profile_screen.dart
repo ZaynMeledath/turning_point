@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
+import 'package:turning_point/dialog/show_generic_dialog.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
@@ -17,6 +18,7 @@ import 'package:turning_point/view/signin/sign_up_screen.dart';
 
 part 'profile_picture_view.dart';
 part 'segments/edit_profile_email_container.dart';
+part 'segments/contractor_drop_down_loading_state_container.dart.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -30,7 +32,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   late final TextEditingController _phoneController;
   late final TextEditingController _addressController;
   late final TextEditingController _businessController;
-  late final TextEditingController _emailController;
   late final TextEditingController _searchController;
 
   // CloseDialog? _closeDialogHandle;
@@ -47,7 +48,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _phoneController = TextEditingController();
     _addressController = TextEditingController();
     _businessController = TextEditingController();
-    _emailController = TextEditingController();
     _searchController = TextEditingController();
 
     // _nameNode = FocusNode();
@@ -64,7 +64,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _phoneController.dispose();
     _addressController.dispose();
     _businessController.dispose();
-    _emailController.dispose();
     _searchController.dispose();
     // loadingOverlay.dispose();
 
@@ -137,7 +136,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 _businessController.text = state.userModel.businessName ?? '';
                 _nameController.text = state.userModel.name!;
                 _phoneController.text = state.userModel.phone!;
-                _emailController.text = state.userModel.email!;
 
                 return SingleChildScrollView(
                   child: Center(
@@ -247,31 +245,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 builder: (context, state) {
                                   switch (state) {
                                     case ContractorLoadingState():
-                                      return Container(
-                                        width: screenSize.width,
-                                        height: screenSize.height * .052,
-                                        margin: EdgeInsets.symmetric(
-                                            horizontal:
-                                                screenSize.width * .041),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              offset: const Offset(-.5, .5),
-                                              blurRadius: .5,
-                                              color:
-                                                  Colors.black.withOpacity(.2),
-                                            ),
-                                          ],
-                                          border: Border.all(
-                                            width: .8,
-                                            color: const Color.fromRGBO(
-                                                214, 214, 214, 1),
-                                          ),
-                                        ),
-                                      );
+                                      return contractorDropDownLoadingStateContainer();
                                     case ContractorLoadedState():
                                       return Padding(
                                         padding: EdgeInsets.symmetric(
@@ -292,21 +266,30 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         SizedBox(height: screenSize.height * .051),
                         GestureDetector(
                           onTap: () {
-                            profileBloc.add(
-                              ProfileUpdateEvent(
-                                isContractor: state.isContractor,
-                                name: _nameController.text.trim(),
-                                phone: _phoneController.text.trim(),
-                                address: _addressController.text.trim(),
-                                businessName: state.isContractor
-                                    ? _businessController.text.trim()
-                                    : null,
-                                email: _emailController.text.trim(),
-                                contractor: !state.isContractor
-                                    ? contractorBloc.state.contractor
-                                    : null,
-                              ),
-                            );
+                            if (validate()) {
+                              profileBloc.add(
+                                ProfileUpdateEvent(
+                                  isContractor: state.isContractor,
+                                  name: _nameController.text.trim(),
+                                  phone: _phoneController.text.trim(),
+                                  address: _addressController.text.trim(),
+                                  businessName: state.isContractor
+                                      ? _businessController.text.trim()
+                                      : null,
+                                  email: state.userModel.email!,
+                                  contractor: !state.isContractor
+                                      ? contractorBloc.state.contractor
+                                      : null,
+                                ),
+                              );
+                            } else {
+                              showGenericDialog(
+                                context: context,
+                                title: 'Incorrect Entry',
+                                content: 'Please Fill the fields correctly',
+                                options: {'OK': null},
+                              );
+                            }
                           },
                           child: Container(
                             width: screenSize.width * .38,
@@ -337,5 +320,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
       ),
     );
+  }
+
+  bool validate() {
+    if (_nameController.text.isEmpty ||
+        _phoneController.text.isEmpty ||
+        _addressController.text.isEmpty ||
+        _searchController.text.isEmpty ||
+        _businessController.text.isEmpty) {
+      return false;
+    } else if (int.tryParse(_phoneController.text) == null ||
+        _phoneController.text.length < 10) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }
