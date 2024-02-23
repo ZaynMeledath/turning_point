@@ -9,11 +9,13 @@ import 'package:turning_point/model/contractor_model.dart';
 import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/api/api_exception.dart';
+import 'package:turning_point/service/auth/firebase_auth_provider.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
+  final provider = FirebaseAuthProvider();
   ProfileBloc() : super(ProfileLoadingState()) {
 //====================Profile Load Event====================//
     on<ProfileLoadEvent>((event, emit) async {
@@ -116,6 +118,33 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         log('EXEPTION IN BLOC');
         throw CouldNotUpdateUserProfileImageException();
       }
+    });
+
+//====================Profile Email Update Event====================//
+    on<ProfileEmailUpdateEvent>((event, emit) async {
+      final userModelResponse = UserRepository.getUserFromPreference()!;
+      emit(
+        ProfileLoadedState(
+          isLoading: true,
+          isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
+          userModel: userModelResponse.data!,
+        ),
+      );
+      // await provider.signOut();
+      final token = await provider.signIn();
+
+      log('TOKEN : $token');
+
+      userModelResponse.data!.email = provider.currentUser!.email;
+      UserRepository.updateUserProfile(userModel: userModelResponse.data!);
+
+      emit(
+        ProfileLoadedState(
+          isLoading: false,
+          isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
+          userModel: userModelResponse.data!,
+        ),
+      );
     });
   }
 

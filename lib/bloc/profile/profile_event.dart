@@ -32,3 +32,5 @@ class ProfileRadioTriggerEvent extends ProfileEvent {
 }
 
 class ProfilePictureUpdateEvent extends ProfileEvent {}
+
+class ProfileEmailUpdateEvent extends ProfileEvent {}
