@@ -96,7 +96,7 @@ Widget contractorDropDownContainer({
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: Container(
-                            width: screenSize.width * .1,
+                            width: screenSize.width * .12,
                             height: screenSize.width * .12,
                             decoration: const BoxDecoration(
                               color: Colors.white,

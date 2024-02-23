@@ -266,7 +266,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         SizedBox(height: screenSize.height * .051),
                         GestureDetector(
                           onTap: () {
-                            if (validate()) {
+                            if (validate(state.isContractor)) {
                               profileBloc.add(
                                 ProfileUpdateEvent(
                                   isContractor: state.isContractor,
@@ -322,12 +322,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  bool validate() {
-    if (_nameController.text.isEmpty ||
-        _phoneController.text.isEmpty ||
-        _addressController.text.isEmpty ||
-        _searchController.text.isEmpty ||
-        _businessController.text.isEmpty) {
+  bool validate(bool isContractor) {
+    if (isContractor) {
+      if (_businessController.text.isEmpty) {
+        return false;
+      }
+    }
+
+    if (_nameController.text.isEmpty || _phoneController.text.isEmpty) {
       return false;
     } else if (int.tryParse(_phoneController.text) == null ||
         _phoneController.text.length < 10) {

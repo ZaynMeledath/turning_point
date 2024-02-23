@@ -19,7 +19,7 @@ Widget textFieldSegment({
             Container(
               width: double.infinity,
               height: screenSize.height * .056,
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.only(left: 15, right: 15),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
@@ -33,6 +33,7 @@ Widget textFieldSegment({
                   Flexible(
                     child: TextFormField(
                       controller: controller,
+                      textAlignVertical: TextAlignVertical.center,
                       keyboardType:
                           isNumber == true ? TextInputType.number : null,
                       style: GoogleFonts.roboto(
