@@ -97,7 +97,8 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                     }
                                   }
 
-                                  if (state.reelsModelList![index].isLiked) {
+                                  if (state.reelsModelList![index].isLiked ==
+                                      true) {
                                     _animationController.forward();
                                   }
                                 },
@@ -107,7 +108,8 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                   height: screenSize.width * .105,
                                   color: state.reelsModelList![index]
                                           .isLikeButtonActive
-                                      ? state.reelsModelList![index].isLiked
+                                      ? state.reelsModelList![index].isLiked ==
+                                              true
                                           ? const Color.fromRGBO(255, 215, 0, 1)
                                           : Colors.white
                                       : Colors.grey,
