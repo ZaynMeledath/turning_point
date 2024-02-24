@@ -35,6 +35,7 @@ class ReelsModel {
   bool? isVideo;
   int? iV;
   bool isLiked = false;
+  bool isLikeButtonActive = false;
   String? createdAt;
   String? updatedAt;
 

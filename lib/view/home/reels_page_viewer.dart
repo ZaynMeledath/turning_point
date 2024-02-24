@@ -56,9 +56,8 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
 
   @override
   Widget build(BuildContext context) {
-    reelsBloc.add(const ReelLoadEvent(reelIndex: 0));
     preloadBloc.add(PreloadEvent(currentIndex: 0, isInitial: true));
-
+    reelsBloc.add(const ReelLoadEvent(reelIndex: 0));
     return BlocBuilder<PreloadBloc, PreloadState>(
       builder: (context, state) {
         final user = widget.user;
@@ -81,36 +80,39 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                             return ScaleTransition(
                               scale: _animation,
                               child: GestureDetector(
-                                  onTap: () {
-                                    if (state is LikeButtonActiveState) {
-                                      _animationController.forward();
+                                onTap: () {
+                                  if (state.reelsModelList![index]
+                                      .isLikeButtonActive) {
+                                    _animationController.forward();
 
-                                      reelsBloc
-                                          .add(ReelLikeEvent(reelIndex: index));
+                                    reelsBloc
+                                        .add(ReelLikeEvent(reelIndex: index));
 
-                                      if (user.points == 0) {
-                                        showPointsReceivedDialog(
-                                          context: context,
-                                          points:
-                                              state.reelsModel![index].points!,
-                                        );
-                                      }
+                                    if (user.points == 0) {
+                                      showPointsReceivedDialog(
+                                        context: context,
+                                        points: state
+                                            .reelsModelList![index].points!,
+                                      );
                                     }
+                                  }
 
-                                    if (state is ReelLikedState) {
-                                      _animationController.forward();
-                                    }
-                                  },
-                                  child: Image.asset(
-                                    'assets/icons/rupee_icon.png',
-                                    width: screenSize.width * .105,
-                                    height: screenSize.width * .105,
-                                    color: state is ReelLikedState
-                                        ? const Color.fromRGBO(255, 215, 0, 1)
-                                        : state is LikeButtonActiveState
-                                            ? Colors.white
-                                            : Colors.grey,
-                                  )),
+                                  if (state.reelsModelList![index].isLiked) {
+                                    _animationController.forward();
+                                  }
+                                },
+                                child: Image.asset(
+                                  'assets/icons/rupee_icon.png',
+                                  width: screenSize.width * .105,
+                                  height: screenSize.width * .105,
+                                  color: state.reelsModelList![index]
+                                          .isLikeButtonActive
+                                      ? state.reelsModelList![index].isLiked
+                                          ? const Color.fromRGBO(255, 215, 0, 1)
+                                          : Colors.white
+                                      : Colors.grey,
+                                ),
+                              ),
                             );
                           },
                         ),

@@ -3,10 +3,12 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
+import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/exceptions/user_exceptions.dart';
 import 'package:turning_point/model/contractor_model.dart';
 import 'package:turning_point/model/user_model.dart';
+import 'package:turning_point/resources/reels_repository.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/api/api_exception.dart';
 import 'package:turning_point/service/auth/firebase_auth_provider.dart';
@@ -25,6 +27,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
         if (userModelResponse != null && userModelResponse.data != null) {
           final isContractor = userModelResponse.data!.role == Role.CONTRACTOR;
+          final reelsModelResponse = await ReelsRepository.getReels();
+          reelsBloc.state.reelsModelList = reelsModelResponse.data;
 
           return emit(ProfileLoadedState(
             isLoading: false,
@@ -122,27 +126,75 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
 //====================Profile Email Update Event====================//
     on<ProfileEmailUpdateEvent>((event, emit) async {
-      final userModelResponse = UserRepository.getUserFromPreference()!;
-      emit(
-        ProfileLoadedState(
-          isLoading: true,
-          isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
-          userModel: userModelResponse.data!,
-        ),
+      try {
+        final userModelResponse = UserRepository.getUserFromPreference()!;
+        emit(
+          ProfileLoadedState(
+            isLoading: true,
+            isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
+            userModel: userModelResponse.data!,
+          ),
+        );
+        // await provider.signOut();
+        final token = await provider.signIn();
+
+        log('TOKEN : $token');
+
+        userModelResponse.data!.email = provider.currentUser!.email;
+        UserRepository.updateUserProfile(userModel: userModelResponse.data!);
+
+        emit(
+          ProfileLoadedState(
+            isLoading: false,
+            isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
+            userModel: userModelResponse.data!,
+          ),
+        );
+      } catch (e) {
+        throw Exception(e);
+      }
+    });
+
+//====================Profile Phone Update Event====================//
+    on<ProfilePhoneUpdateEvent>((event, emit) async {
+      try {
+        final userModelResponse = UserRepository.getUserFromPreference()!;
+        emit(
+          ProfileLoadedState(
+            isLoading: true,
+            isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
+            userModel: userModelResponse.data!,
+          ),
+        );
+        await provider.sendPhoneVerification(phone: event.phone);
+        emit(
+          ProfileLoadedState(
+            isLoading: true,
+            isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
+            userModel: userModelResponse.data!,
+            verifyOtp: true,
+          ),
+        );
+      } catch (e) {
+        throw Exception(e);
+      }
+    });
+
+//====================Profile Phone Update Event====================//
+    on<ProfileVerifyOtpEvent>((event, emit) async {
+      await provider.verifyOtp(
+        verificationId: FirebaseAuthProvider.verifyId,
+        otp: event.otp,
       );
-      // await provider.signOut();
-      final token = await provider.signIn();
-
-      log('TOKEN : $token');
-
-      userModelResponse.data!.email = provider.currentUser!.email;
+      final userModelResponse = UserRepository.getUserFromPreference()!;
+      userModelResponse.data!.phone = event.phone;
+      UserRepository.addUserToPreference(userModelResponse);
       UserRepository.updateUserProfile(userModel: userModelResponse.data!);
-
       emit(
         ProfileLoadedState(
           isLoading: false,
-          isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
           userModel: userModelResponse.data!,
+          isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
         ),
       );
     });

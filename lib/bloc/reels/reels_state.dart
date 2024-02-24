@@ -1,31 +1,24 @@
 part of 'reels_bloc.dart';
 
 sealed class ReelsState {
-  int points;
-  List<ReelsModel>? reelsModel;
+  int? userPoints;
+  List<ReelsModel>? reelsModelList;
   ReelsState({
-    required this.points,
-    required this.reelsModel,
+    required this.userPoints,
+    required this.reelsModelList,
   });
 }
 
-class InitialReelState extends ReelsState {
-  InitialReelState({
-    required super.points,
-    required super.reelsModel,
+class ReelsLoadingState extends ReelsState {
+  ReelsLoadingState({
+    super.userPoints,
+    super.reelsModelList,
   });
 }
 
-class LikeButtonActiveState extends ReelsState {
-  LikeButtonActiveState({
-    required super.points,
-    required super.reelsModel,
-  });
-}
-
-class ReelLikedState extends ReelsState {
-  ReelLikedState({
-    required super.points,
-    required super.reelsModel,
+class ReelsLoadedState extends ReelsState {
+  ReelsLoadedState({
+    required super.userPoints,
+    required super.reelsModelList,
   });
 }

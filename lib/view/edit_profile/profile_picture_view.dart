@@ -89,7 +89,7 @@ class ProfilePictureView extends StatelessWidget {
                     child: Hero(
                       tag: 'profile_picture',
                       child: PhotoView(
-                        imageProvider: NetworkImage(state.userModel.image!),
+                        imageProvider: NetworkImage(state.userModel!.image!),
                       ),
                     ),
                   ),

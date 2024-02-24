@@ -29,7 +29,7 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
           final userModelResponse = UserRepository.getUserFromPreference()!;
           userModelResponse.data!.points =
               userModelResponse.data!.points! + couponModel.points!;
-          reelsBloc.state.points = userModelResponse.data!.points!;
+          reelsBloc.state.userPoints = userModelResponse.data!.points!;
           UserRepository.addUserToPreference(userModelResponse);
           profileBloc.add(ProfileLoadEvent());
           emit(ScannerCodeDetectedState(couponModel: couponModel));

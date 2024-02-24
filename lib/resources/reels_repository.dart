@@ -4,7 +4,7 @@ import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
 import 'package:turning_point/service/api/api_service.dart';
 
-class ReelRepository {
+class ReelsRepository {
   static List<dynamic> urlList = [];
   // static List<Map<String, dynamic>> reelsMap = [];
   static ReelsModelResponse reelsModelResponse = ReelsModelResponse();
@@ -36,7 +36,7 @@ class ReelRepository {
 
     reelsModelResponse = ReelsModelResponse.fromJson(response);
 
-    return ReelsModelResponse.fromJson(response);
+    return reelsModelResponse;
   }
 
 //====================Like Reel Method====================//

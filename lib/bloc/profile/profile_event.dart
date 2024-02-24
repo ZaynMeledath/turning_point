@@ -34,3 +34,18 @@ class ProfileRadioTriggerEvent extends ProfileEvent {
 class ProfilePictureUpdateEvent extends ProfileEvent {}
 
 class ProfileEmailUpdateEvent extends ProfileEvent {}
+
+class ProfilePhoneUpdateEvent extends ProfileEvent {
+  final String phone;
+  ProfilePhoneUpdateEvent({required this.phone});
+}
+
+class ProfileVerifyOtpEvent extends ProfileEvent {
+  final String phone;
+  final String otp;
+
+  ProfileVerifyOtpEvent({
+    required this.phone,
+    required this.otp,
+  });
+}

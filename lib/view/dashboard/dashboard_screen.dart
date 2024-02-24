@@ -112,13 +112,13 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               child: CircleAvatar(
                                 radius: (screenSize.height * .056) - 8,
                                 foregroundImage:
-                                    NetworkImage(state.userModel.image!),
+                                    NetworkImage(state.userModel!.image!),
                               ),
                             ),
                           ),
                         ),
                         Text(
-                          state.userModel.name!,
+                          state.userModel!.name!,
                           style: GoogleFonts.roboto(
                             fontSize: screenSize.width * .041,
                             fontWeight: FontWeight.w500,
@@ -126,7 +126,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           ),
                         ),
                         Text(
-                          '+91********${state.userModel.phone!.substring(8)}',
+                          '+91********${state.userModel!.phone!.substring(8)}',
                           style: GoogleFonts.roboto(
                             fontSize: screenSize.width * .026,
                             fontWeight: FontWeight.w500,
@@ -138,7 +138,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   ),
                   dashboardAvailableBalanceContainer(
                     context: context,
-                    userModel: state.userModel,
+                    userModel: state.userModel!,
                   ),
                   Positioned(
                     top: screenSize.height * .475,
@@ -165,7 +165,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           title: 'Contests Won',
                           imagePath:
                               'assets/images/dashboard_contest_image.png',
-                          userModel: state.userModel,
+                          userModel: state.userModel!,
                           imageHeight: screenSize.height * .054,
                           imageContainerGradient: [
                             const Color.fromRGBO(255, 227, 205, 1),
@@ -176,7 +176,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             title: 'Challenges Won',
                             imagePath:
                                 'assets/images/dashboard_challenges_image.png',
-                            userModel: state.userModel,
+                            userModel: state.userModel!,
                             imageHeight: screenSize.height * .058,
                             imageContainerGradient: [
                               const Color.fromRGBO(187, 221, 255, 1),

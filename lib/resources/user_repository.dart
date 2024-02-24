@@ -139,14 +139,20 @@ class UserRepository {
 
 //====================Get All Contractors====================//
   static Future<ContractorModelResponse> getContractors() async {
-    final response = await ApiService().sendRequest(
-      url: ApiEndpoints.getContractors,
-      requestMethod: RequestMethod.GET,
-      data: {'email': FirebaseAuthProvider().currentUser!.email},
-      isTokenRequired: false,
-    );
+    try {
+      final email = FirebaseAuthProvider().currentUser!.email;
+      log('EMAIL: $email');
+      final response = await ApiService().sendRequest(
+        url: ApiEndpoints.getContractors,
+        requestMethod: RequestMethod.GET,
+        data: {"email": email},
+        isTokenRequired: false,
+      );
 
-    return ContractorModelResponse.fromJson(response);
+      return ContractorModelResponse.fromJson(response);
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
 //====================Update User Profile====================//

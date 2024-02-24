@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:turning_point/resources/reel_repository.dart';
+import 'package:turning_point/resources/reels_repository.dart';
 import 'package:video_player/video_player.dart';
 part 'preload_event.dart';
 part 'preload_state.dart';
@@ -9,7 +9,7 @@ part 'preload_state.dart';
 class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
   PreloadBloc() : super(PreloadState.initial()) {
     on<PreloadEvent>((event, emit) async {
-      state.urls = ReelRepository.urlList;
+      state.urls = ReelsRepository.urlList;
       if (event.currentIndex == 0) {
         if (event.isInitial) {
           if (state.focusedIndex == 0) {

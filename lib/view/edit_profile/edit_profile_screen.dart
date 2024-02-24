@@ -6,10 +6,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
+import 'package:turning_point/dialog/show_animated_otp_dialog.dart';
 import 'package:turning_point/dialog/show_generic_dialog.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
+import 'package:turning_point/model/contractor_model.dart';
+import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/view/edit_profile/segments/edit_profile_picture_segment.dart';
 import 'package:turning_point/view/edit_profile/segments/text_field_segment.dart';
 import 'package:photo_view/photo_view.dart';
@@ -93,23 +96,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     return Scaffold(
       body: SafeArea(
-        child: BlocBuilder<ProfileBloc, ProfileState>(
-          // listener: (context, state) {
-          //   if (state is ProfileLoadedState) {
-          //     // final closeDialog = _closeDialogHandle;
-          //     // if (state.isLoading && closeDialog == null) {
-          //     //   _closeDialogHandle = showLoadingDialog(context: context);
-          //     // } else if (!state.isLoading && closeDialog != null) {
-          //     //   closeDialog();
-          //     //   _closeDialogHandle = null;
-          //     // }
-          //     if (state.isLoading) {
-          //       Overlay.of(context).insert(loadingOverlay);
-          //     } else {
-          //       loadingOverlay.remove();
-          //     }
-          //   }
-          // },
+        child: BlocConsumer<ProfileBloc, ProfileState>(
+          listener: (context, state) {
+            if (state is ProfileLoadedState && state.verifyOtp == true) {
+              showAnimatedOtpDialog(
+                context: context,
+                phone: _phoneController.text,
+              );
+            }
+          },
           builder: (context, state) {
             switch (state) {
               case ProfileLoadingState():
@@ -132,10 +127,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 );
 
               case ProfileLoadedState():
-                _addressController.text = state.userModel.address ?? '';
-                _businessController.text = state.userModel.businessName ?? '';
-                _nameController.text = state.userModel.name!;
-                _phoneController.text = state.userModel.phone!;
+                if (!state.isLoading) {
+                  _addressController.text = state.userModel!.address ?? '';
+                  _businessController.text =
+                      state.userModel!.businessName ?? '';
+                  _nameController.text = state.userModel!.name!;
+                  _phoneController.text = state.userModel!.phone!;
+                }
 
                 return SingleChildScrollView(
                   child: Center(
@@ -148,7 +146,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         //====================Body Segment====================//
                         editProfilePictureSegment(
                           context: context,
-                          userModel: state.userModel,
+                          userModel: state.userModel!,
                         ),
                         state.isLoading
                             ? Container(
@@ -261,35 +259,26 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               ),
                         SizedBox(height: screenSize.height * .037),
                         editProfileEmailContainer(
-                            email: state.userModel.email!),
+                            email: state.userModel!.email!),
 
                         SizedBox(height: screenSize.height * .051),
                         GestureDetector(
                           onTap: () {
-                            if (validate(state.isContractor)) {
-                              profileBloc.add(
-                                ProfileUpdateEvent(
-                                  isContractor: state.isContractor,
-                                  name: _nameController.text.trim(),
-                                  phone: _phoneController.text.trim(),
-                                  address: _addressController.text.trim(),
-                                  businessName: state.isContractor
-                                      ? _businessController.text.trim()
-                                      : null,
-                                  email: state.userModel.email!,
-                                  contractor: !state.isContractor
-                                      ? contractorBloc.state.contractor
-                                      : null,
-                                ),
-                              );
-                            } else {
-                              showGenericDialog(
-                                context: context,
-                                title: 'Incorrect Entry',
-                                content: 'Please Fill the fields correctly',
-                                options: {'OK': null},
-                              );
-                            }
+                            updateProfile(
+                              context: context,
+                              isContractor: state.isContractor,
+                              name: _nameController.text.trim(),
+                              phone: _phoneController.text.trim(),
+                              address: _addressController.text.trim(),
+                              businessName: state.isContractor
+                                  ? _businessController.text.trim()
+                                  : null,
+                              email: state.userModel!.email!,
+                              contractor: !state.isContractor
+                                  ? contractorBloc.state.contractor
+                                  : null,
+                              userModel: state.userModel!,
+                            );
                           },
                           child: Container(
                             width: screenSize.width * .38,
@@ -320,6 +309,42 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
       ),
     );
+  }
+
+  void updateProfile({
+    required BuildContext context,
+    required bool isContractor,
+    required String name,
+    required String phone,
+    required String address,
+    required String? businessName,
+    required String email,
+    required ContractorModel? contractor,
+    required UserModel userModel,
+  }) {
+    if (validate(isContractor)) {
+      if (phone != userModel.phone) {
+        profileBloc.add(ProfilePhoneUpdateEvent(phone: phone));
+      }
+      // profileBloc.add(
+      //   ProfileUpdateEvent(
+      //     isContractor: isContractor,
+      //     name: name,
+      //     phone: phone,
+      //     address: address,
+      //     businessName: businessName,
+      //     email: email,
+      //     contractor: contractor,
+      //   ),
+      // );
+    } else {
+      showGenericDialog(
+        context: context,
+        title: 'Incorrect Entry',
+        content: 'Please Fill the fields correctly',
+        options: {'OK': null},
+      );
+    }
   }
 
   bool validate(bool isContractor) {

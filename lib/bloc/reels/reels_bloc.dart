@@ -2,59 +2,69 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/model/reels_model.dart';
-import 'package:turning_point/resources/reel_repository.dart';
+import 'package:turning_point/resources/reels_repository.dart';
 import 'package:turning_point/resources/user_repository.dart';
 
 part 'reels_event.dart';
 part 'reels_state.dart';
 
 class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
-  ReelsBloc()
-      : super(
-          InitialReelState(
-            points: UserRepository.getUserFromPreference()!.data!.points!,
-            reelsModel: ReelRepository.reelsModelResponse.data,
-          ),
-        ) {
+  ReelsBloc() : super(ReelsLoadingState()) {
+    final userModelResponse = UserRepository.getUserFromPreference();
     on<ReelLoadEvent>((event, emit) async {
-      final userModelResponse = UserRepository.getUserFromPreference();
-      final reelData = ReelRepository.reelsModelResponse.data![event.reelIndex];
+      final reelData =
+          ReelsRepository.reelsModelResponse.data![event.reelIndex];
 
       if (reelData.isLiked == true) {
-        return emit(ReelLikedState(
-          points: userModelResponse!.data!.points!,
-          reelsModel: ReelRepository.reelsModelResponse.data,
-        ));
+        return emit(
+          ReelsLoadedState(
+            userPoints: userModelResponse!.data!.points,
+            reelsModelList: ReelsRepository.reelsModelResponse.data,
+          ),
+        );
       } else {
-        emit(InitialReelState(
-          points: userModelResponse!.data!.points!,
-          reelsModel: ReelRepository.reelsModelResponse.data,
-        ));
-        await Future.delayed(Duration(seconds: reelData.displayLikeAfter!));
-        return emit(LikeButtonActiveState(
-          points: userModelResponse.data!.points!,
-          reelsModel: ReelRepository.reelsModelResponse.data,
-        ));
+        reelData.isLikeButtonActive = false;
+        emit(
+          ReelsLoadedState(
+            userPoints: userModelResponse!.data!.points,
+            reelsModelList: ReelsRepository.reelsModelResponse.data,
+          ),
+        );
+        await Future.delayed(
+            Duration(seconds: reelData.displayLikeAfter ?? 10));
+        ReelsRepository.reelsModelResponse.data![event.reelIndex]
+            .isLikeButtonActive = true;
+        return emit(
+          ReelsLoadedState(
+            userPoints: userModelResponse.data!.points,
+            reelsModelList: ReelsRepository.reelsModelResponse.data,
+          ),
+        );
       }
     });
 
     on<ReelLikeEvent>((event, emit) async {
-      final userModelResponse = UserRepository.getUserFromPreference();
-      final reelData = ReelRepository.reelsModelResponse.data![event.reelIndex];
+      final reelData =
+          ReelsRepository.reelsModelResponse.data![event.reelIndex];
 
       if (reelData.isLiked != true) {
         reelData.isLiked = true;
         userModelResponse!.data!.points =
             userModelResponse.data!.points! + reelData.points!;
 
+        profileBloc.state.userModel = userModelResponse.data!;
+
         UserRepository.addUserToPreference(userModelResponse);
 
-        emit(ReelLikedState(
-          points: userModelResponse.data!.points!,
-          reelsModel: ReelRepository.reelsModelResponse.data,
-        ));
-        await ReelRepository.likeReel(event.reelIndex);
+        emit(
+          ReelsLoadedState(
+            userPoints: userModelResponse.data!.points,
+            reelsModelList: ReelsRepository.reelsModelResponse.data,
+          ),
+        );
+        await ReelsRepository.likeReel(event.reelIndex);
       }
     });
   }
