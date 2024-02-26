@@ -9,7 +9,7 @@ import 'package:turning_point/model/contractor_model.dart';
 import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/resources/reels_repository.dart';
 import 'package:turning_point/resources/user_repository.dart';
-import 'package:turning_point/service/api/api_exception.dart';
+import 'package:turning_point/service/Exception/api_exception.dart';
 import 'package:turning_point/service/auth/firebase_auth_provider.dart';
 
 part 'profile_event.dart';

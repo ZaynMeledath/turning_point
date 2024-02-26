@@ -2,7 +2,6 @@
 
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart';
@@ -10,7 +9,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/main.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:turning_point/service/api/api_exception.dart';
+import 'package:turning_point/service/Exception/api_exception.dart';
 import 'package:turning_point/view/signin/sign_in_screen.dart';
 
 enum RequestMethod {

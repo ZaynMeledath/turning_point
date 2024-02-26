@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/kyc/kyc_bloc.dart';
+import 'package:turning_point/dialog/show_generic_dialog.dart';
 import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
@@ -120,7 +121,7 @@ class _KycScreenState extends State<KycScreen>
                       ),
                       SizedBox(height: screenSize.height * .02),
 
-//====================Body Container====================//
+//===================================Body Container===================================//
                       Container(
                         margin: EdgeInsets.symmetric(
                             horizontal: screenSize.width * .031),
@@ -257,18 +258,27 @@ class _KycScreenState extends State<KycScreen>
                               pincode: pinController.text,
                             ));
                           } else {
-                            kycBloc.add(
-                              KycUpdateEvent(
-                                name: nameController.text,
-                                phone: phoneController.text,
-                                email: emailController.text,
-                                pincode: pinController.text,
-                                isSavings: state.isSavings,
-                                accName: accNameController.text,
-                                accNum: accNumController.text,
-                                ifsc: ifscController.text,
-                              ),
-                            );
+                            if (validate()) {
+                              kycBloc.add(
+                                KycUpdateEvent(
+                                  name: nameController.text,
+                                  phone: phoneController.text,
+                                  email: emailController.text,
+                                  pincode: pinController.text,
+                                  isSavings: state.isSavings,
+                                  accName: accNameController.text,
+                                  accNum: accNumController.text,
+                                  ifsc: ifscController.text,
+                                ),
+                              );
+                            } else {
+                              showGenericDialog(
+                                context: context,
+                                title: 'Fields Empty',
+                                content: 'Please fill up all the fields',
+                                options: {'Dismiss': null},
+                              );
+                            }
                           }
                         },
                         child: Container(
@@ -310,5 +320,20 @@ class _KycScreenState extends State<KycScreen>
         ),
       ),
     );
+  }
+
+  bool validate() {
+    if (nameController.text.isNotEmpty &&
+        phoneController.text.isNotEmpty &&
+        emailController.text.isNotEmpty &&
+        pinController.text.isNotEmpty &&
+        accNameController.text.isNotEmpty &&
+        accNumController.text.isNotEmpty &&
+        ifscController.text.isNotEmpty &&
+        confirmAccNumController.text.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

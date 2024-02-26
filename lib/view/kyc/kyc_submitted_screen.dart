@@ -20,7 +20,7 @@ class KycSubmittedScreen extends StatelessWidget {
             ),
             SizedBox(height: screenSize.height * .018),
             Text(
-              'Success',
+              'Submitted',
               style: GoogleFonts.inter(
                 fontSize: screenSize.width * .048,
                 fontWeight: FontWeight.w600,
@@ -29,7 +29,7 @@ class KycSubmittedScreen extends StatelessWidget {
             ),
             SizedBox(height: screenSize.height * .012),
             Text(
-              'Congratulations! Your KYC details have been\nsuccessfully submitted',
+              'Your KYC details have been\nsuccessfully submitted',
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
                 fontSize: screenSize.width * .036,
