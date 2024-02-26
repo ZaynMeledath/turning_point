@@ -97,6 +97,7 @@ class _KycScreenState extends State<KycScreen>
                 phoneController.text = state.phone!;
                 emailController.text = state.email!;
                 pinController.text = state.pincode!;
+                // accNameController.text = state.
 
                 return SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),

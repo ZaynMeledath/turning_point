@@ -10,6 +10,7 @@ sealed class KycState {
   final File? idDisplayImage;
   final String? idFrontImage;
   final String? idBackImage;
+  // final User
 
   const KycState({
     required this.name,

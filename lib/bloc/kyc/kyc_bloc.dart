@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/resources/user_repository.dart';
 
@@ -13,9 +14,7 @@ class KycBloc extends Bloc<KycEvent, KycState> {
   KycBloc() : super(const KycLoadingState()) {
 //====================KYC Load Event====================//
     on<KycLoadEvent>((event, emit) async {
-      log('KYCLOADEVENT USER MODEL :');
       final userModel = UserRepository.getUserFromPreference()!.data!;
-      log('KYCLOADEVENT USER MODEL : ${userModel.name}, ${userModel.phone}, ${userModel.email}');
       if (userModel.bankDetails != null && userModel.bankDetails!.isNotEmpty) {
         emit(
           KycLoadedState(
@@ -49,23 +48,27 @@ class KycBloc extends Bloc<KycEvent, KycState> {
 
 //====================KYC ID Update Event====================//
     on<KycIdUpdateEvent>((event, emit) async {
-      final imageMap = await UserRepository.fetchImageFromStorage();
-      if (imageMap != null) {
-        emit(
-          KycLoadedState(
-            isLoading: false,
-            tabIndex: 1,
-            isSavings: state.isSavings,
-            name: state.name,
-            phone: state.phone,
-            email: state.email,
-            pincode: state.pincode,
-            idFrontImage: state.idFrontImage ?? imageMap.keys.first,
-            idBackImage:
-                state.idFrontImage != null ? imageMap.keys.first : null,
-            idDisplayImage: File(imageMap.values.first.path),
-          ),
-        );
+      try {
+        final imageMap = await UserRepository.fetchImageFromStorage();
+        if (imageMap != null) {
+          emit(
+            KycLoadedState(
+              isLoading: false,
+              tabIndex: 1,
+              isSavings: state.isSavings,
+              name: state.name,
+              phone: state.phone,
+              email: state.email,
+              pincode: state.pincode,
+              idFrontImage: state.idFrontImage ?? imageMap.keys.first,
+              idBackImage:
+                  state.idFrontImage != null ? imageMap.keys.first : null,
+              idDisplayImage: File(imageMap.values.first.path),
+            ),
+          );
+        }
+      } catch (e) {
+        throw Exception(e);
       }
     });
 
@@ -103,12 +106,12 @@ class KycBloc extends Bloc<KycEvent, KycState> {
               event.isSavings ? 'savings' : 'current';
         } else {
           userModelResponse.data!.bankDetails = [
-            BankDetails.fromJson({
-              'accountName': event.accName,
-              'accountNo': event.accNum,
-              'ifsc': event.ifsc,
-              'banktype': event.isSavings ? 'savings' : 'current',
-            })
+            BankDetails(
+              accountName: event.accName,
+              accountNo: event.accNum,
+              ifsc: event.ifsc,
+              banktype: event.isSavings ? 'savings' : 'current',
+            )
           ];
         }
 
@@ -117,7 +120,7 @@ class KycBloc extends Bloc<KycEvent, KycState> {
           idFrontImage: state.idFrontImage,
           idBackImage: state.idBackImage,
         );
-
+        profileBloc.add(ProfileLoadEvent());
         emit(const KycSubmittedState());
       } catch (_) {}
     });

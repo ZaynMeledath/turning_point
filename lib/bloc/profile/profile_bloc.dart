@@ -108,7 +108,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
         if (imageMap != null) {
           userModelResponse = await UserRepository.updateProfileImage(
-            imageMap.keys.elementAt(0),
+            imageMap.keys.first,
           );
         }
         emit(
