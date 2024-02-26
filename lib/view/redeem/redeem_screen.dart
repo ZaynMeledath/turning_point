@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/bloc/redeem/redeem_bloc.dart';
+import 'package:turning_point/dialog/custom_loading.dart';
 import 'package:turning_point/dialog/show_coupon_generate_dialog.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/view/redeem/segments/available_points_container.dart';
 import 'package:turning_point/view/redeem/segments/redeem_options_segment.dart';
@@ -86,11 +89,7 @@ class _RedeemScreenState extends State<RedeemScreen> {
                     return upiTransferSegment();
 
                   default:
-                    return const Center(
-                      child: CircularProgressIndicator.adaptive(
-                        strokeWidth: 5,
-                      ),
-                    );
+                    return spinningLinesLoading();
                 }
               },
             ),

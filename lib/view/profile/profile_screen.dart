@@ -63,14 +63,14 @@ class ProfileScreen extends StatelessWidget {
                                   child: CircleAvatar(
                                     radius: (screenSize.height * .063) - 4,
                                     foregroundImage:
-                                        NetworkImage(state.userModel.image!),
+                                        NetworkImage(state.userModel!.image!),
                                   ),
                                 ),
                               ),
                             ),
                             const SizedBox(height: 3),
                             Text(
-                              state.userModel.name!,
+                              state.userModel!.name!,
                               style: GoogleFonts.roboto(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,

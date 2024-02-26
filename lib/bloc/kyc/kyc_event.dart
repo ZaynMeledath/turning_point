@@ -43,3 +43,5 @@ class KycAccountTypeTriggerEvent extends KycEvent {
 
   KycAccountTypeTriggerEvent({required this.isSavings});
 }
+
+class KycIdUpdateEvent extends KycEvent {}

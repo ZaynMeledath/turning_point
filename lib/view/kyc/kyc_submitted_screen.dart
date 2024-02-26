@@ -20,7 +20,7 @@ class KycSubmittedScreen extends StatelessWidget {
             ),
             SizedBox(height: screenSize.height * .018),
             Text(
-              'Success',
+              'Submitted',
               style: GoogleFonts.inter(
                 fontSize: screenSize.width * .048,
                 fontWeight: FontWeight.w600,
@@ -29,7 +29,7 @@ class KycSubmittedScreen extends StatelessWidget {
             ),
             SizedBox(height: screenSize.height * .012),
             Text(
-              'Congratulations! Your KYC details have been\nsuccessfully submitted',
+              'Your KYC details have been\nsuccessfully submitted',
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
                 fontSize: screenSize.width * .036,
@@ -38,20 +38,23 @@ class KycSubmittedScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: screenSize.height * .05),
-            Container(
-              width: screenSize.width * .8,
-              height: screenSize.height * .05,
-              decoration: BoxDecoration(
-                color: const Color.fromRGBO(0, 99, 255, 1),
-                borderRadius: BorderRadius.circular(6),
-              ),
-              child: Center(
-                child: Text(
-                  'Go Back',
-                  style: GoogleFonts.roboto(
-                    fontSize: screenSize.width * .036,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
+            GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                width: screenSize.width * .8,
+                height: screenSize.height * .05,
+                decoration: BoxDecoration(
+                  color: const Color.fromRGBO(0, 99, 255, 1),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Center(
+                  child: Text(
+                    'Go Back',
+                    style: GoogleFonts.roboto(
+                      fontSize: screenSize.width * .036,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),

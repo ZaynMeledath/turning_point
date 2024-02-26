@@ -7,9 +7,7 @@ import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/model/reels_model.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
-import 'package:turning_point/resources/reel_repository.dart';
 import 'package:turning_point/view/home/profile_inactive_screen.dart';
 import 'package:turning_point/view/home/reels_page_viewer.dart';
 import 'package:turning_point/view/points/points_screen.dart';
@@ -23,7 +21,6 @@ class ReelsScreen extends StatefulWidget {
 }
 
 class _ReelsScreenState extends State<ReelsScreen> {
-  Future<ReelsModelResponse>? reelsFuture;
   @override
   void initState() {
     log('${AppPreferences.getValueShared('auth_token')}');
@@ -35,7 +32,6 @@ class _ReelsScreenState extends State<ReelsScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     // Check if the future is not already assigned to avoid unnecessary fetches.
-    reelsFuture ??= ReelRepository.getReels();
   }
 
   @override
@@ -49,6 +45,7 @@ class _ReelsScreenState extends State<ReelsScreen> {
   Widget build(BuildContext context) {
     log('REELS SCREEN BUILD EXECUTED');
     profileBloc.add(ProfileLoadEvent());
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: BlocBuilder<ProfileBloc, ProfileState>(
@@ -93,24 +90,10 @@ class _ReelsScreenState extends State<ReelsScreen> {
                 alignment: Alignment.center,
                 children: [
                   //====================Reels Player====================//
-                  FutureBuilder(
-                      future: reelsFuture,
-                      builder: (context, reelsSnapshot) {
-                        if (reelsSnapshot.hasData) {
-                          log('REELS FUTURE EXECUTED');
-                          return ReelsPageViewer(
-                            user: state.userModel,
-                          );
-                        } else {
-                          return const Center(
-                            child: CircularProgressIndicator.adaptive(
-                              strokeWidth: 5,
-                              backgroundColor: Colors.white,
-                              valueColor: AlwaysStoppedAnimation(Colors.amber),
-                            ),
-                          );
-                        }
-                      }),
+
+                  ReelsPageViewer(
+                    user: state.userModel!,
+                  ),
 
                   //====================Points Container====================//
                   Positioned(
@@ -154,9 +137,9 @@ class _ReelsScreenState extends State<ReelsScreen> {
                                       ),
                                       const SizedBox(width: 1),
                                       BlocBuilder<ReelsBloc, ReelsState>(
-                                        builder: (context, state) {
+                                        builder: (context, reelsState) {
                                           return Text(
-                                            '${state.points}',
+                                            reelsState.userPoints.toString(),
                                             style: GoogleFonts.inter(
                                               fontSize: screenSize.width * .04,
                                               fontWeight: FontWeight.w700,
@@ -191,7 +174,8 @@ class _ReelsScreenState extends State<ReelsScreen> {
                             const Color.fromRGBO(225, 225, 225, .6),
                         radius: 22,
                         child: CircleAvatar(
-                          foregroundImage: NetworkImage(state.userModel.image!),
+                          foregroundImage:
+                              NetworkImage(state.userModel!.image!),
                         ),
                       ),
                     ),

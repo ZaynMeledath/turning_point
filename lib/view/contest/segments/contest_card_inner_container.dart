@@ -149,20 +149,35 @@ Widget contestCardInnerContainer({
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             GestureDetector(
-                              onTap: () => joinContestBloc.add(
-                                JoinContestEvent(
-                                    state.contestModelList![index]),
-                              ),
+                              onTap: () {
+                                if (state.contestModelList![index]
+                                        .userJoinStatus !=
+                                    true) {
+                                  joinContestBloc.add(
+                                    JoinContestEvent(
+                                      state.contestModelList![index],
+                                    ),
+                                  );
+                                }
+                              },
                               child: Container(
-                                width: screenSize.width * .31,
+                                width: screenSize.width * .28,
                                 height: screenSize.width * .092,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(25),
-                                  color: const Color.fromRGBO(0, 99, 255, 1),
+                                  color: state.contestModelList![index]
+                                              .userJoinStatus ==
+                                          true
+                                      ? Colors.grey
+                                      : const Color.fromRGBO(0, 99, 255, 1),
                                 ),
                                 child: Center(
                                   child: Text(
-                                    'Enter Contest',
+                                    state.contestModelList![index]
+                                                .userJoinStatus ==
+                                            true
+                                        ? 'Joined'
+                                        : 'Enter Contest',
                                     style: GoogleFonts.roboto(
                                       fontSize: screenSize.width * .032,
                                       fontWeight: FontWeight.w500,

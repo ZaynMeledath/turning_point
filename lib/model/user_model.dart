@@ -36,6 +36,7 @@ class UserModel {
   bool? isActive;
   String? role;
   ContractorModel? contractor;
+  bool? kycStatus;
   List<BankDetails>? bankDetails;
   List? shopImageArr;
   String? createdAt;
@@ -67,6 +68,7 @@ class UserModel {
       this.image,
       this.idBackImage,
       this.idFrontImage,
+      this.kycStatus,
       this.contestParticipationCount,
       this.contestsParticipatedInCount,
       this.contestWonCount,
@@ -83,6 +85,7 @@ class UserModel {
     points = json['points'];
     isActive = json['isActive'];
     role = json['role'];
+    kycStatus = json['kycStatus'];
     contractor = json['contractor'] != null
         ? ContractorModel.fromJson(json['contractor'])
         : null;
@@ -125,6 +128,7 @@ class UserModel {
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
     data['image'] = image;
+    data['kycStatus'] = kycStatus;
     data['idBackImage'] = idBackImage;
     data['idFrontImage'] = idFrontImage;
     data['contestParticipationCount'] = contestParticipationCount;
@@ -138,7 +142,7 @@ class UserModel {
 class BankDetails {
   String? banktype;
   String? accountName;
-  int? accountNo;
+  String? accountNo;
   String? ifsc;
   String? bank;
   bool? isActive;

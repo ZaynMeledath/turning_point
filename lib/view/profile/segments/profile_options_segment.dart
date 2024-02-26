@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/about/about_us_screen.dart';
 import 'package:turning_point/view/contest/contest_screen.dart';
 import 'package:turning_point/view/kyc/kyc_screen.dart';
+import 'package:turning_point/view/kyc/kyc_submitted_screen.dart';
+import 'package:turning_point/view/kyc/kyc_verified_screen.dart';
 import 'package:turning_point/view/points/points_screen.dart';
 import 'package:turning_point/view/privacy_policy/privacy_policy_screen.dart';
 import 'package:turning_point/view/profile/segments/profile_option.dart';
@@ -50,20 +54,36 @@ Widget profileOptionsSegment({
       ),
 
 //====================KYC====================//
-      GestureDetector(
-        onTap: () {
-          CustomNavigator.push(
-            context: context,
-            child: const KycScreen(),
+      BlocBuilder<ProfileBloc, ProfileState>(
+        builder: (context, state) {
+          return GestureDetector(
+            onTap: () {
+              if (state.userModel!.kycStatus == null) {
+                CustomNavigator.push(
+                  context: context,
+                  child: const KycScreen(),
+                );
+              } else if (state.userModel!.kycStatus == false) {
+                CustomNavigator.push(
+                  context: context,
+                  child: const KycSubmittedScreen(),
+                );
+              } else {
+                CustomNavigator.push(
+                  context: context,
+                  child: const KycVerifiedScreen(),
+                );
+              }
+            },
+            child: profileOption(
+              screenSize: screenSize,
+              iconPath: 'assets/icons/kyc_icon.png',
+              title: 'KYC',
+              containerColor: const Color.fromRGBO(216, 255, 210, 1),
+              containerPadding: screenSize.width * .01,
+            ),
           );
         },
-        child: profileOption(
-          screenSize: screenSize,
-          iconPath: 'assets/icons/kyc_icon.png',
-          title: 'KYC',
-          containerColor: const Color.fromRGBO(216, 255, 210, 1),
-          containerPadding: screenSize.width * .01,
-        ),
       ),
 
 //====================Privacy & Policy====================//

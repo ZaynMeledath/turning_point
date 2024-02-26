@@ -14,7 +14,7 @@ class ApiEndpoints {
   static const uploads = '$baseUrl/uploads';
   static const getReelLike = '$baseUrl/reelLike/getLikeCount';
   static const likeReel = '$baseUrl/reelLike/like';
-  static const pointsHistory = '$baseUrl/points/points-history';
+  static const pointsHistory = '$baseUrl/points/points-history-mobile';
   static const getContests = '$baseUrl/contest/getContest';
   static const joinContest = '$baseUrl/contest/joinContest';
   static const applyCoupon = '$baseUrl/coupon/applyCoupon';

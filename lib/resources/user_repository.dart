@@ -139,19 +139,27 @@ class UserRepository {
 
 //====================Get All Contractors====================//
   static Future<ContractorModelResponse> getContractors() async {
-    final response = await ApiService().sendRequest(
-      url: ApiEndpoints.getContractors,
-      requestMethod: RequestMethod.GET,
-      data: {'email': FirebaseAuthProvider().currentUser!.email},
-      isTokenRequired: false,
-    );
+    try {
+      final email = FirebaseAuthProvider().currentUser!.email;
+      log('EMAIL: $email');
+      final response = await ApiService().sendRequest(
+        url: ApiEndpoints.getContractors,
+        requestMethod: RequestMethod.GET,
+        data: {"email": email},
+        isTokenRequired: false,
+      );
 
-    return ContractorModelResponse.fromJson(response);
+      return ContractorModelResponse.fromJson(response);
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
 //====================Update User Profile====================//
   static Future<UserModelResponse> updateUserProfile({
     required UserModel userModel,
+    String? idFrontImage,
+    String? idBackImage,
   }) async {
     try {
       log('UPDATING');
@@ -170,6 +178,8 @@ class UserRepository {
             "name": userModel.contractor?.name,
             "businessName": userModel.contractor?.businessName,
           },
+          "idFrontImage": idFrontImage,
+          "idBackImage": idBackImage,
           if (userModel.bankDetails != null &&
               userModel.bankDetails!.isNotEmpty)
             "bankDetails": {
@@ -214,7 +224,7 @@ class UserRepository {
   }
 
 //====================Get User Profile Image from Storage====================//
-  static Future<String?> fetchImageFromStorage() async {
+  static Future<Map<String, XFile>?> fetchImageFromStorage() async {
     final ImagePicker picker = ImagePicker();
     try {
       final XFile? image = await picker.pickImage(source: ImageSource.gallery);
@@ -222,7 +232,7 @@ class UserRepository {
         final base64Image = base64Encode(await image.readAsBytes());
         final result =
             'furnipart/${image.path.split('/').last};base64,$base64Image';
-        return result;
+        return {result: image};
       } else {
         return null;
       }

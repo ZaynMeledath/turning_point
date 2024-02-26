@@ -1,19 +1,22 @@
 part of 'profile_bloc.dart';
 
-@immutable
-sealed class ProfileState {}
+sealed class ProfileState {
+  UserModel? userModel;
+  ProfileState({this.userModel});
+}
 
 class ProfileLoadingState extends ProfileState {}
 
 class ProfileLoadedState extends ProfileState {
   final bool isLoading;
-  final UserModel userModel;
   final bool isContractor;
+  final bool? verifyOtp;
 
   ProfileLoadedState({
     required this.isLoading,
-    required this.userModel,
+    required super.userModel,
     required this.isContractor,
+    this.verifyOtp,
   });
 }
 

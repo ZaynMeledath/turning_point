@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/bloc/reels/reels_bloc.dart';
+import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
 
 Widget bannerSegment() {
@@ -117,10 +117,10 @@ Widget bannerSegment() {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              BlocBuilder<ReelsBloc, ReelsState>(
+              BlocBuilder<ProfileBloc, ProfileState>(
                 builder: (context, state) {
                   return Text(
-                    state.points.toString(),
+                    state.userModel!.points.toString(),
                     style: GoogleFonts.roboto(
                       color: const Color.fromRGBO(255, 152, 0, 1),
                       fontSize: screenSize.width * .032,

@@ -33,8 +33,9 @@ class ReelsModel {
   int? displayLikeAfter;
   int? points;
   bool? isVideo;
+  bool? isLiked;
+  bool isLikeButtonActive = false;
   int? iV;
-  bool isLiked = false;
   String? createdAt;
   String? updatedAt;
 
@@ -44,6 +45,7 @@ class ReelsModel {
     this.displayLikeAfter,
     this.points,
     this.isVideo,
+    this.isLiked,
     this.iV,
     this.createdAt,
     this.updatedAt,
@@ -55,6 +57,7 @@ class ReelsModel {
     displayLikeAfter = json['displayLikeAfter'];
     points = json['points'];
     isVideo = json['isVideo'];
+    isLiked = json['likedByCurrentUser'];
     iV = json['__v'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];

@@ -78,6 +78,16 @@ class _ScannerScreenState extends State<ScannerScreen> {
                   buttonTitle: 'OK',
                   scannerController: _scannerController,
                 );
+              case 'Coupon not found':
+                showScannerCouponDialog(
+                  context: context,
+                  iconPath: 'assets/images/points_received_dialog_image.png',
+                  title: 'Coupon Not Found',
+                  content: 'This Coupon is not valid',
+                  buttonTitle: 'OK',
+                  scannerController: _scannerController,
+                );
+                break;
 
               default:
                 showScannerCouponDialog(
