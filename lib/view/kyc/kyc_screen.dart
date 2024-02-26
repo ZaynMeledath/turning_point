@@ -238,6 +238,11 @@ class _KycScreenState extends State<KycScreen>
                       SizedBox(height: screenSize.height * .02),
                       GestureDetector(
                         onTap: () {
+                          if (_tabController.index == 1 &&
+                              (state.idFrontImage == null ||
+                                  state.idBackImage == null)) {
+                            return;
+                          }
                           if (_tabController.index < 2) {
                             _tabController.animateTo(
                               state.tabIndex + 1,

@@ -138,7 +138,7 @@ class UserModel {
 class BankDetails {
   String? banktype;
   String? accountName;
-  int? accountNo;
+  String? accountNo;
   String? ifsc;
   String? bank;
   bool? isActive;

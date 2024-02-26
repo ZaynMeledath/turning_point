@@ -104,11 +104,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
           ),
         );
-        final imageString = await UserRepository.fetchImageFromStorage();
+        final imageMap = await UserRepository.fetchImageFromStorage();
 
-        if (imageString != null) {
-          userModelResponse =
-              await UserRepository.updateProfileImage(imageString);
+        if (imageMap != null) {
+          userModelResponse = await UserRepository.updateProfileImage(
+            imageMap.keys.elementAt(0),
+          );
         }
         emit(
           ProfileLoadedState(
