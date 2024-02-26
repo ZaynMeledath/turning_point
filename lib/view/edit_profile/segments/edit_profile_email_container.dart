@@ -6,7 +6,7 @@ Widget editProfileEmailContainer({required String email}) {
     child: Center(
       child: GestureDetector(
         onTap: () {
-          profileBloc.add(ProfileEmailUpdateEvent());
+          // profileBloc.add(ProfileEmailUpdateEvent());
         },
         child: SizedBox(
           height: screenSize.height * .056 + (screenSize.height * .019) / 2,
@@ -22,7 +22,8 @@ Widget editProfileEmailContainer({required String email}) {
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
                       width: 1,
-                      color: const Color.fromRGBO(142, 142, 142, 1),
+                      // color: const Color.fromRGBO(142, 142, 142, 1),
+                      color: Colors.grey,
                     ),
                   ),
                   child: Row(
@@ -33,7 +34,8 @@ Widget editProfileEmailContainer({required String email}) {
                         style: GoogleFonts.roboto(
                           letterSpacing: 1,
                           fontSize: screenSize.height * .017,
-                          color: const Color.fromRGBO(16, 16, 16, 1),
+                          // color: const Color.fromRGBO(16, 16, 16, 1),
+                          color: Colors.grey,
                         ),
                       ),
                       Image.asset(

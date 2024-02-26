@@ -57,7 +57,7 @@ class ReelsModel {
     displayLikeAfter = json['displayLikeAfter'];
     points = json['points'];
     isVideo = json['isVideo'];
-    // isLiked = json['likedByCurrentUser'] != null ? true : false;
+    isLiked = json['likedByCurrentUser'];
     iV = json['__v'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];

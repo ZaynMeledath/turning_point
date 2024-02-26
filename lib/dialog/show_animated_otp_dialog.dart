@@ -97,6 +97,7 @@ class _DialogWidgetState extends State<DialogWidget> {
                   otp: otp,
                 ),
               );
+              Navigator.pop(context);
             },
             child: Container(
               width: screenSize.width * .25,

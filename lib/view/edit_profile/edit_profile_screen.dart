@@ -323,20 +323,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     required UserModel userModel,
   }) {
     if (validate(isContractor)) {
+      profileBloc.add(
+        ProfileUpdateEvent(
+          isContractor: isContractor,
+          name: name,
+          phone: phone,
+          address: address,
+          businessName: businessName,
+          email: email,
+          contractor: contractor,
+        ),
+      );
       if (phone != userModel.phone) {
         profileBloc.add(ProfilePhoneUpdateEvent(phone: phone));
       }
-      // profileBloc.add(
-      //   ProfileUpdateEvent(
-      //     isContractor: isContractor,
-      //     name: name,
-      //     phone: phone,
-      //     address: address,
-      //     businessName: businessName,
-      //     email: email,
-      //     contractor: contractor,
-      //   ),
-      // );
     } else {
       showGenericDialog(
         context: context,

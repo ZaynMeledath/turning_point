@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
@@ -166,6 +165,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             userModel: userModelResponse.data!,
           ),
         );
+        await provider.signIn();
         await provider.sendPhoneVerification(phone: event.phone);
         emit(
           ProfileLoadedState(

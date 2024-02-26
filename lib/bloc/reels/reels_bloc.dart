@@ -17,32 +17,23 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
       final reelData =
           ReelsRepository.reelsModelResponse.data![event.reelIndex];
 
-      if (reelData.isLiked == true) {
-        return emit(
-          ReelsLoadedState(
-            userPoints: userModelResponse!.data!.points,
-            reelsModelList: ReelsRepository.reelsModelResponse.data,
-          ),
-        );
-      } else {
-        reelData.isLikeButtonActive = false;
-        emit(
-          ReelsLoadedState(
-            userPoints: userModelResponse!.data!.points,
-            reelsModelList: ReelsRepository.reelsModelResponse.data,
-          ),
-        );
-        await Future.delayed(
-            Duration(seconds: reelData.displayLikeAfter ?? 10));
-        ReelsRepository.reelsModelResponse.data![event.reelIndex]
-            .isLikeButtonActive = true;
-        return emit(
-          ReelsLoadedState(
-            userPoints: userModelResponse.data!.points,
-            reelsModelList: ReelsRepository.reelsModelResponse.data,
-          ),
-        );
-      }
+      reelData.isLikeButtonActive = false;
+
+      emit(
+        ReelsLoadedState(
+          userPoints: userModelResponse!.data!.points,
+          reelsModelList: ReelsRepository.reelsModelResponse.data,
+        ),
+      );
+      await Future.delayed(Duration(seconds: reelData.displayLikeAfter ?? 10));
+      ReelsRepository
+          .reelsModelResponse.data![event.reelIndex].isLikeButtonActive = true;
+      return emit(
+        ReelsLoadedState(
+          userPoints: userModelResponse.data!.points,
+          reelsModelList: ReelsRepository.reelsModelResponse.data,
+        ),
+      );
     });
 
     on<ReelLikeEvent>((event, emit) async {
