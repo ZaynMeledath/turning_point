@@ -6,7 +6,8 @@ Widget accountDetailsRow({
   required double spacing,
 }) {
   return Row(
-    crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisSize: MainAxisSize.min,
+    mainAxisAlignment: MainAxisAlignment.start,
     children: [
       Text(
         '$key :',

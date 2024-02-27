@@ -7,14 +7,17 @@ class RedeemRepository {
 //====================Redeem Method====================//
   Future<void> redeem({
     required int points,
-    required TransferType transferType,
+    required String transferType,
+    String? upiId,
   }) async {
     await ApiService().sendRequest(
       url: ApiEndpoints.redeemPoints,
       requestMethod: RequestMethod.POST,
       data: {
         'points': points,
-        'transferType': transferType,
+        'type': transferType,
+        if (transferType == TransferType.UPI)
+          'transferDetails': {'upiId': upiId}
       },
       isTokenRequired: true,
     );

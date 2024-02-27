@@ -4,41 +4,51 @@ Widget buyCouponsSegment({
   required BuildContext context,
 }) {
   // CouponCloseDialog? closeDialogHandle;
-  return BlocConsumer<RedeemBloc, RedeemState>(
-    listener: (context, state) {},
-    builder: (context, state) {
-      return Padding(
-        padding: EdgeInsets.symmetric(horizontal: screenSize.width * .061),
-        child: Column(
-          children: [
-            //====================Coupon Image====================//
-            Image.asset(
-              'assets/images/redeem_screen_gift_voucher.png',
-              width: screenSize.width * .9,
-            ),
-            SizedBox(height: screenSize.height * .035),
 
-            //====================Points Field where points can be changed using + and - buttons====================//
-            redeemPointsFieldSegment(),
-            SizedBox(height: screenSize.height * .025),
+  return Padding(
+    padding: EdgeInsets.symmetric(horizontal: screenSize.width * .061),
+    child: Column(
+      children: [
+        //====================Coupon Image====================//
+        Image.asset(
+          'assets/images/redeem_screen_gift_voucher.png',
+          width: screenSize.width * .9,
+        ),
+        SizedBox(height: screenSize.height * .035),
 
-            //====================Amount in Rupees Segment====================//
-            yourAmountSegment(),
-            SizedBox(height: screenSize.height * .02),
+        //====================Points Field where points can be changed using + and - buttons====================//
+        redeemPointsFieldSegment(),
+        SizedBox(height: screenSize.height * .025),
 
-            //====================Redeem Button====================//
-            GestureDetector(
+        //====================Amount in Rupees Segment====================//
+        yourAmountSegment(),
+        SizedBox(height: screenSize.height * .025),
+
+//====================Agree Terms Segment====================//
+        agreeTermsSegment(),
+        SizedBox(height: screenSize.height * .03),
+
+        //====================Redeem Button====================//
+        BlocBuilder<RedeemBloc, RedeemState>(
+          builder: (context, redeemState) {
+            final status = redeemState.isTermsAgreed &&
+                redeemState.redeemPoints <= pointsBloc.state.points!;
+            return GestureDetector(
               onTap: () {
-                redeemBloc.add(RedeemButtonPressedEvent());
+                if (status) {
+                  redeemBloc.add(RedeemButtonPressedEvent());
+                }
               },
               child: Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: screenSize.width * .1,
-                  vertical: screenSize.width * .021,
+                  vertical: screenSize.width * .03,
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: const Color.fromRGBO(0, 99, 255, 1),
+                  color: status
+                      ? const Color.fromRGBO(0, 99, 255, 1)
+                      : Colors.grey,
                 ),
                 child: Text(
                   'Redeem',
@@ -49,11 +59,11 @@ Widget buyCouponsSegment({
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: screenSize.height * .019),
-          ],
+            );
+          },
         ),
-      );
-    },
+        SizedBox(height: screenSize.height * .019),
+      ],
+    ),
   );
 }

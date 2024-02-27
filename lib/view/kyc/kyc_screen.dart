@@ -31,7 +31,7 @@ class _KycScreenState extends State<KycScreen>
   late final TextEditingController ifscController;
   late final TabController _tabController;
 
-  CloseDialog? _closeDialogHandle;
+  dynamic closeDialogHandle;
 
   @override
   void initState() {
@@ -68,14 +68,14 @@ class _KycScreenState extends State<KycScreen>
       body: SafeArea(
         child: BlocConsumer<KycBloc, KycState>(
           listener: (context, state) {
-            final closeDialog = _closeDialogHandle;
             if (state is KycLoadedState) {
-              if (state.isLoading && closeDialog == null) {
-                _closeDialogHandle = showLoadingDialog(context: context);
+              if (state.isLoading && closeDialogHandle == null) {
+                closeDialogHandle = showLoadingDialog(context: context);
               }
-            } else if (state is KycSubmittedState && closeDialog != null) {
-              closeDialog();
-              _closeDialogHandle = null;
+            } else if (state is KycSubmittedState &&
+                closeDialogHandle != null) {
+              Navigator.pop(context);
+              closeDialogHandle = null;
             }
           },
           builder: (context, state) {

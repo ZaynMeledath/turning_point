@@ -224,8 +224,11 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
                 isLoading: true,
               ),
             );
+
             final coupon =
                 await redeemRepo.generateCoupon(points: state.redeemPoints);
+
+            await Future.delayed(const Duration(seconds: 1));
 
             pointsBloc.add(PointsLoadEvent());
 
@@ -246,6 +249,18 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
                 redeemPoints: state.redeemPoints,
                 isTermsAgreed: state.isTermsAgreed,
                 isLoading: true,
+              ),
+            );
+            await redeemRepo.redeem(
+              points: state.redeemPoints,
+              transferType: TransferType.BANK,
+            );
+            return emit(
+              BankTransferState(
+                selectedOptionNumber: state.selectedOptionNumber,
+                redeemPoints: state.redeemPoints,
+                isTermsAgreed: state.isTermsAgreed,
+                isLoading: false,
               ),
             );
           case InAppPurchaseState():

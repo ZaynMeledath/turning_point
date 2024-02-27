@@ -22,24 +22,40 @@ Widget bankTransferSegment({required BuildContext context}) {
         SizedBox(height: screenSize.height * .02),
 
 //====================Submit Button====================//
-        Container(
-          width: screenSize.width * .369,
-          height: screenSize.width * .115,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(6),
-            color: const Color.fromRGBO(0, 99, 255, 1),
-          ),
-          child: Center(
-            child: Text(
-              'SUBMIT',
-              style: GoogleFonts.roboto(
-                fontSize: screenSize.width * .041,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
+        BlocBuilder<RedeemBloc, RedeemState>(
+          builder: (context, redeemState) {
+            final status = redeemState.isTermsAgreed &&
+                redeemState.redeemPoints <= pointsBloc.state.points!;
+            return GestureDetector(
+              onTap: () {
+                if (status) {
+                  redeemBloc.add(RedeemButtonPressedEvent());
+                }
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: screenSize.width * .1,
+                  vertical: screenSize.width * .03,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: status
+                      ? const Color.fromRGBO(0, 99, 255, 1)
+                      : Colors.grey,
+                ),
+                child: Text(
+                  'Submit',
+                  style: GoogleFonts.inter(
+                    fontSize: screenSize.width * .031,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                  ),
+                ),
               ),
-            ),
-          ),
+            );
+          },
         ),
+        SizedBox(height: screenSize.height * .019),
       ],
     ),
   );

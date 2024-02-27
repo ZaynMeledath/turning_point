@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/bloc/redeem/redeem_bloc.dart';
 import 'package:turning_point/dialog/custom_loading.dart';
 import 'package:turning_point/dialog/show_coupon_generate_dialog.dart';
+import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/model/user_model.dart';
@@ -30,7 +32,7 @@ class RedeemScreen extends StatefulWidget {
 }
 
 class _RedeemScreenState extends State<RedeemScreen> {
-  dynamic closeCouponDialog;
+  dynamic closeDialogHandle;
 
   @override
   void initState() {
@@ -80,14 +82,40 @@ class _RedeemScreenState extends State<RedeemScreen> {
 //====================Redeem Options Body Segment====================//
             BlocConsumer<RedeemBloc, RedeemState>(
               listener: (context, state) {
-                if (state is BuyCouponsState) {
-                  if (state.isLoading && closeCouponDialog == null) {
-                    closeCouponDialog =
-                        showCouponGenerateDialog(context: context);
-                  } else if (!state.isLoading && closeCouponDialog != null) {
-                    Navigator.pop(context);
-                    closeCouponDialog = null;
-                  }
+                switch (state) {
+                  case BuyCouponsState():
+                    if (state.isLoading && closeDialogHandle == null) {
+                      closeDialogHandle =
+                          showCouponGenerateDialog(context: context);
+                    } else if (!state.isLoading && closeDialogHandle != null) {
+                      Navigator.pop(context);
+                      closeDialogHandle = null;
+                    }
+                    break;
+                  case BankTransferState():
+                    if (state.isLoading && closeDialogHandle == null) {
+                      closeDialogHandle = showLoadingDialog(context: context);
+                    } else if (!state.isLoading && closeDialogHandle != null) {
+                      Navigator.pop(context);
+                      closeDialogHandle = null;
+                    }
+                    break;
+                  case InAppPurchaseState():
+                    if (state.isLoading && closeDialogHandle == null) {
+                      closeDialogHandle = showLoadingDialog(context: context);
+                    } else if (!state.isLoading && closeDialogHandle != null) {
+                      Navigator.pop(context);
+                      closeDialogHandle = null;
+                    }
+                    break;
+                  case UpiTransferState():
+                    if (state.isLoading && closeDialogHandle == null) {
+                      closeDialogHandle = showLoadingDialog(context: context);
+                    } else if (!state.isLoading && closeDialogHandle != null) {
+                      Navigator.pop(context);
+                      closeDialogHandle = null;
+                    }
+                    break;
                 }
               },
               builder: (context, state) {
@@ -102,7 +130,12 @@ class _RedeemScreenState extends State<RedeemScreen> {
                     return upiTransferSegment();
 
                   default:
-                    return spinningLinesLoading();
+                    return Column(
+                      children: [
+                        SizedBox(height: screenSize.height * .05),
+                        spinningLinesLoading(),
+                      ],
+                    );
                 }
               },
             ),

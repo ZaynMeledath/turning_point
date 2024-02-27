@@ -25,22 +25,29 @@ Widget accountDetailsSegment() {
             SizedBox(height: screenSize.height * .02),
 
             //====================Account Details====================//
-            accountDetailsRow(
-              key: 'Account Name',
-              value: bankDetails!.accountName!,
-              spacing: screenSize.width * .13,
-            ),
-            SizedBox(height: screenSize.height * .01),
-            accountDetailsRow(
-              key: 'Account Number',
-              value: bankDetails.accountNo!,
-              spacing: screenSize.width * .1,
-            ),
-            SizedBox(height: screenSize.height * .01),
-            accountDetailsRow(
-              key: 'IFSC Code',
-              value: bankDetails.ifsc!,
-              spacing: screenSize.width * .21,
+            SizedBox(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  accountDetailsRow(
+                    key: 'Account Name',
+                    value: bankDetails!.accountName ?? '',
+                    spacing: screenSize.width * .12,
+                  ),
+                  SizedBox(height: screenSize.height * .013),
+                  accountDetailsRow(
+                    key: 'Account Number',
+                    value: bankDetails.accountNo ?? '',
+                    spacing: screenSize.width * .08,
+                  ),
+                  SizedBox(height: screenSize.height * .013),
+                  accountDetailsRow(
+                    key: 'IFSC Code',
+                    value: bankDetails.ifsc ?? '',
+                    spacing: screenSize.width * .19,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
