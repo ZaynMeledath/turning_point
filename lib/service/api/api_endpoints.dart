@@ -18,4 +18,6 @@ class ApiEndpoints {
   static const getContests = '$baseUrl/contest/getContest';
   static const joinContest = '$baseUrl/contest/joinContest';
   static const applyCoupon = '$baseUrl/coupon/applyCoupon';
+  static const redeemPoints = '$baseUrl/points/redeem';
+  static const generateCoupon = '$baseUrl/coupon/generateCoupon';
 }

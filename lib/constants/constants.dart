@@ -10,6 +10,15 @@ final DEFAULT_CONTRACTOR = ContractorModel(
 final DEFAULT_CONTRACTOR_STRING =
     '${DEFAULT_CONTRACTOR.name} - ${DEFAULT_CONTRACTOR.businessName}';
 
+const DEFAULT_REDEEM_POINTS = 500;
+
+class TransferType {
+  static const BANK = 'BANK';
+  static const UPI = 'UPI';
+  static const CASH = 'CASH';
+  static const COUPON = 'COUPON';
+}
+
 class Role {
   static const CONTRACTOR = 'CONTRACTOR';
   static const CARPENTER = 'CARPENTER';

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/home/home_bloc.dart';
+import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/dialog/show_connect_dialog.dart';
 import 'package:turning_point/view/home/reels_screen.dart';
 import 'package:turning_point/view/lucky_draw/lucky_draw_screen.dart';
@@ -30,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    pointsBloc.add(PointsLoadEvent());
     return BlocConsumer<HomeBloc, HomeState>(
       listener: (context, state) async {
         if (state is ConnectState) {

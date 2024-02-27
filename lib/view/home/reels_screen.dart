@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
-import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
@@ -136,10 +136,10 @@ class _ReelsScreenState extends State<ReelsScreen> {
                                         width: screenSize.width * .06,
                                       ),
                                       const SizedBox(width: 1),
-                                      BlocBuilder<ReelsBloc, ReelsState>(
-                                        builder: (context, reelsState) {
+                                      BlocBuilder<PointsBloc, PointsState>(
+                                        builder: (context, pointsState) {
                                           return Text(
-                                            reelsState.userPoints.toString(),
+                                            pointsState.points.toString(),
                                             style: GoogleFonts.inter(
                                               fontSize: screenSize.width * .04,
                                               fontWeight: FontWeight.w700,

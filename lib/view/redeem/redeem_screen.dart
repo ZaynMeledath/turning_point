@@ -30,6 +30,8 @@ class RedeemScreen extends StatefulWidget {
 }
 
 class _RedeemScreenState extends State<RedeemScreen> {
+  dynamic closeCouponDialog;
+
   @override
   void initState() {
     super.initState();
@@ -76,7 +78,18 @@ class _RedeemScreenState extends State<RedeemScreen> {
             SizedBox(height: screenSize.height * .03),
 
 //====================Redeem Options Body Segment====================//
-            BlocBuilder<RedeemBloc, RedeemState>(
+            BlocConsumer<RedeemBloc, RedeemState>(
+              listener: (context, state) {
+                if (state is BuyCouponsState) {
+                  if (state.isLoading && closeCouponDialog == null) {
+                    closeCouponDialog =
+                        showCouponGenerateDialog(context: context);
+                  } else if (!state.isLoading && closeCouponDialog != null) {
+                    Navigator.pop(context);
+                    closeCouponDialog = null;
+                  }
+                }
+              },
               builder: (context, state) {
                 switch (state) {
                   case BuyCouponsState():

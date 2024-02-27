@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/model/reels_model.dart';
 import 'package:turning_point/resources/reels_repository.dart';
@@ -21,7 +22,6 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
 
       emit(
         ReelsLoadedState(
-          userPoints: userModelResponse!.data!.points,
           reelsModelList: ReelsRepository.reelsModelResponse.data,
         ),
       );
@@ -30,7 +30,6 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
           .reelsModelResponse.data![event.reelIndex].isLikeButtonActive = true;
       return emit(
         ReelsLoadedState(
-          userPoints: userModelResponse.data!.points,
           reelsModelList: ReelsRepository.reelsModelResponse.data,
         ),
       );
@@ -49,9 +48,9 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
 
         UserRepository.addUserToPreference(userModelResponse);
 
+        pointsBloc.add(PointsLoadEvent());
         emit(
           ReelsLoadedState(
-            userPoints: userModelResponse.data!.points,
             reelsModelList: ReelsRepository.reelsModelResponse.data,
           ),
         );
