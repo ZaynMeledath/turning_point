@@ -155,7 +155,9 @@ Widget contestCardInnerContainer({
                                     true) {
                                   joinContestBloc.add(
                                     JoinContestEvent(
-                                      state.contestModelList![index],
+                                      contestModel:
+                                          state.contestModelList![index],
+                                      contestIndex: index,
                                     ),
                                   );
                                 }

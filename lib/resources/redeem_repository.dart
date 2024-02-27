@@ -10,17 +10,27 @@ class RedeemRepository {
     required String transferType,
     String? upiId,
   }) async {
-    await ApiService().sendRequest(
-      url: ApiEndpoints.redeemPoints,
-      requestMethod: RequestMethod.POST,
-      data: {
-        'points': points,
-        'type': transferType,
-        if (transferType == TransferType.UPI)
-          'transferDetails': {'upiId': upiId}
-      },
-      isTokenRequired: true,
-    );
+    try {
+      final userModel = UserRepository.getUserFromPreference()!.data!;
+      await ApiService().sendRequest(
+        url: ApiEndpoints.redeemPoints,
+        requestMethod: RequestMethod.POST,
+        data: {
+          'points': points,
+          'type': transferType,
+          'transferDetails': {
+            'accountName': userModel.bankDetails![0].accountName,
+            'accountNo': userModel.bankDetails![0].accountNo,
+            'ifsc': userModel.bankDetails![0].ifsc,
+            'banktype': userModel.bankDetails![0].banktype,
+            if (transferType == TransferType.UPI) 'upiId': upiId,
+          },
+        },
+        isTokenRequired: true,
+      );
+    } catch (e) {
+      rethrow;
+    }
   }
 
 //====================Generate Coupon Method====================//

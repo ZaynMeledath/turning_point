@@ -32,19 +32,19 @@ Widget accountDetailsSegment() {
                   accountDetailsRow(
                     key: 'Account Name',
                     value: bankDetails!.accountName ?? '',
-                    spacing: screenSize.width * .12,
+                    spacing: screenSize.width * .1,
                   ),
                   SizedBox(height: screenSize.height * .013),
                   accountDetailsRow(
                     key: 'Account Number',
                     value: bankDetails.accountNo ?? '',
-                    spacing: screenSize.width * .08,
+                    spacing: screenSize.width * .06,
                   ),
                   SizedBox(height: screenSize.height * .013),
                   accountDetailsRow(
                     key: 'IFSC Code',
                     value: bankDetails.ifsc ?? '',
-                    spacing: screenSize.width * .19,
+                    spacing: screenSize.width * .17,
                   ),
                 ],
               ),

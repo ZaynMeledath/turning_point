@@ -1,6 +1,6 @@
 part of '../redeem_screen.dart';
 
-Widget upiTransferSegment() {
+Widget upiTransferSegment({required TextEditingController upiController}) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: screenSize.width * .061),
     child: Column(
@@ -28,32 +28,64 @@ Widget upiTransferSegment() {
 
 //====================UPI TextField====================//
         Container(
-          width: double.infinity,
-          height: screenSize.width * .1,
-          padding: EdgeInsets.symmetric(horizontal: screenSize.width * .041),
-          decoration: BoxDecoration(
-            color: const Color.fromRGBO(246, 246, 246, 1),
-            borderRadius: BorderRadius.circular(6),
-            boxShadow: const [
-              BoxShadow(
-                offset: Offset(-.5, .5),
-                blurRadius: 1.5,
-                color: Color.fromRGBO(0, 0, 0, .25),
+            width: double.infinity,
+            height: screenSize.width * .1,
+            padding: EdgeInsets.symmetric(horizontal: screenSize.width * .041),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(6),
+              boxShadow: const [
+                BoxShadow(
+                  offset: Offset(-1.5, 1.5),
+                  blurRadius: 1,
+                  color: Color.fromRGBO(0, 0, 0, .25),
+                ),
+                BoxShadow(
+                  offset: Offset(1.5, -.5),
+                  blurRadius: 1,
+                  color: Color.fromRGBO(0, 0, 0, .25),
+                ),
+              ],
+            ),
+            child: Center(
+              child: TextFormField(
+                controller: upiController,
+                style: GoogleFonts.inter(
+                  fontSize: screenSize.width * .031,
+                ),
+                decoration: InputDecoration(
+                  hintText: 'UPI ID',
+                  hintStyle: GoogleFonts.inter(
+                    fontSize: screenSize.width * .031,
+                  ),
+                  border: InputBorder.none,
+                ),
               ),
-            ],
-          ),
-        ),
+            )),
         SizedBox(height: screenSize.height * .04),
 
 //====================Submit Button====================//
         BlocBuilder<RedeemBloc, RedeemState>(
           builder: (context, redeemState) {
             final status = redeemState.isTermsAgreed &&
-                redeemState.redeemPoints <= pointsBloc.state.points!;
+                redeemState.redeemPoints <= pointsBloc.state.points! &&
+                upiController.text.isNotEmpty;
             return GestureDetector(
               onTap: () {
                 if (status) {
-                  redeemBloc.add(RedeemButtonPressedEvent());
+                  if (profileBloc.state.userModel!.bankDetails != null &&
+                      profileBloc.state.userModel!.bankDetails!.isNotEmpty) {
+                    redeemBloc.add(
+                        RedeemButtonPressedEvent(upiId: upiController.text));
+                  } else {
+                    showAnimatedGenericDialog(
+                      context: context,
+                      iconPath: 'assets/icons/kyc_declined_icon.png',
+                      title: 'KYC Not Updated',
+                      content: 'Please update your KYC to avail the feature',
+                      buttonTitle: 'OK',
+                    );
+                  }
                 }
               },
               child: Container(

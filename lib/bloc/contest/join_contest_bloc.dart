@@ -20,10 +20,13 @@ class JoinContestBloc extends Bloc<JoinContestEvent, JoinContestState> {
           await ContestRepository.joinContest(event.contestModel.id!);
           userModelResponse.data!.points =
               userModelResponse.data!.points! - event.contestModel.points!;
+
+          contestBloc.state.contestModelList![event.contestIndex]
+              .userJoinStatus = true;
           // reelsBloc.state.userPoints = userModelResponse.data!.points!;
           UserRepository.addUserToPreference(userModelResponse);
           pointsBloc.add(PointsLoadEvent());
-          contestBloc.add(ContestLoadEvent());
+          // contestBloc.add(ContestLoadEvent());
 
           emit(ContestJoinedState(event.contestModel));
         } else {

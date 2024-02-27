@@ -281,6 +281,12 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
                 isLoading: true,
               ),
             );
+
+            await redeemRepo.redeem(
+              points: state.redeemPoints,
+              transferType: TransferType.UPI,
+              upiId: event.upiId,
+            );
         }
       } catch (e) {
         throw Exception(e);

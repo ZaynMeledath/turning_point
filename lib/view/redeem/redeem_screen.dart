@@ -5,6 +5,7 @@ import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/bloc/redeem/redeem_bloc.dart';
 import 'package:turning_point/dialog/custom_loading.dart';
+import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/dialog/show_coupon_generate_dialog.dart';
 import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
@@ -33,14 +34,17 @@ class RedeemScreen extends StatefulWidget {
 
 class _RedeemScreenState extends State<RedeemScreen> {
   dynamic closeDialogHandle;
+  late final TextEditingController upiController;
 
   @override
   void initState() {
+    upiController = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
+    upiController.dispose();
     super.dispose();
   }
 
@@ -127,7 +131,7 @@ class _RedeemScreenState extends State<RedeemScreen> {
                     return bankTransferSegment(context: context);
 
                   case UpiTransferState():
-                    return upiTransferSegment();
+                    return upiTransferSegment(upiController: upiController);
 
                   default:
                     return Column(
