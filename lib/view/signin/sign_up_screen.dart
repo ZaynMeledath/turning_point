@@ -76,13 +76,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: BlocBuilder<ContractorBloc, ContractorState>(
             builder: (context, contractorState) {
               switch (contractorState) {
+                // case ContractorLoadingState():
+                //   return const Center(
+                //     child: CircularProgressIndicator.adaptive(
+                //       strokeWidth: 5,
+                //     ),
+                //   );
                 case ContractorLoadingState():
-                  return const Center(
-                    child: CircularProgressIndicator.adaptive(
-                      strokeWidth: 5,
-                    ),
-                  );
-
                 case ContractorLoadedState():
                   return SingleChildScrollView(
                     reverse: true,
@@ -133,17 +133,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           //====================TextField Segment====================//
                           SizedBox(height: screenSize.height * .028),
                           signUpTextField(
-                              controller: phoneController,
-                              title: 'Mobile Number',
-                              isNumber: true,
-                              iconPath: 'assets/icons/sign_up_phone_icon.png'),
+                            controller: phoneController,
+                            title: 'Mobile Number',
+                            isNumber: true,
+                            icon: Icons.phone,
+                          ),
                           SizedBox(height: screenSize.height * .03),
                           isContractor
                               ? signUpTextField(
                                   controller: businessController,
                                   title: 'Business Name',
-                                  iconPath:
-                                      'assets/icons/sign_up_phone_icon.png')
+                                  icon: Icons.business,
+                                )
                               : contractorDropDownContainer(
                                   searchController: searchController),
                           Visibility(

@@ -3,33 +3,39 @@ part of '../sign_up_screen.dart';
 Widget signUpTextField({
   required TextEditingController controller,
   required String title,
-  required String iconPath,
+  required IconData icon,
   bool? isNumber,
 }) {
-  return Center(
+  return SizedBox(
+    height: screenSize.height * .06,
     child: TextFormField(
       style: GoogleFonts.roboto(
-        fontSize: screenSize.width * .036,
+        fontSize: screenSize.width * .035,
       ),
       controller: controller,
       keyboardType: isNumber == true ? TextInputType.number : null,
       decoration: InputDecoration(
+        prefixIcon: Icon(icon),
         labelText: title,
         labelStyle: GoogleFonts.poppins(
           fontSize: screenSize.width * .035,
         ),
         floatingLabelStyle: GoogleFonts.poppins(
           fontSize: screenSize.width * .035,
-          color: const Color.fromRGBO(52, 110, 241, 1),
+          // color: const Color.fromRGBO(52, 110, 241, 1),
+          color: Colors.black.withOpacity(.7),
         ),
-        enabledBorder: UnderlineInputBorder(
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
-            color: Colors.black.withOpacity(.2),
+            color: Colors.black.withOpacity(.3),
           ),
         ),
-        focusedBorder: const UnderlineInputBorder(
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
-            color: Color.fromRGBO(52, 110, 241, 1),
+            // color: Color.fromRGBO(52, 110, 241, 1),
+            color: Colors.black.withOpacity(.7),
           ),
         ),
         focusedErrorBorder: const UnderlineInputBorder(

@@ -205,12 +205,12 @@ class _KycScreenState extends State<KycScreen>
                               ),
                             ),
 
-                            SizedBox(height: screenSize.height * .035),
+                            SizedBox(height: screenSize.height * .03),
 
                             //====================TabBarView Segment====================//
                             SizedBox(
                               width: double.infinity,
-                              height: screenSize.height * .4,
+                              height: screenSize.height * .385,
                               child: TabBarView(
                                 physics: const NeverScrollableScrollPhysics(),
                                 controller: _tabController,

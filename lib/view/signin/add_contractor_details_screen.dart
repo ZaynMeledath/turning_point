@@ -113,14 +113,16 @@ class _AddContractorDetailsScreenState
                   //====================TextField Segment====================//
                   SizedBox(height: screenSize.height * .028),
                   signUpTextField(
-                      controller: contractorNameController,
-                      title: 'Contractor Name',
-                      iconPath: 'assets/icons/sign_up_phone_icon.png'),
+                    controller: contractorNameController,
+                    title: 'Contractor Name',
+                    icon: Icons.person,
+                  ),
                   SizedBox(height: screenSize.height * .03),
                   signUpTextField(
-                      controller: contractorPhoneController,
-                      title: 'Contractor Mobile Number',
-                      iconPath: 'assets/icons/sign_up_phone_icon.png'),
+                    controller: contractorPhoneController,
+                    title: 'Contractor Mobile Number',
+                    icon: Icons.phone,
+                  ),
 
                   SizedBox(height: screenSize.height * .05),
 
