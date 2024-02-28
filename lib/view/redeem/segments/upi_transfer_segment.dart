@@ -62,7 +62,12 @@ Widget upiTransferSegment({required TextEditingController upiController}) {
                 ),
               ),
             )),
-        SizedBox(height: screenSize.height * .04),
+        SizedBox(height: screenSize.height * .03),
+
+//====================Agree Terms Segment====================//
+        agreeTermsSegment(),
+
+        SizedBox(height: screenSize.height * .035),
 
 //====================Submit Button====================//
         BlocBuilder<RedeemBloc, RedeemState>(

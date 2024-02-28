@@ -4,11 +4,9 @@ import 'package:turning_point/service/api/api_endpoints.dart';
 import 'package:turning_point/service/api/api_service.dart';
 
 class RedeemRepository {
-//====================Redeem Method====================//
-  Future<void> redeem({
+//====================Redeem Bank Method====================//
+  Future<void> redeemBank({
     required int points,
-    required String transferType,
-    String? upiId,
   }) async {
     try {
       final userModel = UserRepository.getUserFromPreference()!.data!;
@@ -17,13 +15,35 @@ class RedeemRepository {
         requestMethod: RequestMethod.POST,
         data: {
           'points': points,
-          'type': transferType,
+          'type': TransferType.BANK,
           'transferDetails': {
             'accountName': userModel.bankDetails![0].accountName,
             'accountNo': userModel.bankDetails![0].accountNo,
             'ifsc': userModel.bankDetails![0].ifsc,
             'banktype': userModel.bankDetails![0].banktype,
-            if (transferType == TransferType.UPI) 'upiId': upiId,
+          },
+        },
+        isTokenRequired: true,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+//====================Redeem UPI Method====================//
+  Future<void> redeemUpi({
+    required int points,
+    required String upiId,
+  }) async {
+    try {
+      await ApiService().sendRequest(
+        url: ApiEndpoints.redeemPoints,
+        requestMethod: RequestMethod.POST,
+        data: {
+          'points': points,
+          'type': TransferType.UPI,
+          'transferDetails': {
+            'upiId': upiId,
           },
         },
         isTokenRequired: true,

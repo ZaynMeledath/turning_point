@@ -251,9 +251,8 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
                 isLoading: true,
               ),
             );
-            await redeemRepo.redeem(
+            await redeemRepo.redeemBank(
               points: state.redeemPoints,
-              transferType: TransferType.BANK,
             );
             return emit(
               BankTransferState(
@@ -282,10 +281,17 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
               ),
             );
 
-            await redeemRepo.redeem(
+            await redeemRepo.redeemUpi(
               points: state.redeemPoints,
-              transferType: TransferType.UPI,
-              upiId: event.upiId,
+              upiId: event.upiId!,
+            );
+            emit(
+              UpiTransferState(
+                selectedOptionNumber: state.selectedOptionNumber,
+                redeemPoints: state.redeemPoints,
+                isTermsAgreed: state.isTermsAgreed,
+                isLoading: false,
+              ),
             );
         }
       } catch (e) {
