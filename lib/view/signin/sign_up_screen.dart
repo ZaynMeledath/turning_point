@@ -10,6 +10,7 @@ import 'package:turning_point/dialog/show_generic_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
+import 'package:turning_point/view/signin/add_contractor_details_screen.dart';
 import 'package:turning_point/view/signin/otp_verfication_screen.dart';
 
 part 'segments/sign_up_text_field.dart';
@@ -32,23 +33,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
   int activeRadioNumber = 1;
   String? selectedValue;
 
-  late final TextEditingController mobileController;
+  late final TextEditingController phoneController;
   late final TextEditingController businessController;
   late final TextEditingController searchController;
+  late final TextEditingController otpController;
 
   @override
   void initState() {
     isContractor = widget.isContractor;
     contractorBloc.add(ContractorLoadEvent());
-    mobileController = TextEditingController();
+    phoneController = TextEditingController();
     businessController = TextEditingController();
     searchController = TextEditingController();
+    otpController = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
-    mobileController.dispose();
+    phoneController.dispose();
     businessController.dispose();
     searchController.dispose();
     super.dispose();
@@ -64,7 +67,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           Navigator.pop(context);
           CustomNavigator.push(
             context: context,
-            child: const OtpVerificationScreen(),
+            child: OtpVerificationScreen(otpController: otpController),
           );
         }
       },
@@ -130,7 +133,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           //====================TextField Segment====================//
                           SizedBox(height: screenSize.height * .028),
                           signUpTextField(
-                              controller: mobileController,
+                              controller: phoneController,
                               title: 'Mobile Number',
                               isNumber: true,
                               iconPath: 'assets/icons/sign_up_phone_icon.png'),
@@ -186,7 +189,46 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           GestureDetector(
                             onTap: () {
                               final status = validate();
-                              if (!status) {
+                              if (status) {
+                                if (contractorState.contractorNotListed ==
+                                    true) {
+                                  CustomNavigator.push(
+                                    context: context,
+                                    child: AddContractorDetailsScreen(
+                                      phone: phoneController.text.trim(),
+                                      otpController: otpController,
+                                    ),
+                                  );
+                                  return;
+                                }
+                                if (widget.isContractor) {
+                                  authBloc.add(
+                                    SignUpEvent(
+                                      phone: phoneController.text,
+                                      contractor: null,
+                                      businessName:
+                                          businessController.text.trim(),
+                                      otpController: otpController,
+                                    ),
+                                  );
+                                } else {
+                                  authBloc.add(
+                                    SignUpEvent(
+                                      phone: phoneController.text,
+                                      contractor: contractorBloc.state
+                                                      .contractorNotListed !=
+                                                  true &&
+                                              contractorBloc
+                                                      .state.haveNoContractor !=
+                                                  true
+                                          ? contractorBloc.state.contractor
+                                          : DEFAULT_CONTRACTOR,
+                                      businessName: null,
+                                      otpController: otpController,
+                                    ),
+                                  );
+                                }
+                              } else {
                                 showGenericDialog(
                                   context: context,
                                   title: 'Fill All Details',
@@ -246,35 +288,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   bool validate() {
     if (widget.isContractor) {
-      if (mobileController.text.isNotEmpty &&
+      if (phoneController.text.isNotEmpty &&
           businessController.text.isNotEmpty &&
-          mobileController.text.length > 9 &&
+          phoneController.text.length > 9 &&
           businessController.text.length > 1) {
-        authBloc.add(
-          SignUpEvent(
-            phone: mobileController.text,
-            contractor: null,
-            businessName: businessController.text.trim(),
-          ),
-        );
         return true;
       } else {
         return false;
       }
     } else {
-      if (contractorBloc.state.selectedContractor != null &&
-          mobileController.text.isNotEmpty &&
-          mobileController.text.length > 9) {
-        authBloc.add(
-          SignUpEvent(
-            phone: mobileController.text,
-            contractor: contractorBloc.state.contractorNotListed != true &&
-                    contractorBloc.state.haveNoContractor != true
-                ? contractorBloc.state.contractor
-                : DEFAULT_CONTRACTOR,
-            businessName: null,
-          ),
-        );
+      if ((contractorBloc.state.contractorNotListed == true ||
+              contractorBloc.state.selectedContractor != null) &&
+          phoneController.text.isNotEmpty &&
+          phoneController.text.length > 9) {
         return true;
       } else {
         return false;

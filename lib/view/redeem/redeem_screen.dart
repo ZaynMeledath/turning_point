@@ -13,6 +13,7 @@ import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/view/redeem/segments/available_points_container.dart';
+import 'package:turning_point/view/redeem/segments/coupon_code_container.dart';
 import 'package:turning_point/view/redeem/segments/redeem_options_segment.dart';
 
 part 'segments/buy_coupons_segment.dart';
@@ -97,22 +98,25 @@ class _RedeemScreenState extends State<RedeemScreen> {
                     }
                     break;
                   case BankTransferState():
-                    if (state.isLoading && closeDialogHandle == null) {
-                      closeDialogHandle = showLoadingDialog(context: context);
-                    } else if (!state.isLoading && closeDialogHandle != null) {
-                      Navigator.pop(context);
-                      closeDialogHandle = null;
-                    }
-                    break;
-                  case InAppPurchaseState():
-                    if (state.isLoading && closeDialogHandle == null) {
-                      closeDialogHandle = showLoadingDialog(context: context);
-                    } else if (!state.isLoading && closeDialogHandle != null) {
-                      Navigator.pop(context);
-                      closeDialogHandle = null;
-                    }
-                    break;
                   case UpiTransferState():
+                    if (state.isLoading && closeDialogHandle == null) {
+                      closeDialogHandle = showLoadingDialog(context: context);
+                    } else if (!state.isLoading && closeDialogHandle != null) {
+                      Navigator.pop(context);
+                      closeDialogHandle = null;
+                      showAnimatedGenericDialog(
+                        context: context,
+                        iconPath:
+                            'assets/images/points_received_dialog_image.png',
+                        title: 'Success',
+                        content:
+                            'Your Request for Point Redemption has been submitted successfully.',
+                        buttonTitle: 'OK',
+                      );
+                    }
+                    break;
+
+                  case InAppPurchaseState():
                     if (state.isLoading && closeDialogHandle == null) {
                       closeDialogHandle = showLoadingDialog(context: context);
                     } else if (!state.isLoading && closeDialogHandle != null) {

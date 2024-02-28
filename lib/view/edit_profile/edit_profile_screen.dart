@@ -36,6 +36,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   late final TextEditingController _addressController;
   late final TextEditingController _businessController;
   late final TextEditingController _searchController;
+  late final TextEditingController otpController;
 
   // CloseDialog? _closeDialogHandle;
 
@@ -52,6 +53,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _addressController = TextEditingController();
     _businessController = TextEditingController();
     _searchController = TextEditingController();
+    otpController = TextEditingController();
 
     // _nameNode = FocusNode();
     // _mobileNode = FocusNode();
@@ -68,6 +70,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _addressController.dispose();
     _businessController.dispose();
     _searchController.dispose();
+    otpController.dispose();
     // loadingOverlay.dispose();
 
     // _nameNode.dispose();
@@ -102,6 +105,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               showAnimatedOtpDialog(
                 context: context,
                 phone: _phoneController.text,
+                otpController: otpController,
               );
             }
           },
@@ -267,9 +271,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             updateProfile(
                               context: context,
                               isContractor: state.isContractor,
-                              name: _nameController.text.trim(),
-                              phone: _phoneController.text.trim(),
-                              address: _addressController.text.trim(),
                               businessName: state.isContractor
                                   ? _businessController.text.trim()
                                   : null,
@@ -314,9 +315,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void updateProfile({
     required BuildContext context,
     required bool isContractor,
-    required String name,
-    required String phone,
-    required String address,
     required String? businessName,
     required String email,
     required ContractorModel? contractor,
@@ -326,16 +324,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       profileBloc.add(
         ProfileUpdateEvent(
           isContractor: isContractor,
-          name: name,
-          phone: phone,
-          address: address,
+          name: _nameController.text.trim(),
+          phone: _phoneController.text.trim(),
+          address: _addressController.text.trim(),
           businessName: businessName,
           email: email,
           contractor: contractor,
         ),
       );
-      if (phone != userModel.phone) {
-        profileBloc.add(ProfilePhoneUpdateEvent(phone: phone));
+      if (_phoneController.text.trim() != userModel.phone) {
+        profileBloc.add(ProfilePhoneUpdateEvent(
+          phone: _phoneController.text.trim(),
+          otpController: otpController,
+        ));
       }
     } else {
       showGenericDialog(

@@ -66,6 +66,7 @@ class UserRepository {
             "contractor": {
               "name": contractor.name,
               "businessName": contractor.businessName,
+              "phone": contractor.phone,
             },
           "idToken": token,
         },

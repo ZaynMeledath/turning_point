@@ -8,8 +8,8 @@ Future<Object?> showAnimatedGenericDialog({
   required String title,
   required String content,
   required String buttonTitle,
-  Size? iconWidth,
-  Size? containerSize,
+  double? iconWidth,
+  // Size? containerSize,
 }) async {
   return showGeneralDialog(
     context: context,
@@ -27,6 +27,7 @@ Future<Object?> showAnimatedGenericDialog({
           title: title,
           content: content,
           buttonTitle: buttonTitle,
+          iconWidth: iconWidth,
         ),
       );
     },
@@ -39,7 +40,7 @@ Widget dialog({
   required String title,
   required String content,
   required String buttonTitle,
-  Size? iconWidth,
+  double? iconWidth,
 }) {
   return Container(
     margin: EdgeInsets.symmetric(
@@ -56,7 +57,7 @@ Widget dialog({
         SizedBox(height: screenSize.height * .025),
         Image.asset(
           iconPath,
-          width: screenSize.width * .15,
+          width: iconWidth ?? screenSize.width * .15,
         ),
         SizedBox(height: screenSize.height * .018),
         DefaultTextStyle(

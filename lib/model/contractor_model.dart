@@ -30,8 +30,13 @@ class ContractorModelResponse {
 class ContractorModel {
   String? name;
   String? businessName;
+  String? phone;
 
-  ContractorModel({this.name, this.businessName});
+  ContractorModel({
+    this.name,
+    this.businessName,
+    this.phone,
+  });
 
   ContractorModel.fromJson(Map<String, dynamic> json) {
     name = json['name'];

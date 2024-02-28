@@ -20,7 +20,7 @@ Widget contractorDropDownContainer({
               boxShadow: [
                 color == null
                     ? const BoxShadow(
-                        offset: Offset(-.5, .5),
+                        offset: Offset(-1.5, 1.5),
                         blurRadius: 1,
                         color: Color.fromRGBO(214, 214, 214, 1),
                         blurStyle: BlurStyle.normal,
@@ -36,7 +36,10 @@ Widget contractorDropDownContainer({
                       width: .8,
                       color: Colors.black.withOpacity(.3),
                     )
-                  : null,
+                  : Border.all(
+                      width: .3,
+                      color: Colors.black.withOpacity(.3),
+                    ),
             ),
 
             //====================Drop Down Button and decoration====================//
@@ -67,15 +70,16 @@ Widget contractorDropDownContainer({
                       .add(ContractorSelectedEvent(value));
                 },
                 customButton: Container(
-                  width: screenSize.width * .6,
+                  width: screenSize.width,
                   decoration: BoxDecoration(
-                    color: color ?? const Color.fromRGBO(246, 246, 246, 1),
-                    // color: Colors.white,
+                    // color: color ?? const Color.fromRGBO(246, 246, 246, 1),
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
                     children: [
-                      Padding(
+                      Container(
+                        width: screenSize.width * .75,
                         padding: EdgeInsets.only(left: screenSize.width * .028),
                         child: Text(
                           contractorState.haveNoContractor == true

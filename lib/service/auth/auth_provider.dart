@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 abstract class CustomAuthProvider {
   Future<void> initialize();
@@ -8,7 +9,10 @@ abstract class CustomAuthProvider {
 
   Future<void> signOut();
 
-  Future<void> sendPhoneVerification({required String phone});
+  Future<void> sendPhoneVerification({
+    required String phone,
+    required TextEditingController otpController,
+  });
 
   Future<String?> verifyOtp({
     required String verificationId,

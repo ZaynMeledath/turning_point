@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:flutter/foundation.dart' show immutable;
+import 'package:flutter/material.dart' show TextEditingController, immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/bloc/reels/reels_bloc.dart';
@@ -167,10 +167,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           ),
         );
         await provider.signIn();
-        await provider.sendPhoneVerification(phone: event.phone);
+        await provider.sendPhoneVerification(
+          phone: event.phone,
+          otpController: event.otpController,
+        );
         emit(
           ProfileLoadedState(
-            isLoading: true,
+            isLoading: false,
             isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
             userModel: userModelResponse.data!,
             verifyOtp: true,

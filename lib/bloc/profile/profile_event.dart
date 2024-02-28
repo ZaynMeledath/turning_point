@@ -37,7 +37,11 @@ class ProfileEmailUpdateEvent extends ProfileEvent {}
 
 class ProfilePhoneUpdateEvent extends ProfileEvent {
   final String phone;
-  ProfilePhoneUpdateEvent({required this.phone});
+  final TextEditingController otpController;
+  ProfilePhoneUpdateEvent({
+    required this.phone,
+    required this.otpController,
+  });
 }
 
 class ProfileVerifyOtpEvent extends ProfileEvent {

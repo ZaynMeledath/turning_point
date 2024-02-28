@@ -6,11 +6,18 @@ import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/dialog/show_custom_loading_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/model/contractor_model.dart';
 import 'package:turning_point/view/signin/otp_verfication_screen.dart';
 import 'package:turning_point/view/signin/sign_up_screen.dart';
 
 class AddContractorDetailsScreen extends StatefulWidget {
-  const AddContractorDetailsScreen({super.key});
+  final String phone;
+  final TextEditingController otpController;
+  const AddContractorDetailsScreen({
+    required this.phone,
+    required this.otpController,
+    super.key,
+  });
 
   @override
   State<AddContractorDetailsScreen> createState() =>
@@ -19,21 +26,22 @@ class AddContractorDetailsScreen extends StatefulWidget {
 
 class _AddContractorDetailsScreenState
     extends State<AddContractorDetailsScreen> {
-  late final TextEditingController mobileController;
-  late final TextEditingController nameController;
+  late final TextEditingController contractorPhoneController;
+  late final TextEditingController contractorNameController;
+  final GlobalKey<FormState> _formKey = GlobalKey();
 
   @override
   void initState() {
     contractorBloc.add(ContractorLoadEvent());
-    mobileController = TextEditingController();
-    nameController = TextEditingController();
+    contractorPhoneController = TextEditingController();
+    contractorNameController = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
-    mobileController.dispose();
-    nameController.dispose();
+    contractorPhoneController.dispose();
+    contractorNameController.dispose();
     super.dispose();
   }
 
@@ -47,7 +55,9 @@ class _AddContractorDetailsScreenState
           Navigator.pop(context);
           CustomNavigator.push(
             context: context,
-            child: const OtpVerificationScreen(),
+            child: OtpVerificationScreen(
+              otpController: widget.otpController,
+            ),
           );
         }
       },
@@ -57,102 +67,119 @@ class _AddContractorDetailsScreenState
           reverse: true,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: screenSize.width * .05),
-            child: Column(
-              children: [
-                SizedBox(height: screenSize.height * .13),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  SizedBox(height: screenSize.height * .13),
 
-                //====================Furnipart Logo====================//
-                Hero(
-                  tag: 'furnipart_logo',
-                  child: Image.asset(
-                    'assets/images/furnipart_logo.png',
-                    width: screenSize.width * .32,
-                    height: screenSize.height * .086,
-                  ),
-                ),
-                SizedBox(height: screenSize.height * .045),
-
-                //====================Title====================//
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Sign up to start\nEarning...',
-                    style: GoogleFonts.roboto(
-                      fontSize: screenSize.width * .084,
-                      fontWeight: FontWeight.w700,
-                      height: 1.25,
+                  //====================Furnipart Logo====================//
+                  Hero(
+                    tag: 'furnipart_logo',
+                    child: Image.asset(
+                      'assets/images/furnipart_logo.png',
+                      width: screenSize.width * .32,
+                      height: screenSize.height * .086,
                     ),
                   ),
-                ),
-                SizedBox(height: screenSize.height * .015),
+                  SizedBox(height: screenSize.height * .045),
 
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Join Our Community by Creating\nYour Personalized Account.',
-                    style: GoogleFonts.inter(
-                      fontSize: screenSize.width * .036,
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromRGBO(135, 135, 135, 1),
-                    ),
-                  ),
-                ),
-
-                //====================TextField Segment====================//
-                SizedBox(height: screenSize.height * .028),
-                signUpTextField(
-                    controller: nameController,
-                    title: 'Contractor Name',
-                    iconPath: 'assets/icons/sign_up_phone_icon.png'),
-                SizedBox(height: screenSize.height * .03),
-                signUpTextField(
-                    controller: nameController,
-                    title: 'Contractor Mobile Number',
-                    iconPath: 'assets/icons/sign_up_phone_icon.png'),
-
-                SizedBox(height: screenSize.height * .05),
-
-                //====================Sign Up Button====================//
-
-                GestureDetector(
-                  onTap: () {},
-                  child: Hero(
-                    tag: 'sign_in_sign_up_container',
-                    child: Container(
-                      width: double.infinity,
-                      height: screenSize.width * .13,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: const Color.fromRGBO(52, 110, 241, 1),
-                        boxShadow: const [
-                          BoxShadow(
-                            offset: Offset(0, 1),
-                            blurRadius: 1,
-                            color: Color.fromRGBO(0, 0, 0, .17),
-                          ),
-                          BoxShadow(
-                            offset: Offset(0, 0),
-                            blurRadius: 1,
-                            color: Color.fromRGBO(0, 0, 0, .08),
-                          ),
-                        ],
+                  //====================Title====================//
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Sign up to start\nEarning...',
+                      style: GoogleFonts.roboto(
+                        fontSize: screenSize.width * .084,
+                        fontWeight: FontWeight.w700,
+                        height: 1.25,
                       ),
-                      child: Center(
-                        child: Text(
-                          'Proceed',
-                          style: GoogleFonts.roboto(
-                            fontSize: screenSize.width * .036,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: screenSize.height * .015),
+
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Join Our Community by Creating\nYour Personalized Account.',
+                      style: GoogleFonts.inter(
+                        fontSize: screenSize.width * .036,
+                        fontWeight: FontWeight.w500,
+                        color: const Color.fromRGBO(135, 135, 135, 1),
+                      ),
+                    ),
+                  ),
+
+                  //====================TextField Segment====================//
+                  SizedBox(height: screenSize.height * .028),
+                  signUpTextField(
+                      controller: contractorNameController,
+                      title: 'Contractor Name',
+                      iconPath: 'assets/icons/sign_up_phone_icon.png'),
+                  SizedBox(height: screenSize.height * .03),
+                  signUpTextField(
+                      controller: contractorPhoneController,
+                      title: 'Contractor Mobile Number',
+                      iconPath: 'assets/icons/sign_up_phone_icon.png'),
+
+                  SizedBox(height: screenSize.height * .05),
+
+                  //====================Sign Up Button====================//
+
+                  GestureDetector(
+                    onTap: () {
+                      if (_formKey.currentState!.validate()) {
+                        authBloc.add(
+                          SignUpEvent(
+                            phone: widget.phone,
+                            contractor: ContractorModel(
+                              name: contractorNameController.text.trim(),
+                              phone: contractorPhoneController.text.trim(),
+                            ),
+                            businessName: null,
+                            otpController: widget.otpController,
+                          ),
+                        );
+                      }
+                    },
+                    child: Hero(
+                      tag: 'sign_in_sign_up_container',
+                      child: Container(
+                        width: double.infinity,
+                        height: screenSize.width * .13,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: const Color.fromRGBO(52, 110, 241, 1),
+                          boxShadow: const [
+                            BoxShadow(
+                              offset: Offset(0, 1),
+                              blurRadius: 1,
+                              color: Color.fromRGBO(0, 0, 0, .17),
+                            ),
+                            BoxShadow(
+                              offset: Offset(0, 0),
+                              blurRadius: 1,
+                              color: Color.fromRGBO(0, 0, 0, .08),
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Proceed',
+                            style: GoogleFonts.roboto(
+                              fontSize: screenSize.width * .036,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
 
-                SizedBox(height: screenSize.height * .01),
-              ],
+                  SizedBox(height: screenSize.height * .01),
+                ],
+              ),
             ),
           ),
         )),

@@ -3,16 +3,19 @@ part of '../redeem_screen.dart';
 Widget buyCouponsSegment({
   required BuildContext context,
 }) {
-  // CouponCloseDialog? closeDialogHandle;
-
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: screenSize.width * .061),
     child: Column(
       children: [
         //====================Coupon Image====================//
-        Image.asset(
-          'assets/images/redeem_screen_gift_voucher.png',
-          width: screenSize.width * .9,
+        // Image.asset(
+        //   'assets/images/redeem_screen_gift_voucher.png',
+        //   width: screenSize.width * .9,
+        // ),
+
+        couponCodeContainer(
+          context: context,
+          couponCode: 'ABC123XYZ',
         ),
         SizedBox(height: screenSize.height * .035),
 
