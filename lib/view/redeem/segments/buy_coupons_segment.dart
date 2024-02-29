@@ -3,40 +3,42 @@ part of '../redeem_screen.dart';
 Widget buyCouponsSegment({
   required BuildContext context,
 }) {
-  return Padding(
-    padding: EdgeInsets.symmetric(horizontal: screenSize.width * .061),
-    child: Column(
-      children: [
-        //====================Coupon Image====================//
-        // Image.asset(
-        //   'assets/images/redeem_screen_gift_voucher.png',
-        //   width: screenSize.width * .9,
-        // ),
+  return BlocBuilder<RedeemBloc, RedeemState>(
+    builder: (context, redeemState) {
+      final status = redeemState.isTermsAgreed &&
+          redeemState.redeemPoints <= pointsBloc.state.points!;
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: screenSize.width * .061),
+        child: Column(
+          children: [
+            //====================Coupon Image====================//
 
-        couponCodeContainer(
-          context: context,
-          couponCode: 'ABC123XYZ',
-        ),
-        SizedBox(height: screenSize.height * .035),
+            redeemState is BuyCouponsState && redeemState.coupon != null
+                ? couponCodeContainer(
+                    context: context,
+                    couponCode: redeemState.coupon!,
+                  )
+                : Image.asset(
+                    'assets/images/redeem_screen_gift_voucher.png',
+                    width: screenSize.width * .9,
+                  ),
+            SizedBox(height: screenSize.height * .035),
 
-        //====================Points Field where points can be changed using + and - buttons====================//
-        redeemPointsFieldSegment(),
-        SizedBox(height: screenSize.height * .025),
+            //====================Points Field where points can be changed using + and - buttons====================//
+            redeemPointsFieldSegment(),
+            SizedBox(height: screenSize.height * .025),
 
-        //====================Amount in Rupees Segment====================//
-        yourAmountSegment(),
-        SizedBox(height: screenSize.height * .025),
+            //====================Amount in Rupees Segment====================//
+            yourAmountSegment(),
+            SizedBox(height: screenSize.height * .025),
 
-//====================Agree Terms Segment====================//
-        agreeTermsSegment(),
-        SizedBox(height: screenSize.height * .03),
+            //====================Agree Terms Segment====================//
+            agreeTermsSegment(),
+            SizedBox(height: screenSize.height * .03),
 
-        //====================Redeem Button====================//
-        BlocBuilder<RedeemBloc, RedeemState>(
-          builder: (context, redeemState) {
-            final status = redeemState.isTermsAgreed &&
-                redeemState.redeemPoints <= pointsBloc.state.points!;
-            return GestureDetector(
+            //====================Redeem Button====================//
+
+            GestureDetector(
               onTap: () {
                 if (status) {
                   redeemBloc.add(RedeemButtonPressedEvent());
@@ -62,11 +64,11 @@ Widget buyCouponsSegment({
                   ),
                 ),
               ),
-            );
-          },
+            ),
+            SizedBox(height: screenSize.height * .019),
+          ],
         ),
-        SizedBox(height: screenSize.height * .019),
-      ],
-    ),
+      );
+    },
   );
 }

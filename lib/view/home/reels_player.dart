@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:turning_point/dialog/custom_loading.dart';
+import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:video_player/video_player.dart';
 
 class ReelsPlayer extends StatefulWidget {

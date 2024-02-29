@@ -59,19 +59,26 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           const AuthLoadingState(),
         );
         try {
-          emit(
-            OtpVerificationNeededState(
+          final phoneExists =
+              await UserRepository.checkPhoneNumber(event.phone);
+
+          if (phoneExists) {
+            return emit(PhoneNumberExistsState());
+          } else {
+            emit(
+              OtpVerificationNeededState(
+                phone: event.phone,
+                businessName: event.businessName,
+                contractor: event.contractor,
+              ),
+            );
+            await provider.sendPhoneVerification(
               phone: event.phone,
-              businessName: event.businessName,
-              contractor: event.contractor,
-            ),
-          );
-          await provider.sendPhoneVerification(
-            phone: event.phone,
-            otpController: event.otpController,
-          );
+              otpController: event.otpController,
+            );
+          }
         } catch (e) {
-          log('EXCEPTION IN SIGNUP EVENT : $e');
+          throw Exception(e);
         }
       },
     );

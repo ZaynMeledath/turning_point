@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/helper/screen_size.dart';
 
-// void _copyToClipboard(String text) {
-//   Clipboard.setData(ClipboardData(text: text));
-// }
+void copyToClipboard(String text) {
+  Clipboard.setData(ClipboardData(text: text));
+}
 
 Widget couponCodeContainer({
   required BuildContext context,
@@ -52,11 +52,12 @@ Widget couponCodeContainer({
           SizedBox(width: screenSize.width * .03),
           GestureDetector(
             onTap: () {
-              // _copyToClipboard(couponCode);
-              // ScaffoldMessenger.of(context).showSnackBar(
-              //   const SnackBar(
-              //       content: Text('Coupon code copied to clipboard!')),
-              // );
+              copyToClipboard(couponCode);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Coupon code copied to clipboard!'),
+                ),
+              );
             },
             child: Text(
               'Copy Code',

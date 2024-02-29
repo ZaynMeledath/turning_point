@@ -7,6 +7,7 @@ import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/view/home/profile_inactive_screen.dart';
 import 'package:turning_point/view/home/reels_page_viewer.dart';
@@ -54,13 +55,7 @@ class _ReelsScreenState extends State<ReelsScreen> {
           switch (state) {
             case ProfileLoadingState():
               log('PROFILE LOADING STATE EXECUTED');
-              return const Center(
-                child: CircularProgressIndicator.adaptive(
-                  strokeWidth: 5,
-                  backgroundColor: Colors.white,
-                  valueColor: AlwaysStoppedAnimation(Colors.purple),
-                ),
-              );
+              return spinningLinesLoading();
 
             case ProfileInactiveState():
               return const ProfileInactiveScreen();

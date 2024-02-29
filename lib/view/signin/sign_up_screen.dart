@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/constants/constants.dart';
+import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/dialog/show_custom_loading_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
@@ -63,6 +64,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
       listener: (context, state) {
         if (state is AuthLoadingState) {
           showCustomLoadingDialog(context);
+        } else if (state is PhoneNumberExistsState) {
+          Navigator.pop(context);
+          showAnimatedGenericDialog(
+            context: context,
+            iconPath: 'assets/icons/kyc_declined_icon.png',
+            title: 'Phone Already Exists',
+            content: 'The number you are trying to register already exists.',
+            buttonTitle: 'OK',
+          );
         } else if (state is OtpVerificationNeededState) {
           Navigator.pop(context);
           CustomNavigator.push(
