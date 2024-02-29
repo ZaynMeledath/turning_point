@@ -22,16 +22,21 @@ Widget redeemPointsFieldSegment() {
             decoration: BoxDecoration(
               color: const Color.fromRGBO(246, 246, 246, 1),
               borderRadius: BorderRadius.circular(8),
-              boxShadow: const [
-                BoxShadow(
-                  offset: Offset(2, 3),
-                  color: Color.fromRGBO(218, 218, 218, .8),
-                ),
-                BoxShadow(
-                  offset: Offset(-2, -1),
-                  color: Color.fromRGBO(218, 218, 218, .8),
-                ),
-              ],
+              // boxShadow: const [
+              //   BoxShadow(
+              //     offset: Offset(-1, 1.5),
+              //     blurRadius: 1,
+              //     color: Color.fromRGBO(16, 16, 16, .25),
+              //   ),
+              //   BoxShadow(
+              //     offset: Offset(1, -1),
+              //     blurRadius: 1,
+              //     color: Color.fromRGBO(16, 16, 16, .25),
+              //   ),
+              // ],
+              border: Border.all(
+                color: Colors.black12,
+              ),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

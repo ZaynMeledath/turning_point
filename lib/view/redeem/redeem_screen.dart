@@ -25,6 +25,7 @@ part 'segments/your_amount_segment.dart';
 part 'segments/account_details_segment.dart';
 part 'segments/account_details_row.dart';
 part 'segments/agree_terms_segment.dart';
+part 'segments/redeem_upi_text_field.dart';
 
 class RedeemScreen extends StatefulWidget {
   const RedeemScreen({super.key});
