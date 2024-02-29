@@ -63,7 +63,17 @@ Widget textFieldSegment({
         ),
         validator: (value) {
           if (value!.isEmpty) {
-            return 'TextFields cannot be blank';
+            return '$title field cannot be blank';
+          } else if (title == 'Mobile Number') {
+            if (value.length != 10) {
+              return 'Mobile Number should be 10 digits';
+            } else {
+              const pattern = r'^(?:[+0]9)?[0-9]{10}$';
+              RegExp regex = RegExp(pattern);
+              return !regex.hasMatch(value)
+                  ? 'Please enter a valid Mobile Number'
+                  : null;
+            }
           } else {
             return null;
           }

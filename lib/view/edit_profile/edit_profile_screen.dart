@@ -7,12 +7,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/dialog/show_animated_otp_dialog.dart';
-import 'package:turning_point/dialog/show_generic_dialog.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
-import 'package:turning_point/model/contractor_model.dart';
-import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/view/edit_profile/segments/edit_profile_picture_segment.dart';
 import 'package:turning_point/view/edit_profile/segments/text_field_segment.dart';
 import 'package:photo_view/photo_view.dart';
@@ -37,6 +34,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   late final TextEditingController _businessController;
   late final TextEditingController _searchController;
   late final TextEditingController otpController;
+  final GlobalKey<FormState> _formKey = GlobalKey();
 
   // CloseDialog? _closeDialogHandle;
 
@@ -48,6 +46,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   void initState() {
+    super.initState();
     _nameController = TextEditingController();
     _phoneController = TextEditingController();
     _addressController = TextEditingController();
@@ -60,11 +59,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     // _addressNode = FocusNode();
     // _businessNode = FocusNode();
     // _emailNode = FocusNode();
-    super.initState();
   }
 
   @override
   void dispose() {
+    super.dispose();
     _nameController.dispose();
     _phoneController.dispose();
     _addressController.dispose();
@@ -78,7 +77,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     // _addressNode.dispose();
     // _businessNode.dispose();
     // _emailNode.dispose();
-    super.dispose();
   }
 
   // final loadingOverlay = OverlayEntry(builder: (_) {
@@ -141,167 +139,187 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                 return SingleChildScrollView(
                   child: Center(
-                    child: Column(
-                      children: [
-                        customAppBar(
-                          context: context,
-                          title: 'Edit Profile',
-                        ),
-                        //====================Body Segment====================//
-                        editProfilePictureSegment(
-                          context: context,
-                          userModel: state.userModel!,
-                        ),
-                        state.isLoading
-                            ? Container(
-                                height: screenSize.height * .042,
-                                color: Colors.transparent,
-                                child: Center(
-                                  child: CupertinoActivityIndicator(
-                                    radius: screenSize.width * .031,
-                                    color: const Color.fromRGBO(0, 99, 255, 1),
-                                  ),
-                                ),
-                              )
-                            : SizedBox(height: screenSize.height * .042),
-
-                        //====================Radio Buttons====================//
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                profileBloc.add(ProfileRadioTriggerEvent(
-                                    isContractor: true));
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  customRadioButton(
-                                    isActive: state.isContractor ? true : false,
-                                  ),
-                                  SizedBox(width: screenSize.width * .01),
-                                  Text(
-                                    'Contractor',
-                                    style: GoogleFonts.roboto(
-                                      fontSize: screenSize.width * .046,
-                                      fontWeight: FontWeight.w400,
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          customAppBar(
+                            context: context,
+                            title: 'Edit Profile',
+                          ),
+                          //====================Body Segment====================//
+                          editProfilePictureSegment(
+                            context: context,
+                            userModel: state.userModel!,
+                          ),
+                          state.isLoading
+                              ? Container(
+                                  height: screenSize.height * .042,
+                                  color: Colors.transparent,
+                                  child: Center(
+                                    child: CupertinoActivityIndicator(
+                                      radius: screenSize.width * .031,
+                                      color:
+                                          const Color.fromRGBO(0, 99, 255, 1),
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(width: screenSize.width * .08),
-                            GestureDetector(
-                              onTap: () {
-                                profileBloc.add(ProfileRadioTriggerEvent(
-                                    isContractor: false));
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  customRadioButton(
-                                    isActive: state.isContractor ? false : true,
-                                  ),
-                                  SizedBox(width: screenSize.width * .01),
-                                  Text(
-                                    'Carpenter',
-                                    style: GoogleFonts.roboto(
-                                      fontSize: screenSize.width * .046,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: screenSize.height * .018),
-                        //====================TextField Segment====================//
-                        textFieldSegment(
-                          screenSize: screenSize,
-                          controller: _nameController,
-                          title: 'Name',
-                        ),
-                        SizedBox(height: screenSize.height * .037),
-                        textFieldSegment(
-                          screenSize: screenSize,
-                          controller: _phoneController,
-                          title: 'Mobile Number',
-                          isNumber: true,
-                        ),
-                        SizedBox(height: screenSize.height * .037),
-                        textFieldSegment(
-                          screenSize: screenSize,
-                          controller: _addressController,
-                          title: 'Address',
-                        ),
+                                )
+                              : SizedBox(height: screenSize.height * .042),
 
-                        SizedBox(height: screenSize.height * .037),
-                        state.isContractor
-                            ? textFieldSegment(
-                                screenSize: screenSize,
-                                controller: _businessController,
-                                title: 'Business Name')
-                            : BlocBuilder<ContractorBloc, ContractorState>(
-                                builder: (context, state) {
-                                  switch (state) {
-                                    case ContractorLoadingState():
-                                      return contractorDropDownLoadingStateContainer();
-                                    case ContractorLoadedState():
-                                      return Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal:
-                                                screenSize.width * .041),
-                                        child: contractorDropDownContainer(
-                                          searchController: _searchController,
-                                          color: Colors.white,
-                                        ),
-                                      );
-                                  }
+                          //====================Radio Buttons====================//
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  profileBloc.add(ProfileRadioTriggerEvent(
+                                      isContractor: true));
                                 },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    customRadioButton(
+                                      isActive:
+                                          state.isContractor ? true : false,
+                                    ),
+                                    SizedBox(width: screenSize.width * .01),
+                                    Text(
+                                      'Contractor',
+                                      style: GoogleFonts.roboto(
+                                        fontSize: screenSize.width * .046,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                        SizedBox(height: screenSize.height * .037),
-                        editProfileEmailContainer(
-                            email: state.userModel!.email!),
+                              SizedBox(width: screenSize.width * .08),
+                              GestureDetector(
+                                onTap: () {
+                                  profileBloc.add(ProfileRadioTriggerEvent(
+                                      isContractor: false));
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    customRadioButton(
+                                      isActive:
+                                          state.isContractor ? false : true,
+                                    ),
+                                    SizedBox(width: screenSize.width * .01),
+                                    Text(
+                                      'Carpenter',
+                                      style: GoogleFonts.roboto(
+                                        fontSize: screenSize.width * .046,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: screenSize.height * .018),
+                          //====================TextField Segment====================//
+                          textFieldSegment(
+                            screenSize: screenSize,
+                            controller: _nameController,
+                            title: 'Name',
+                          ),
+                          SizedBox(height: screenSize.height * .037),
+                          textFieldSegment(
+                            screenSize: screenSize,
+                            controller: _phoneController,
+                            title: 'Mobile Number',
+                            isNumber: true,
+                          ),
+                          SizedBox(height: screenSize.height * .037),
+                          textFieldSegment(
+                            screenSize: screenSize,
+                            controller: _addressController,
+                            title: 'Address',
+                          ),
 
-                        SizedBox(height: screenSize.height * .051),
-                        GestureDetector(
-                          onTap: () {
-                            updateProfile(
-                              context: context,
-                              isContractor: state.isContractor,
-                              businessName: state.isContractor
-                                  ? _businessController.text.trim()
-                                  : null,
-                              email: state.userModel!.email!,
-                              contractor: !state.isContractor
-                                  ? contractorBloc.state.contractor
-                                  : null,
-                              userModel: state.userModel!,
-                            );
-                          },
-                          child: Container(
-                            width: screenSize.width * .38,
-                            height: screenSize.width * .102,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6),
-                              color: const Color.fromRGBO(0, 99, 255, 1),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Save',
-                                style: GoogleFonts.roboto(
-                                  color: Colors.white,
-                                  fontSize: screenSize.width * .036,
-                                  fontWeight: FontWeight.w500,
+                          SizedBox(height: screenSize.height * .037),
+                          state.isContractor
+                              ? textFieldSegment(
+                                  screenSize: screenSize,
+                                  controller: _businessController,
+                                  title: 'Business Name')
+                              : BlocBuilder<ContractorBloc, ContractorState>(
+                                  builder: (context, state) {
+                                    switch (state) {
+                                      case ContractorLoadingState():
+                                        return contractorDropDownLoadingStateContainer();
+                                      case ContractorLoadedState():
+                                        return Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal:
+                                                  screenSize.width * .041),
+                                          child: contractorDropDownContainer(
+                                            searchController: _searchController,
+                                            color: Colors.white,
+                                          ),
+                                        );
+                                    }
+                                  },
+                                ),
+                          SizedBox(height: screenSize.height * .037),
+                          editProfileEmailContainer(
+                              email: state.userModel!.email!),
+
+                          SizedBox(height: screenSize.height * .051),
+                          GestureDetector(
+                            onTap: () {
+                              if (_formKey.currentState!.validate()) {
+                                profileBloc.add(
+                                  ProfileUpdateEvent(
+                                    isContractor: state.isContractor,
+                                    name: _nameController.text.trim(),
+                                    phone: _phoneController.text.trim(),
+                                    address: _addressController.text.trim(),
+                                    businessName: state.isContractor
+                                        ? _businessController.text.trim()
+                                        : null,
+                                    email: state.userModel!.email!,
+                                    contractor: !state.isContractor
+                                        ? contractorBloc.state.contractor
+                                        : null,
+                                  ),
+                                );
+                                if (_phoneController.text.trim() !=
+                                    state.userModel!.phone) {
+                                  profileBloc.add(
+                                    ProfilePhoneUpdateEvent(
+                                      phone: _phoneController.text.trim(),
+                                      otpController: otpController,
+                                    ),
+                                  );
+                                }
+                              }
+                            },
+                            child: Container(
+                              width: screenSize.width * .38,
+                              height: screenSize.width * .102,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(6),
+                                color: const Color.fromRGBO(0, 99, 255, 1),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Save',
+                                  style: GoogleFonts.roboto(
+                                    color: Colors.white,
+                                    fontSize: screenSize.width * .036,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(height: screenSize.height * .023),
-                      ],
+                          SizedBox(height: screenSize.height * .023),
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -312,56 +330,32 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  void updateProfile({
-    required BuildContext context,
-    required bool isContractor,
-    required String? businessName,
-    required String email,
-    required ContractorModel? contractor,
-    required UserModel userModel,
-  }) {
-    if (validate(isContractor)) {
-      profileBloc.add(
-        ProfileUpdateEvent(
-          isContractor: isContractor,
-          name: _nameController.text.trim(),
-          phone: _phoneController.text.trim(),
-          address: _addressController.text.trim(),
-          businessName: businessName,
-          email: email,
-          contractor: contractor,
-        ),
-      );
-      if (_phoneController.text.trim() != userModel.phone) {
-        profileBloc.add(ProfilePhoneUpdateEvent(
-          phone: _phoneController.text.trim(),
-          otpController: otpController,
-        ));
-      }
-    } else {
-      showGenericDialog(
-        context: context,
-        title: 'Incorrect Entry',
-        content: 'Please Fill the fields correctly',
-        options: {'OK': null},
-      );
-    }
-  }
-
-  bool validate(bool isContractor) {
-    if (isContractor) {
-      if (_businessController.text.isEmpty) {
-        return false;
-      }
-    }
-
-    if (_nameController.text.isEmpty || _phoneController.text.isEmpty) {
-      return false;
-    } else if (int.tryParse(_phoneController.text) == null ||
-        _phoneController.text.length < 10) {
-      return false;
-    } else {
-      return true;
-    }
-  }
+  // void updateProfile({
+  //   required BuildContext context,
+  //   required bool isContractor,
+  //   required String? businessName,
+  //   required String email,
+  //   required ContractorModel? contractor,
+  //   required UserModel userModel,
+  // }) {
+  //   if (_formKey.currentState!.validate()) {
+  //     profileBloc.add(
+  //       ProfileUpdateEvent(
+  //         isContractor: isContractor,
+  //         name: _nameController.text.trim(),
+  //         phone: _phoneController.text.trim(),
+  //         address: _addressController.text.trim(),
+  //         businessName: businessName,
+  //         email: email,
+  //         contractor: contractor,
+  //       ),
+  //     );
+  //     if (_phoneController.text.trim() != userModel.phone) {
+  //       profileBloc.add(ProfilePhoneUpdateEvent(
+  //         phone: _phoneController.text.trim(),
+  //         otpController: otpController,
+  //       ));
+  //     }
+  //   }
+  // }
 }
