@@ -149,11 +149,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                             fontWeight: FontWeight.w600,
                           ),
                           decoration: BoxDecoration(
-                            color: const Color.fromRGBO(234, 239, 243, 1),
+                            color: const Color.fromRGBO(234, 239, 243, .3),
                             borderRadius: BorderRadius.circular(8),
-                            //   border: Border.all(
-                            //     color: const Color.fromRGBO(234, 239, 243, 1),
-                            //   ),
+                            border: Border.all(
+                              color: Colors.black.withOpacity(.3),
+                            ),
                           ),
                         ),
                         androidSmsAutofillMethod: AndroidSmsAutofillMethod.none,

@@ -6,7 +6,6 @@ import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/dialog/show_custom_loading_dialog.dart';
-import 'package:turning_point/dialog/show_generic_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
@@ -37,6 +36,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   late final TextEditingController businessController;
   late final TextEditingController searchController;
   late final TextEditingController otpController;
+  final GlobalKey<FormState> _formKey = GlobalKey();
 
   @override
   void initState() {
@@ -76,206 +76,212 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: BlocBuilder<ContractorBloc, ContractorState>(
             builder: (context, contractorState) {
               switch (contractorState) {
-                // case ContractorLoadingState():
-                //   return const Center(
-                //     child: CircularProgressIndicator.adaptive(
-                //       strokeWidth: 5,
-                //     ),
-                //   );
                 case ContractorLoadingState():
+                  return const Center(
+                    child: CircularProgressIndicator.adaptive(
+                      strokeWidth: 5,
+                    ),
+                  );
+
                 case ContractorLoadedState():
                   return SingleChildScrollView(
                     reverse: true,
                     child: Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: screenSize.width * .05),
-                      child: Column(
-                        children: [
-                          SizedBox(height: screenSize.height * .13),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            SizedBox(height: screenSize.height * .13),
 
-                          //====================Furnipart Logo====================//
-                          Hero(
-                            tag: 'furnipart_logo',
-                            child: Image.asset(
-                              'assets/images/furnipart_logo.png',
-                              width: screenSize.width * .32,
-                              height: screenSize.height * .086,
-                            ),
-                          ),
-                          SizedBox(height: screenSize.height * .045),
-
-                          //====================Title====================//
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              'Sign up to start\nEarning...',
-                              style: GoogleFonts.roboto(
-                                fontSize: screenSize.width * .084,
-                                fontWeight: FontWeight.w700,
-                                height: 1.25,
+                            //====================Furnipart Logo====================//
+                            Hero(
+                              tag: 'furnipart_logo',
+                              child: Image.asset(
+                                'assets/images/furnipart_logo.png',
+                                width: screenSize.width * .32,
+                                height: screenSize.height * .086,
                               ),
                             ),
-                          ),
-                          SizedBox(height: screenSize.height * .015),
+                            SizedBox(height: screenSize.height * .045),
 
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              'Join Our Community by Creating\nYour Personalized Account.',
-                              style: GoogleFonts.inter(
-                                fontSize: screenSize.width * .036,
-                                fontWeight: FontWeight.w500,
-                                color: const Color.fromRGBO(135, 135, 135, 1),
+                            //====================Title====================//
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Sign up to start\nEarning...',
+                                style: GoogleFonts.roboto(
+                                  fontSize: screenSize.width * .084,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.25,
+                                ),
                               ),
                             ),
-                          ),
+                            SizedBox(height: screenSize.height * .015),
 
-                          //====================TextField Segment====================//
-                          SizedBox(height: screenSize.height * .028),
-                          signUpTextField(
-                            controller: phoneController,
-                            title: 'Mobile Number',
-                            isNumber: true,
-                            icon: Icons.phone,
-                          ),
-                          SizedBox(height: screenSize.height * .03),
-                          isContractor
-                              ? signUpTextField(
-                                  controller: businessController,
-                                  title: 'Business Name',
-                                  icon: Icons.business,
-                                )
-                              : contractorDropDownContainer(
-                                  searchController: searchController),
-                          Visibility(
-                            visible: !isContractor,
-                            child: Column(
-                              children: [
-                                SizedBox(height: screenSize.height * .035),
-
-                                //====================Radio Button====================//
-                                GestureDetector(
-                                  onTap: () => contractorBloc.add(
-                                    ContractorNotListedEvent(),
-                                  ),
-                                  child: signUpRadioButtonSegment(
-                                    title: 'My contractor is not listed',
-                                    isActive:
-                                        contractorState.contractorNotListed ==
-                                            true,
-                                  ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Join Our Community by Creating\nYour Personalized Account.',
+                                style: GoogleFonts.inter(
+                                  fontSize: screenSize.width * .036,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color.fromRGBO(135, 135, 135, 1),
                                 ),
-                                SizedBox(height: screenSize.height * .02),
-                                GestureDetector(
-                                  onTap: () => contractorBloc.add(
-                                    HaveNoContractorEvent(),
-                                  ),
-                                  child: signUpRadioButtonSegment(
-                                    title: "I don't have a contractor",
-                                    isActive:
-                                        contractorState.haveNoContractor ==
-                                            true,
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
 
-                          SizedBox(
-                            height: screenSize.height * .05,
-                          ),
+                            //====================TextField Segment====================//
+                            SizedBox(height: screenSize.height * .028),
+                            signUpTextField(
+                              controller: phoneController,
+                              title: 'Mobile Number',
+                              isNumber: true,
+                              icon: Icons.phone,
+                            ),
+                            SizedBox(height: screenSize.height * .03),
+                            isContractor
+                                ? signUpTextField(
+                                    controller: businessController,
+                                    title: 'Business Name',
+                                    icon: Icons.business,
+                                  )
+                                : contractorDropDownContainer(
+                                    searchController: searchController),
+                            Visibility(
+                              visible: !isContractor,
+                              child: Column(
+                                children: [
+                                  SizedBox(height: screenSize.height * .035),
 
-                          //====================Sign Up Button====================//
-
-                          GestureDetector(
-                            onTap: () {
-                              final status = validate();
-                              if (status) {
-                                if (contractorState.contractorNotListed ==
-                                    true) {
-                                  CustomNavigator.push(
-                                    context: context,
-                                    child: AddContractorDetailsScreen(
-                                      phone: phoneController.text.trim(),
-                                      otpController: otpController,
+                                  //====================Radio Button====================//
+                                  GestureDetector(
+                                    onTap: () => contractorBloc.add(
+                                      ContractorNotListedEvent(),
                                     ),
-                                  );
-                                  return;
+                                    child: signUpRadioButtonSegment(
+                                      title: 'My contractor is not listed',
+                                      isActive:
+                                          contractorState.contractorNotListed ==
+                                              true,
+                                    ),
+                                  ),
+                                  SizedBox(height: screenSize.height * .02),
+                                  GestureDetector(
+                                    onTap: () => contractorBloc.add(
+                                      HaveNoContractorEvent(),
+                                    ),
+                                    child: signUpRadioButtonSegment(
+                                      title: "I don't have a contractor",
+                                      isActive:
+                                          contractorState.haveNoContractor ==
+                                              true,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            SizedBox(
+                              height: screenSize.height * .05,
+                            ),
+
+                            //====================Sign Up Button====================//
+
+                            GestureDetector(
+                              onTap: () {
+                                final status =
+                                    _formKey.currentState!.validate();
+                                if (status) {
+                                  if (contractorState.contractorNotListed ==
+                                      true) {
+                                    CustomNavigator.push(
+                                      context: context,
+                                      child: AddContractorDetailsScreen(
+                                        phone: phoneController.text.trim(),
+                                        otpController: otpController,
+                                      ),
+                                    );
+                                    return;
+                                  }
+                                  if (widget.isContractor) {
+                                    authBloc.add(
+                                      SignUpEvent(
+                                        phone: phoneController.text,
+                                        contractor: null,
+                                        businessName:
+                                            businessController.text.trim(),
+                                        otpController: otpController,
+                                      ),
+                                    );
+                                  } else {
+                                    authBloc.add(
+                                      SignUpEvent(
+                                        phone: phoneController.text,
+                                        contractor: contractorBloc.state
+                                                        .contractorNotListed !=
+                                                    true &&
+                                                contractorBloc.state
+                                                        .haveNoContractor !=
+                                                    true
+                                            ? contractorBloc.state.contractor
+                                            : DEFAULT_CONTRACTOR,
+                                        businessName: null,
+                                        otpController: otpController,
+                                      ),
+                                    );
+                                  }
                                 }
-                                if (widget.isContractor) {
-                                  authBloc.add(
-                                    SignUpEvent(
-                                      phone: phoneController.text,
-                                      contractor: null,
-                                      businessName:
-                                          businessController.text.trim(),
-                                      otpController: otpController,
-                                    ),
-                                  );
-                                } else {
-                                  authBloc.add(
-                                    SignUpEvent(
-                                      phone: phoneController.text,
-                                      contractor: contractorBloc.state
-                                                      .contractorNotListed !=
-                                                  true &&
-                                              contractorBloc
-                                                      .state.haveNoContractor !=
-                                                  true
-                                          ? contractorBloc.state.contractor
-                                          : DEFAULT_CONTRACTOR,
-                                      businessName: null,
-                                      otpController: otpController,
-                                    ),
-                                  );
-                                }
-                              } else {
-                                showGenericDialog(
-                                  context: context,
-                                  title: 'Fill All Details',
-                                  content:
-                                      'Please fill all the required details to continue',
-                                  options: {'Dismiss': null},
-                                );
-                              }
-                            },
-                            child: Hero(
-                              tag: 'sign_in_sign_up_container',
-                              child: Container(
-                                width: double.infinity,
-                                height: screenSize.width * .13,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: const Color.fromRGBO(52, 110, 241, 1),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      offset: Offset(0, 1),
-                                      blurRadius: 1,
-                                      color: Color.fromRGBO(0, 0, 0, .17),
-                                    ),
-                                    BoxShadow(
-                                      offset: Offset(0, 0),
-                                      blurRadius: 1,
-                                      color: Color.fromRGBO(0, 0, 0, .08),
-                                    ),
-                                  ],
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    'Sign Up',
-                                    style: GoogleFonts.roboto(
-                                      fontSize: screenSize.width * .036,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.white,
+                                // else {
+                                //   showGenericDialog(
+                                //     context: context,
+                                //     title: 'Fill All Details',
+                                //     content:
+                                //         'Please fill all the required details to continue',
+                                //     options: {'Dismiss': null},
+                                //   );
+                                // }
+                              },
+                              child: Hero(
+                                tag: 'sign_in_sign_up_container',
+                                child: Container(
+                                  width: double.infinity,
+                                  height: screenSize.width * .13,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color:
+                                        const Color.fromRGBO(52, 110, 241, 1),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        offset: Offset(0, 1),
+                                        blurRadius: 1,
+                                        color: Color.fromRGBO(0, 0, 0, .17),
+                                      ),
+                                      BoxShadow(
+                                        offset: Offset(0, 0),
+                                        blurRadius: 1,
+                                        color: Color.fromRGBO(0, 0, 0, .08),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Sign Up',
+                                      style: GoogleFonts.roboto(
+                                        fontSize: screenSize.width * .036,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
 
-                          SizedBox(height: screenSize.height * .01),
-                        ],
+                            SizedBox(height: screenSize.height * .01),
+                          ],
+                        ),
                       ),
                     ),
                   );
@@ -287,25 +293,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  bool validate() {
-    if (widget.isContractor) {
-      if (phoneController.text.isNotEmpty &&
-          businessController.text.isNotEmpty &&
-          phoneController.text.length > 9 &&
-          businessController.text.length > 1) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      if ((contractorBloc.state.contractorNotListed == true ||
-              contractorBloc.state.selectedContractor != null) &&
-          phoneController.text.isNotEmpty &&
-          phoneController.text.length > 9) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  }
+//   bool validate() {
+//     if (widget.isContractor) {
+//       if (phoneController.text.isNotEmpty &&
+//           businessController.text.isNotEmpty &&
+//           phoneController.text.length > 9 &&
+//           businessController.text.length > 1) {
+//         return true;
+//       } else {
+//         return false;
+//       }
+//     } else {
+//       if ((contractorBloc.state.contractorNotListed == true ||
+//               contractorBloc.state.selectedContractor != null) &&
+//           phoneController.text.isNotEmpty &&
+//           phoneController.text.length > 9) {
+//         return true;
+//       } else {
+//         return false;
+//       }
+//     }
+//   }
 }

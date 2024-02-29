@@ -6,56 +6,68 @@ Widget signUpTextField({
   required IconData icon,
   bool? isNumber,
 }) {
-  return SizedBox(
-    height: screenSize.height * .06,
-    child: TextFormField(
-      style: GoogleFonts.roboto(
-        fontSize: screenSize.width * .035,
+  return TextFormField(
+    style: GoogleFonts.roboto(
+      fontSize: screenSize.width * .035,
+    ),
+    controller: controller,
+    keyboardType: isNumber == true ? TextInputType.number : null,
+    decoration: InputDecoration(
+      contentPadding: const EdgeInsets.symmetric(
+        vertical: 15,
+        horizontal: 16,
       ),
-      controller: controller,
-      keyboardType: isNumber == true ? TextInputType.number : null,
-      decoration: InputDecoration(
-        prefixIcon: Icon(icon),
-        labelText: title,
-        labelStyle: GoogleFonts.poppins(
-          fontSize: screenSize.width * .035,
+      prefixIcon: Icon(icon),
+      labelText: title,
+      labelStyle: GoogleFonts.poppins(
+        fontSize: screenSize.width * .035,
+        color: Colors.black.withOpacity(.7),
+      ),
+      floatingLabelStyle: GoogleFonts.poppins(
+        fontSize: screenSize.width * .035,
+        // color: const Color.fromRGBO(52, 110, 241, 1),
+        color: Colors.black.withOpacity(.7),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(
+          color: Colors.black.withOpacity(.3),
         ),
-        floatingLabelStyle: GoogleFonts.poppins(
-          fontSize: screenSize.width * .035,
-          // color: const Color.fromRGBO(52, 110, 241, 1),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(
+          // color: Color.fromRGBO(52, 110, 241, 1),
           color: Colors.black.withOpacity(.7),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: Colors.black.withOpacity(.3),
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            // color: Color.fromRGBO(52, 110, 241, 1),
-            color: Colors.black.withOpacity(.7),
-          ),
-        ),
-        focusedErrorBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.red,
-          ),
-        ),
-        errorBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.red,
-          ),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(
+          color: Colors.red,
         ),
       ),
-      validator: (value) {
-        if (value!.isEmpty) {
-          return 'TextFields cannot be blank';
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(
+          color: Colors.red,
+        ),
+      ),
+    ),
+    validator: (value) {
+      if (value!.isEmpty) {
+        return 'TextFields cannot be blank';
+      } else if (isNumber == true) {
+        if (value.length != 10) {
+          return 'Mobile number should be 10 digits';
         } else {
           return null;
         }
-      },
-    ),
+      } else if (value.length < 2) {
+        return 'Field should be filled correctly';
+      } else {
+        return null;
+      }
+    },
   );
 }

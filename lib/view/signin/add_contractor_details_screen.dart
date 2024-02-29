@@ -122,6 +122,7 @@ class _AddContractorDetailsScreenState
                     controller: contractorPhoneController,
                     title: 'Contractor Mobile Number',
                     icon: Icons.phone,
+                    isNumber: true,
                   ),
 
                   SizedBox(height: screenSize.height * .05),

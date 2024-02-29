@@ -20,16 +20,12 @@ Widget contractorDropDownContainer({
               boxShadow: [
                 color == null
                     ? const BoxShadow(
-                        offset: Offset(-1.5, 1.5),
+                        offset: Offset(-1, 1),
                         blurRadius: 1,
                         color: Color.fromRGBO(214, 214, 214, 1),
                         blurStyle: BlurStyle.normal,
                       )
-                    : BoxShadow(
-                        offset: const Offset(-.5, .5),
-                        blurRadius: .5,
-                        color: Colors.black.withOpacity(.2),
-                      ),
+                    : const BoxShadow(),
               ],
               border: color != null
                   ? Border.all(
