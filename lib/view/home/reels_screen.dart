@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
@@ -19,15 +20,32 @@ class ReelsScreen extends StatefulWidget {
   const ReelsScreen({super.key});
 
   @override
-  State<ReelsScreen> createState() => _ReelsScreenState();
+  State<ReelsScreen> createState() => ReelsScreenState();
 }
 
-class _ReelsScreenState extends State<ReelsScreen> {
+class ReelsScreenState extends State<ReelsScreen>
+    with SingleTickerProviderStateMixin {
+  static late final AnimationController animationController;
+  static late final Animation<double> animation;
+
   @override
   void initState() {
+    super.initState();
     log('${AppPreferences.getValueShared('auth_token')}');
 
-    super.initState();
+    animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 200));
+
+    animation = Tween<double>(
+      begin: 1,
+      end: 1.4,
+    ).animate(animationController);
+
+    animationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        animationController.reverse();
+      }
+    });
   }
 
   @override
@@ -39,28 +57,24 @@ class _ReelsScreenState extends State<ReelsScreen> {
   @override
   void dispose() {
     preloadBloc.pauseCurrentController();
+    animationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    log('REELS SCREEN BUILD EXECUTED');
-
     return Scaffold(
       backgroundColor: Colors.black,
       body: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
-          log('BUILDER EXECUTED');
           switch (state) {
             case ProfileLoadingState():
-              log('PROFILE LOADING STATE EXECUTED');
               return spinningLinesLoading();
 
             case ProfileInactiveState():
               return const ProfileInactiveScreen();
 
             case ProfileLoadErrorState():
-              log('PROFILE LOAD ERROR STATE EXECUTED');
               return Scaffold(
                 body: Expanded(
                   child: Container(
@@ -92,59 +106,63 @@ class _ReelsScreenState extends State<ReelsScreen> {
                   //====================Points Container====================//
                   Positioned(
                     top: screenSize.height * .071,
-                    left: screenSize.width * .031,
+                    left: screenSize.width * .035,
                     child: Column(
                       children: [
                         Row(
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                preloadBloc.pauseCurrentController();
-                                CustomNavigator.push(
-                                  context: context,
-                                  child: const PointsScreen(),
-                                );
-                              },
-                              child: Container(
-                                padding: EdgeInsets.only(
-                                  left: screenSize.width * .026,
-                                  right: screenSize.width * .04,
-                                  top: screenSize.width * .013,
-                                  bottom: screenSize.width * .013,
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(16),
-                                  gradient: const LinearGradient(
-                                    colors: [
-                                      Color.fromRGBO(255, 215, 0, 1),
-                                      Color.fromRGBO(255, 238, 141, 1),
-                                    ],
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
+                            ScaleTransition(
+                              scale: animation,
+                              child: GestureDetector(
+                                onTap: () {
+                                  preloadBloc.pauseCurrentController();
+                                  CustomNavigator.push(
+                                    context: context,
+                                    child: const PointsScreen(),
+                                  );
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.only(
+                                    left: screenSize.width * .026,
+                                    right: screenSize.width * .04,
+                                    top: screenSize.width * .013,
+                                    bottom: screenSize.width * .013,
                                   ),
-                                ),
-                                child: Center(
-                                  child: Row(
-                                    children: [
-                                      Image.asset(
-                                        'assets/icons/coin_icon.png',
-                                        width: screenSize.width * .06,
-                                      ),
-                                      const SizedBox(width: 1),
-                                      BlocBuilder<PointsBloc, PointsState>(
-                                        builder: (context, pointsState) {
-                                          return Text(
-                                            pointsState.points.toString(),
-                                            style: GoogleFonts.inter(
-                                              fontSize: screenSize.width * .04,
-                                              fontWeight: FontWeight.w700,
-                                              color: const Color.fromRGBO(
-                                                  27, 27, 27, 1),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ],
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(16),
+                                    gradient: const LinearGradient(
+                                      colors: [
+                                        Color.fromRGBO(255, 215, 0, 1),
+                                        Color.fromRGBO(255, 238, 141, 1),
+                                      ],
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          'assets/icons/coin_icon.png',
+                                          width: screenSize.width * .06,
+                                        ),
+                                        const SizedBox(width: 1),
+                                        BlocBuilder<PointsBloc, PointsState>(
+                                          builder: (context, pointsState) {
+                                            return Text(
+                                              pointsState.points.toString(),
+                                              style: GoogleFonts.inter(
+                                                fontSize:
+                                                    screenSize.width * .04,
+                                                fontWeight: FontWeight.w700,
+                                                color: const Color.fromRGBO(
+                                                    27, 27, 27, 1),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

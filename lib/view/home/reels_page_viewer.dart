@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
@@ -6,6 +8,8 @@ import 'package:turning_point/dialog/show_points_received_dialog.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/view/home/reels_player.dart';
+import 'package:turning_point/view/home/reels_screen.dart';
+import 'package:vibration/vibration.dart';
 
 class ReelsPageViewer extends StatefulWidget {
   final UserModel user;
@@ -23,8 +27,6 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
   late final PageController _pageController;
   late final AnimationController _animationController;
   late final Animation<double> _animation;
-
-  bool rupeeScaled = false;
 
   @override
   void initState() {
@@ -80,13 +82,24 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                             return ScaleTransition(
                               scale: _animation,
                               child: GestureDetector(
-                                onTap: () {
+                                onTap: () async {
                                   if (state.reelsModelList![index]
                                       .isLikeButtonActive) {
                                     _animationController.forward();
+                                    if (state.reelsModelList![index].isLiked !=
+                                        true) {
+                                      ReelsScreenState.animationController
+                                          .forward();
+                                      reelsBloc
+                                          .add(ReelLikeEvent(reelIndex: index));
 
-                                    reelsBloc
-                                        .add(ReelLikeEvent(reelIndex: index));
+                                      if (await Vibration.hasVibrator() ==
+                                          true) {
+                                        Vibration.vibrate(
+                                          duration: 100,
+                                        );
+                                      }
+                                    }
 
                                     if (user.points == 0) {
                                       showPointsReceivedDialog(
@@ -97,10 +110,10 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                     }
                                   }
 
-                                  if (state.reelsModelList![index].isLiked ==
-                                      true) {
-                                    _animationController.forward();
-                                  }
+                                  // if (state.reelsModelList![index].isLiked ==
+                                  //     true) {
+                                  //   _animationController.forward();
+                                  // }
                                 },
                                 child: Image.asset(
                                   'assets/icons/rupee_icon.png',
