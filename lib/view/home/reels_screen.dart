@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
@@ -25,8 +24,8 @@ class ReelsScreen extends StatefulWidget {
 
 class ReelsScreenState extends State<ReelsScreen>
     with SingleTickerProviderStateMixin {
-  static late final AnimationController animationController;
-  static late final Animation<double> animation;
+  static late AnimationController animationController;
+  static late Animation<double> animation;
 
   @override
   void initState() {
@@ -46,12 +45,6 @@ class ReelsScreenState extends State<ReelsScreen>
         animationController.reverse();
       }
     });
-  }
-
-  @override
-  void deactivate() {
-    preloadBloc.pauseCurrentController();
-    super.deactivate();
   }
 
   @override

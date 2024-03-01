@@ -27,10 +27,12 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
   late final PageController _pageController;
   late final AnimationController _animationController;
   late final Animation<double> _animation;
+  final reelsScreenState = ReelsScreenState();
 
   @override
   void initState() {
-    _pageController = PageController();
+    _pageController =
+        PageController(initialPage: preloadBloc.state.focusedIndex);
 
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 200));
@@ -58,8 +60,9 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
 
   @override
   Widget build(BuildContext context) {
-    preloadBloc.add(PreloadEvent(currentIndex: 0, isInitial: true));
-    reelsBloc.add(const ReelLoadEvent(reelIndex: 0));
+    preloadBloc.add(PreloadEvent(
+        currentIndex: preloadBloc.state.focusedIndex, isInitial: true));
+    reelsBloc.add(ReelLoadEvent(reelIndex: preloadBloc.state.focusedIndex));
     return BlocBuilder<PreloadBloc, PreloadState>(
       builder: (context, state) {
         final user = widget.user;

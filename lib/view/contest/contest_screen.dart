@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:stacked_card_carousel/stacked_card_carousel.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:turning_point/bloc/contest/join_contest_bloc.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/model/contest_model.dart';
 import 'package:turning_point/service/Exception/user_exceptions.dart';
 import 'package:turning_point/view/contest/segments/banner_segment.dart';
@@ -94,11 +96,7 @@ class _ContestScreenState extends State<ContestScreen> {
                         child: Column(
                           children: [
                             SizedBox(height: screenSize.height * .1),
-                            const CircularProgressIndicator.adaptive(
-                              strokeWidth: 5,
-                              backgroundColor: Colors.white,
-                              valueColor: AlwaysStoppedAnimation(Colors.amber),
-                            ),
+                            spinningLinesLoading(),
                           ],
                         ),
                       );
@@ -119,7 +117,22 @@ class _ContestScreenState extends State<ContestScreen> {
                         );
                       } else {
                         return Expanded(
-                          child: Container(),
+                          child: Column(
+                            children: [
+                              Lottie.asset(
+                                'assets/lottie/no_data_animation.json',
+                                width: screenSize.width * .6,
+                              ),
+                              Text(
+                                'No Contest Available at the moment',
+                                style: GoogleFonts.inter(
+                                  fontSize: screenSize.width * .041,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black.withOpacity(.75),
+                                ),
+                              ),
+                            ],
+                          ),
                         );
                       }
 

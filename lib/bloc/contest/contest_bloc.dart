@@ -14,8 +14,9 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
   ContestBloc() : super(ContestLoadingState()) {
 //====================Contest Load Event====================//
     on<ContestLoadEvent>((event, emit) async {
-      if (state.timeList == null && state.secondsLeftList == null) {
-        final contestModelResponse = await ContestRepository.getContests();
+      final contestModelResponse = await ContestRepository.getContests();
+      if (contestModelResponse.data != null &&
+          contestModelResponse.data!.isNotEmpty) {
         final List<Map<String, String>> timeList = [];
         final secondsLeftList = ContestRepository.getSecondsLeft(
             contestModelList: contestModelResponse.data!);
@@ -42,6 +43,11 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
           ),
         );
         add(ContestTimerUpdateEvent());
+      } else {
+        emit(
+          ContestLoadedState(
+              contestModelList: null, timeList: null, secondsLeftList: null),
+        );
       }
     });
 
@@ -73,8 +79,13 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
             timeList.removeAt(i);
           }
         }
+        if (timeList.isEmpty) {
+          emit(ContestLoadingState());
+          return add(ContestLoadEvent());
+        }
 
         await Future.delayed(const Duration(seconds: 1));
+
         if (timeList.isNotEmpty && state is ContestLoadedState) {
           emit(
             ContestLoadedState(
@@ -84,7 +95,7 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
             ),
           );
           add(ContestTimerUpdateEvent());
-        }
+        } else {}
       }
     });
 
