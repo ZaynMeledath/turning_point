@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
+import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
@@ -36,16 +37,15 @@ class _ReelsScreenState extends State<ReelsScreen> {
   }
 
   @override
-  void dispose() {
-    // preloadBloc.disposeAllControllers();
+  void deactivate() {
+    preloadBloc.pauseCurrentController();
     log('######## REELS SCREEN DISPOSED #########');
-    super.dispose();
+    super.deactivate();
   }
 
   @override
   Widget build(BuildContext context) {
     log('REELS SCREEN BUILD EXECUTED');
-    profileBloc.add(ProfileLoadEvent());
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -160,10 +160,13 @@ class _ReelsScreenState extends State<ReelsScreen> {
                     right: screenSize.width * .03,
                     top: screenSize.height * .07,
                     child: GestureDetector(
-                      onTap: () => CustomNavigator.push(
-                        context: context,
-                        child: const ProfileScreen(),
-                      ),
+                      onTap: () {
+                        preloadBloc.pauseCurrentController();
+                        CustomNavigator.push(
+                          context: context,
+                          child: const ProfileScreen(),
+                        );
+                      },
                       child: CircleAvatar(
                         backgroundColor:
                             const Color.fromRGBO(225, 225, 225, .6),
