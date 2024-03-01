@@ -31,16 +31,15 @@ class _ReelsScreenState extends State<ReelsScreen> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // Check if the future is not already assigned to avoid unnecessary fetches.
+  void deactivate() {
+    preloadBloc.pauseCurrentController();
+    super.deactivate();
   }
 
   @override
-  void deactivate() {
+  void dispose() {
     preloadBloc.pauseCurrentController();
-    log('######## REELS SCREEN DISPOSED #########');
-    super.deactivate();
+    super.dispose();
   }
 
   @override
@@ -100,6 +99,7 @@ class _ReelsScreenState extends State<ReelsScreen> {
                           children: [
                             GestureDetector(
                               onTap: () {
+                                preloadBloc.pauseCurrentController();
                                 CustomNavigator.push(
                                   context: context,
                                   child: const PointsScreen(),

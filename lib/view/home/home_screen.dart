@@ -26,14 +26,24 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    pointsBloc.add(PointsLoadEvent());
+    profileBloc.add(ProfileLoadEvent());
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() async {
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    pointsBloc.add(PointsLoadEvent());
-    profileBloc.add(ProfileLoadEvent());
     return BlocConsumer<HomeBloc, HomeState>(
       listener: (context, state) async {
         if (state is ConnectState) {
