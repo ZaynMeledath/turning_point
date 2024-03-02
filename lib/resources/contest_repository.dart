@@ -8,16 +8,18 @@ import 'package:turning_point/service/api/api_service.dart';
 class ContestRepository {
 //====================Get Contests====================//
   static Future<ContestModelResponse> getContests() async {
-    final response = await ApiService().sendRequest(
-      url: ApiEndpoints.getContests,
-      requestMethod: RequestMethod.GET,
-      data: null,
-      isTokenRequired: true,
-    );
+    try {
+      final response = await ApiService().sendRequest(
+        url: ApiEndpoints.getContests,
+        requestMethod: RequestMethod.GET,
+        data: null,
+        isTokenRequired: true,
+      );
 
-    log('CONTEST RESPONSE: $response');
-
-    return ContestModelResponse.fromJson(response);
+      return ContestModelResponse.fromJson(response);
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
 //====================Join Contest====================//
@@ -32,6 +34,22 @@ class ContestRepository {
     } catch (e) {
       log('EXCEPTION IN JOIN CONTEST METHOD : $e');
       throw CouldNotJoinContestException();
+    }
+  }
+
+//====================Get Seconds Left====================//
+  static Future<ContestModelResponse> getCurrentContest() async {
+    try {
+      final response = await ApiService().sendRequest(
+        url: ApiEndpoints.getCurrentContest,
+        requestMethod: RequestMethod.GET,
+        data: null,
+        isTokenRequired: true,
+      );
+
+      return ContestModelResponse.fromJson(response);
+    } catch (e) {
+      throw Exception(e);
     }
   }
 
@@ -53,5 +71,19 @@ class ContestRepository {
     }
 
     return secondsLeftList;
+  }
+
+//====================Get Lucky Draw Seconds Left====================//
+  static int getLuckyDrawSecondsLeft({required ContestModel contestModel}) {
+    final String endDateString = contestModel.combinedEndDateTime!;
+    final DateTime endDate = DateTime.parse(endDateString);
+    final currentDateToSecondsSinceEpoch =
+        DateTime.now().millisecondsSinceEpoch / 1000;
+    final endDateToSecondsSinceEpoch = endDate.millisecondsSinceEpoch / 1000;
+
+    final secondsLeft =
+        (endDateToSecondsSinceEpoch - currentDateToSecondsSinceEpoch).toInt();
+
+    return secondsLeft;
   }
 }

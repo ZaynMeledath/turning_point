@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/helper/screen_size.dart';
 
-Widget daysLeftContainer() {
+Widget daysLeftContainer({
+  required String daysLeft,
+}) {
   return Container(
     width: screenSize.width * .31,
     height: screenSize.width * .092,
@@ -27,7 +29,7 @@ Widget daysLeftContainer() {
     ),
     child: Center(
       child: Text(
-        '3 Days Left',
+        '$daysLeft Days Left',
         style: GoogleFonts.roboto(
           color: Colors.white,
           fontSize: screenSize.width * .041,

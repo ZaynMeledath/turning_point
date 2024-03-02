@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/lucky_draw/segments/gift_box_container.dart';
 
@@ -8,7 +9,9 @@ Widget giftBoxesSegment() {
     children: [
       Row(
         children: [
-          giftBoxContainer(),
+          GestureDetector(
+              // onTap: () => ,
+              child: giftBoxContainer()),
           SizedBox(width: screenSize.width * .08),
           giftBoxContainer(),
           SizedBox(width: screenSize.width * .08),

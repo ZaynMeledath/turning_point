@@ -5,6 +5,7 @@ import 'package:turning_point/bloc/contest/contest_bloc.dart';
 import 'package:turning_point/bloc/contest/join_contest_bloc.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/bloc/kyc/kyc_bloc.dart';
+import 'package:turning_point/bloc/lucky_draw/lucky_draw_bloc.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/points_history/points_history_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
@@ -78,6 +79,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => pointsBloc,
+        ),
+        BlocProvider(
+          create: (_) => luckyDrawBloc,
         ),
       ],
       child: MaterialApp(
