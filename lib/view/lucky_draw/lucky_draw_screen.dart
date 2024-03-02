@@ -4,11 +4,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/lucky_draw/lucky_draw_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
-import 'package:turning_point/view/lucky_draw/all_gifts_screen.dart';
-import 'package:turning_point/view/lucky_draw/segments/count_down_timer_segment.dart';
-import 'package:turning_point/view/lucky_draw/segments/days_left_container.dart';
-import 'package:turning_point/view/lucky_draw/segments/gift_boxes_segment.dart';
+
+part 'segments/gift_boxes_segment.dart';
+part 'all_gifts_screen.dart';
+part 'segments/count_down_container.dart';
+part 'segments/count_down_timer_segment.dart';
+part 'segments/days_left_container.dart';
+part 'segments/gift_box_container.dart';
 
 class LuckyDrawScreen extends StatefulWidget {
   const LuckyDrawScreen({super.key});
@@ -84,67 +88,72 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
                         ),
                       ),
                     ),
-                    //====================Lucky Draw Image====================//
-                    Positioned(
-                      top: screenSize.height * .045,
-                      child: Image.asset(
-                        'assets/images/lucky_draw_image.png',
-                        width: screenSize.width * .7,
-                      ),
-                    ),
 
-                    //====================Days Left Blue Container====================//
-                    Positioned(
-                      top: screenSize.height * .33,
-                      child: daysLeftContainer(
-                          daysLeft: state.timeMap!['timeInDays']!),
-                    ),
-
-                    //====================Count Down Timer====================//
-                    Positioned(
-                      top: screenSize.height * .42,
-                      child: countDownTimerSegment(
-                        days: state.timeMap!['timeInDays']!,
-                        hours: state.timeMap!['timeInHours']!,
-                        minutes: state.timeMap!['timeInMinutes']!,
-                        seconds: state.timeMap!['timeInSeconds']!,
-                      ),
-                    ),
-
-                    //====================Gifts Segment====================//
-                    Positioned(
-                      top: screenSize.height * .555,
-                      left: screenSize.width * .075,
-                      child: Text(
-                        'Gifts',
-                        style: GoogleFonts.roboto(
-                          color: Colors.black.withOpacity(.8),
-                          fontSize: screenSize.width * .036,
-                          fontWeight: FontWeight.w600,
+                    Column(
+                      children: [
+                        SizedBox(height: screenSize.height * .035),
+                        //====================Lucky Draw Image====================//
+                        Image.asset(
+                          'assets/images/lucky_draw_image.png',
+                          width: screenSize.width * .7,
                         ),
-                      ),
-                    ),
-                    Positioned(
-                      top: screenSize.height * .56,
-                      right: screenSize.width * .075,
-                      child: GestureDetector(
-                        onTap: () => CustomNavigator.push(
-                          context: context,
-                          child: const AllGiftsScreen(),
+
+                        SizedBox(height: screenSize.height * .025),
+                        //====================Days Left Blue Container====================//
+                        daysLeftContainer(
+                            daysLeft: state.timeMap!['timeInDays']!),
+
+                        SizedBox(height: screenSize.height * .035),
+                        //====================Count Down Timer====================//
+                        countDownTimerSegment(
+                          days: state.timeMap!['timeInDays']!,
+                          hours: state.timeMap!['timeInHours']!,
+                          minutes: state.timeMap!['timeInMinutes']!,
+                          seconds: state.timeMap!['timeInSeconds']!,
                         ),
-                        child: Text(
-                          'View All',
-                          style: GoogleFonts.roboto(
-                            color: Colors.black.withOpacity(.8),
-                            fontSize: screenSize.width * .031,
-                            fontWeight: FontWeight.w400,
+
+                        SizedBox(height: screenSize.height * .065),
+                        //====================Gifts Segment====================//
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: screenSize.width * .06,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Gifts',
+                                style: GoogleFonts.roboto(
+                                  color: Colors.black.withOpacity(.8),
+                                  fontSize: screenSize.width * .036,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () => CustomNavigator.push(
+                                  context: context,
+                                  child: const AllGiftsScreen(),
+                                ),
+                                child: Text(
+                                  'View All',
+                                  style: GoogleFonts.roboto(
+                                    color: Colors.black.withOpacity(.8),
+                                    fontSize: screenSize.width * .031,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: screenSize.height * .025,
-                      child: giftBoxesSegment(),
+                        SizedBox(height: screenSize.height * .02),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: screenSize.width * .05,
+                          ),
+                          child: giftBoxesSegment(context),
+                        ),
+                      ],
                     )
                   ],
                 );

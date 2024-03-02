@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
-import 'package:turning_point/helper/screen_size.dart';
+part of 'lucky_draw_screen.dart';
 
 class AllGiftsScreen extends StatefulWidget {
   const AllGiftsScreen({super.key});
@@ -92,7 +89,7 @@ class _AllGiftsScreenState extends State<AllGiftsScreen> {
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: Colors.white.withOpacity(.9),
+                      color: Colors.white,
                       // gradient: LinearGradient(
                       //   colors: [
                       //     const Color.fromRGBO(255, 221, 84, 1),
@@ -102,21 +99,22 @@ class _AllGiftsScreenState extends State<AllGiftsScreen> {
                       //   end: Alignment.bottomCenter,
                       // ),
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    child: ListView(
                       children: [
                         Image.asset(
                           'assets/images/red_gift_box.png',
-                          width: screenSize.width * .12,
+                          height: screenSize.width * .15,
                         ),
-                        SizedBox(height: screenSize.width * .015),
+                        SizedBox(height: screenSize.width * .007),
                         Text(
                           'Gift Name',
+                          textAlign: TextAlign.center,
                           style: GoogleFonts.roboto(
                             fontSize: screenSize.width * .038,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
+                        SizedBox(height: screenSize.width * .005),
                         Text(
                           'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout',
                           textAlign: TextAlign.center,

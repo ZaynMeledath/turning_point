@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:turning_point/helper/screen_size.dart';
+part of '../lucky_draw_screen.dart';
 
 //====================Individual Gift Container Styling====================//
 Widget giftBoxContainer() {

@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/view/lucky_draw/segments/count_down_container.dart';
+part of '../lucky_draw_screen.dart';
 
 //====================Whole Timer Segment====================//
 Widget countDownTimerSegment({
