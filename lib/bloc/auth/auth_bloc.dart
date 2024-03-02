@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:flutter/foundation.dart' show immutable;
+import 'package:flutter/material.dart' show TextEditingController, immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/model/contractor_model.dart';
 import 'package:turning_point/resources/user_repository.dart';
@@ -59,16 +59,26 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           const AuthLoadingState(),
         );
         try {
-          emit(
-            OtpVerificationNeededState(
+          final phoneExists =
+              await UserRepository.checkPhoneNumber(event.phone);
+
+          if (phoneExists) {
+            return emit(PhoneNumberExistsState());
+          } else {
+            emit(
+              OtpVerificationNeededState(
+                phone: event.phone,
+                businessName: event.businessName,
+                contractor: event.contractor,
+              ),
+            );
+            await provider.sendPhoneVerification(
               phone: event.phone,
-              businessName: event.businessName,
-              contractor: event.contractor,
-            ),
-          );
-          await provider.sendPhoneVerification(phone: event.phone);
+              otpController: event.otpController,
+            );
+          }
         } catch (e) {
-          log('EXCEPTION IN SIGNUP EVENT : $e');
+          throw Exception(e);
         }
       },
     );

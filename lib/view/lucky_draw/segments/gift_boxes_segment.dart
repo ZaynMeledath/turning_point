@@ -1,28 +1,60 @@
-import 'package:flutter/material.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/view/lucky_draw/segments/gift_box_container.dart';
+part of '../lucky_draw_screen.dart';
 
 //====================Whole Gift Box Segment in Lucky Draw Screen====================//
-Widget giftBoxesSegment() {
+Widget giftBoxesSegment(BuildContext context) {
   return Column(
     children: [
       Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          giftBoxContainer(),
-          SizedBox(width: screenSize.width * .08),
-          giftBoxContainer(),
-          SizedBox(width: screenSize.width * .08),
-          giftBoxContainer(),
+          GestureDetector(
+            onTap: () => CustomNavigator.push(
+              context: context,
+              child: const AllGiftsScreen(),
+            ),
+            child: giftBoxContainer(),
+          ),
+          GestureDetector(
+            onTap: () => CustomNavigator.push(
+              context: context,
+              child: const AllGiftsScreen(),
+            ),
+            child: giftBoxContainer(),
+          ),
+          GestureDetector(
+            onTap: () => CustomNavigator.push(
+              context: context,
+              child: const AllGiftsScreen(),
+            ),
+            child: giftBoxContainer(),
+          ),
         ],
       ),
       SizedBox(height: screenSize.height * .019),
       Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          giftBoxContainer(),
-          SizedBox(width: screenSize.width * .08),
-          giftBoxContainer(),
-          SizedBox(width: screenSize.width * .08),
-          giftBoxContainer(),
+          GestureDetector(
+            onTap: () => CustomNavigator.push(
+              context: context,
+              child: const AllGiftsScreen(),
+            ),
+            child: giftBoxContainer(),
+          ),
+          GestureDetector(
+            onTap: () => CustomNavigator.push(
+              context: context,
+              child: const AllGiftsScreen(),
+            ),
+            child: giftBoxContainer(),
+          ),
+          GestureDetector(
+            onTap: () => CustomNavigator.push(
+              context: context,
+              child: const AllGiftsScreen(),
+            ),
+            child: giftBoxContainer(),
+          ),
         ],
       ),
     ],

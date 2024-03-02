@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:turning_point/helper/screen_size.dart';
+part of '../lucky_draw_screen.dart';
 
 //====================Individual Gift Container Styling====================//
 Widget giftBoxContainer() {
@@ -8,7 +7,6 @@ Widget giftBoxContainer() {
     height: screenSize.width * .24,
     padding: EdgeInsets.all(screenSize.width * .02),
     decoration: BoxDecoration(
-      // color: Colors.white.withOpacity(1),
       gradient: LinearGradient(
         colors: [
           const Color.fromRGBO(255, 221, 84, 1),

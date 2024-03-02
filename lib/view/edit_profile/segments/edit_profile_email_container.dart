@@ -9,21 +9,21 @@ Widget editProfileEmailContainer({required String email}) {
           // profileBloc.add(ProfileEmailUpdateEvent());
         },
         child: SizedBox(
-          height: screenSize.height * .056 + (screenSize.height * .019) / 2,
+          height: screenSize.height * .058 + (screenSize.height * .019) / 2,
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: [
               //====================Email Container====================//
               Container(
                   width: double.infinity,
-                  height: screenSize.height * .056,
+                  height: screenSize.height * .058,
                   padding: const EdgeInsets.only(left: 15, right: 5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
                       width: 1,
                       // color: const Color.fromRGBO(142, 142, 142, 1),
-                      color: Colors.grey,
+                      color: Colors.grey.withOpacity(.6),
                     ),
                   ),
                   child: Row(
@@ -47,11 +47,10 @@ Widget editProfileEmailContainer({required String email}) {
               //====================floating Container Title====================//
               Positioned(
                 top: 0,
-                left: screenSize.width * .05,
+                left: 16,
                 child: Container(
                   height: screenSize.height * .019,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: screenSize.width * .028),
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
                   color: Colors.white,
                   child: Center(
                     child: Text(
@@ -59,6 +58,7 @@ Widget editProfileEmailContainer({required String email}) {
                       style: GoogleFonts.inter(
                         fontSize: screenSize.width * .028,
                         fontWeight: FontWeight.w500,
+                        color: Colors.black.withOpacity(.7),
                       ),
                     ),
                   ),

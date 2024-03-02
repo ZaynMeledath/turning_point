@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
-import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/model/coupon_model.dart';
 import 'package:turning_point/resources/scanner_repository.dart';
 import 'package:turning_point/resources/user_repository.dart';
@@ -29,8 +29,9 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
           final userModelResponse = UserRepository.getUserFromPreference()!;
           userModelResponse.data!.points =
               userModelResponse.data!.points! + couponModel.points!;
-          reelsBloc.state.userPoints = userModelResponse.data!.points!;
+          // reelsBloc.state.userPoints = userModelResponse.data!.points!;
           UserRepository.addUserToPreference(userModelResponse);
+          pointsBloc.add(PointsLoadEvent());
           profileBloc.add(ProfileLoadEvent());
           emit(ScannerCodeDetectedState(couponModel: couponModel));
         }

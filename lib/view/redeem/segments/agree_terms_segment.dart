@@ -3,14 +3,14 @@ part of '../redeem_screen.dart';
 Widget agreeTermsSegment() {
   return BlocBuilder<RedeemBloc, RedeemState>(
     builder: (context, state) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onTap: () {
-              redeemBloc.add(AgreeTermsPressedEvent());
-            },
-            child: Container(
+      return GestureDetector(
+        onTap: () {
+          redeemBloc.add(AgreeTermsPressedEvent());
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
               width: screenSize.width * .041,
               height: screenSize.width * .041,
               decoration: BoxDecoration(
@@ -36,16 +36,16 @@ Widget agreeTermsSegment() {
                 ),
               ),
             ),
-          ),
-          SizedBox(width: screenSize.width * .031),
-          Text(
-            'I agree with the Terms and Conditions',
-            style: GoogleFonts.roboto(
-              fontSize: screenSize.width * .03,
-              fontWeight: FontWeight.w400,
+            SizedBox(width: screenSize.width * .031),
+            Text(
+              'I agree with the Terms and Conditions',
+              style: GoogleFonts.roboto(
+                fontSize: screenSize.width * .03,
+                fontWeight: FontWeight.w400,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
     },
   );

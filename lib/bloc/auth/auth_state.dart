@@ -38,3 +38,5 @@ class OtpVerificationNeededState extends AuthState {
 class OtpVerifiedState extends AuthState {}
 
 class SignedInState extends AuthState {}
+
+class PhoneNumberExistsState extends AuthState {}

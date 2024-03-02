@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart' show TextEditingController;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:turning_point/service/auth/auth_exceptions.dart';
 import 'package:turning_point/service/auth/auth_provider.dart';
@@ -74,7 +75,10 @@ class FirebaseAuthProvider implements CustomAuthProvider {
   }
 
   @override
-  Future<void> sendPhoneVerification({required String phone}) async {
+  Future<void> sendPhoneVerification({
+    required String phone,
+    required TextEditingController otpController,
+  }) async {
     try {
       if (currentUser != null) {
         await FirebaseAuth.instance.verifyPhoneNumber(
@@ -82,7 +86,9 @@ class FirebaseAuthProvider implements CustomAuthProvider {
           codeSent: (verificationId, forceResendingToken) {
             verifyId = verificationId;
           },
-          verificationCompleted: (phoneAuthCredential) {},
+          verificationCompleted: (phoneAuthCredential) {
+            otpController.text = phoneAuthCredential.smsCode ?? '';
+          },
           verificationFailed: (error) {
             throw error;
           },

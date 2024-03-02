@@ -46,6 +46,19 @@ class UserRepository {
     }
   }
 
+  static Future<bool> checkPhoneNumber(String phone) async {
+    final response = await ApiService().sendRequest(
+      url: ApiEndpoints.checkPhoneNumber,
+      requestMethod: RequestMethod.POST,
+      data: {
+        'phone': phone,
+      },
+      isTokenRequired: false,
+    );
+    final status = response['exists'];
+    return status;
+  }
+
   static Future<bool> userSignUp({
     required String phone,
     ContractorModel? contractor,
@@ -66,6 +79,7 @@ class UserRepository {
             "contractor": {
               "name": contractor.name,
               "businessName": contractor.businessName,
+              "phone": contractor.phone,
             },
           "idToken": token,
         },

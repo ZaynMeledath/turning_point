@@ -8,30 +8,27 @@ Widget kycPersonalDetails({
   required TextEditingController emailController,
   required TextEditingController pinController,
 }) {
-  return Column(
+  return ListView(
     children: [
+      SizedBox(height: screenSize.height * .016),
       kycTextFieldSegment(
-        screenSize: screenSize,
         controller: nameController,
         title: 'Name',
       ),
       SizedBox(height: screenSize.height * .035),
       kycTextFieldSegment(
-        screenSize: screenSize,
         controller: mobileController,
         title: 'Mobile Number',
         isNum: true,
       ),
       SizedBox(height: screenSize.height * .035),
       kycTextFieldSegment(
-        screenSize: screenSize,
         controller: emailController,
         title: 'Email',
         isEmail: true,
       ),
       SizedBox(height: screenSize.height * .035),
       kycTextFieldSegment(
-        screenSize: screenSize,
         controller: pinController,
         title: 'Pincode',
         isNum: true,

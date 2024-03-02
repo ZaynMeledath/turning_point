@@ -16,3 +16,9 @@ class PointsIncrementEvent extends RedeemEvent {}
 class PointsDecrementEvent extends RedeemEvent {}
 
 class AgreeTermsPressedEvent extends RedeemEvent {}
+
+class RedeemButtonPressedEvent extends RedeemEvent {
+  final String? upiId;
+
+  RedeemButtonPressedEvent({this.upiId});
+}

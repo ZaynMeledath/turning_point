@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/home/home_bloc.dart';
+import 'package:turning_point/bloc/points/points_bloc.dart';
+import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/dialog/show_connect_dialog.dart';
 import 'package:turning_point/view/home/reels_screen.dart';
 import 'package:turning_point/view/lucky_draw/lucky_draw_screen.dart';
@@ -24,12 +26,24 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  // }
+
+  @override
   void dispose() async {
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    pointsBloc.add(PointsLoadEvent());
+    profileBloc.add(ProfileLoadEvent());
     return BlocConsumer<HomeBloc, HomeState>(
       listener: (context, state) async {
         if (state is ConnectState) {

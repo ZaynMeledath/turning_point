@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/helper/flight_shuttle.dart';
 import 'package:turning_point/helper/screen_size.dart';
@@ -31,6 +32,7 @@ class ProfileScreen extends StatelessWidget {
                         size: screenSize.width * .061,
                       ),
                       onPressed: () {
+                        preloadBloc.playCurrentController();
                         Navigator.of(context).pop();
                       },
                     ),

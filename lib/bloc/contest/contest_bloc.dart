@@ -16,32 +16,39 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
     on<ContestLoadEvent>((event, emit) async {
       if (state.timeList == null && state.secondsLeftList == null) {
         final contestModelResponse = await ContestRepository.getContests();
-        final List<Map<String, String>> timeList = [];
-        final secondsLeftList = ContestRepository.getSecondsLeft(
-            contestModelList: contestModelResponse.data!);
-        log('First for loop starting');
-        for (int i = 0; i < contestModelResponse.data!.length; i++) {
-          int seconds = secondsLeftList[i];
-          int timeInSeconds = (seconds % 60);
-          int timeInMinutes = (seconds ~/ 60) % 60;
-          int timeInHours = (seconds ~/ 3600) % 24;
-          int timeInDays = (seconds ~/ 86400).abs();
+        if (contestModelResponse.data != null &&
+            contestModelResponse.data!.isNotEmpty) {
+          final List<Map<String, String>> timeList = [];
+          final secondsLeftList = ContestRepository.getSecondsLeft(
+              contestModelList: contestModelResponse.data!);
+          for (int i = 0; i < contestModelResponse.data!.length; i++) {
+            int seconds = secondsLeftList[i];
+            int timeInSeconds = (seconds % 60);
+            int timeInMinutes = (seconds ~/ 60) % 60;
+            int timeInHours = (seconds ~/ 3600) % 24;
+            int timeInDays = (seconds ~/ 86400).abs();
 
-          timeList.add({
-            'timeInSeconds': timeInSeconds.toString().padLeft(2, '0'),
-            'timeInMinutes': timeInMinutes.toString().padLeft(2, '0'),
-            'timeInHours': timeInHours.toString().padLeft(2, '0'),
-            'timeInDays': timeInDays.toString().padLeft(2, '0'),
-          });
+            timeList.add({
+              'timeInSeconds': timeInSeconds.toString().padLeft(2, '0'),
+              'timeInMinutes': timeInMinutes.toString().padLeft(2, '0'),
+              'timeInHours': timeInHours.toString().padLeft(2, '0'),
+              'timeInDays': timeInDays.toString().padLeft(2, '0'),
+            });
+          }
+          emit(
+            ContestLoadedState(
+              contestModelList: contestModelResponse.data!,
+              timeList: timeList,
+              secondsLeftList: secondsLeftList,
+            ),
+          );
+          add(ContestTimerUpdateEvent());
+        } else {
+          emit(
+            ContestLoadedState(
+                contestModelList: null, timeList: null, secondsLeftList: null),
+          );
         }
-        emit(
-          ContestLoadedState(
-            contestModelList: contestModelResponse.data!,
-            timeList: timeList,
-            secondsLeftList: secondsLeftList,
-          ),
-        );
-        add(ContestTimerUpdateEvent());
       }
     });
 
@@ -51,7 +58,6 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
         var timeList = state.timeList!;
         var secondsLeftList = state.secondsLeftList!;
         for (int i = 0; i < state.timeList!.length; i++) {
-          log('FOR LOOP STARTED');
           int seconds = secondsLeftList[i];
 
           int timeInSeconds = (seconds % 60);
@@ -73,8 +79,11 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
             timeList.removeAt(i);
           }
         }
+        if (timeList.isEmpty) {
+          emit(ContestLoadingState());
+          return add(ContestLoadEvent());
+        }
 
-        await Future.delayed(const Duration(seconds: 1));
         if (timeList.isNotEmpty && state is ContestLoadedState) {
           emit(
             ContestLoadedState(
@@ -83,12 +92,19 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
               secondsLeftList: secondsLeftList,
             ),
           );
-          add(ContestTimerUpdateEvent());
+          await Future.delayed(const Duration(seconds: 1));
+          return add(ContestTimerUpdateEvent());
+        } else {
+          return;
         }
       }
     });
 
+//====================Timer Dispose Event====================//
     on<ContestTimerDisposeEvent>((event, emit) {
+      state.contestModelList = null;
+      state.timeList = null;
+      state.secondsLeftList = null;
       emit(ContestLoadingState());
     });
   }

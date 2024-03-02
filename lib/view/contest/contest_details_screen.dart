@@ -228,7 +228,8 @@ class ContestDetailsScreen extends StatelessWidget {
                     if (state.contestModelList![index].userJoinStatus != true) {
                       joinContestBloc.add(
                         JoinContestEvent(
-                          state.contestModelList![index],
+                          contestModel: state.contestModelList![index],
+                          contestIndex: index,
                         ),
                       );
                     }

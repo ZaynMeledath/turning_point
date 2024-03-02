@@ -1,8 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/helper/screen_size.dart';
+part of '../lucky_draw_screen.dart';
 
-Widget daysLeftContainer() {
+Widget daysLeftContainer({
+  required String daysLeft,
+}) {
+  if (int.parse(daysLeft) < 10) {
+    daysLeft = daysLeft.split('')[1];
+  }
   return Container(
     width: screenSize.width * .31,
     height: screenSize.width * .092,
@@ -27,7 +30,7 @@ Widget daysLeftContainer() {
     ),
     child: Center(
       child: Text(
-        '3 Days Left',
+        int.parse(daysLeft) > 1 ? '$daysLeft Days Left' : '$daysLeft Day Left',
         style: GoogleFonts.roboto(
           color: Colors.white,
           fontSize: screenSize.width * .041,

@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:otp_text_field/otp_field.dart';
-import 'package:otp_text_field/otp_field_style.dart';
-import 'package:otp_text_field/style.dart';
+import 'package:pinput/pinput.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/dialog/show_custom_loading_dialog.dart';
 import 'package:turning_point/dialog/show_generic_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/terms_and_conditions/terms_and_conditions_screen.dart';
-// part 'package:turning_point/view/login/segments/otp_container.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
-  const OtpVerificationScreen({super.key});
+  final TextEditingController otpController;
+  const OtpVerificationScreen({
+    required this.otpController,
+    super.key,
+  });
 
   @override
   State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
@@ -25,6 +26,12 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    widget.otpController.dispose();
+    super.dispose();
   }
 
   @override
@@ -127,25 +134,36 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           color: const Color.fromRGBO(0, 0, 0, 1),
                         ),
                       ),
-                      SizedBox(height: screenSize.height * .025),
+                      SizedBox(height: screenSize.height * .024),
 
                       //====================OTP Containers====================//
-                      OTPTextField(
-                        fieldStyle: FieldStyle.box,
+                      Pinput(
+                        controller: widget.otpController,
                         length: 6,
-                        outlineBorderRadius: 8,
-                        fieldWidth: screenSize.width * .09,
-                        otpFieldStyle: OtpFieldStyle(
-                          borderColor: const Color.fromRGBO(155, 155, 155, 1),
+                        defaultPinTheme: PinTheme(
+                          width: screenSize.width * .1,
+                          height: screenSize.width * .1,
+                          textStyle: GoogleFonts.roboto(
+                            fontSize: screenSize.width * .05,
+                            color: const Color.fromRGBO(30, 60, 87, 1),
+                            fontWeight: FontWeight.w600,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color.fromRGBO(234, 239, 243, .3),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: Colors.black.withOpacity(.3),
+                            ),
+                          ),
                         ),
-                        width: screenSize.width * .7,
+                        androidSmsAutofillMethod: AndroidSmsAutofillMethod.none,
                         onChanged: (value) {},
                         onCompleted: (value) {
                           otp = value;
                         },
                       ),
 
-                      SizedBox(height: screenSize.height * .01),
+                      SizedBox(height: screenSize.height * .016),
 
                       //====================Resend OTP====================//
                       Row(

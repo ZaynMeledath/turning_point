@@ -11,7 +11,7 @@ Future<T?> showGenericDialog<T>({
       builder: (context) {
         return AlertDialog(
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           backgroundColor: Colors.white,
           elevation: 80,
           title: Text(title),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/kyc/kyc_bloc.dart';
-import 'package:turning_point/dialog/show_generic_dialog.dart';
 import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
@@ -30,8 +29,9 @@ class _KycScreenState extends State<KycScreen>
   late final TextEditingController confirmAccNumController;
   late final TextEditingController ifscController;
   late final TabController _tabController;
+  final GlobalKey<FormState> _formKey = GlobalKey();
 
-  CloseDialog? _closeDialogHandle;
+  dynamic closeDialogHandle;
 
   @override
   void initState() {
@@ -68,14 +68,14 @@ class _KycScreenState extends State<KycScreen>
       body: SafeArea(
         child: BlocConsumer<KycBloc, KycState>(
           listener: (context, state) {
-            final closeDialog = _closeDialogHandle;
             if (state is KycLoadedState) {
-              if (state.isLoading && closeDialog == null) {
-                _closeDialogHandle = showLoadingDialog(context: context);
+              if (state.isLoading && closeDialogHandle == null) {
+                closeDialogHandle = showLoadingDialog(context: context);
               }
-            } else if (state is KycSubmittedState && closeDialog != null) {
-              closeDialog();
-              _closeDialogHandle = null;
+            } else if (state is KycSubmittedState &&
+                closeDialogHandle != null) {
+              Navigator.pop(context);
+              closeDialogHandle = null;
             }
           },
           builder: (context, state) {
@@ -205,33 +205,36 @@ class _KycScreenState extends State<KycScreen>
                               ),
                             ),
 
-                            SizedBox(height: screenSize.height * .035),
+                            SizedBox(height: screenSize.height * .03),
 
                             //====================TabBarView Segment====================//
-                            SizedBox(
-                              width: double.infinity,
-                              height: screenSize.height * .4,
-                              child: TabBarView(
-                                physics: const NeverScrollableScrollPhysics(),
-                                controller: _tabController,
-                                children: [
-                                  kycPersonalDetails(
-                                    screenSize: screenSize,
-                                    nameController: nameController,
-                                    mobileController: phoneController,
-                                    emailController: emailController,
-                                    pinController: pinController,
-                                  ),
-                                  kycIdProof(screenSize: screenSize),
-                                  kycBankDetails(
-                                    screenSize: screenSize,
-                                    accNameController: accNameController,
-                                    accNumController: accNumController,
-                                    confirmAccNumController:
-                                        confirmAccNumController,
-                                    ifscController: ifscController,
-                                  )
-                                ],
+                            Form(
+                              key: _formKey,
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: screenSize.height * .385,
+                                child: TabBarView(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  controller: _tabController,
+                                  children: [
+                                    kycPersonalDetails(
+                                      screenSize: screenSize,
+                                      nameController: nameController,
+                                      mobileController: phoneController,
+                                      emailController: emailController,
+                                      pinController: pinController,
+                                    ),
+                                    kycIdProof(screenSize: screenSize),
+                                    kycBankDetails(
+                                      screenSize: screenSize,
+                                      accNameController: accNameController,
+                                      accNumController: accNumController,
+                                      confirmAccNumController:
+                                          confirmAccNumController,
+                                      ifscController: ifscController,
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ],
@@ -245,20 +248,20 @@ class _KycScreenState extends State<KycScreen>
                                   state.idBackImage == null)) {
                             return;
                           }
-                          if (_tabController.index < 2) {
-                            _tabController.animateTo(
-                              state.tabIndex + 1,
-                              curve: Curves.bounceInOut,
-                              duration: const Duration(milliseconds: 200),
-                            );
-                            kycBloc.add(KycLoadEvent(
-                              tabIndex: _tabController.index,
-                              name: nameController.text,
-                              email: emailController.text,
-                              pincode: pinController.text,
-                            ));
-                          } else {
-                            if (validate()) {
+                          if (_formKey.currentState!.validate()) {
+                            if (_tabController.index < 2) {
+                              _tabController.animateTo(
+                                state.tabIndex + 1,
+                                curve: Curves.bounceInOut,
+                                duration: const Duration(milliseconds: 200),
+                              );
+                              kycBloc.add(KycLoadEvent(
+                                tabIndex: _tabController.index,
+                                name: nameController.text,
+                                email: emailController.text,
+                                pincode: pinController.text,
+                              ));
+                            } else {
                               kycBloc.add(
                                 KycUpdateEvent(
                                   name: nameController.text,
@@ -270,13 +273,6 @@ class _KycScreenState extends State<KycScreen>
                                   accNum: accNumController.text,
                                   ifsc: ifscController.text,
                                 ),
-                              );
-                            } else {
-                              showGenericDialog(
-                                context: context,
-                                title: 'Fields Empty',
-                                content: 'Please fill up all the fields',
-                                options: {'Dismiss': null},
                               );
                             }
                           }
