@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:turning_point/model/contest_model.dart';
 import 'package:turning_point/model/rewards_model.dart';
+import 'package:turning_point/service/Exception/api_exception.dart';
 import 'package:turning_point/service/Exception/user_exceptions.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
 import 'package:turning_point/service/api/api_service.dart';
@@ -65,6 +66,8 @@ class ContestRepository {
       );
 
       return RewardsModelResponse.fromJson(response);
+    } on NotFoundException {
+      rethrow;
     } catch (e) {
       throw Exception(e);
     }
@@ -81,6 +84,8 @@ class ContestRepository {
       );
 
       return RewardsModelResponse.fromJson(response);
+    } on NotFoundException {
+      rethrow;
     } catch (e) {
       throw Exception(e);
     }

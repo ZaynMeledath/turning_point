@@ -33,13 +33,13 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
   Widget build(BuildContext context) {
     luckyDrawBloc.add(LuckyDrawLoadEvent());
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(255, 204, 0, 1),
+      // backgroundColor: const Color.fromRGBO(255, 204, 0, 1),
       body: SafeArea(
         child: BlocBuilder<LuckyDrawBloc, LuckyDrawState>(
           builder: (context, state) {
             switch (state) {
               case LuckyDrawLoadingState():
-                return spinningLinesLoading(color: Colors.white);
+                return spinningLinesLoading(color: Colors.red);
               case LuckyDrawLoadedState():
                 return Stack(
                   alignment: Alignment.topCenter,

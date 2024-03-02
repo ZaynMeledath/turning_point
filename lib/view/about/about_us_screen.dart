@@ -58,7 +58,7 @@ class AboutUsScreen extends StatelessWidget {
             aboutCompanyContainer(
               title: 'Claart',
               content:
-                  'At Clart, we believe in turning living spaces into sanctuaries. Established with a passion for craftsmanship and an unwavering commitment to quality, we curate furniture that resonates with both elegance and functionality.',
+                  'At Claart, we believe in turning living spaces into sanctuaries. Established with a passion for craftsmanship and an unwavering commitment to quality, we curate furniture that resonates with both elegance and functionality.',
               imagePath: 'assets/images/company_image_demo3.png',
             ),
             SizedBox(height: screenSize.height * .045),

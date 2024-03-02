@@ -58,7 +58,7 @@ class ContestPrizes {
   String? createdAt;
   String? updatedAt;
   int? iV;
-  String? winnerName;
+  WinnerDetails? winnerDetails;
 
   ContestPrizes(
       {this.sId,
@@ -70,7 +70,7 @@ class ContestPrizes {
       this.createdAt,
       this.updatedAt,
       this.iV,
-      this.winnerName});
+      this.winnerDetails});
 
   ContestPrizes.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -82,7 +82,9 @@ class ContestPrizes {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
-    winnerName = json['winnerName'];
+    winnerDetails = json['winnerDetails'] != null
+        ? WinnerDetails.fromJson(json['winnerDetails'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -96,7 +98,28 @@ class ContestPrizes {
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
     data['__v'] = iV;
-    data['winnerName'] = winnerName;
+    if (winnerDetails != null) {
+      data['winnerDetails'] = winnerDetails!.toJson();
+    }
+    return data;
+  }
+}
+
+class WinnerDetails {
+  String? name;
+  String? image;
+
+  WinnerDetails({this.name, this.image});
+
+  WinnerDetails.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    image = json['image'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['image'] = image;
     return data;
   }
 }

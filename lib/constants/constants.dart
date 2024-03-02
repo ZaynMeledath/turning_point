@@ -2,6 +2,9 @@
 
 import 'package:turning_point/model/contractor_model.dart';
 
+const placeHolderImage =
+    'https://www.google.com/url?sa=i&url=https%3A%2F%2Fpixabay.com%2Fvectors%2Favatar-icon-placeholder-facebook-1577909%2F&psig=AOvVaw0Mx14E9N2U6k_cGx6PudHg&ust=1709471976532000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCPCJ_MDV1YQDFQAAAAAdAAAAABAE';
+
 final DEFAULT_CONTRACTOR = ContractorModel(
   name: 'Contractor',
   businessName: 'Turning Point',

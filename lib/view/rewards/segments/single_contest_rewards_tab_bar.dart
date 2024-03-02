@@ -1,10 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/helper/screen_size.dart';
+part of '../rewards_screen.dart';
 
-Widget rewardsTabBar({
-  required TabController tabController,
-}) {
+Widget singleContestRewardsTabBar(TabController tabController) {
   return Container(
     clipBehavior: Clip.antiAlias,
     decoration: const BoxDecoration(
@@ -53,15 +49,7 @@ Widget rewardsTabBar({
               fontWeight: FontWeight.w400,
             ),
           ),
-          Text(
-            'Previous Contest',
-            style: GoogleFonts.roboto(
-              fontSize: screenSize.width * .031,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
         ],
-        enableFeedback: true,
       ),
     ),
   );

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/rewards/segments/clipper_widget.dart';
 import 'package:turning_point/view/rewards/segments/main_prize_segment.dart';
 
-Widget rewardsBodySegment({required Size screenSize}) {
+Widget rewardsBodySegment() {
   return Stack(
     alignment: Alignment.topCenter,
     children: [
@@ -51,7 +52,7 @@ Widget rewardsBodySegment({required Size screenSize}) {
       ),
 
 //====================Body Segment====================//
-      mainPrizeSegment(screenSize: screenSize),
+      mainPrizeSegment(),
     ],
   );
 }

@@ -254,6 +254,7 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
             await redeemRepo.redeemBank(
               points: state.redeemPoints,
             );
+            pointsBloc.add(PointsLoadEvent());
             return emit(
               BankTransferState(
                 selectedOptionNumber: state.selectedOptionNumber,
@@ -271,6 +272,7 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
                 isLoading: true,
               ),
             );
+
           case UpiTransferState():
             emit(
               UpiTransferState(
@@ -285,6 +287,7 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
               points: state.redeemPoints,
               upiId: event.upiId!,
             );
+            pointsBloc.add(PointsLoadEvent());
             emit(
               UpiTransferState(
                 selectedOptionNumber: state.selectedOptionNumber,

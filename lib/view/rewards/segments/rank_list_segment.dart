@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/model/rewards_model.dart';
 
 final rankList = [
   'Sam',
@@ -23,8 +25,8 @@ final rankList = [
 ];
 
 Widget rankListSegment({
-  required Size screenSize,
   required int index,
+  required RewardsModel? rewardsModel,
 }) {
   return Container(
     margin: EdgeInsets.symmetric(
