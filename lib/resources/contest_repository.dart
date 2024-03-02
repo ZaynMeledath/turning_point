@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:turning_point/model/contest_model.dart';
+import 'package:turning_point/model/rewards_model.dart';
 import 'package:turning_point/service/Exception/user_exceptions.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
 import 'package:turning_point/service/api/api_service.dart';
@@ -37,7 +38,7 @@ class ContestRepository {
     }
   }
 
-//====================Get Seconds Left====================//
+//====================Get Current Contest for Lucky Draw Screen====================//
   static Future<ContestModelResponse> getCurrentContest() async {
     try {
       final response = await ApiService().sendRequest(
@@ -48,6 +49,38 @@ class ContestRepository {
       );
 
       return ContestModelResponse.fromJson(response);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+//====================Get Current Contest Rewards====================//
+  static Future<RewardsModelResponse> getCurrentRewards() async {
+    try {
+      final response = await ApiService().sendRequest(
+        url: ApiEndpoints.currentContestRewards,
+        requestMethod: RequestMethod.GET,
+        data: null,
+        isTokenRequired: false,
+      );
+
+      return RewardsModelResponse.fromJson(response);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+//====================Get Previous Contest Rewards====================//
+  static Future<RewardsModelResponse> getPreviousRewards() async {
+    try {
+      final response = await ApiService().sendRequest(
+        url: ApiEndpoints.previousContestRewards,
+        requestMethod: RequestMethod.GET,
+        data: null,
+        isTokenRequired: false,
+      );
+
+      return RewardsModelResponse.fromJson(response);
     } catch (e) {
       throw Exception(e);
     }
