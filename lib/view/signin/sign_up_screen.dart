@@ -11,7 +11,7 @@ import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
 import 'package:turning_point/view/signin/add_contractor_details_screen.dart';
-import 'package:turning_point/view/signin/otp_verfication_screen.dart';
+import 'package:turning_point/view/signin/otp_verification_screen.dart';
 
 part 'segments/sign_up_text_field.dart';
 part 'segments/sign_up_radio_button_segment.dart';

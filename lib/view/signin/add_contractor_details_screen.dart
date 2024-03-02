@@ -7,7 +7,7 @@ import 'package:turning_point/dialog/show_custom_loading_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/model/contractor_model.dart';
-import 'package:turning_point/view/signin/otp_verfication_screen.dart';
+import 'package:turning_point/view/signin/otp_verification_screen.dart';
 import 'package:turning_point/view/signin/sign_up_screen.dart';
 
 class AddContractorDetailsScreen extends StatefulWidget {
