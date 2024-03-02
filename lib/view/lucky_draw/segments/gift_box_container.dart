@@ -7,7 +7,6 @@ Widget giftBoxContainer() {
     height: screenSize.width * .24,
     padding: EdgeInsets.all(screenSize.width * .02),
     decoration: BoxDecoration(
-      // color: Colors.white.withOpacity(1),
       gradient: LinearGradient(
         colors: [
           const Color.fromRGBO(255, 221, 84, 1),

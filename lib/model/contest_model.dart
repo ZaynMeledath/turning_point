@@ -136,6 +136,7 @@ class PrizeArr {
   String? name;
   String? description;
   String? contestId;
+  String? image;
   int? rank;
   String? createdAt;
   String? updatedAt;
@@ -146,6 +147,7 @@ class PrizeArr {
       this.name,
       this.description,
       this.contestId,
+      this.image,
       this.rank,
       this.createdAt,
       this.updatedAt,
@@ -157,6 +159,7 @@ class PrizeArr {
     description = json['description'];
     contestId = json['contestId'];
     rank = json['rank'];
+    image = json['image'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
@@ -169,6 +172,7 @@ class PrizeArr {
     data['description'] = description;
     data['contestId'] = contestId;
     data['rank'] = rank;
+    data['image'] = image;
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
     data['__v'] = iV;

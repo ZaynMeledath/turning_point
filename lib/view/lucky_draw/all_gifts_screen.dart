@@ -70,64 +70,82 @@ class _AllGiftsScreenState extends State<AllGiftsScreen> {
             ),
 
 //====================Gifts Segment====================//
-            Padding(
-              padding: EdgeInsets.only(top: screenSize.height * .067),
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                ),
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: EdgeInsets.symmetric(
-                      horizontal: screenSize.width * .045,
-                      vertical: screenSize.width * .045,
+            BlocBuilder<LuckyDrawBloc, LuckyDrawState>(
+              builder: (context, luckyDrawState) {
+                return Padding(
+                  padding: EdgeInsets.only(top: screenSize.height * .067),
+                  child: GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
                     ),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: screenSize.width * .031,
-                      vertical: screenSize.width * .018,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.white,
-                      // gradient: LinearGradient(
-                      //   colors: [
-                      //     const Color.fromRGBO(255, 221, 84, 1),
-                      //     Colors.white.withOpacity(.9),
-                      //   ],
-                      //   begin: Alignment.topCenter,
-                      //   end: Alignment.bottomCenter,
-                      // ),
-                    ),
-                    child: ListView(
-                      children: [
-                        Image.asset(
-                          'assets/images/red_gift_box.png',
-                          height: screenSize.width * .15,
+                    itemCount: luckyDrawState.contestModel!.prizeArr!.length,
+                    itemBuilder: (context, index) {
+                      final prizeModel =
+                          luckyDrawState.contestModel!.prizeArr![index];
+                      return Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: screenSize.width * .045,
+                          vertical: screenSize.width * .045,
                         ),
-                        SizedBox(height: screenSize.width * .007),
-                        Text(
-                          'Gift Name',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.roboto(
-                            fontSize: screenSize.width * .038,
-                            fontWeight: FontWeight.w500,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: screenSize.width * .031,
+                          vertical: screenSize.width * .018,
+                        ),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              const Color.fromRGBO(255, 221, 84, 1),
+                              Colors.white.withOpacity(.8),
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
                           ),
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: const [
+                            BoxShadow(
+                              offset: Offset(0, 2),
+                              blurRadius: 4,
+                              color: Color.fromRGBO(0, 0, 0, .22),
+                            ),
+                          ],
                         ),
-                        SizedBox(height: screenSize.width * .005),
-                        Text(
-                          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.roboto(
-                            fontSize: screenSize.width * .025,
-                            fontWeight: FontWeight.w300,
-                          ),
+                        child: ListView(
+                          children: [
+                            index < 6
+                                ? Image.network(
+                                    '${ApiEndpoints.uploads}/${prizeModel.image}',
+                                    height: screenSize.width * .15,
+                                  )
+                                : Image.asset(
+                                    'assets/images/red_gift_box.png',
+                                    height: screenSize.width * .15,
+                                  ),
+                            SizedBox(height: screenSize.width * .007),
+                            Text(
+                              prizeModel.name.toString(),
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.roboto(
+                                fontSize: screenSize.width * .038,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            SizedBox(height: screenSize.width * .005),
+                            Text(
+                              prizeModel.description.toString(),
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.roboto(
+                                fontSize: screenSize.width * .025,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  );
-                },
-              ),
+                      );
+                    },
+                  ),
+                );
+              },
             ),
           ],
         ),
