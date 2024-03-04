@@ -29,7 +29,9 @@ Widget rankListSegment({
   required int index,
   required RewardsModel rewardsModel,
 }) {
-  final winnerDetails = rewardsModel.contestPrizes![index + 3].winnerDetails;
+  final winnerDetails = rewardsModel.contestPrizes!.length > 3
+      ? rewardsModel.contestPrizes![index + 3].winnerDetails
+      : null;
 
   return Container(
     margin: EdgeInsets.symmetric(
