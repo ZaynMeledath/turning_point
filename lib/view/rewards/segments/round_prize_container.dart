@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:turning_point/helper/screen_size.dart';
 
 //====================For The First Three Prizes====================//
@@ -28,9 +29,12 @@ Widget roundPrizeContainer({
           ),
           // child: Image.network(imagePath),
         ),
-        Image.network(
-          imagePath,
-          fit: BoxFit.contain,
+        ClipRRect(
+          borderRadius: BorderRadius.circular(100),
+          child: Image.network(
+            imagePath,
+            fit: BoxFit.contain,
+          ),
         )
       ],
     ),

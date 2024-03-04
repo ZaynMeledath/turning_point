@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:turning_point/controller/rewards_provider.dart';
+import 'package:turning_point/bloc/rewards/rewards_bloc.dart';
 
 class ClipperWidget extends CustomClipper<Path> {
   @override
@@ -7,7 +7,7 @@ class ClipperWidget extends CustomClipper<Path> {
     final path = Path();
 
     path.lineTo(0, size.height);
-    if (isScrolled) {
+    if (rewardsBloc.state.isScrolled == true) {
       path.lineTo(size.width, size.height);
     } else {
       path.lineTo(size.width, size.height * .78);

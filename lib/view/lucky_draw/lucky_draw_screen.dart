@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:turning_point/bloc/lucky_draw/lucky_draw_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
@@ -41,123 +42,132 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
               case LuckyDrawLoadingState():
                 return spinningLinesLoading(color: Colors.red);
               case LuckyDrawLoadedState():
-                return Stack(
-                  alignment: Alignment.topCenter,
-                  children: [
-                    //====================Background Decoration Circles====================//
-                    Positioned(
-                      bottom: -screenSize.width * .82,
-                      width: screenSize.width * 1.3,
-                      height: screenSize.width * 1.3,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color.fromRGBO(226, 181, 54, 1),
-                            ),
-                            BoxShadow(
-                              color: Color.fromRGBO(209, 99, 1, 1),
-                              offset: Offset(0, 4),
-                              blurRadius: 121,
-                              spreadRadius: 4,
-                              blurStyle: BlurStyle.outer,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: -screenSize.width * .7,
-                      width: screenSize.width * .8,
-                      height: screenSize.width * .8,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color.fromRGBO(226, 181, 54, 1),
-                            ),
-                            BoxShadow(
-                              color: Color.fromRGBO(209, 99, 1, .6),
-                              offset: Offset(0, 4),
-                              blurRadius: 121,
-                              spreadRadius: 47,
-                              blurStyle: BlurStyle.normal,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    Column(
-                      children: [
-                        SizedBox(height: screenSize.height * .035),
-                        //====================Lucky Draw Image====================//
-                        Image.asset(
-                          'assets/images/lucky_draw_image.png',
-                          width: screenSize.width * .7,
-                        ),
-
-                        SizedBox(height: screenSize.height * .025),
-                        //====================Days Left Blue Container====================//
-                        daysLeftContainer(
-                            daysLeft: state.timeMap!['timeInDays']!),
-
-                        SizedBox(height: screenSize.height * .035),
-                        //====================Count Down Timer====================//
-                        countDownTimerSegment(
-                          days: state.timeMap!['timeInDays']!,
-                          hours: state.timeMap!['timeInHours']!,
-                          minutes: state.timeMap!['timeInMinutes']!,
-                          seconds: state.timeMap!['timeInSeconds']!,
-                        ),
-
-                        SizedBox(height: screenSize.height * .065),
-                        //====================Gifts Segment====================//
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: screenSize.width * .06,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Gifts',
-                                style: GoogleFonts.roboto(
-                                  color: Colors.black.withOpacity(.8),
-                                  fontSize: screenSize.width * .036,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                if (state.contestModel != null) {
+                  return Stack(
+                    alignment: Alignment.topCenter,
+                    children: [
+                      //====================Background Decoration Circles====================//
+                      Positioned(
+                        bottom: -screenSize.width * .82,
+                        width: screenSize.width * 1.3,
+                        height: screenSize.width * 1.3,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color.fromRGBO(226, 181, 54, 1),
                               ),
-                              GestureDetector(
-                                onTap: () => CustomNavigator.push(
-                                  context: context,
-                                  child: const AllGiftsScreen(),
-                                ),
-                                child: Text(
-                                  'View All',
-                                  style: GoogleFonts.roboto(
-                                    color: Colors.black.withOpacity(.8),
-                                    fontSize: screenSize.width * .031,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
+                              BoxShadow(
+                                color: Color.fromRGBO(209, 99, 1, 1),
+                                offset: Offset(0, 4),
+                                blurRadius: 121,
+                                spreadRadius: 4,
+                                blurStyle: BlurStyle.outer,
                               ),
                             ],
                           ),
                         ),
-                        SizedBox(height: screenSize.height * .02),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: screenSize.width * .05,
+                      ),
+                      Positioned(
+                        bottom: -screenSize.width * .7,
+                        width: screenSize.width * .8,
+                        height: screenSize.width * .8,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color.fromRGBO(226, 181, 54, 1),
+                              ),
+                              BoxShadow(
+                                color: Color.fromRGBO(209, 99, 1, .6),
+                                offset: Offset(0, 4),
+                                blurRadius: 121,
+                                spreadRadius: 47,
+                                blurStyle: BlurStyle.normal,
+                              ),
+                            ],
                           ),
-                          child: giftBoxesSegment(context),
                         ),
-                      ],
-                    )
-                  ],
-                );
+                      ),
+
+                      Column(
+                        children: [
+                          SizedBox(height: screenSize.height * .035),
+                          //====================Lucky Draw Image====================//
+                          Image.asset(
+                            'assets/images/lucky_draw_image.png',
+                            width: screenSize.width * .7,
+                          ),
+
+                          SizedBox(height: screenSize.height * .025),
+                          //====================Days Left Blue Container====================//
+                          daysLeftContainer(
+                              daysLeft: state.timeMap!['timeInDays']!),
+
+                          SizedBox(height: screenSize.height * .035),
+                          //====================Count Down Timer====================//
+                          countDownTimerSegment(
+                            days: state.timeMap!['timeInDays']!,
+                            hours: state.timeMap!['timeInHours']!,
+                            minutes: state.timeMap!['timeInMinutes']!,
+                            seconds: state.timeMap!['timeInSeconds']!,
+                          ),
+
+                          SizedBox(height: screenSize.height * .065),
+                          //====================Gifts Segment====================//
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: screenSize.width * .06,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Gifts',
+                                  style: GoogleFonts.roboto(
+                                    color: Colors.black.withOpacity(.8),
+                                    fontSize: screenSize.width * .036,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () => CustomNavigator.push(
+                                    context: context,
+                                    child: const AllGiftsScreen(),
+                                  ),
+                                  child: Text(
+                                    'View All',
+                                    style: GoogleFonts.roboto(
+                                      color: Colors.black.withOpacity(.8),
+                                      fontSize: screenSize.width * .031,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: screenSize.height * .02),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: screenSize.width * .05,
+                            ),
+                            child: giftBoxesSegment(context),
+                          ),
+                        ],
+                      )
+                    ],
+                  );
+                } else {
+                  return Center(
+                    child: Lottie.asset(
+                      'assets/lottie/no_data_animation.json',
+                      width: screenSize.width * .7,
+                    ),
+                  );
+                }
             }
           },
         ),

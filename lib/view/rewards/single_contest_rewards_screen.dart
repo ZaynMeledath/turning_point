@@ -22,13 +22,9 @@ class _SingleContestRewardsScreenState extends State<SingleContestRewardsScreen>
     );
     scrollController.addListener(() {
       if (scrollController.offset >= screenSize.height * .325) {
-        setState(() {
-          isScrolled = true;
-        });
+        rewardsBloc.add(RewardsScreenScrolledEvent(isScrolled: true));
       } else {
-        setState(() {
-          isScrolled = false;
-        });
+        rewardsBloc.add(RewardsScreenScrolledEvent(isScrolled: false));
       }
     });
     super.initState();
@@ -80,7 +76,7 @@ class _SingleContestRewardsScreenState extends State<SingleContestRewardsScreen>
             itemBuilder: (context, index) {
               return rankListSegment(
                 index: index,
-                rewardsModel: state.currentRewardsModel,
+                rewardsModel: state.currentRewardsModel!,
               );
             },
           );

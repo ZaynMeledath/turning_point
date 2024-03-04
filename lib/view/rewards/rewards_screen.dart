@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:turning_point/bloc/rewards/rewards_bloc.dart';
-import 'package:turning_point/controller/rewards_provider.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/view/rewards/segments/rank_list_segment.dart';
@@ -31,17 +30,15 @@ class _RewardsScreenState extends State<RewardsScreen>
     scrollController = ScrollController();
     scrollController.addListener(() {
       if (scrollController.offset >= screenSize.height * .325) {
-        setState(() {
-          isScrolled = true;
-        });
+        rewardsBloc.add(RewardsScreenScrolledEvent(isScrolled: true));
       } else {
-        setState(() {
-          isScrolled = false;
-        });
+        rewardsBloc.add(RewardsScreenScrolledEvent(isScrolled: false));
       }
     });
     tabController.addListener(() {
-      rewardsBloc.state.tabIndex = tabController.index;
+      rewardsBloc.add(
+        RewardsTabSwitchedEvent(tabController.index),
+      );
     });
     super.initState();
   }
@@ -63,14 +60,17 @@ class _RewardsScreenState extends State<RewardsScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<RewardsBloc, RewardsState>(
-        builder: (context, state) {
-          switch (state) {
+        builder: (context, rewardsState) {
+          switch (rewardsState) {
             case RewardsLoadingState():
               return spinningLinesLoading(color: Colors.red);
 
             case RewardsLoadedState():
-              if (state.currentRewardsModel != null &&
-                  state.previousRewardsModel != null) {
+              if (rewardsState.currentRewardsModel != null &&
+                  rewardsState.previousRewardsModel != null) {
+                final activeRewardsModel = rewardsState.tabIndex == 0
+                    ? rewardsState.currentRewardsModel!
+                    : rewardsState.previousRewardsModel!;
                 return NestedScrollView(
                   controller: scrollController,
 
@@ -97,6 +97,7 @@ class _RewardsScreenState extends State<RewardsScreen>
                         automaticallyImplyLeading: false,
                         flexibleSpace: rewardsBodySegment(),
                       ),
+
                       SliverAppBar(
                         backgroundColor: Colors.white,
                         pinned: true,
@@ -115,30 +116,30 @@ class _RewardsScreenState extends State<RewardsScreen>
                       ListView.builder(
                         padding: EdgeInsets.symmetric(
                             vertical: screenSize.height * .01),
-                        itemCount: rankList.length,
+                        itemCount: activeRewardsModel.contestPrizes!.length - 3,
                         itemBuilder: (context, index) {
                           return rankListSegment(
                             index: index,
-                            rewardsModel: state.currentRewardsModel,
+                            rewardsModel: rewardsState.currentRewardsModel!,
                           );
                         },
                       ),
                       ListView.builder(
                         padding: EdgeInsets.symmetric(
                             vertical: screenSize.height * .01),
-                        itemCount: rankList.length,
+                        itemCount: activeRewardsModel.contestPrizes!.length - 3,
                         itemBuilder: (context, index) {
                           return rankListSegment(
                             index: index,
-                            rewardsModel: state.previousRewardsModel,
+                            rewardsModel: rewardsState.previousRewardsModel!,
                           );
                         },
                       ),
                     ],
                   ),
                 );
-              } else if (state.currentRewardsModel != null &&
-                  state.previousRewardsModel == null) {
+              } else if (rewardsState.currentRewardsModel != null &&
+                  rewardsState.previousRewardsModel == null) {
                 return const SingleContestRewardsScreen();
               } else {
                 return Center(

@@ -49,7 +49,7 @@ class RewardsModel {
 }
 
 class ContestPrizes {
-  String? sId;
+  String? id;
   String? name;
   String? description;
   String? image;
@@ -60,20 +60,21 @@ class ContestPrizes {
   int? iV;
   WinnerDetails? winnerDetails;
 
-  ContestPrizes(
-      {this.sId,
-      this.name,
-      this.description,
-      this.image,
-      this.contestId,
-      this.rank,
-      this.createdAt,
-      this.updatedAt,
-      this.iV,
-      this.winnerDetails});
+  ContestPrizes({
+    this.id,
+    this.name,
+    this.description,
+    this.image,
+    this.contestId,
+    this.rank,
+    this.createdAt,
+    this.updatedAt,
+    this.iV,
+    this.winnerDetails,
+  });
 
   ContestPrizes.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
+    id = json['_id'];
     name = json['name'];
     description = json['description'];
     image = json['image'];
@@ -89,7 +90,7 @@ class ContestPrizes {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['_id'] = sId;
+    data['_id'] = id;
     data['name'] = name;
     data['description'] = description;
     data['image'] = image;

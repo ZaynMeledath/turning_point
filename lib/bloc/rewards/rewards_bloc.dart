@@ -9,6 +9,7 @@ part 'rewards_state.dart';
 
 class RewardsBloc extends Bloc<RewardsEvent, RewardsState> {
   RewardsBloc() : super(RewardsLoadingState()) {
+//====================Rewards Load Event====================//
     on<RewardsLoadEvent>((event, emit) async {
       try {
         final currentRewardsModelResponse =
@@ -22,28 +23,41 @@ class RewardsBloc extends Bloc<RewardsEvent, RewardsState> {
           RewardsLoadedState(
             currentRewardsModel: state.currentRewardsModel,
             previousRewardsModel: state.previousRewardsModel,
+            tabIndex: state.tabIndex,
           ),
         );
       } on NotFoundException {
-        // if (e.message == 'No previous closed contest found') {
-        //   final currentRewardsModelResponse =
-        //       await ContestRepository.getCurrentRewards();
-        //   final currentRewardsModel = currentRewardsModelResponse.data!;
         return emit(
           RewardsLoadedState(
             currentRewardsModel: state.currentRewardsModel,
             previousRewardsModel: state.previousRewardsModel,
+            tabIndex: state.tabIndex,
           ),
         );
-        // } else {
-        //   return emit(
-        //     const RewardsLoadedState(
-        //       currentRewardsModel: null,
-        //       previousRewardsModel: null,
-        //     ),
-        //   );
-        // }
       }
+    });
+
+//====================Rewards Tab Switched Event====================//
+    on<RewardsTabSwitchedEvent>((event, emit) {
+      emit(
+        RewardsLoadedState(
+          currentRewardsModel: state.currentRewardsModel,
+          previousRewardsModel: state.previousRewardsModel,
+          tabIndex: event.tabIndex,
+        ),
+      );
+    });
+
+//====================Rewards Screen Scrolled Event====================//
+    on<RewardsScreenScrolledEvent>((event, emit) {
+      emit(
+        RewardsLoadedState(
+          currentRewardsModel: state.currentRewardsModel,
+          previousRewardsModel: state.previousRewardsModel,
+          tabIndex: state.tabIndex,
+          isScrolled: event.isScrolled,
+        ),
+      );
     });
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/rewards/rewards_bloc.dart';
-import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
 import 'package:turning_point/view/rewards/segments/round_prize_container.dart';
@@ -12,10 +11,10 @@ Widget mainPrizeSegment() {
     builder: (context, state) {
       return BlocBuilder<RewardsBloc, RewardsState>(
         builder: (context, state) {
-          final tabIndex = context.watch<RewardsBloc>().state.tabIndex;
-          final rewardsModel = tabIndex == 0
+          final rewardsModel = state.tabIndex == 0
               ? state.currentRewardsModel
               : state.previousRewardsModel;
+
           return Stack(
             alignment: Alignment.topCenter,
             children: [
@@ -40,19 +39,19 @@ Widget mainPrizeSegment() {
                       shadowColor: const Color.fromRGBO(206, 166, 4, 1),
                     ),
                     SizedBox(height: screenSize.height * .01),
-                    CircleAvatar(
-                      radius: screenSize.width * .044,
-                      backgroundImage: NetworkImage(
-                        rewardsModel.contestPrizes![0].winnerDetails != null
-                            ? rewardsModel
-                                    .contestPrizes![0].winnerDetails!.image!
-                                    .startsWith('http')
-                                ? rewardsModel
-                                    .contestPrizes![0].winnerDetails!.image!
-                                : '${ApiEndpoints.uploads}/${rewardsModel.contestPrizes![0].winnerDetails?.image ?? ''}'
-                            : placeHolderImage,
-                      ),
-                    ),
+                    rewardsModel.contestPrizes![0].winnerDetails != null
+                        ? CircleAvatar(
+                            radius: screenSize.width * .044,
+                            backgroundImage: NetworkImage(
+                              rewardsModel
+                                      .contestPrizes![0].winnerDetails!.image!
+                                      .startsWith('http')
+                                  ? rewardsModel
+                                      .contestPrizes![0].winnerDetails!.image!
+                                  : '${ApiEndpoints.uploads}/${rewardsModel.contestPrizes![0].winnerDetails!.image}',
+                            ),
+                          )
+                        : const SizedBox(),
                     Text(
                       rewardsModel.contestPrizes![0].winnerDetails != null
                           ? rewardsModel.contestPrizes![0].winnerDetails!.name!
@@ -88,19 +87,19 @@ Widget mainPrizeSegment() {
                       shadowColor: const Color.fromRGBO(173, 0, 2, 1),
                     ),
                     SizedBox(height: screenSize.height * .01),
-                    CircleAvatar(
-                      radius: screenSize.width * .044,
-                      backgroundImage: NetworkImage(
-                        rewardsModel.contestPrizes![1].winnerDetails != null
-                            ? rewardsModel
-                                    .contestPrizes![1].winnerDetails!.image!
-                                    .startsWith('http')
-                                ? rewardsModel
-                                    .contestPrizes![1].winnerDetails!.image!
-                                : '${ApiEndpoints.uploads}/${rewardsModel.contestPrizes![1].winnerDetails?.image ?? ''}'
-                            : placeHolderImage,
-                      ),
-                    ),
+                    rewardsModel.contestPrizes![1].winnerDetails != null
+                        ? CircleAvatar(
+                            radius: screenSize.width * .044,
+                            backgroundImage: NetworkImage(
+                              rewardsModel
+                                      .contestPrizes![1].winnerDetails!.image!
+                                      .startsWith('http')
+                                  ? rewardsModel
+                                      .contestPrizes![1].winnerDetails!.image!
+                                  : '${ApiEndpoints.uploads}/${rewardsModel.contestPrizes![1].winnerDetails?.image}',
+                            ),
+                          )
+                        : const SizedBox(),
                     Text(
                       rewardsModel.contestPrizes![1].winnerDetails != null
                           ? rewardsModel.contestPrizes![1].winnerDetails!.name!
@@ -145,19 +144,19 @@ Widget mainPrizeSegment() {
                       shadowColor: const Color.fromRGBO(0, 151, 152, 1),
                     ),
                     SizedBox(height: screenSize.height * .01),
-                    CircleAvatar(
-                      radius: screenSize.width * .044,
-                      backgroundImage: NetworkImage(
-                        rewardsModel.contestPrizes![2].winnerDetails != null
-                            ? rewardsModel
-                                    .contestPrizes![2].winnerDetails!.image!
-                                    .startsWith('http')
-                                ? rewardsModel
-                                    .contestPrizes![2].winnerDetails!.image!
-                                : '${ApiEndpoints.uploads}/${rewardsModel.contestPrizes![2].winnerDetails?.image ?? ''}'
-                            : placeHolderImage,
-                      ),
-                    ),
+                    rewardsModel.contestPrizes![2].winnerDetails != null
+                        ? CircleAvatar(
+                            radius: screenSize.width * .044,
+                            backgroundImage: NetworkImage(
+                              rewardsModel
+                                      .contestPrizes![2].winnerDetails!.image!
+                                      .startsWith('http')
+                                  ? rewardsModel
+                                      .contestPrizes![2].winnerDetails!.image!
+                                  : '${ApiEndpoints.uploads}/${rewardsModel.contestPrizes![2].winnerDetails?.image}',
+                            ),
+                          )
+                        : const SizedBox(),
                     Text(
                       rewardsModel.contestPrizes![2].winnerDetails != null
                           ? rewardsModel.contestPrizes![2].winnerDetails!.name!
@@ -169,15 +168,18 @@ Widget mainPrizeSegment() {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    // Text(
-                    //   '100,000 Pts',
-                    //   style: GoogleFonts.roboto(
-                    //     color: const Color.fromRGBO(246, 147, 0, 1),
-                    //     fontSize: screenSize.width * .032,
-                    //     fontWeight: FontWeight.w500,
-                    //   ),
-                    // ),
                   ],
+                ),
+              ),
+              Positioned(
+                top: screenSize.height * .58,
+                child: Text(
+                  rewardsModel.contestName.toString(),
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.poppins(
+                    fontSize: screenSize.width * .05,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],

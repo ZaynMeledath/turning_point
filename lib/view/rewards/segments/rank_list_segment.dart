@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/model/rewards_model.dart';
+import 'package:turning_point/service/api/api_endpoints.dart';
 
 final rankList = [
   'Sam',
@@ -26,8 +27,10 @@ final rankList = [
 
 Widget rankListSegment({
   required int index,
-  required RewardsModel? rewardsModel,
+  required RewardsModel rewardsModel,
 }) {
+  final winnerDetails = rewardsModel.contestPrizes![index + 3].winnerDetails;
+
   return Container(
     margin: EdgeInsets.symmetric(
       horizontal: screenSize.width * .04,
@@ -66,14 +69,22 @@ Widget rankListSegment({
       ),
 
 //====================Avatar and Name====================//
+
+// AssetImage('assets/images/avatar.jpg')
       title: Row(
         children: [
-          const CircleAvatar(
-            backgroundImage: AssetImage('assets/images/avatar.jpg'),
-          ),
+          winnerDetails != null
+              ? CircleAvatar(
+                  backgroundImage: NetworkImage(
+                    winnerDetails.image!.startsWith('https')
+                        ? winnerDetails.image!
+                        : '${ApiEndpoints.uploads}/${winnerDetails.image!}',
+                  ),
+                )
+              : const SizedBox(),
           SizedBox(width: screenSize.width * .04),
           Text(
-            rankList[index],
+            winnerDetails != null ? winnerDetails.name.toString() : '',
             style: GoogleFonts.roboto(
               fontSize: screenSize.width * .035,
               fontWeight: FontWeight.w400,
