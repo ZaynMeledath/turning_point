@@ -32,56 +32,59 @@ class _SingleContestRewardsScreenState extends State<SingleContestRewardsScreen>
 
   @override
   Widget build(BuildContext context) {
-    return NestedScrollView(
-      controller: scrollController,
+    return BlocBuilder<RewardsBloc, RewardsState>(
+      builder: (context, state) {
+        return NestedScrollView(
+          controller: scrollController,
 
-      headerSliverBuilder: (context, innerBoxIsScrolled) {
-        return [
-          //====================Header Segment====================//
-          SliverAppBar(
-            backgroundColor: Colors.white,
-            expandedHeight: screenSize.height * .58,
-            pinned: true,
-            leading: SafeArea(
-              child: Column(
-                children: [
-                  SizedBox(height: screenSize.height * .012),
-                  Image.asset(
-                    'assets/images/rewards_logo.png',
-                    width: screenSize.width * .36,
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return [
+              //====================Header Segment====================//
+              SliverAppBar(
+                backgroundColor: Colors.white,
+                expandedHeight: screenSize.height * .58,
+                pinned: true,
+                leading: SafeArea(
+                  child: Column(
+                    children: [
+                      SizedBox(height: screenSize.height * .012),
+                      Image.asset(
+                        'assets/images/rewards_logo.png',
+                        width: screenSize.width * .36,
+                      ),
+                    ],
                   ),
-                ],
+                ),
+                leadingWidth: double.infinity,
+                toolbarHeight: screenSize.height * .069,
+                automaticallyImplyLeading: false,
+                flexibleSpace: rewardsBodySegment(),
               ),
-            ),
-            leadingWidth: double.infinity,
-            toolbarHeight: screenSize.height * .069,
-            automaticallyImplyLeading: false,
-            flexibleSpace: rewardsBodySegment(),
-          ),
-          SliverAppBar(
-            backgroundColor: Colors.white,
-            pinned: true,
-            automaticallyImplyLeading: false,
-            toolbarHeight: 0,
-            flexibleSpace: singleContestRewardsTabBar(tabController),
-          ),
-        ];
+              SliverAppBar(
+                backgroundColor: Colors.white,
+                pinned: true,
+                automaticallyImplyLeading: false,
+                toolbarHeight: 0,
+                flexibleSpace: singleContestRewardsTabBar(tabController),
+              ),
+            ];
+          },
+          //====================Rank List====================//
+          body: state.currentRewardsModel!.contestPrizes!.length > 3
+              ? ListView.builder(
+                  padding:
+                      EdgeInsets.symmetric(vertical: screenSize.height * .01),
+                  itemCount: rankList.length,
+                  itemBuilder: (context, index) {
+                    return rankListSegment(
+                      index: index,
+                      rewardsModel: state.currentRewardsModel!,
+                    );
+                  },
+                )
+              : Container(),
+        );
       },
-      //====================Rank List====================//
-      body: BlocBuilder<RewardsBloc, RewardsState>(
-        builder: (context, state) {
-          return ListView.builder(
-            padding: EdgeInsets.symmetric(vertical: screenSize.height * .01),
-            itemCount: rankList.length,
-            itemBuilder: (context, index) {
-              return rankListSegment(
-                index: index,
-                rewardsModel: state.currentRewardsModel!,
-              );
-            },
-          );
-        },
-      ),
     );
   }
 }

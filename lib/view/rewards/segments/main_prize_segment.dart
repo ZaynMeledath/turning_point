@@ -56,7 +56,7 @@ Widget mainPrizeSegment() {
                       rewardsModel.contestPrizes![0].winnerDetails != null
                           ? rewardsModel.contestPrizes![0].winnerDetails!.name!
                               .split(' ')[0]
-                          : '',
+                          : 'No Participant',
                       style: GoogleFonts.roboto(
                         fontSize: screenSize.width * .031,
                         fontWeight: FontWeight.w500,
@@ -105,7 +105,7 @@ Widget mainPrizeSegment() {
                           ? rewardsModel.contestPrizes![1].winnerDetails!.name!
                               .split(' ')[0]
                               .toString()
-                          : '',
+                          : 'No Participant',
                       style: GoogleFonts.roboto(
                         fontSize: screenSize.width * .031,
                         fontWeight: FontWeight.w500,
@@ -162,7 +162,7 @@ Widget mainPrizeSegment() {
                           ? rewardsModel.contestPrizes![2].winnerDetails!.name!
                               .split(' ')[0]
                               .toString()
-                          : '',
+                          : 'No Participant',
                       style: GoogleFonts.roboto(
                         fontSize: screenSize.width * .031,
                         fontWeight: FontWeight.w500,

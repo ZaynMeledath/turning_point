@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/rewards/rewards_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
@@ -26,6 +27,7 @@ class _RewardsScreenState extends State<RewardsScreen>
 
   @override
   void initState() {
+    preloadBloc.pauseCurrentController();
     tabController = TabController(length: 2, vsync: this);
     scrollController = ScrollController();
     scrollController.addListener(() {
@@ -110,33 +112,39 @@ class _RewardsScreenState extends State<RewardsScreen>
                     ];
                   },
                   //====================Rank List====================//
-                  body: TabBarView(
-                    controller: tabController,
-                    children: [
-                      ListView.builder(
-                        padding: EdgeInsets.symmetric(
-                            vertical: screenSize.height * .01),
-                        itemCount: activeRewardsModel.contestPrizes!.length - 3,
-                        itemBuilder: (context, index) {
-                          return rankListSegment(
-                            index: index,
-                            rewardsModel: rewardsState.currentRewardsModel!,
-                          );
-                        },
-                      ),
-                      ListView.builder(
-                        padding: EdgeInsets.symmetric(
-                            vertical: screenSize.height * .01),
-                        itemCount: activeRewardsModel.contestPrizes!.length - 3,
-                        itemBuilder: (context, index) {
-                          return rankListSegment(
-                            index: index,
-                            rewardsModel: rewardsState.previousRewardsModel!,
-                          );
-                        },
-                      ),
-                    ],
-                  ),
+                  body: activeRewardsModel.contestPrizes!.length > 3
+                      ? TabBarView(
+                          controller: tabController,
+                          children: [
+                            ListView.builder(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: screenSize.height * .01),
+                              itemCount:
+                                  activeRewardsModel.contestPrizes!.length - 3,
+                              itemBuilder: (context, index) {
+                                return rankListSegment(
+                                  index: index,
+                                  rewardsModel:
+                                      rewardsState.currentRewardsModel!,
+                                );
+                              },
+                            ),
+                            ListView.builder(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: screenSize.height * .01),
+                              itemCount:
+                                  activeRewardsModel.contestPrizes!.length - 3,
+                              itemBuilder: (context, index) {
+                                return rankListSegment(
+                                  index: index,
+                                  rewardsModel:
+                                      rewardsState.previousRewardsModel!,
+                                );
+                              },
+                            ),
+                          ],
+                        )
+                      : Container(),
                 );
               } else if (rewardsState.currentRewardsModel != null &&
                   rewardsState.previousRewardsModel == null) {

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:turning_point/bloc/lucky_draw/lucky_draw_bloc.dart';
+import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
@@ -24,6 +25,12 @@ class LuckyDrawScreen extends StatefulWidget {
 }
 
 class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
+  @override
+  void initState() {
+    preloadBloc.pauseCurrentController();
+    super.initState();
+  }
+
   @override
   void dispose() {
     luckyDrawBloc.add(LuckyDrawTimerDisposeEvent());

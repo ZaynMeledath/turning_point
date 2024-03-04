@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:turning_point/helper/screen_size.dart';
 
 //====================For The First Three Prizes====================//
