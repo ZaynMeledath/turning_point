@@ -162,9 +162,23 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
                   );
                 } else {
                   return Center(
-                    child: Lottie.asset(
-                      'assets/lottie/no_data_animation.json',
-                      width: screenSize.width * .7,
+                    child: Column(
+                      children: [
+                        SizedBox(height: screenSize.height * .2),
+                        Lottie.asset(
+                          'assets/lottie/no_data_animation.json',
+                          width: screenSize.width * .65,
+                        ),
+                        Text(
+                          'No Lucky Available at the moment',
+                          style: GoogleFonts.inter(
+                            fontSize: screenSize.width * .041,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black.withOpacity(.75),
+                            height: .1,
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 }

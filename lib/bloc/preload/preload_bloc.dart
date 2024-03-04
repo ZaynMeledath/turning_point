@@ -138,8 +138,10 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
   }
 
 //====================Play Paused Controller====================//
-  void playCurrentController() {
-    state.controllers[state.focusedIndex]!.play();
+  void playCurrentController() async {
+    Future.delayed(Duration.zero, () {
+      state.controllers[state.focusedIndex]!.play();
+    });
   }
 
 //====================Dispose all Controllers====================//

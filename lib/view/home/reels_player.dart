@@ -15,6 +15,11 @@ class ReelsPlayer extends StatefulWidget {
 
 class _ReelsPlayerState extends State<ReelsPlayer> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
         valueListenable: widget.videoController,

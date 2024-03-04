@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:turning_point/bloc/points_history/points_history_bloc.dart';
+import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/points/segments/available_points_segment.dart';
@@ -13,6 +14,12 @@ class PointsScreen extends StatefulWidget {
 }
 
 class _PointsScreenState extends State<PointsScreen> {
+  @override
+  void dispose() {
+    preloadBloc.playCurrentController();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     pointsHistoryBloc.add(PointsHistoryLoadEvent());

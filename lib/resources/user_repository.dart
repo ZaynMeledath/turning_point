@@ -64,6 +64,7 @@ class UserRepository {
     ContractorModel? contractor,
     String? businessName,
     String? token,
+    String? fcmToken,
   }) async {
     try {
       final authService = AuthService.firebase();
@@ -82,6 +83,7 @@ class UserRepository {
               "phone": contractor.phone,
             },
           "idToken": token,
+          "fcmToken": fcmToken
         },
         requestMethod: RequestMethod.POST,
         isTokenRequired: false,

@@ -8,8 +8,19 @@ import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/profile/segments/edit_profile_dashboard_segment.dart';
 import 'package:turning_point/view/profile/segments/profile_options_segment.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  void dispose() {
+    super.dispose();
+    preloadBloc.playCurrentController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +43,6 @@ class ProfileScreen extends StatelessWidget {
                         size: screenSize.width * .061,
                       ),
                       onPressed: () {
-                        preloadBloc.playCurrentController();
                         Navigator.of(context).pop();
                       },
                     ),

@@ -38,4 +38,7 @@ class AuthService implements CustomAuthProvider {
         verificationId: verificationId,
         otp: otp,
       );
+
+  @override
+  Future<String?> getFcmToken() => provider.getFcmToken();
 }

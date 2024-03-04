@@ -40,3 +40,11 @@ class OtpVerifiedState extends AuthState {}
 class SignedInState extends AuthState {}
 
 class PhoneNumberExistsState extends AuthState {}
+
+class AuthErrorState extends AuthState {
+  final String message;
+
+  const AuthErrorState({
+    required this.message,
+  });
+}

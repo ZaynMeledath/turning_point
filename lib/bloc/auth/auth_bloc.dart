@@ -99,12 +99,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             otp: event.otp,
           );
 
-          await UserRepository.userSignUp(
-            phone: state.phone!,
-            businessName: state.businessName,
-            contractor: state.contractor,
-            token: token,
-          );
+          final firebaseMessagingToken = await provider.getFcmToken();
+
+          if (token != null && firebaseMessagingToken != null) {
+            await UserRepository.userSignUp(
+              phone: state.phone!,
+              businessName: state.businessName,
+              contractor: state.contractor,
+              token: token,
+            );
+          } else {
+            emit(
+              const AuthErrorState(
+                  message: 'Error Signing Up. Please try again'),
+            );
+          }
 
           emit(OtpVerifiedState());
         } catch (e) {
