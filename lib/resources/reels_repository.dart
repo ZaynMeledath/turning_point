@@ -1,4 +1,8 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:dio/dio.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:turning_point/model/reels_model.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
@@ -55,5 +59,28 @@ class ReelsRepository {
     );
 
     return response['success'];
+  }
+
+  static Future<void> downloadAndSaveVideo(String reel) async {
+    try {
+      var status = await Permission.storage.status;
+      if (!status.isGranted) {
+        await Permission.storage.request();
+      }
+      Directory appDocDir = Directory('');
+      // Get the local directory for storing the downloaded video
+      if (Platform.isAndroid) {
+        appDocDir = Directory("/storage/emulated/0/Download");
+      } else {
+        appDocDir = await getApplicationDocumentsDirectory();
+      }
+
+      String savePath = '${appDocDir.path}/$reel';
+
+      // Download the video using Dio
+      await Dio().download('${ApiEndpoints.uploads}/$reel', savePath);
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 }

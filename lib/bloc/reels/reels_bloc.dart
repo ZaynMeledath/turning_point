@@ -60,6 +60,22 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
         await ReelsRepository.likeReel(event.reelIndex);
       }
     });
+
+//====================Reel Like Event====================//
+    on<ReelDownloadEvent>((event, emit) async {
+      emit(ReelsLoadedState(
+        reelsModelList: state.reelsModelList,
+        isLoading: true,
+      ));
+
+      await ReelsRepository.downloadAndSaveVideo(
+          state.reelsModelList![event.reelIndex].fileUrl!);
+
+      emit(ReelsLoadedState(
+        reelsModelList: state.reelsModelList,
+        isLoading: false,
+      ));
+    });
   }
 
 //====================State Change Logger====================//

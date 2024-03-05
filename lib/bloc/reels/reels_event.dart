@@ -13,3 +13,8 @@ class ReelLoadEvent extends ReelsEvent {
 class ReelLikeEvent extends ReelsEvent {
   const ReelLikeEvent({required super.reelIndex});
 }
+
+class ReelDownloadEvent extends ReelsEvent {
+  const ReelDownloadEvent({required super.reelIndex});
+
+}

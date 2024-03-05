@@ -14,7 +14,9 @@ class ReelsLoadingState extends ReelsState {
 }
 
 class ReelsLoadedState extends ReelsState {
+  final bool? isLoading;
   ReelsLoadedState({
     required super.reelsModelList,
+    this.isLoading,
   });
 }
