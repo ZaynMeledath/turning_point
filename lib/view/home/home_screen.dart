@@ -62,6 +62,9 @@ class _HomeScreenState extends State<HomeScreen> {
             currentIndex: state.currentIndex,
             onTap: (index) async {
               homeBloc.add(TriggerEvent(index));
+              // if (index == 0) {
+              //   preloadBloc.playCurrentController();
+              // }
             },
             backgroundColor: state.currentIndex == 0 || state.currentIndex == 2
                 ? const Color(0xff0c1313)

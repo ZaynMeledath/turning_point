@@ -18,4 +18,6 @@ abstract class CustomAuthProvider {
     required String verificationId,
     required String otp,
   });
+
+  Future<String?> getFcmToken();
 }

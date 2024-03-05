@@ -14,6 +14,8 @@ part 'reels_state.dart';
 class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
   ReelsBloc() : super(ReelsLoadingState()) {
     final userModelResponse = UserRepository.getUserFromPreference();
+
+//====================Reel Load Event====================//
     on<ReelLoadEvent>((event, emit) async {
       final reelData =
           ReelsRepository.reelsModelResponse.data![event.reelIndex];
@@ -35,6 +37,7 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
       );
     });
 
+//====================Reel Like Event====================//
     on<ReelLikeEvent>((event, emit) async {
       final reelData =
           ReelsRepository.reelsModelResponse.data![event.reelIndex];
@@ -56,6 +59,22 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
         );
         await ReelsRepository.likeReel(event.reelIndex);
       }
+    });
+
+//====================Reel Like Event====================//
+    on<ReelDownloadEvent>((event, emit) async {
+      emit(ReelsLoadedState(
+        reelsModelList: state.reelsModelList,
+        isLoading: true,
+      ));
+
+      await ReelsRepository.downloadAndSaveVideo(
+          state.reelsModelList![event.reelIndex].fileUrl!);
+
+      emit(ReelsLoadedState(
+        reelsModelList: state.reelsModelList,
+        isLoading: false,
+      ));
     });
   }
 

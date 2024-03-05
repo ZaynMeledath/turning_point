@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
+import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/dialog/show_custom_loading_dialog.dart';
 import 'package:turning_point/dialog/show_generic_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
@@ -40,6 +41,15 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       listener: (context, state) {
         if (state is AuthLoadingState) {
           showCustomLoadingDialog(context);
+        } else if (state is AuthErrorState) {
+          Navigator.pop(context);
+          showAnimatedGenericDialog(
+            context: context,
+            iconPath: 'assets/icons/kyc_declined_icon.png',
+            title: 'Something went wrong',
+            content: state.message,
+            buttonTitle: 'OK',
+          );
         } else if (state is OtpVerifiedState) {
           Navigator.pop(context);
           CustomNavigator.pushAndRemove(

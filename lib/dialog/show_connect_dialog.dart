@@ -26,6 +26,12 @@ Future<Object?> showConnectDialog({
 Widget dialog(BuildContext context) {
   return Stack(
     children: [
+      GestureDetector(
+        onTap: () => Navigator.of(context).pop(true),
+        child: Container(
+          color: Colors.transparent,
+        ),
+      ),
       Container(
         margin: EdgeInsets.only(
           left: screenSize.width * .071,

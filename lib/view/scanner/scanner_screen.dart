@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:turning_point/bloc/home/home_bloc.dart';
+import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/scanner/scanner_bloc.dart';
 import 'package:turning_point/dialog/show_scanner_coupon_dialog.dart';
 import 'package:turning_point/helper/screen_size.dart';
@@ -25,15 +26,16 @@ class _ScannerScreenState extends State<ScannerScreen> {
 
   @override
   void initState() {
-    checkPermission();
-    _scannerController = MobileScannerController();
     super.initState();
+    checkPermission();
+    preloadBloc.pauseCurrentController();
+    _scannerController = MobileScannerController();
   }
 
   @override
   void dispose() {
-    _scannerController.dispose();
     super.dispose();
+    _scannerController.dispose();
   }
 
   void checkPermission() async {

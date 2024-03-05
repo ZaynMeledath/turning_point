@@ -3,8 +3,8 @@ part of '../redeem_screen.dart';
 Widget upiTransferSegment({required TextEditingController upiController}) {
   return BlocBuilder<ProfileBloc, ProfileState>(
     builder: (context, state) {
-      final bool status = state.userModel!.bankDetails != null &&
-          state.userModel!.bankDetails!.isNotEmpty;
+      // final bool status = state.userModel!.bankDetails != null &&
+      //     state.userModel!.bankDetails!.isNotEmpty;
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: screenSize.width * .061),
         child: Column(
@@ -17,7 +17,7 @@ Widget upiTransferSegment({required TextEditingController upiController}) {
             yourAmountSegment(),
             SizedBox(height: screenSize.height * .03),
 
-            status
+            state.userModel!.kycStatus == true
                 ? Column(
                     children: [
                       //====================Title====================//
@@ -99,7 +99,7 @@ Widget upiTransferSegment({required TextEditingController upiController}) {
                     ],
                   )
                 : Text(
-                    'You Need to Update your KYC\nto enable UPI Transfer',
+                    'UPI Transfer will be enabled after\nverifying your KYC',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.roboto(
                       fontSize: screenSize.width * .034,

@@ -98,6 +98,7 @@ class _KycScreenState extends State<KycScreen>
                 phoneController.text = state.phone!;
                 emailController.text = state.email!;
                 pinController.text = state.pincode!;
+
                 // accNameController.text = state.
 
                 return SingleChildScrollView(
@@ -255,26 +256,29 @@ class _KycScreenState extends State<KycScreen>
                                 curve: Curves.bounceInOut,
                                 duration: const Duration(milliseconds: 200),
                               );
-                              kycBloc.add(KycLoadEvent(
-                                tabIndex: _tabController.index,
-                                name: nameController.text,
-                                email: emailController.text,
-                                pincode: pinController.text,
-                              ));
-                            } else {
                               kycBloc.add(
-                                KycUpdateEvent(
+                                KycLoadEvent(
+                                  tabIndex: _tabController.index,
                                   name: nameController.text,
-                                  phone: phoneController.text,
                                   email: emailController.text,
                                   pincode: pinController.text,
-                                  isSavings: state.isSavings,
-                                  accName: accNameController.text,
-                                  accNum: accNumController.text,
-                                  ifsc: ifscController.text,
                                 ),
                               );
                             }
+                            // else {
+                            //   kycBloc.add(
+                            //     KycUpdateEvent(
+                            //       name: nameController.text,
+                            //       phone: phoneController.text,
+                            //       email: emailController.text,
+                            //       pincode: pinController.text,
+                            //       isSavings: state.isSavings,
+                            //       accName: accNameController.text,
+                            //       accNum: accNumController.text,
+                            //       ifsc: ifscController.text,
+                            //     ),
+                            //   );
+                            // }
                           }
                         },
                         child: Container(

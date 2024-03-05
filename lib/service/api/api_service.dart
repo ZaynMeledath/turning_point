@@ -86,6 +86,8 @@ class ApiService {
       sendUserToLoginScreen();
     } on CustomException {
       rethrow;
+    } on NotFoundException {
+      rethrow;
     } catch (e) {
       throw Exception(e);
     }

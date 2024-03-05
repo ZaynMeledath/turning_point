@@ -11,9 +11,6 @@ class PreloadState {
 
   factory PreloadState.initial() => PreloadState(
         focusedIndex: 0,
-        controllers: {
-          0: VideoPlayerController.networkUrl(
-              Uri.parse(ReelsRepository.urlList[0]!))
-        },
+        controllers: {},
       );
 }

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart' show TextEditingController;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:turning_point/service/auth/auth_exceptions.dart';
@@ -99,6 +100,16 @@ class FirebaseAuthProvider implements CustomAuthProvider {
       }
     } catch (e) {
       log('EXCEPTION IN PHONE VERIFICATION : $e');
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<String?> getFcmToken() async {
+    try {
+      final token = await FirebaseMessaging.instance.getToken();
+      return token;
+    } catch (e) {
       throw Exception(e);
     }
   }
