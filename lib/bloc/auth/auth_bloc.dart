@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart' show TextEditingController, immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/model/contractor_model.dart';
+import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/auth/auth_provider.dart';
 import 'package:turning_point/service/auth/firebase_auth_provider.dart';
@@ -17,6 +18,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         await provider.initialize();
         if (provider.currentUser == null) {
+          AppPreferences.clearSharedPreferences();
           return emit(InitialState());
         }
         final user =
@@ -26,6 +28,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           if (provider.currentUser != null) {
             provider.signOut();
           }
+          AppPreferences.clearSharedPreferences();
           return emit(InitialState());
         } else {
           return emit(SignedInState());

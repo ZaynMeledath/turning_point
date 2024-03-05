@@ -14,6 +14,7 @@ Widget kycPersonalDetails({
       kycTextFieldSegment(
         controller: nameController,
         title: 'Name',
+        isNum: false,
       ),
       SizedBox(height: screenSize.height * .035),
       kycTextFieldSegment(

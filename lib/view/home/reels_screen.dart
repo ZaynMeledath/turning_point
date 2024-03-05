@@ -50,7 +50,9 @@ class ReelsScreenState extends State<ReelsScreen>
   @override
   void dispose() {
     super.dispose();
-    preloadBloc.pauseCurrentController();
+    if (preloadBloc.state.controllers.isNotEmpty) {
+      preloadBloc.pauseCurrentController();
+    }
   }
 
   @override

@@ -68,17 +68,16 @@ Widget pointsHistorySegment({required Size screenSize}) {
                   SizedBox(height: screenSize.height * .06),
                   Lottie.asset(
                     'assets/lottie/no_data_animation.json',
-                    width: screenSize.width * .5,
+                    width: screenSize.width * .52,
                   ),
                   Text(
-                    'Earn Points to show the history here',
-                    textAlign: TextAlign.center,
+                    'Earn Points to show the history',
                     style: GoogleFonts.inter(
-                      fontSize: screenSize.width * .035,
+                      fontSize: screenSize.width * .04,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      color: Colors.black.withOpacity(.75),
                     ),
-                  )
+                  ),
                 ],
               ),
             );

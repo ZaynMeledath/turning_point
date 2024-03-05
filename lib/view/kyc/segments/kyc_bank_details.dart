@@ -14,8 +14,7 @@ Widget kycBankDetails({
   return BlocBuilder<KycBloc, KycState>(
     builder: (context, state) {
       if (state is KycLoadedState) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
+        return ListView(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -80,6 +79,7 @@ Widget kycBankDetails({
             kycTextFieldSegment(
               controller: accNameController,
               title: 'Account Name',
+              isNum: false,
             ),
             SizedBox(height: screenSize.height * .03),
             kycTextFieldSegment(
@@ -91,6 +91,7 @@ Widget kycBankDetails({
             kycTextFieldSegment(
               controller: confirmAccNumController,
               title: 'Confirm Account Number',
+              accNumController: accNameController,
               isNum: true,
             ),
             SizedBox(height: screenSize.height * .03),

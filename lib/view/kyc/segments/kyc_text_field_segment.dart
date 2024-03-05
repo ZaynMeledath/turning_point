@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +8,7 @@ import 'package:turning_point/helper/screen_size.dart';
 Widget kycTextFieldSegment({
   required TextEditingController controller,
   required String title,
+  TextEditingController? accNumController,
   bool? isNum,
   bool? isEmail,
 }) {
@@ -73,11 +76,23 @@ Widget kycTextFieldSegment({
                 r'[0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9]'
                 r'[0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\'
                 r'x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])';
-            final regex = RegExp(pattern);
+            final regEx = RegExp(pattern);
 
-            return value.isEmpty || !regex.hasMatch(value)
+            return !regEx.hasMatch(value)
                 ? 'Enter a valid email address'
                 : null;
+          } else if (isNum == true) {
+            final regEx = RegExp(r'[0-9]');
+            if (title == 'Confirm Account Number') {
+              log('${accNumController!.text} : $value');
+              return value != accNumController.text
+                  ? 'Account numbers should match'
+                  : null;
+            }
+            return !regEx.hasMatch(value) ? 'Enter a valid value' : null;
+          } else if (isNum == false) {
+            final regEx = RegExp(r'[A-Z][a-z]');
+            return !regEx.hasMatch(value) ? 'Enter a valid name' : null;
           } else {
             return null;
           }
