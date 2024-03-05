@@ -11,11 +11,11 @@ Widget bankTransferSegment({required BuildContext context}) {
           children: [
             //====================Points Field where points can be changed using + and - buttons====================//
             redeemPointsFieldSegment(),
-            SizedBox(height: screenSize.height * .03),
+            SizedBox(height: screenSize.height * .04),
 
             //====================Amount in Rupees Segment====================//
             yourAmountSegment(),
-            SizedBox(height: screenSize.height * .02),
+            SizedBox(height: screenSize.height * .03),
 
             state.userModel!.kycStatus == true
                 ? Column(

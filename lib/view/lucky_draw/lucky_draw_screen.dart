@@ -177,7 +177,7 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
                           width: screenSize.width * .65,
                         ),
                         Text(
-                          'No Lucky Available at the moment',
+                          'No Lucky Draw Available at the moment',
                           style: GoogleFonts.inter(
                             fontSize: screenSize.width * .041,
                             fontWeight: FontWeight.bold,

@@ -19,7 +19,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (provider.currentUser == null) {
           return emit(InitialState());
         }
-        final user = UserRepository.getUserFromPreference();
+        final user =
+            await UserRepository.getUserById(avoidGettingFromPreference: true);
         // final user = provider.currentUser;
         if (user == null) {
           if (provider.currentUser != null) {
@@ -107,6 +108,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               businessName: state.businessName,
               contractor: state.contractor,
               token: token,
+              fcmToken: firebaseMessagingToken,
             );
           } else {
             emit(
