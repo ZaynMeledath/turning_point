@@ -15,6 +15,12 @@ class PointsScreen extends StatefulWidget {
 
 class _PointsScreenState extends State<PointsScreen> {
   @override
+  void initState() {
+    preloadBloc.pauseCurrentController();
+    super.initState();
+  }
+
+  @override
   void dispose() {
     preloadBloc.playCurrentController();
     super.dispose();

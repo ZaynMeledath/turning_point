@@ -17,6 +17,12 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
+  void initState() {
+    preloadBloc.pauseCurrentController();
+    super.initState();
+  }
+
+  @override
   void dispose() {
     super.dispose();
     preloadBloc.playCurrentController();
