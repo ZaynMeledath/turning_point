@@ -103,7 +103,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         key: _formKey,
                         child: Column(
                           children: [
-                            SizedBox(height: screenSize.height * .13),
+                            SizedBox(height: screenSize.height * .14),
 
                             //====================Furnipart Logo====================//
                             Hero(

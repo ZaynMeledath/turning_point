@@ -21,8 +21,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 //====================Profile Load Event====================//
     on<ProfileLoadEvent>((event, emit) async {
       try {
-        final userModelResponse =
-            await UserRepository.getUserById(avoidGettingFromPreference: false);
+        final userModelResponse = await UserRepository.getUserById(
+            avoidGettingFromPreference:
+                event.avoidGettingFromPreference ?? false);
 
         if (userModelResponse != null && userModelResponse.data != null) {
           final isContractor = userModelResponse.data!.role == Role.CONTRACTOR;

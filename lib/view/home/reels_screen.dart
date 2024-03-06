@@ -10,6 +10,7 @@ import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
+import 'package:turning_point/resources/reels_repository.dart';
 import 'package:turning_point/view/home/profile_inactive_screen.dart';
 import 'package:turning_point/view/home/reels_page_viewer.dart';
 import 'package:turning_point/view/points/points_screen.dart';
@@ -55,6 +56,11 @@ class ReelsScreenState extends State<ReelsScreen>
     }
   }
 
+  Future<void> handleRefresh() async {
+    await ReelsRepository.getReels();
+    preloadBloc.add(PreloadEvent(currentIndex: 0, isInitial: true));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,109 +94,115 @@ class ReelsScreenState extends State<ReelsScreen>
               );
             case ProfileLoadedState():
               log('PROFILE LOADED STATE');
-              return Stack(
-                alignment: Alignment.center,
-                children: [
-                  //====================Reels Player====================//
+              return RefreshIndicator(
+                onRefresh: () => handleRefresh(),
+                strokeWidth: 4,
+                color: Colors.blue,
+                backgroundColor: Colors.white,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    //====================Reels Player====================//
 
-                  ReelsPageViewer(
-                    user: state.userModel!,
-                  ),
+                    ReelsPageViewer(
+                      user: state.userModel!,
+                    ),
 
-                  //====================Points Container====================//
-                  Positioned(
-                    top: screenSize.height * .071,
-                    left: screenSize.width * .035,
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            ScaleTransition(
-                              scale: animation,
-                              child: GestureDetector(
-                                onTap: () {
-                                  preloadBloc.pauseCurrentController();
-                                  CustomNavigator.push(
-                                    context: context,
-                                    child: const PointsScreen(),
-                                  );
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.only(
-                                    left: screenSize.width * .026,
-                                    right: screenSize.width * .04,
-                                    top: screenSize.width * .013,
-                                    bottom: screenSize.width * .013,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16),
-                                    gradient: const LinearGradient(
-                                      colors: [
-                                        Color.fromRGBO(255, 215, 0, 1),
-                                        Color.fromRGBO(255, 238, 141, 1),
-                                      ],
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
+                    //====================Points Container====================//
+                    Positioned(
+                      top: screenSize.height * .071,
+                      left: screenSize.width * .035,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              ScaleTransition(
+                                scale: animation,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    preloadBloc.pauseCurrentController();
+                                    CustomNavigator.push(
+                                      context: context,
+                                      child: const PointsScreen(),
+                                    );
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.only(
+                                      left: screenSize.width * .026,
+                                      right: screenSize.width * .04,
+                                      top: screenSize.width * .013,
+                                      bottom: screenSize.width * .013,
                                     ),
-                                  ),
-                                  child: Center(
-                                    child: Row(
-                                      children: [
-                                        Image.asset(
-                                          'assets/icons/coin_icon.png',
-                                          width: screenSize.width * .06,
-                                        ),
-                                        const SizedBox(width: 1),
-                                        BlocBuilder<PointsBloc, PointsState>(
-                                          builder: (context, pointsState) {
-                                            return Text(
-                                              pointsState.points.toString(),
-                                              style: GoogleFonts.inter(
-                                                fontSize:
-                                                    screenSize.width * .04,
-                                                fontWeight: FontWeight.w700,
-                                                color: const Color.fromRGBO(
-                                                    27, 27, 27, 1),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ],
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16),
+                                      gradient: const LinearGradient(
+                                        colors: [
+                                          Color.fromRGBO(255, 215, 0, 1),
+                                          Color.fromRGBO(255, 238, 141, 1),
+                                        ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Row(
+                                        children: [
+                                          Image.asset(
+                                            'assets/icons/coin_icon.png',
+                                            width: screenSize.width * .06,
+                                          ),
+                                          const SizedBox(width: 1),
+                                          BlocBuilder<PointsBloc, PointsState>(
+                                            builder: (context, pointsState) {
+                                              return Text(
+                                                pointsState.points.toString(),
+                                                style: GoogleFonts.inter(
+                                                  fontSize:
+                                                      screenSize.width * .04,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: const Color.fromRGBO(
+                                                      27, 27, 27, 1),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
 
-                  //====================Avatar Icon====================//
-                  Positioned(
-                    right: screenSize.width * .03,
-                    top: screenSize.height * .07,
-                    child: GestureDetector(
-                      onTap: () {
-                        preloadBloc.pauseCurrentController();
-                        CustomNavigator.push(
-                          context: context,
-                          child: const ProfileScreen(),
-                        );
-                      },
-                      child: CircleAvatar(
-                        backgroundColor:
-                            const Color.fromRGBO(225, 225, 225, .6),
-                        radius: 22,
+                    //====================Avatar Icon====================//
+                    Positioned(
+                      right: screenSize.width * .03,
+                      top: screenSize.height * .07,
+                      child: GestureDetector(
+                        onTap: () {
+                          preloadBloc.pauseCurrentController();
+                          CustomNavigator.push(
+                            context: context,
+                            child: const ProfileScreen(),
+                          );
+                        },
                         child: CircleAvatar(
-                          foregroundImage:
-                              NetworkImage(state.userModel!.image!),
+                          backgroundColor:
+                              const Color.fromRGBO(225, 225, 225, .6),
+                          radius: 22,
+                          child: CircleAvatar(
+                            foregroundImage:
+                                NetworkImage(state.userModel!.image!),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               );
           }
         },

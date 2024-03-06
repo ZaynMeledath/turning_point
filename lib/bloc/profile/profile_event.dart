@@ -3,7 +3,10 @@ part of 'profile_bloc.dart';
 @immutable
 sealed class ProfileEvent {}
 
-class ProfileLoadEvent extends ProfileEvent {}
+class ProfileLoadEvent extends ProfileEvent {
+  final bool? avoidGettingFromPreference;
+  ProfileLoadEvent({this.avoidGettingFromPreference});
+}
 
 class ProfileUpdateEvent extends ProfileEvent {
   final bool isContractor;

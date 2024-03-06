@@ -11,6 +11,7 @@ import 'package:turning_point/view/kyc/kyc_verified_screen.dart';
 import 'package:turning_point/view/points/points_screen.dart';
 import 'package:turning_point/view/privacy_policy/privacy_policy_screen.dart';
 import 'package:turning_point/view/profile/segments/profile_option.dart';
+import 'package:turning_point/view/referral/refer_screen.dart';
 import 'package:turning_point/view/settings/settings_screen.dart';
 import 'package:turning_point/view/terms_and_conditions/terms_and_conditions_screen.dart';
 
@@ -107,7 +108,8 @@ Widget profileOptionsSegment({
         onTap: () {
           CustomNavigator.push(
             context: context,
-            child: const TermsAndConditionsScreen(isAccepted: true),
+            // child: const TermsAndConditionsScreen(isAccepted: true),
+            child: const ReferScreen(),
           );
         },
         child: profileOption(
