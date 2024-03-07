@@ -27,7 +27,9 @@ class LuckyDrawScreen extends StatefulWidget {
 class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
   @override
   void initState() {
-    preloadBloc.pauseCurrentController();
+    if (preloadBloc.state.controllers.isNotEmpty) {
+      preloadBloc.pauseCurrentController();
+    }
     super.initState();
   }
 

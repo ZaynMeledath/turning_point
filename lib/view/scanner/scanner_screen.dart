@@ -28,7 +28,9 @@ class _ScannerScreenState extends State<ScannerScreen> {
   void initState() {
     super.initState();
     checkPermission();
-    preloadBloc.pauseCurrentController();
+    if (preloadBloc.state.controllers.isNotEmpty) {
+      preloadBloc.pauseCurrentController();
+    }
     _scannerController = MobileScannerController();
   }
 

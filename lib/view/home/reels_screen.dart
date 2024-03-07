@@ -48,13 +48,13 @@ class ReelsScreenState extends State<ReelsScreen>
     });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    if (preloadBloc.state.controllers.isNotEmpty) {
-      preloadBloc.pauseCurrentController();
-    }
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   if (preloadBloc.state.controllers.isNotEmpty) {
+  //     preloadBloc.pauseCurrentController();
+  //   }
+  // }
 
   Future<void> handleRefresh() async {
     await ReelsRepository.getReels();

@@ -1,87 +1,81 @@
 part of '../refer_screen.dart';
 
-class CouponCodeContainer extends StatelessWidget {
-  final String couponCode;
-  const CouponCodeContainer({
-    required this.couponCode,
-    super.key,
-  });
+void copyToClipboard(String text) {
+  Clipboard.setData(ClipboardData(text: text));
+}
 
-  void _copyToClipboard(String text) {
-    Clipboard.setData(ClipboardData(text: text));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: GestureDetector(
-      child: SizedBox(
-        width: screenSize.width * .75,
-        height: screenSize.height * .09,
-        child: Stack(
-          children: [
-            Container(
-              width: screenSize.width * .75,
-              height: screenSize.height * .09,
-              color: Colors.black,
-              child: CustomPaint(
-                painter: StepsPainter(),
-              ),
+Widget couponCodeContainer({
+  required BuildContext context,
+  required String couponCode,
+}) {
+  return Center(
+      child: GestureDetector(
+    child: SizedBox(
+      width: screenSize.width * .75,
+      height: screenSize.height * .09,
+      child: Stack(
+        children: [
+          Container(
+            width: screenSize.width * .75,
+            height: screenSize.height * .09,
+            color: Colors.black,
+            child: CustomPaint(
+              painter: StepsPainter(),
             ),
-            Positioned(
-              left: screenSize.width * .75 * .17,
-              top: screenSize.height * .08 * .2,
-              child: Text('Your Referral Code',
-                  style: GoogleFonts.roboto(
-                    color: Colors.white,
-                    fontSize: screenSize.width * .031,
-                    fontWeight: FontWeight.w400,
-                  )),
+          ),
+          Positioned(
+            left: screenSize.width * .75 * .17,
+            top: screenSize.height * .08 * .2,
+            child: Text('Your Referral Code',
+                style: GoogleFonts.roboto(
+                  color: Colors.white,
+                  fontSize: screenSize.width * .031,
+                  fontWeight: FontWeight.w400,
+                )),
+          ),
+          Positioned(
+            left: screenSize.width * .75 * .17,
+            bottom: screenSize.height * .08 * .25,
+            child: Text(couponCode,
+                style: GoogleFonts.roboto(
+                  color: Colors.white,
+                  fontSize: screenSize.width * .051,
+                  fontWeight: FontWeight.w700,
+                )),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: screenSize.width * .75 * .61),
+            child: const VerticalDivider(
+              color: Colors.white,
+              indent: 10,
+              endIndent: 10,
             ),
-            Positioned(
-              left: screenSize.width * .75 * .17,
-              bottom: screenSize.height * .08 * .25,
-              child: Text(couponCode,
-                  style: GoogleFonts.roboto(
-                    color: Colors.white,
-                    fontSize: screenSize.width * .051,
-                    fontWeight: FontWeight.w700,
-                  )),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: screenSize.width * .75 * .61),
-              child: const VerticalDivider(
-                color: Colors.white,
-                indent: 10,
-                endIndent: 10,
-              ),
-            ),
-            Positioned(
-              right: screenSize.width * .75 * .07,
-              top: screenSize.height * .08 * .40,
-              child: GestureDetector(
-                onTap: () {
-                  _copyToClipboard(couponCode);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text('Coupon code copied to clipboard!')),
-                  );
-                },
-                child: Text(
-                  'Copy Code',
-                  style: GoogleFonts.roboto(
-                    color: const Color(0xffffa500),
-                    fontSize: screenSize.width * .035,
-                    fontWeight: FontWeight.w500,
-                  ),
+          ),
+          Positioned(
+            right: screenSize.width * .75 * .07,
+            top: screenSize.height * .08 * .40,
+            child: GestureDetector(
+              onTap: () {
+                copyToClipboard(couponCode);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                      content: Text('Coupon code copied to clipboard!')),
+                );
+              },
+              child: Text(
+                'Copy Code',
+                style: GoogleFonts.roboto(
+                  color: const Color(0xffffa500),
+                  fontSize: screenSize.width * .035,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-    ));
-  }
+    ),
+  ));
 }
 
 class StepsPainter extends CustomPainter {

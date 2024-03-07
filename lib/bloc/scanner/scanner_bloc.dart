@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,9 +20,9 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
       try {
         final List<Barcode> barcodes = event.capture.barcodes;
         if (barcodes.isNotEmpty) {
-          final json = barcodes[0].rawValue!;
-          log(json);
-          final couponId = jsonDecode(json)['couponId'];
+          final couponId = barcodes[0].rawValue!;
+          // log('BARCODE: $json');
+          // final couponId = jsonDecode(json)['couponId'];
           final couponModel = await scannerRepo.applyCoupon(couponId);
 
           final userModelResponse = UserRepository.getUserFromPreference()!;
@@ -54,6 +53,7 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
           ),
         );
       } catch (e) {
+        log('EXCEPTION IN SCANNER BLOC: $e');
         emit(
           ScannerCodeDetectedState(
             couponModel: CouponModel(

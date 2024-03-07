@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/view/referral/segments/scratch_card_pop_up.dart';
+part of '../refer_screen.dart';
 
 class ReferredScreen extends StatefulWidget {
   const ReferredScreen({super.key});
@@ -77,12 +75,13 @@ class _ReferredScreenState extends State<ReferredScreen> {
                             fontWeight: FontWeight.w400,
                             color: const Color(0xff0054b4),
                           )),
-                      const Expanded(
+                      Expanded(
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: Padding(
-                            padding: EdgeInsets.only(right: 14),
-                            child: Icon(
+                            padding:
+                                EdgeInsets.only(right: screenSize.width * .036),
+                            child: const Icon(
                               Icons.keyboard_arrow_right,
                               color: Color(0xff263238),
                             ),

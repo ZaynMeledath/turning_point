@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/helper/screen_size.dart';
 
 class TotalReferralEarnedScreen extends StatefulWidget {
   String walletAmount;
@@ -174,9 +175,9 @@ class _TotalReferralEarnedScreenState extends State<TotalReferralEarnedScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5),
                         child: Text(
-                          'referrersList[index].name',
+                          'Name',
                           style: GoogleFonts.roboto(
-                            fontSize: 16,
+                            fontSize: screenSize.width * .035,
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
                           ),

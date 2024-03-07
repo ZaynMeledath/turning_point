@@ -1,14 +1,15 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/view/referral/segments/scratch_card_pop_up.dart';
 import 'package:turning_point/view/referral/total_referral_earned_screen.dart';
 
 part 'segments/coupon_code_container.dart';
 part 'segments/referral_instruction_container.dart';
 part 'segments/invite_link_container.dart';
+part 'segments/rewards_container.dart';
 
 class ReferScreen extends StatefulWidget {
   const ReferScreen({
@@ -20,19 +21,9 @@ class ReferScreen extends StatefulWidget {
 }
 
 class _ReferScreenState extends State<ReferScreen> {
-  StreamSubscription<Map>? streamSubscriptionDeepLink;
-  String? newReferralCode;
-  String? deeplink;
-  String? generatedReferalCode;
-
   @override
   void initState() {
     super.initState();
-
-    //first check if the referal code is already saved
-    // generate the referal code and update it to the current user and save it in local database
-
-    // initializeDeepLinkData();
   }
 
   @override
@@ -185,14 +176,15 @@ class _ReferScreenState extends State<ReferScreen> {
           ),
 
           //---------------White Container---------------//
-          SizedBox(height: screenSize.height * .07),
-          const CouponCodeContainer(
+          SizedBox(height: screenSize.height * .04),
+          couponCodeContainer(
+            context: context,
             couponCode: 'demo123',
           ),
+          SizedBox(height: screenSize.height * .03),
+          referralInstructionContainer(),
           SizedBox(height: screenSize.height * .02),
-          const ReferralInstructionContainer(),
-          const SizedBox(height: 10),
-          const InviteLinkContainer(couponCode: 'demo123'),
+          inviteLinkContainer(couponCode: 'demo123'),
         ],
       ),
     );

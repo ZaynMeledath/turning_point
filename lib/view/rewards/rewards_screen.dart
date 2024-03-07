@@ -27,7 +27,9 @@ class _RewardsScreenState extends State<RewardsScreen>
 
   @override
   void initState() {
-    preloadBloc.pauseCurrentController();
+    if (preloadBloc.state.controllers.isNotEmpty) {
+      preloadBloc.pauseCurrentController();
+    }
     tabController = TabController(length: 2, vsync: this);
     scrollController = ScrollController();
     scrollController.addListener(() {
