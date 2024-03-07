@@ -264,21 +264,20 @@ class _KycScreenState extends State<KycScreen>
                                   pincode: pinController.text,
                                 ),
                               );
+                            } else {
+                              kycBloc.add(
+                                KycUpdateEvent(
+                                  name: nameController.text,
+                                  phone: phoneController.text,
+                                  email: emailController.text,
+                                  pincode: pinController.text,
+                                  isSavings: state.isSavings,
+                                  accName: accNameController.text,
+                                  accNum: accNumController.text,
+                                  ifsc: ifscController.text,
+                                ),
+                              );
                             }
-                            // else {
-                            //   kycBloc.add(
-                            //     KycUpdateEvent(
-                            //       name: nameController.text,
-                            //       phone: phoneController.text,
-                            //       email: emailController.text,
-                            //       pincode: pinController.text,
-                            //       isSavings: state.isSavings,
-                            //       accName: accNameController.text,
-                            //       accNum: accNumController.text,
-                            //       ifsc: ifscController.text,
-                            //     ),
-                            //   );
-                            // }
                           }
                         },
                         child: Container(

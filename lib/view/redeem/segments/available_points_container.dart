@@ -10,7 +10,7 @@ Widget availablePointsContainer({required Size screenSize}) {
       final points = pointsState.points;
       return Container(
         width: double.infinity,
-        height: screenSize.width * .33,
+        // height: screenSize.width * .35,
         margin: EdgeInsets.only(
           left: screenSize.width * .07,
           right: screenSize.width * .07,

@@ -230,7 +230,8 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
 
             await Future.delayed(const Duration(seconds: 1));
 
-            pointsBloc.add(PointsLoadEvent());
+            pointsBloc
+                .add(PointsLoadEvent(avoidGettingUserFromPreference: true));
 
             return emit(
               BuyCouponsState(
@@ -254,7 +255,8 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
             await redeemRepo.redeemBank(
               points: state.redeemPoints,
             );
-            pointsBloc.add(PointsLoadEvent());
+            pointsBloc
+                .add(PointsLoadEvent(avoidGettingUserFromPreference: true));
             return emit(
               BankTransferState(
                 selectedOptionNumber: state.selectedOptionNumber,
@@ -287,7 +289,8 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
               points: state.redeemPoints,
               upiId: event.upiId!,
             );
-            pointsBloc.add(PointsLoadEvent());
+            pointsBloc
+                .add(PointsLoadEvent(avoidGettingUserFromPreference: true));
             emit(
               UpiTransferState(
                 selectedOptionNumber: state.selectedOptionNumber,
