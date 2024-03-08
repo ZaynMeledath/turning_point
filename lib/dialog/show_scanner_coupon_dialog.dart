@@ -1,6 +1,6 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:turning_point/helper/screen_size.dart';
 
 Future<Object?> showScannerCouponDialog({
@@ -9,7 +9,6 @@ Future<Object?> showScannerCouponDialog({
   required String title,
   required String content,
   required String buttonTitle,
-  required MobileScannerController scannerController,
   Size? iconWidth,
   Size? containerSize,
 }) async {
@@ -29,7 +28,6 @@ Future<Object?> showScannerCouponDialog({
           title: title,
           content: content,
           buttonTitle: buttonTitle,
-          scannerController: scannerController,
         ),
       );
     },
@@ -42,7 +40,6 @@ Widget dialog({
   required String title,
   required String content,
   required String buttonTitle,
-  required MobileScannerController scannerController,
   Size? iconWidth,
 }) {
   return Container(
@@ -90,7 +87,7 @@ Widget dialog({
         SizedBox(height: screenSize.height * .03),
         GestureDetector(
           onTap: () {
-            scannerController.start();
+            // scannerBloc.scanCoupon();
             Navigator.pop(context);
           },
           child: Container(

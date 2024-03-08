@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:turning_point/bloc/home/home_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
@@ -21,27 +20,17 @@ class ScannerScreen extends StatefulWidget {
 }
 
 class _ScannerScreenState extends State<ScannerScreen> {
-  late final MobileScannerController _scannerController;
-  final ValueNotifier<bool> permissionNotifier = ValueNotifier(false);
-
   @override
   void initState() {
     super.initState();
-    checkPermission();
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }
-    _scannerController = MobileScannerController();
   }
 
   @override
   void dispose() {
     super.dispose();
-    _scannerController.dispose();
-  }
-
-  void checkPermission() async {
-    permissionNotifier.value = await Permission.camera.isGranted;
   }
 
   @override
@@ -60,7 +49,6 @@ class _ScannerScreenState extends State<ScannerScreen> {
                   content:
                       '${state.couponModel!.points} points has been credited to your account',
                   buttonTitle: 'OK',
-                  scannerController: _scannerController,
                 );
                 break;
               case 'Better luck next time':
@@ -70,7 +58,6 @@ class _ScannerScreenState extends State<ScannerScreen> {
                   title: 'Better Luck Next Time',
                   content: 'You are gonna be lucky next time',
                   buttonTitle: 'OK',
-                  scannerController: _scannerController,
                 );
                 break;
               case 'Coupon has already been applied':
@@ -80,7 +67,6 @@ class _ScannerScreenState extends State<ScannerScreen> {
                   title: 'Coupon Already Applied',
                   content: 'Coupon has already been applied',
                   buttonTitle: 'OK',
-                  scannerController: _scannerController,
                 );
               case 'Coupon not found':
                 showScannerCouponDialog(
@@ -89,7 +75,6 @@ class _ScannerScreenState extends State<ScannerScreen> {
                   title: 'Coupon Not Found',
                   content: 'This Coupon is not valid',
                   buttonTitle: 'OK',
-                  scannerController: _scannerController,
                 );
                 break;
 
@@ -101,59 +86,14 @@ class _ScannerScreenState extends State<ScannerScreen> {
                   content:
                       'Something went wrong while connecting to the server',
                   buttonTitle: 'OK',
-                  scannerController: _scannerController,
                 );
                 break;
             }
           }
         },
         builder: (context, state) {
-          return Stack(
-            alignment: Alignment.topCenter,
-            children: [
-              //====================Scanner====================//
-
-              ValueListenableBuilder(
-                valueListenable: permissionNotifier,
-                builder: (context, value, child) {
-                  return MobileScanner(
-                    errorBuilder: (context, exception, child) =>
-                        scannerErrorWidget(context),
-                    controller: _scannerController,
-                    scanWindow: Rect.fromPoints(
-                      Offset(screenSize.width * .15, screenSize.height * .25),
-                      Offset(screenSize.width * .85, screenSize.height * .54),
-                    ),
-
-                    //====================Scanner Overlay====================//
-                    overlay: const ScannerOverlay(
-                      overlayColour: Color.fromRGBO(35, 35, 35, 0.6),
-                    ),
-
-                    onDetect: (capture) {
-                      _scannerController.stop();
-                      scannerBloc.add(ScannerCodeDetectEvent(capture: capture));
-                    },
-                  );
-                },
-              ),
-
-              //====================Instruction Text====================//
-              Positioned(
-                top: screenSize.height * .08 + 50,
-                child: Text(
-                  permissionNotifier.value
-                      ? 'Place the QR Code\nwithin the box to scan'
-                      : '',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.nunito(
-                    color: Colors.white,
-                    fontSize: screenSize.width * .041,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-            ],
+          return Column(
+            children: [],
           );
         },
       ),

@@ -1,7 +1,8 @@
+import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/foundation.dart' show immutable;
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/model/coupon_model.dart';
@@ -14,26 +15,27 @@ part 'scanner_state.dart';
 
 class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
   final scannerRepo = ScannerRepository();
+
   ScannerBloc() : super(ScannerInitialState()) {
 //====================Scanner Code Detect Event====================//
     on<ScannerCodeDetectEvent>((event, emit) async {
       try {
-        final List<Barcode> barcodes = event.capture.barcodes;
-        if (barcodes.isNotEmpty) {
-          final couponId = barcodes[0].rawValue!;
-          // log('BARCODE: $json');
-          // final couponId = jsonDecode(json)['couponId'];
-          final couponModel = await scannerRepo.applyCoupon(couponId);
+        // final List<Barcode> barcodes = event.capture.barcodes;
+        // if (barcodes.isNotEmpty) {
+        //   final couponId = barcodes[0].rawValue!;
+        // log('BARCODE: $json');
+        // final couponId = jsonDecode(json)['couponId'];
+        final couponModel = await scannerRepo.applyCoupon(event.couponId);
 
-          final userModelResponse = UserRepository.getUserFromPreference()!;
-          userModelResponse.data!.points =
-              userModelResponse.data!.points! + couponModel.points!;
-          // reelsBloc.state.userPoints = userModelResponse.data!.points!;
-          UserRepository.addUserToPreference(userModelResponse);
-          pointsBloc.add(PointsLoadEvent());
-          profileBloc.add(ProfileLoadEvent());
-          emit(ScannerCodeDetectedState(couponModel: couponModel));
-        }
+        final userModelResponse = UserRepository.getUserFromPreference()!;
+        userModelResponse.data!.points =
+            userModelResponse.data!.points! + couponModel.points!;
+        // reelsBloc.state.userPoints = userModelResponse.data!.points!;
+        UserRepository.addUserToPreference(userModelResponse);
+        pointsBloc.add(PointsLoadEvent());
+        profileBloc.add(ProfileLoadEvent());
+        emit(ScannerCodeDetectedState(couponModel: couponModel));
+        // }
       } on CouponAlreadyAppliedException {
         emit(
           ScannerCodeDetectedState(
@@ -69,6 +71,18 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
     on<ScannerInitialStateTriggerEvent>((event, emit) {
       emit(ScannerInitialState());
     });
+  }
+
+//====================Scan Coupon Method====================//
+  Future<void> scanCoupon() async {
+    String barcodeScanResult = await FlutterBarcodeScanner.scanBarcode(
+      lineColor: "#ffffff",
+      cancelButtonText: "",
+      isShowFlashIcon: false,
+      scanMode: ScanMode.QR,
+    );
+
+    scannerBloc.add(ScannerCodeDetectEvent(couponId: barcodeScanResult));
   }
 
 //====================State Change Logger====================//

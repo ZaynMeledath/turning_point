@@ -3,10 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
+import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/flight_shuttle.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/profile/segments/edit_profile_dashboard_segment.dart';
 import 'package:turning_point/view/profile/segments/profile_options_segment.dart';
+import 'package:turning_point/view/referral/refer_screen.dart';
+
+part 'segments/refer_and_earn_container.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -123,14 +127,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               height: 1,
               color: const Color(0xffebebeb),
             ),
-            SizedBox(
-              height: screenSize.height * .023,
-            ),
-            profileOptionsSegment(
-              context: context,
-            ),
-
-            SizedBox(height: screenSize.height * .047),
+            SizedBox(height: screenSize.height * .023),
+            profileOptionsSegment(context: context),
+            SizedBox(height: screenSize.height * .012),
+            referAndEarnContainer(context: context),
+            SizedBox(height: screenSize.height * .03),
           ],
         ),
       ),
