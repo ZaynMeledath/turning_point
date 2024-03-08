@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/view/referral/segments/scratch_card_pop_up.dart';
@@ -67,7 +68,7 @@ class _ReferScreenState extends State<ReferScreen> {
                                 ),
                               ),
                               Text(
-                                'Earn ₹25 Each',
+                                'Earn ₹100 Each',
                                 style: GoogleFonts.roboto(
                                   color: Colors.white,
                                   fontSize: screenSize.width * .06,
@@ -91,11 +92,17 @@ class _ReferScreenState extends State<ReferScreen> {
 
                   Center(
                     child: GestureDetector(
+                      onTap: () => CustomNavigator.push(
+                        context: context,
+                        child: const TotalReferralEarnedScreen(),
+                      ),
                       child: Container(
                         width: screenSize.width * .86,
                         height: screenSize.height * .08,
-                        padding:
-                            EdgeInsets.only(right: screenSize.width * .031),
+                        padding: EdgeInsets.only(
+                          left: screenSize.width * .01,
+                          right: screenSize.width * .031,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(8),
@@ -121,36 +128,35 @@ class _ReferScreenState extends State<ReferScreen> {
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
-                                Text('₹ 2450',
-                                    style: GoogleFonts.roboto(
-                                      color: const Color(0xff263238),
-                                      fontSize: screenSize.width * .051,
-                                      fontWeight: FontWeight.w500,
-                                    ))
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      'assets/icons/coin_icon.png',
+                                      width: screenSize.width * .065,
+                                    ),
+                                    SizedBox(width: screenSize.width * .005),
+                                    Text(
+                                      '2450',
+                                      style: GoogleFonts.roboto(
+                                        color: const Color(0xff263238),
+                                        fontSize: screenSize.width * .051,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                )
                               ],
                             ),
                             Expanded(
                               child: Align(
                                 alignment: Alignment.centerRight,
-                                child: IconButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            TotalReferralEarnedScreen(
-                                                walletAmount: '10'),
-                                      ),
-                                    );
-                                  },
-                                  icon: Icon(
-                                    Icons.keyboard_arrow_right,
-                                    size: screenSize.width * .06,
-                                  ),
+                                child: Icon(
+                                  Icons.keyboard_arrow_right,
+                                  size: screenSize.width * .06,
                                   color: const Color(0xff455a64),
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -177,13 +183,13 @@ class _ReferScreenState extends State<ReferScreen> {
 
           //---------------White Container---------------//
           SizedBox(height: screenSize.height * .04),
-          couponCodeContainer(
+          referralCodeContainer(
             context: context,
             couponCode: 'demo123',
           ),
           SizedBox(height: screenSize.height * .03),
           referralInstructionContainer(),
-          SizedBox(height: screenSize.height * .02),
+          SizedBox(height: screenSize.height * .03),
           inviteLinkContainer(couponCode: 'demo123'),
         ],
       ),

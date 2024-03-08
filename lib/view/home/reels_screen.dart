@@ -93,7 +93,6 @@ class ReelsScreenState extends State<ReelsScreen>
                 ),
               );
             case ProfileLoadedState():
-              log('PROFILE LOADED STATE');
               return RefreshIndicator(
                 onRefresh: () => handleRefresh(),
                 strokeWidth: 4,
@@ -123,7 +122,9 @@ class ReelsScreenState extends State<ReelsScreen>
                                     preloadBloc.pauseCurrentController();
                                     CustomNavigator.push(
                                       context: context,
-                                      child: const PointsScreen(),
+                                      child: const PointsScreen(
+                                        directEntry: true,
+                                      ),
                                     );
                                   },
                                   child: Container(

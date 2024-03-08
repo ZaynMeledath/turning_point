@@ -7,7 +7,11 @@ import 'package:turning_point/view/points/segments/available_points_segment.dart
 import 'package:turning_point/view/points/segments/points_history_segment.dart';
 
 class PointsScreen extends StatefulWidget {
-  const PointsScreen({super.key});
+  final bool? directEntry;
+  const PointsScreen({
+    super.key,
+    this.directEntry, // Will be removed while optmizing the code
+  });
 
   @override
   State<PointsScreen> createState() => _PointsScreenState();
@@ -22,7 +26,9 @@ class _PointsScreenState extends State<PointsScreen> {
 
   @override
   void dispose() {
-    preloadBloc.playCurrentController();
+    if (widget.directEntry != null) {
+      preloadBloc.playCurrentController();
+    }
     super.dispose();
   }
 

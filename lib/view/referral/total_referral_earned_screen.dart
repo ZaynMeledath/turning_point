@@ -1,17 +1,13 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 
 class TotalReferralEarnedScreen extends StatefulWidget {
-  String walletAmount;
-
-  TotalReferralEarnedScreen({
+  const TotalReferralEarnedScreen({
     super.key,
-    required this.walletAmount,
   });
 
   @override
@@ -56,7 +52,7 @@ class _TotalReferralEarnedScreenState extends State<TotalReferralEarnedScreen> {
                         ),
                       ),
                       Text(
-                        '₹ ${widget.walletAmount}',
+                        '₹ 2450',
                         style: GoogleFonts.roboto(
                           color: Colors.white,
                           fontSize: screenSize.width * .06,

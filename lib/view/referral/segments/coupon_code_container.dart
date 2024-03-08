@@ -4,78 +4,72 @@ void copyToClipboard(String text) {
   Clipboard.setData(ClipboardData(text: text));
 }
 
-Widget couponCodeContainer({
+Widget referralCodeContainer({
   required BuildContext context,
   required String couponCode,
 }) {
-  return Center(
-      child: GestureDetector(
-    child: SizedBox(
-      width: screenSize.width * .75,
-      height: screenSize.height * .09,
-      child: Stack(
+  return Container(
+    width: screenSize.width * .8,
+    height: screenSize.height * .09,
+    color: Colors.black,
+    child: CustomPaint(
+      painter: StepsPainter(),
+      child: Row(
         children: [
-          Container(
-            width: screenSize.width * .75,
-            height: screenSize.height * .09,
-            color: Colors.black,
-            child: CustomPaint(
-              painter: StepsPainter(),
-            ),
-          ),
-          Positioned(
-            left: screenSize.width * .75 * .17,
-            top: screenSize.height * .08 * .2,
-            child: Text('Your Referral Code',
+          SizedBox(width: screenSize.width * .06),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Your Referral Code',
                 style: GoogleFonts.roboto(
                   color: Colors.white,
-                  fontSize: screenSize.width * .031,
+                  fontSize: screenSize.width * .03,
                   fontWeight: FontWeight.w400,
-                )),
-          ),
-          Positioned(
-            left: screenSize.width * .75 * .17,
-            bottom: screenSize.height * .08 * .25,
-            child: Text(couponCode,
+                ),
+              ),
+              Text(
+                couponCode,
                 style: GoogleFonts.roboto(
                   color: Colors.white,
-                  fontSize: screenSize.width * .051,
+                  fontSize: screenSize.width * .05,
                   fontWeight: FontWeight.w700,
-                )),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: screenSize.width * .75 * .61),
-            child: const VerticalDivider(
-              color: Colors.white,
-              indent: 10,
-              endIndent: 10,
-            ),
-          ),
-          Positioned(
-            right: screenSize.width * .75 * .07,
-            top: screenSize.height * .08 * .40,
-            child: GestureDetector(
-              onTap: () {
-                copyToClipboard(couponCode);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                      content: Text('Coupon code copied to clipboard!')),
-                );
-              },
-              child: Text(
-                'Copy Code',
-                style: GoogleFonts.roboto(
-                  color: const Color(0xffffa500),
-                  fontSize: screenSize.width * .035,
-                  fontWeight: FontWeight.w500,
                 ),
+              ),
+            ],
+          ),
+          const Expanded(
+            child: SizedBox(),
+          ),
+          const VerticalDivider(
+            color: Colors.white,
+            indent: 10,
+            endIndent: 10,
+          ),
+          SizedBox(width: screenSize.width * .03),
+          GestureDetector(
+            onTap: () {
+              copyToClipboard(couponCode);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Coupon code copied to clipboard!'),
+                ),
+              );
+            },
+            child: Text(
+              'Copy Code',
+              style: GoogleFonts.roboto(
+                color: const Color(0xffffa500),
+                fontSize: screenSize.width * .035,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),
+          SizedBox(width: screenSize.width * .042)
         ],
       ),
     ),
-  ));
+  );
 }
 
 class StepsPainter extends CustomPainter {
@@ -114,10 +108,16 @@ stepHeight is given in the place of width parameter in LTWH and vice versa */
     for (int i = 1; i <= numberOfStepsVertical; i++) {
       if (i % 2 == 0) {
         final leftRect = Rect.fromLTWH(
-            0, (sideStepWidth + 3.5) * i, sideStepWidth, sideStepHeight / 2);
+            0,
+            (sideStepWidth + screenSize.height * .005) * i,
+            sideStepWidth,
+            sideStepHeight / 2);
         canvas.drawRect(leftRect, paint);
-        final rightRect = Rect.fromLTWH((size.width - sideStepWidth),
-            (sideStepWidth + 3.5) * i, sideStepWidth, sideStepHeight / 2);
+        final rightRect = Rect.fromLTWH(
+            (size.width - sideStepWidth),
+            (sideStepWidth + screenSize.height * .005) * i,
+            sideStepWidth,
+            sideStepHeight / 2);
         canvas.drawRect(rightRect, paint);
       }
     }

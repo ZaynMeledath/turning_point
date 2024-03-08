@@ -62,22 +62,20 @@ class _HomeScreenState extends State<HomeScreen> {
             currentIndex: state.currentIndex,
             onTap: (index) async {
               homeBloc.add(TriggerEvent(index));
-              // if (index == 0) {
-              //   preloadBloc.playCurrentController();
-              // }
             },
-            backgroundColor: state.currentIndex == 0 || state.currentIndex == 2
+            backgroundColor: state.currentIndex == 0
+                // || state.currentIndex == 2
                 ? const Color(0xff0c1313)
                 : Colors.white,
-            unselectedItemColor:
-                state.currentIndex == 0 || state.currentIndex == 2
-                    ? Colors.white
-                    : Colors.black,
+            unselectedItemColor: state.currentIndex == 0
+                // || state.currentIndex == 2
+                ? Colors.white
+                : Colors.black,
             enableFeedback: true,
-            selectedItemColor:
-                state.currentIndex == 0 || state.currentIndex == 2
-                    ? Colors.white
-                    : Colors.black,
+            selectedItemColor: state.currentIndex == 0
+                // || state.currentIndex == 2
+                ? Colors.white
+                : Colors.black,
             showUnselectedLabels: true,
             items: [
               BottomNavigationBarItem(
@@ -86,7 +84,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 icon: Image.asset(
                   state.currentIndex == 0 && state is! ConnectState
                       ? 'assets/icons/home_icon_purple.png'
-                      : state.currentIndex == 2 || state.currentIndex == 0
+                      : state.currentIndex == 0
+                          // || state.currentIndex == 2
                           ? 'assets/icons/home_icon_dark.png'
                           : 'assets/icons/home_icon_light.png',
                   width: 23,
@@ -99,7 +98,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 icon: Image.asset(
                   state.currentIndex == 1 && state is! ConnectState
                       ? 'assets/icons/rewards_icon_purple.png'
-                      : state.currentIndex == 0 || state.currentIndex == 2
+                      : state.currentIndex == 0
+                          // || state.currentIndex == 2
                           ? 'assets/icons/rewards_icon_dark.png'
                           : 'assets/icons/rewards_icon_light.png',
                   width: 23,
@@ -112,7 +112,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 icon: Image.asset(
                   state.currentIndex == 2 && state is! ConnectState
                       ? 'assets/icons/scanner_icon_purple.png'
-                      : state.currentIndex == 0 || state.currentIndex == 2
+                      : state.currentIndex == 0
+                          // || state.currentIndex == 2
                           ? 'assets/icons/scanner_icon_dark.png'
                           : 'assets/icons/scanner_icon_light.png',
                   width: 35,
@@ -125,7 +126,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 icon: Image.asset(
                   state.currentIndex == 3 && state is! ConnectState
                       ? 'assets/icons/lucky_draw_icon_purple.png'
-                      : state.currentIndex == 0 || state.currentIndex == 2
+                      : state.currentIndex == 0
+                          // || state.currentIndex == 2
                           ? 'assets/icons/lucky_draw_icon_dark.png'
                           : 'assets/icons/lucky_draw_icon_light.png',
                   width: 23,
@@ -138,7 +140,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 icon: Image.asset(
                   state is ConnectState
                       ? 'assets/icons/connect_icon_purple.png'
-                      : state.currentIndex == 0 || state.currentIndex == 2
+                      : state.currentIndex == 0
+                          // || state.currentIndex == 2
                           ? 'assets/icons/connect_icon_dark.png'
                           : 'assets/icons/connect_icon_light.png',
                   width: 23,

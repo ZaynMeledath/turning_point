@@ -44,7 +44,7 @@ Widget referralInstructionContainer() {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Invite your friend to register on Second Brain',
+                      Text('Invite your friend to register on Turning Point',
                           style: GoogleFonts.roboto(
                             color: const Color(0xff545454),
                             fontSize: screenSize.width * .031,
@@ -52,7 +52,7 @@ Widget referralInstructionContainer() {
                           )),
                       SizedBox(height: screenSize.height * .023),
                       Text(
-                          'When your friend register on app, both of you will\nget 100 worth reward points',
+                          'When your friend register on app, both of you will\nget 500 reward points',
                           style: GoogleFonts.roboto(
                             color: const Color(0xff545454),
                             fontSize: screenSize.width * .031,
@@ -60,7 +60,7 @@ Widget referralInstructionContainer() {
                           )),
                       SizedBox(height: screenSize.height * .023),
                       Text(
-                        'Reward points can be used in subscription plan',
+                        'Reward points can be used in In-App Purchases',
                         style: GoogleFonts.roboto(
                           color: const Color(0xff545454),
                           fontSize: screenSize.width * .031,

@@ -42,6 +42,12 @@ class _ReelsPlayerState extends State<ReelsPlayer>
     }
   }
 
+  @override
+  void deactivate() {
+    animationController.reset();
+    super.deactivate();
+  }
+
   // void showIconOverlay() {
   //   final overlayEntry = OverlayEntry(builder: (context) {
   //     return Icon(
@@ -74,8 +80,8 @@ class _ReelsPlayerState extends State<ReelsPlayer>
                         onTap: () {
                           onScreenTap();
                         },
-                        onLongPressStart: (details) {},
-                        child: VideoPlayer(widget.videoController))
+                        child: VideoPlayer(widget.videoController),
+                      )
                     : circleLoading(),
               ),
               ScaleTransition(

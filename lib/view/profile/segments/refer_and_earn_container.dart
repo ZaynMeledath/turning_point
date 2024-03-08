@@ -17,7 +17,7 @@ Widget referAndEarnContainer({required BuildContext context}) {
           Container(
             width: double.infinity,
             height: screenSize.height * .067,
-            margin: EdgeInsets.symmetric(horizontal: screenSize.width * .06),
+            margin: EdgeInsets.symmetric(horizontal: screenSize.width * .065),
             decoration: BoxDecoration(
               color: const Color.fromRGBO(235, 241, 250, 1),
               borderRadius: BorderRadius.circular(10),
@@ -61,7 +61,7 @@ Widget referAndEarnContainer({required BuildContext context}) {
             ),
           ),
           Positioned(
-            left: screenSize.width * .05,
+            left: screenSize.width * .054,
             child: Image.asset(
               'assets/icons/refer_a_friend_icon.png',
               width: screenSize.width * .16,
