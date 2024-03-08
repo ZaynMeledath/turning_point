@@ -26,7 +26,7 @@ class _PointsScreenState extends State<PointsScreen> {
 
   @override
   void dispose() {
-    if (widget.directEntry != null) {
+    if (widget.directEntry != null && !preloadBloc.manuallyPaused) {
       preloadBloc.playCurrentController();
     }
     super.dispose();

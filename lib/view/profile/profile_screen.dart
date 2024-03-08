@@ -29,7 +29,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void dispose() {
     super.dispose();
-    preloadBloc.playCurrentController();
+    if (!preloadBloc.manuallyPaused) {
+      preloadBloc.playCurrentController();
+    }
   }
 
   @override

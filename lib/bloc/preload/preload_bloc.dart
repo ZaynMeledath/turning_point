@@ -7,6 +7,7 @@ part 'preload_event.dart';
 part 'preload_state.dart';
 
 class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
+  bool manuallyPaused = false; // Will be removed while optimizing the app
   PreloadBloc() : super(PreloadState.initial()) {
     on<PreloadEvent>((event, emit) async {
       state.urls = ReelsRepository.urlList;

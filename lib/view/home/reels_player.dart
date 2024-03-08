@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:video_player/video_player.dart';
@@ -36,9 +37,11 @@ class _ReelsPlayerState extends State<ReelsPlayer>
     if (widget.videoController.value.isPlaying) {
       widget.videoController.pause();
       animationController.forward();
+      preloadBloc.manuallyPaused = true;
     } else {
       widget.videoController.play();
       animationController.reverse();
+      preloadBloc.manuallyPaused = false;
     }
   }
 
@@ -86,16 +89,19 @@ class _ReelsPlayerState extends State<ReelsPlayer>
               ),
               ScaleTransition(
                 scale: animation,
-                child: Icon(
-                  Icons.play_circle_fill_rounded,
-                  size: screenSize.width * .13,
-                  color: Colors.white.withOpacity(.8),
-                  shadows: [
-                    Shadow(
-                      blurRadius: 1,
-                      color: Colors.grey.withOpacity(.3),
-                    ),
-                  ],
+                child: GestureDetector(
+                  onTap: () => onScreenTap(),
+                  child: Icon(
+                    Icons.play_circle_fill_rounded,
+                    size: screenSize.width * .13,
+                    color: Colors.white.withOpacity(.8),
+                    shadows: [
+                      Shadow(
+                        blurRadius: 1,
+                        color: Colors.grey.withOpacity(.3),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
