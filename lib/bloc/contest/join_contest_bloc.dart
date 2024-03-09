@@ -16,23 +16,31 @@ class JoinContestBloc extends Bloc<JoinContestEvent, JoinContestState> {
     on<JoinContestEvent>((event, emit) async {
       try {
         final userModelResponse = UserRepository.getUserFromPreference()!;
-        if (userModelResponse.data!.points! >= event.contestModel.points!) {
-          await ContestRepository.joinContest(event.contestModel.id!);
-          userModelResponse.data!.points =
-              userModelResponse.data!.points! - event.contestModel.points!;
+        if (userModelResponse.data!.kycStatus == true) {
+          if (userModelResponse.data!.points! >= event.contestModel.points!) {
+            await ContestRepository.joinContest(event.contestModel.id!);
+            userModelResponse.data!.points =
+                userModelResponse.data!.points! - event.contestModel.points!;
 
-          contestBloc.state.contestModelList![event.contestIndex]
-              .userJoinStatus = true;
-          // reelsBloc.state.userPoints = userModelResponse.data!.points!;
-          UserRepository.addUserToPreference(userModelResponse);
-          pointsBloc.add(PointsLoadEvent());
-          // contestBloc.add(ContestLoadEvent());
+            contestBloc.state.contestModelList![event.contestIndex]
+                .userJoinStatus = true;
+            // reelsBloc.state.userPoints = userModelResponse.data!.points!;
+            UserRepository.addUserToPreference(userModelResponse);
+            pointsBloc.add(PointsLoadEvent());
+            // contestBloc.add(ContestLoadEvent());
 
-          emit(ContestJoinedState(event.contestModel));
+            emit(ContestJoinedState(event.contestModel));
+          } else {
+            emit(
+              JoinContestErrorState(
+                InsufficientBalanceToJoinContestException(),
+              ),
+            );
+          }
         } else {
           emit(
             JoinContestErrorState(
-              InsufficientBalanceToJoinContestException(),
+              VerificationRequiredToJoinContestException(),
             ),
           );
         }

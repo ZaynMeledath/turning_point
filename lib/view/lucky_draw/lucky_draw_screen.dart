@@ -43,7 +43,7 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
   Widget build(BuildContext context) {
     luckyDrawBloc.add(LuckyDrawLoadEvent());
     return Scaffold(
-      // backgroundColor: const Color.fromRGBO(255, 204, 0, 1),
+      backgroundColor: const Color.fromRGBO(255, 204, 0, 1),
       body: SafeArea(
         child: BlocBuilder<LuckyDrawBloc, LuckyDrawState>(
           builder: (context, state) {
@@ -173,7 +173,7 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
                   return Center(
                     child: Column(
                       children: [
-                        SizedBox(height: screenSize.height * .2),
+                        SizedBox(height: screenSize.height * .25),
                         Lottie.asset(
                           'assets/lottie/no_data_animation.json',
                           width: screenSize.width * .65,

@@ -26,7 +26,7 @@ Widget inviteLinkContainer({required String couponCode}) {
                 width: double.infinity,
                 height: screenSize.height * .05,
                 decoration: BoxDecoration(
-                  color: const Color(0xff17f068),
+                  color: Colors.green,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(

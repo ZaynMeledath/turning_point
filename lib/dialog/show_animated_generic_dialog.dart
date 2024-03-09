@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:turning_point/helper/screen_size.dart';
 
 Future<Object?> showAnimatedGenericDialog({
@@ -42,10 +43,11 @@ Widget dialog({
   required String buttonTitle,
   double? iconWidth,
 }) {
+  final isLottie = iconPath.split('.').last == 'json';
   return Container(
     margin: EdgeInsets.symmetric(
-      horizontal: screenSize.width * .15,
-      vertical: screenSize.height * .355,
+      horizontal: screenSize.width * .16,
+      vertical: screenSize.height * .36,
     ),
     padding: EdgeInsets.symmetric(horizontal: screenSize.width * .03),
     decoration: BoxDecoration(
@@ -54,12 +56,20 @@ Widget dialog({
     ),
     child: Column(
       children: [
-        SizedBox(height: screenSize.height * .025),
-        Image.asset(
-          iconPath,
-          width: iconWidth ?? screenSize.width * .15,
+        SizedBox(height: screenSize.height * .011),
+        isLottie
+            ? Lottie.asset(
+                iconPath,
+                width: iconWidth ?? screenSize.width * .15,
+              )
+            : Image.asset(
+                iconPath,
+                width: iconWidth ?? screenSize.width * .15,
+              ),
+        SizedBox(
+          height:
+              isLottie ? screenSize.height * .005 : screenSize.height * .014,
         ),
-        SizedBox(height: screenSize.height * .018),
         DefaultTextStyle(
           style: GoogleFonts.roboto(
             fontSize: screenSize.width * .051,
@@ -71,7 +81,7 @@ Widget dialog({
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: screenSize.height * .01),
+        SizedBox(height: screenSize.height * .012),
         DefaultTextStyle(
           style: GoogleFonts.roboto(
             fontSize: screenSize.width * .035,
@@ -84,7 +94,7 @@ Widget dialog({
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: screenSize.height * .03),
+        SizedBox(height: screenSize.height * .028),
         GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Container(
@@ -96,7 +106,7 @@ Widget dialog({
             ),
             child: DefaultTextStyle(
               style: GoogleFonts.roboto(
-                fontSize: screenSize.width * .041,
+                fontSize: screenSize.width * .031,
                 fontWeight: FontWeight.w500,
                 color: Colors.white,
               ),

@@ -111,7 +111,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                       if (reelsState
                                               .reelsModelList![index].isLiked !=
                                           true) {
-                                        ReelsScreenState.animationController
+                                        ReelsScreenState.likeAnimationController
                                             .forward();
                                         reelsBloc.add(
                                             ReelLikeEvent(reelIndex: index));

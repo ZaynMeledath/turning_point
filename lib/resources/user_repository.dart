@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:turning_point/constants/constants.dart';
@@ -225,7 +226,7 @@ class UserRepository {
         url: ApiEndpoints.updateProfileImage,
         requestMethod: RequestMethod.PATCH,
         data: {
-          "image": imageString,
+          'image': imageString,
         },
         isTokenRequired: true,
       );
@@ -239,16 +240,37 @@ class UserRepository {
     }
   }
 
+// //====================Get User Profile Image from Storage====================//
+//   static Future<File?> fetchImageFromStorage() async {
+//     final ImagePicker picker = ImagePicker();
+//     try {
+//       final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+//       if (image != null) {
+//         final imageFile = File(image.path);
+//         return imageFile;
+//       } else {
+//         return null;
+//       }
+//     } catch (_) {
+//       throw CouldNotFetchImageFromStorageException();
+//     }
+//   }
+
 //====================Get User Profile Image from Storage====================//
-  static Future<Map<String, XFile>?> fetchImageFromStorage() async {
+  static Future<Map<String, File>?> fetchImageFromStorage() async {
     final ImagePicker picker = ImagePicker();
     try {
       final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
       if (image != null) {
+        final imageFile = File(image.path);
         final base64Image = base64Encode(await image.readAsBytes());
         final result =
             'furnipart/${image.path.split('/').last};base64,$base64Image';
-        return {result: image};
+
+        //Image Map is used for KYC Bloc
+        return {result: imageFile};
       } else {
         return null;
       }

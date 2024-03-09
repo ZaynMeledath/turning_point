@@ -47,16 +47,28 @@ class _ContestScreenState extends State<ContestScreen> {
                   context: context,
                   iconPath: 'assets/icons/kyc_declined_icon.png',
                   title: 'Oops',
-                  content: 'Insufficient Balance to join the contest',
+                  content: 'Insufficient Balance to join the\ncontest',
                   buttonTitle: 'Dismiss');
+              break;
+            case VerificationRequiredToJoinContestException():
+              showAnimatedGenericDialog(
+                context: context,
+                iconPath: 'assets/lottie/kyc_verification_animation.json',
+                title: 'Not Verified',
+                content: 'KYC should be verified to join the\ncontest',
+                buttonTitle: 'Dismiss',
+                iconWidth: screenSize.width * .2,
+              );
               break;
             default:
               showAnimatedGenericDialog(
-                  context: context,
-                  iconPath: 'assets/icons/kyc_declined_icon.png',
-                  title: 'Error',
-                  content: 'Something Went Wrong',
-                  buttonTitle: 'Dismiss');
+                context: context,
+                iconPath: 'assets/lottie/something_went_wrong_animation.json',
+                title: 'Error',
+                content: 'Something Went Wrong',
+                buttonTitle: 'Dismiss',
+                iconWidth: screenSize.width * .2,
+              );
           }
         } else if (state is ContestJoinedState) {
           showAnimatedGenericDialog(

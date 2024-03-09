@@ -58,7 +58,8 @@ class _ScannerScreenState extends State<ScannerScreen> {
               case 'Coupon has already been applied':
                 showScannerCouponDialog(
                   context: context,
-                  iconPath: 'assets/images/points_received_dialog_image.png',
+                  iconPath:
+                      'assets/lottie/blocks_rotate_and_load_animation.json',
                   title: 'Coupon Already Applied',
                   content: 'Coupon has already been applied',
                   buttonTitle: 'OK',
@@ -66,10 +67,11 @@ class _ScannerScreenState extends State<ScannerScreen> {
               case 'Coupon not found':
                 showScannerCouponDialog(
                   context: context,
-                  iconPath: 'assets/images/points_received_dialog_image.png',
+                  iconPath: 'assets/lottie/boat_not_found_animation.json',
                   title: 'Coupon Not Found',
                   content: 'This Coupon is not valid',
                   buttonTitle: 'OK',
+                  iconWidth: screenSize.width * .23,
                 );
                 break;
 

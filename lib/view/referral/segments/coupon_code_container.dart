@@ -11,7 +11,10 @@ Widget referralCodeContainer({
   return Container(
     width: screenSize.width * .8,
     height: screenSize.height * .09,
-    color: Colors.black,
+    decoration: BoxDecoration(
+      color: Colors.black87,
+      borderRadius: BorderRadius.circular(6),
+    ),
     child: CustomPaint(
       painter: StepsPainter(),
       child: Row(
@@ -52,7 +55,7 @@ Widget referralCodeContainer({
               copyToClipboard(couponCode);
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('Coupon code copied to clipboard!'),
+                  content: Text('Referral code copied to clipboard!'),
                 ),
               );
             },
@@ -76,7 +79,7 @@ class StepsPainter extends CustomPainter {
   final int numberOfStepsHorizontal =
       28; // Number of horizontal rectangular steps
   final int numberOfStepsVertical = 8; //Number of vertical steps
-  final double stepHeight = 3.0; // Height of each step
+  final double stepHeight = screenSize.width * .0072; // Height of each step
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -84,7 +87,8 @@ class StepsPainter extends CustomPainter {
       ..color = Colors.white
       ..style = PaintingStyle.fill;
 
-    final stepWidth = (size.width - 10) / numberOfStepsHorizontal;
+    final stepWidth =
+        (size.width - (screenSize.width * .028)) / numberOfStepsHorizontal;
 
 // Draw steps on the top edge for even steps, and bottom edge for odd steps
     for (int i = 0; i <= numberOfStepsHorizontal; i++) {

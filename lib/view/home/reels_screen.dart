@@ -25,25 +25,25 @@ class ReelsScreen extends StatefulWidget {
 
 class ReelsScreenState extends State<ReelsScreen>
     with SingleTickerProviderStateMixin {
-  static late AnimationController animationController;
-  static late Animation<double> animation;
+  static late AnimationController likeAnimationController;
+  static late Animation<double> likeAnimation;
 
   @override
   void initState() {
     super.initState();
     log('${AppPreferences.getValueShared('auth_token')}');
 
-    animationController = AnimationController(
+    likeAnimationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 200));
 
-    animation = Tween<double>(
+    likeAnimation = Tween<double>(
       begin: 1,
       end: 1.4,
-    ).animate(animationController);
+    ).animate(likeAnimationController);
 
-    animationController.addStatusListener((status) {
+    likeAnimationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        animationController.reverse();
+        likeAnimationController.reverse();
       }
     });
   }
@@ -116,7 +116,7 @@ class ReelsScreenState extends State<ReelsScreen>
                           Row(
                             children: [
                               ScaleTransition(
-                                scale: animation,
+                                scale: likeAnimation,
                                 child: GestureDetector(
                                   onTap: () {
                                     preloadBloc.pauseCurrentController();

@@ -45,12 +45,6 @@ class _ReelsPlayerState extends State<ReelsPlayer>
     }
   }
 
-  @override
-  void deactivate() {
-    animationController.reset();
-    super.deactivate();
-  }
-
   // void showIconOverlay() {
   //   final overlayEntry = OverlayEntry(builder: (context) {
   //     return Icon(

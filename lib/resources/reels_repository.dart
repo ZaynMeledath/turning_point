@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
@@ -33,10 +34,12 @@ class ReelsRepository {
 
     final data = response['data'];
 
-    final videoNames = data.map((e) => e['fileUrl']).toList();
-    urlList = videoNames
-        .map((videoName) => '${ApiEndpoints.uploads}/$videoName')
-        .toList();
+    urlList = data.map((e) => e['fileUrl']).toList();
+    log(urlList.toString());
+    // final videoNames = data.map((e) => e['fileUrl']).toList();
+    // urlList = videoNames
+    //     .map((videoName) => '${ApiEndpoints.uploads}/$videoName')
+    //     .toList();
 
     reelsModelResponse = ReelsModelResponse.fromJson(response);
 

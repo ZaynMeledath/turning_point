@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:turning_point/helper/screen_size.dart';
 
 Future<Object?> showScannerCouponDialog({
@@ -9,7 +10,7 @@ Future<Object?> showScannerCouponDialog({
   required String title,
   required String content,
   required String buttonTitle,
-  Size? iconWidth,
+  double? iconWidth,
   Size? containerSize,
 }) async {
   return showGeneralDialog(
@@ -28,6 +29,7 @@ Future<Object?> showScannerCouponDialog({
           title: title,
           content: content,
           buttonTitle: buttonTitle,
+          iconWidth: iconWidth,
         ),
       );
     },
@@ -40,7 +42,7 @@ Widget dialog({
   required String title,
   required String content,
   required String buttonTitle,
-  Size? iconWidth,
+  double? iconWidth,
 }) {
   return Container(
     margin: EdgeInsets.symmetric(
@@ -55,10 +57,15 @@ Widget dialog({
     child: Column(
       children: [
         SizedBox(height: screenSize.height * .025),
-        Image.asset(
-          iconPath,
-          width: screenSize.width * .15,
-        ),
+        iconPath.split('.').last == 'json'
+            ? Lottie.asset(
+                iconPath,
+                width: iconWidth ?? screenSize.width * .15,
+              )
+            : Image.asset(
+                iconPath,
+                width: screenSize.width * .15,
+              ),
         SizedBox(height: screenSize.height * .018),
         DefaultTextStyle(
           style: GoogleFonts.roboto(

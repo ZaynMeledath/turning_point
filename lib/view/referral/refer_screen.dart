@@ -50,7 +50,7 @@ class _ReferScreenState extends State<ReferScreen> {
                   SizedBox(height: screenSize.height * .02),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                        horizontal: screenSize.width * .06),
+                        horizontal: screenSize.width * .05),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -68,10 +68,10 @@ class _ReferScreenState extends State<ReferScreen> {
                                 ),
                               ),
                               Text(
-                                'Earn ₹100 Each',
+                                'Earn 500 Points Each',
                                 style: GoogleFonts.roboto(
                                   color: Colors.white,
-                                  fontSize: screenSize.width * .06,
+                                  fontSize: screenSize.width * .056,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
@@ -92,10 +92,10 @@ class _ReferScreenState extends State<ReferScreen> {
 
                   Center(
                     child: GestureDetector(
-                      onTap: () => CustomNavigator.push(
-                        context: context,
-                        child: const TotalReferralEarnedScreen(),
-                      ),
+                      // onTap: () => CustomNavigator.push(
+                      //   context: context,
+                      //   child: const TotalReferralEarnedScreen(),
+                      // ),
                       child: Container(
                         width: screenSize.width * .86,
                         height: screenSize.height * .08,
@@ -189,7 +189,7 @@ class _ReferScreenState extends State<ReferScreen> {
           ),
           SizedBox(height: screenSize.height * .03),
           referralInstructionContainer(),
-          SizedBox(height: screenSize.height * .03),
+          SizedBox(height: screenSize.height * .04),
           inviteLinkContainer(couponCode: 'demo123'),
         ],
       ),

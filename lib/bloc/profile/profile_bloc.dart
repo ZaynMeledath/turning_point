@@ -108,9 +108,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         final imageMap = await UserRepository.fetchImageFromStorage();
 
         if (imageMap != null) {
-          userModelResponse = await UserRepository.updateProfileImage(
-            imageMap.keys.first,
-          );
+          userModelResponse =
+              await UserRepository.updateProfileImage(imageMap.keys.first);
         }
         emit(
           ProfileLoadedState(

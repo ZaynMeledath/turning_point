@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/dialog/show_logout_dialog.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
@@ -90,6 +91,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     onTap: () async {
                       final shouldSignOut = await showLogoutDialog(context);
                       if (shouldSignOut) {
+                        preloadBloc.disposeAllControllers();
                         AppPreferences.clearSharedPreferences();
                         Navigator.of(context).push(
                           PageTransition(
