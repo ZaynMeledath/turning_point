@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/flight_shuttle.dart';
@@ -20,20 +19,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  @override
-  void initState() {
-    preloadBloc.pauseCurrentController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    if (!preloadBloc.manuallyPaused) {
-      preloadBloc.playCurrentController();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -34,6 +34,8 @@ void main() async {
   ]).then((value) => runApp(const MyApp()));
 }
 
+final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

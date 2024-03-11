@@ -34,4 +34,14 @@ class VerifyOtpEvent extends AuthEvent {
   VerifyOtpEvent(this.otp);
 }
 
+class ResendOtpEvent extends AuthEvent {
+  final String phone;
+  final TextEditingController otpController;
+
+  ResendOtpEvent({
+    required this.phone,
+    required this.otpController,
+  });
+}
+
 class SignOutEvent extends AuthEvent {}

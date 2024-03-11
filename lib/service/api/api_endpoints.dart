@@ -1,8 +1,8 @@
 class ApiEndpoints {
   // static const baseUrl = 'https://turningpoint.ebslonserver3.com/api';
-  static const baseUrl = 'http://api.turningpointvapi.com';
+  // static const baseUrl = 'http://api.turningpointvapi.com';
   // static const baseUrl = 'http://192.168.1.148:4023';
-  // static const baseUrl = 'http://13.126.184.197';
+  static const baseUrl = 'http://13.126.184.197';
 
   static const register = '$baseUrl/users/register';
   // static const login = '$baseUrl/users/login';

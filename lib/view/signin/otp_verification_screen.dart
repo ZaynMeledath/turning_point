@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
@@ -8,6 +11,7 @@ import 'package:turning_point/dialog/show_custom_loading_dialog.dart';
 import 'package:turning_point/dialog/show_generic_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/main.dart';
 import 'package:turning_point/view/terms_and_conditions/terms_and_conditions_screen.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
@@ -21,18 +25,37 @@ class OtpVerificationScreen extends StatefulWidget {
   State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
 }
 
-class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
+class _OtpVerificationScreenState extends State<OtpVerificationScreen>
+    with RouteAware {
   String otp = '';
+  bool isResendButtonActive = false;
+  int secondsLeft = 30;
 
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      routeObserver.subscribe(this, ModalRoute.of(context)!);
+    });
+    startTimer();
     super.initState();
   }
 
   @override
-  void dispose() {
+  void didPushNext() {
     widget.otpController.dispose();
-    super.dispose();
+    super.didPushNext();
+  }
+
+  void startTimer() {
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        --secondsLeft;
+        if (secondsLeft == 0) {
+          timer.cancel();
+          isResendButtonActive = true;
+        }
+      });
+    });
   }
 
   @override
@@ -179,20 +202,49 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       Row(
                         children: [
                           Text(
-                            "Didn't Receive the OTP? ",
+                            "Didn't Receive the OTP?  ",
                             style: GoogleFonts.roboto(
                               fontSize: screenSize.width * .031,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
-                          Text(
-                            'Resend',
-                            style: GoogleFonts.roboto(
-                              fontSize: screenSize.width * .035,
-                              fontWeight: FontWeight.w500,
-                              color: const Color.fromRGBO(0, 99, 255, 1),
+                          GestureDetector(
+                            onTap: () {
+                              if (isResendButtonActive) {
+                                isResendButtonActive = false;
+                                secondsLeft = 59;
+                                startTimer();
+                                authBloc.add(
+                                  ResendOtpEvent(
+                                    phone: state.phone.toString(),
+                                    otpController: widget.otpController,
+                                  ),
+                                );
+                              }
+                            },
+                            child: Text(
+                              'Resend',
+                              style: GoogleFonts.roboto(
+                                fontSize: screenSize.width * .035,
+                                fontWeight: FontWeight.w500,
+                                color: isResendButtonActive
+                                    ? const Color.fromRGBO(0, 99, 255, 1)
+                                    : Colors.grey,
+                              ),
                             ),
                           ),
+                          if (!isResendButtonActive)
+                            Padding(
+                              padding:
+                                  EdgeInsets.only(left: screenSize.width * .02),
+                              child: Text(
+                                '$secondsLeft Seconds',
+                                style: GoogleFonts.roboto(
+                                    fontSize: screenSize.width * .031,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color.fromRGBO(0, 99, 255, 1)),
+                              ),
+                            ),
                         ],
                       ),
                       SizedBox(height: screenSize.height * .21),

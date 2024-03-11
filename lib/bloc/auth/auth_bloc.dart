@@ -88,44 +88,53 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
 //====================VerifyOtpEvent====================//
-    on<VerifyOtpEvent>(
-      (event, emit) async {
-        emit(
-          AuthLoadingState(
-            phone: state.phone,
+    on<VerifyOtpEvent>((event, emit) async {
+      emit(
+        AuthLoadingState(
+          phone: state.phone,
+          businessName: state.businessName,
+          contractor: state.contractor,
+        ),
+      );
+      try {
+        final token = await provider.verifyOtp(
+          verificationId: FirebaseAuthProvider.verifyId,
+          otp: event.otp,
+        );
+
+        final firebaseMessagingToken = await provider.getFcmToken();
+
+        if (token != null && firebaseMessagingToken != null) {
+          await UserRepository.userSignUp(
+            phone: state.phone!,
             businessName: state.businessName,
             contractor: state.contractor,
-          ),
-        );
-        try {
-          final token = await provider.verifyOtp(
-            verificationId: FirebaseAuthProvider.verifyId,
-            otp: event.otp,
+            token: token,
+            fcmToken: firebaseMessagingToken,
           );
-
-          final firebaseMessagingToken = await provider.getFcmToken();
-
-          if (token != null && firebaseMessagingToken != null) {
-            await UserRepository.userSignUp(
-              phone: state.phone!,
-              businessName: state.businessName,
-              contractor: state.contractor,
-              token: token,
-              fcmToken: firebaseMessagingToken,
-            );
-          } else {
-            emit(
-              const AuthErrorState(
-                  message: 'Error Signing Up. Please try again'),
-            );
-          }
-
-          emit(OtpVerifiedState());
-        } catch (e) {
-          throw Exception(e);
+        } else {
+          emit(
+            const AuthErrorState(message: 'Error Signing Up. Please try again'),
+          );
         }
-      },
-    );
+
+        emit(OtpVerifiedState());
+      } catch (e) {
+        throw Exception(e);
+      }
+    });
+
+//====================Resend OTP Event====================//
+    on<ResendOtpEvent>((event, emit) async {
+      try {
+        await provider.sendPhoneVerification(
+          phone: event.phone,
+          otpController: event.otpController,
+        );
+      } catch (e) {
+        log('EXCEPTION IN RESEND OTP EVENT : $e');
+      }
+    });
   }
 
 //====================State Change Logger====================//

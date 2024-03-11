@@ -22,8 +22,6 @@ class _ReelsPlayerState extends State<ReelsPlayer>
 
   @override
   void initState() {
-    super.initState();
-
     animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 150));
 
@@ -31,6 +29,7 @@ class _ReelsPlayerState extends State<ReelsPlayer>
       begin: 0,
       end: 1.4,
     ).animate(animationController);
+    super.initState();
   }
 
   void onScreenTap() {

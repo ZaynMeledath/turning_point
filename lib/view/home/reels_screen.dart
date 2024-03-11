@@ -9,6 +9,7 @@ import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
+import 'package:turning_point/main.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/resources/reels_repository.dart';
 import 'package:turning_point/view/home/profile_inactive_screen.dart';
@@ -24,13 +25,16 @@ class ReelsScreen extends StatefulWidget {
 }
 
 class ReelsScreenState extends State<ReelsScreen>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, RouteAware {
   static late AnimationController likeAnimationController;
   static late Animation<double> likeAnimation;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      routeObserver.subscribe(this, ModalRoute.of(context)!);
+    });
     log('${AppPreferences.getValueShared('auth_token')}');
 
     likeAnimationController = AnimationController(
@@ -48,13 +52,30 @@ class ReelsScreenState extends State<ReelsScreen>
     });
   }
 
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   if (preloadBloc.state.controllers.isNotEmpty) {
-  //     preloadBloc.pauseCurrentController();
-  //   }
-  // }
+  @override
+  void didPushNext() {
+    if (preloadBloc.state.controllers.isNotEmpty) {
+      preloadBloc.pauseCurrentController();
+    }
+    super.didPushNext();
+  }
+
+  @override
+  void didPopNext() {
+    if (preloadBloc.state.controllers.isNotEmpty &&
+        !preloadBloc.manuallyPaused) {
+      preloadBloc.playCurrentController();
+    }
+    super.didPopNext();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (preloadBloc.state.controllers.isNotEmpty) {
+      preloadBloc.pauseCurrentController();
+    }
+  }
 
   Future<void> handleRefresh() async {
     await ReelsRepository.getReels();
