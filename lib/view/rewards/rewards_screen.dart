@@ -152,17 +152,26 @@ class _RewardsScreenState extends State<RewardsScreen>
                   rewardsState.previousRewardsModel == null) {
                 return const SingleContestRewardsScreen();
               } else {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // SizedBox(height: screenSize.height * .25),
-                      Lottie.asset(
-                        'assets/lottie/no_data_animation.json',
-                        width: screenSize.width * .5,
-                      ),
-                      // Text('No ')
-                    ],
+                return SafeArea(
+                  child: Center(
+                    child: Column(
+                      children: [
+                        SizedBox(height: screenSize.height * .25),
+                        Lottie.asset(
+                          'assets/lottie/no_data_animation.json',
+                          width: screenSize.width * .65,
+                        ),
+                        Text(
+                          'No Data Available at the moment',
+                          style: GoogleFonts.inter(
+                            fontSize: screenSize.width * .041,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black.withOpacity(.75),
+                            height: .1,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               }

@@ -158,7 +158,6 @@ class UserRepository {
   static Future<ContractorModelResponse> getContractors() async {
     try {
       final email = FirebaseAuthProvider().currentUser!.email;
-      log('EMAIL: $email');
       final response = await ApiService().sendRequest(
         url: ApiEndpoints.getContractors,
         requestMethod: RequestMethod.GET,

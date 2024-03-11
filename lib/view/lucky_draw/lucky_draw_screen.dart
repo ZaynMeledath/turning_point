@@ -8,7 +8,6 @@ import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
-import 'package:turning_point/service/api/api_endpoints.dart';
 
 part 'segments/gift_boxes_segment.dart';
 part 'all_gifts_screen.dart';

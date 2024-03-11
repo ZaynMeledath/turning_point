@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -81,19 +83,17 @@ Widget kycTextFieldSegment({
                 : null;
           } else if (isNum == true) {
             final regEx = RegExp(r'[0-9]');
-            // if (title == 'Confirm Account Number') {
-            //   log('${accNumController!.text} : $value');
-            //   return value != accNumController.text
-            //       ? 'Account numbers should match'
-            //       : null;
-            // }
+            if (title == 'Confirm Account Number') {
+              log('${accNumController!.text} : $value');
+              return value != accNumController.text
+                  ? 'Account numbers should match'
+                  : null;
+            }
             return !regEx.hasMatch(value) ? 'Enter a valid value' : null;
-          }
-          // else if (isNum == false) {
-          //   final regEx = RegExp(r'[A-Z][a-z]');
-          //   return !regEx.hasMatch(value) ? 'Enter a valid name' : null;
-          // }
-          else {
+          } else if (isNum == false) {
+            final regEx = RegExp(r'[A-Za-z]');
+            return !regEx.hasMatch(value) ? 'Enter a valid name' : null;
+          } else {
             return null;
           }
         },

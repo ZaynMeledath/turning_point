@@ -73,7 +73,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         userModelResponse = await UserRepository.updateUserProfile(
           userModel: userModelResponse.data!,
         );
-        contractorBloc.add(ContractorLoadEvent());
+        contractorBloc.add(ContractorLoadEvent(isSignUp: false));
         emit(ProfileLoadedState(
           isLoading: false,
           userModel: userModelResponse.data!,

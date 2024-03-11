@@ -321,18 +321,18 @@ class _KycScreenState extends State<KycScreen>
     );
   }
 
-  bool validate() {
-    if (nameController.text.isNotEmpty &&
-        phoneController.text.isNotEmpty &&
-        emailController.text.isNotEmpty &&
-        pinController.text.isNotEmpty &&
-        accNameController.text.isNotEmpty &&
-        accNumController.text.isNotEmpty &&
-        ifscController.text.isNotEmpty &&
-        confirmAccNumController.text.isNotEmpty) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // bool validate() {
+  //   if (nameController.text.isNotEmpty &&
+  //       phoneController.text.isNotEmpty &&
+  //       emailController.text.isNotEmpty &&
+  //       pinController.text.isNotEmpty &&
+  //       accNameController.text.isNotEmpty &&
+  //       accNumController.text.isNotEmpty &&
+  //       ifscController.text.isNotEmpty &&
+  //       confirmAccNumController.text.isNotEmpty) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 }

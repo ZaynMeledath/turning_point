@@ -76,7 +76,7 @@ Widget dialog(BuildContext context) {
         padding: EdgeInsets.only(
           left: screenSize.width * .041,
           right: screenSize.width * .031,
-          top: screenSize.height * .01,
+          top: screenSize.height * .015,
         ),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -101,26 +101,26 @@ Widget dialog(BuildContext context) {
                   ),
                   child: const Text('Customer Support'),
                 ),
-                GestureDetector(
-                  onTap: () => Navigator.of(context).pop(true),
-                  child: Container(
-                    width: screenSize.width * .061,
-                    height: screenSize.width * .061,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color.fromRGBO(199, 199, 199, 1),
-                    ),
-                    child: Center(
-                      child: Image.asset(
-                        'assets/icons/connect_close_icon.png',
-                        width: screenSize.width * .024,
-                      ),
-                    ),
-                  ),
-                ),
+                // GestureDetector(
+                //   onTap: () => Navigator.of(context).pop(true),
+                //   child: Container(
+                //     width: screenSize.width * .061,
+                //     height: screenSize.width * .061,
+                //     decoration: const BoxDecoration(
+                //       shape: BoxShape.circle,
+                //       color: Color.fromRGBO(199, 199, 199, 1),
+                //     ),
+                //     child: Center(
+                //       child: Image.asset(
+                //         'assets/icons/connect_close_icon.png',
+                //         width: screenSize.width * .024,
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
-            SizedBox(height: screenSize.height * .01),
+            SizedBox(height: screenSize.height * .016),
             Row(
               children: [
                 Container(
@@ -148,7 +148,7 @@ Widget dialog(BuildContext context) {
                 ),
               ],
             ),
-            SizedBox(height: screenSize.height * .012),
+            SizedBox(height: screenSize.height * .015),
             Row(
               children: [
                 Container(

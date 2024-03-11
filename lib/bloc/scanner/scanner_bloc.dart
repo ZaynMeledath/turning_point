@@ -55,7 +55,6 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
           ),
         );
       } catch (e) {
-        log('EXCEPTION IN SCANNER BLOC: $e');
         emit(
           ScannerCodeDetectedState(
             couponModel: CouponModel(

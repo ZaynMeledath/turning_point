@@ -31,8 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    pointsBloc.add(PointsLoadEvent());
-    profileBloc.add(ProfileLoadEvent());
+    profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
+    pointsBloc.add(PointsLoadEvent(avoidGettingUserFromPreference: true));
     return BlocConsumer<HomeBloc, HomeState>(
       listener: (context, state) async {
         if (state is ConnectState) {

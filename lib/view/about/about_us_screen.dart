@@ -23,7 +23,7 @@ class AboutUsScreen extends StatelessWidget {
               width: screenSize.width * .2,
             ),
             Text(
-              'FURNIPART',
+              'TURNING POINT',
               style: GoogleFonts.poppins(
                 letterSpacing: 4,
                 color: const Color.fromRGBO(239, 64, 68, 1),
@@ -42,19 +42,21 @@ class AboutUsScreen extends StatelessWidget {
             SizedBox(height: screenSize.height * .045),
 //====================About Company Segment====================//
             aboutCompanyContainer(
-              title: 'Furnipart',
-              content:
-                  'At Furnipart, we believe in turning living spaces into sanctuaries. Established with a passion for craftsmanship and an unwavering commitment to quality, we curate furniture that resonates with both elegance and functionality.',
-              imagePath: 'assets/images/company_image_demo1.png',
-            ),
-            SizedBox(height: screenSize.height * .035),
-            aboutCompanyContainer(
               title: 'Turning Point',
               content:
                   'At Turningpoint, we believe in turning living spaces into sanctuaries. Established with a passion for craftsmanship and an unwavering commitment to quality, we curate furniture that resonates with both elegance and functionality.',
               imagePath: 'assets/images/company_image_demo2.png',
             ),
             SizedBox(height: screenSize.height * .035),
+
+            aboutCompanyContainer(
+              title: 'Furnipart',
+              content:
+                  'At Furnipart, we believe in turning living spaces into sanctuaries. Established with a passion for craftsmanship and an unwavering commitment to quality, we curate furniture that resonates with both elegance and functionality.',
+              imagePath: 'assets/images/company_image_demo1.png',
+            ),
+            SizedBox(height: screenSize.height * .035),
+
             aboutCompanyContainer(
               title: 'Claart',
               content:

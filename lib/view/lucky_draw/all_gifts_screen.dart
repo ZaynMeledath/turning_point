@@ -90,7 +90,7 @@ class _AllGiftsScreenState extends State<AllGiftsScreen> {
                         ),
                         padding: EdgeInsets.symmetric(
                           horizontal: screenSize.width * .031,
-                          vertical: screenSize.width * .018,
+                          vertical: screenSize.width * .025,
                         ),
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -114,7 +114,7 @@ class _AllGiftsScreenState extends State<AllGiftsScreen> {
                           children: [
                             index < 6
                                 ? Image.network(
-                                    '${ApiEndpoints.uploads}/${prizeModel.image}',
+                                    prizeModel.image.toString(),
                                     height: screenSize.width * .15,
                                   )
                                 : Image.asset(

@@ -91,7 +91,7 @@ Widget kycBankDetails({
             kycTextFieldSegment(
               controller: confirmAccNumController,
               title: 'Confirm Account Number',
-              accNumController: accNameController,
+              accNumController: accNumController,
               isNum: true,
             ),
             SizedBox(height: screenSize.height * .03),

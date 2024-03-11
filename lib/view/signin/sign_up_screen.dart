@@ -42,7 +42,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   void initState() {
     isContractor = widget.isContractor;
-    contractorBloc.add(ContractorLoadEvent());
+    contractorBloc.add(ContractorLoadEvent(isSignUp: true));
     phoneController = TextEditingController();
     businessController = TextEditingController();
     searchController = TextEditingController();

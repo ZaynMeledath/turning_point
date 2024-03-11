@@ -34,7 +34,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           return emit(SignedInState());
         }
       } catch (e) {
-        log('EXCEPTION IN AuthInitializeEvent : $e');
+        throw Exception(e);
       }
     });
 
@@ -51,7 +51,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             emit(WhoIsSigningState());
           }
         } catch (e) {
-          log('EXCEPTION IN GOOGLE SIGN IN : $e');
+          throw Exception(e);
         }
       },
     );
@@ -122,7 +122,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
           emit(OtpVerifiedState());
         } catch (e) {
-          log('EXCEPTION IN VERIFY OTP EVENT: $e');
+          throw Exception(e);
         }
       },
     );

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
@@ -20,7 +18,6 @@ class _SplashScreenState extends State<SplashScreen> {
   bool startFadeInAnimation = false;
   @override
   void initState() {
-    clearCache();
     authBloc.add(AuthInitializeEvent());
     Future.delayed(const Duration(milliseconds: 800), () {
       setState(() {
@@ -54,10 +51,6 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
   }
 
-  void clearCache() async {
-    await DefaultCacheManager().emptyCache();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,34 +62,33 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               AnimatedOpacity(
                 opacity: startFadeInAnimation ? 1 : 0,
-                duration: const Duration(milliseconds: 800),
+                duration: const Duration(milliseconds: 1000),
                 child: AnimatedScale(
                   scale: isLoaded ? 2 : 1,
                   duration: const Duration(milliseconds: 1000),
                   child: Image.asset(
                     'assets/images/splash_logo.png',
-                    width: screenSize.width * .28,
+                    width: screenSize.width * .4,
                   ),
                 ),
               ),
-              SizedBox(height: screenSize.height * .014),
-              AnimatedOpacity(
-                opacity: startFadeInAnimation ? 1 : 0,
-                duration: const Duration(milliseconds: 800),
-                child: AnimatedOpacity(
-                  opacity: isLoaded ? 0 : 1,
-                  duration: const Duration(milliseconds: 600),
-                  child: Text(
-                    'FURNIPART',
-                    style: GoogleFonts.poppins(
-                      letterSpacing: 4,
-                      color: const Color.fromRGBO(239, 64, 68, 1),
-                      fontSize: screenSize.width * .05,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ),
+              // AnimatedOpacity(
+              //   opacity: startFadeInAnimation ? 1 : 0,
+              //   duration: const Duration(milliseconds: 800),
+              //   child: AnimatedOpacity(
+              //     opacity: isLoaded ? 0 : 1,
+              //     duration: const Duration(milliseconds: 600),
+              //     child: Text(
+              //       'FURNIPART',
+              //       style: GoogleFonts.poppins(
+              //         letterSpacing: 4,
+              //         color: const Color.fromRGBO(239, 64, 68, 1),
+              //         fontSize: screenSize.width * .05,
+              //         fontWeight: FontWeight.w500,
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),
