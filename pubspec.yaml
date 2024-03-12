@@ -62,12 +62,22 @@ dependencies:
   awesome_notifications_core: ^0.9.1
   
   
-  
 
 dev_dependencies:
   flutter_test:
     sdk: flutter  
   flutter_lints: ^3.0.1
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/turning_point_circle_logo.png"
+  background_color: "#000000"
+  theme_color: "#000000"
+  # adaptive_icon_background: "#000000"
+  # adaptive_icon_foreground: "assets/images/turning_point_logo.png"
+
 
 
 flutter:  

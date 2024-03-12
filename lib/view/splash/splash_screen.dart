@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(milliseconds: 2000), () {
       Navigator.of(context).pushReplacement(PageTransition(
         type: PageTransitionType.fade,
-        duration: const Duration(milliseconds: 1200),
+        duration: const Duration(milliseconds: 1000),
         child: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
             if (state is SignedInState) {
@@ -103,7 +103,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Center(
               child: AnimatedOpacity(
                 opacity: startFadeInAnimation ? 1 : 0,
-                duration: const Duration(milliseconds: 1000),
+                duration: const Duration(milliseconds: 800),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [

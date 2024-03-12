@@ -64,7 +64,7 @@ class ReelsRepository {
     return response['success'];
   }
 
-  static Future<void> downloadAndSaveVideo(String reel) async {
+  static Future<void> downloadAndSaveVideo(String reelUrl) async {
     try {
       var status = await Permission.storage.status;
       if (!status.isGranted) {
@@ -78,10 +78,11 @@ class ReelsRepository {
         appDocDir = await getApplicationDocumentsDirectory();
       }
 
-      String savePath = '${appDocDir.path}/$reel';
+      String savePath =
+          '${appDocDir.path}/${DateTime.now().millisecondsSinceEpoch}.mp4';
 
       // Download the video using Dio
-      await Dio().download('${ApiEndpoints.uploads}/$reel', savePath);
+      await Dio().download(reelUrl, savePath);
     } catch (e) {
       throw Exception(e);
     }
