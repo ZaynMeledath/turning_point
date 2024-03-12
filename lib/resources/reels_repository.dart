@@ -13,6 +13,8 @@ class ReelsRepository {
   static List<dynamic> urlList = [];
   // static List<Map<String, dynamic>> reelsMap = [];
   static ReelsModelResponse reelsModelResponse = ReelsModelResponse();
+
+  static int reelDownloadProgress = 0;
   // static StreamController<Map<String, dynamic>> reelsStreamController =
   //     StreamController<Map<String, dynamic>>();
 
@@ -70,8 +72,8 @@ class ReelsRepository {
       if (!status.isGranted) {
         await Permission.storage.request();
       }
-      Directory appDocDir = Directory('');
       // Get the local directory for storing the downloaded video
+      Directory appDocDir = Directory('');
       if (Platform.isAndroid) {
         appDocDir = Directory("/storage/emulated/0/Download");
       } else {
@@ -82,9 +84,38 @@ class ReelsRepository {
           '${appDocDir.path}/${DateTime.now().millisecondsSinceEpoch}.mp4';
 
       // Download the video using Dio
-      await Dio().download(reelUrl, savePath);
+      await Dio().download(
+        reelUrl,
+        savePath,
+        onReceiveProgress: (count, total) {
+          reelDownloadProgress = (count / total * 100).toInt();
+        },
+      );
     } catch (e) {
       throw Exception(e);
     }
   }
+
+  // static Future<String> createFolderInAppDocDir(String folderName) async {
+  //   //Get this App Document Directory
+  //   Directory appDocDir = Directory('');
+  //   if (Platform.isAndroid) {
+  //     appDocDir = Directory("/storage/emulated/0/Download");
+  //   } else {
+  //     appDocDir = await getApplicationDocumentsDirectory();
+  //   }
+  //   //App Document Directory + folder name
+  //   final Directory appDocDirFolder =
+  //       Directory('${appDocDir.path}/$folderName/');
+
+  //   if (await appDocDirFolder.exists()) {
+  //     //if folder already exists return path
+  //     return appDocDirFolder.path;
+  //   } else {
+  //     //if folder not exists create folder and then return its path
+  //     final Directory appDocDirNewFolder =
+  //         await appDocDirFolder.create(recursive: true);
+  //     return appDocDirNewFolder.path;
+  //   }
+  // }
 }
