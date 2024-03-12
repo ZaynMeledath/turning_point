@@ -59,6 +59,7 @@ dependencies:
   stacked_card_carousel: ^0.0.4
   vibration: ^1.8.4
   video_player: ^2.8.3
+  visibility_detector: ^0.4.0+2
   awesome_notifications_core: ^0.9.1
   
   

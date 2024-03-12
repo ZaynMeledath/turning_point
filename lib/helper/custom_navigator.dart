@@ -12,7 +12,7 @@ class CustomNavigator {
         child: child,
         type: PageTransitionType.rightToLeft,
         duration: const Duration(milliseconds: 350),
-        reverseDuration: const Duration(milliseconds: 350),
+        reverseDuration: const Duration(milliseconds: 150),
       ),
     );
   }
@@ -27,7 +27,6 @@ class CustomNavigator {
         child: child,
         type: PageTransitionType.rightToLeft,
         duration: const Duration(milliseconds: 350),
-        reverseDuration: const Duration(milliseconds: 350),
       ),
       (_) => false,
     );
@@ -43,7 +42,7 @@ class CustomNavigator {
         child: child,
         type: PageTransitionType.rightToLeft,
         duration: const Duration(milliseconds: 350),
-        reverseDuration: const Duration(milliseconds: 350),
+        reverseDuration: const Duration(milliseconds: 300),
       ),
     );
   }

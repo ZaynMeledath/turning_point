@@ -47,7 +47,7 @@ Widget dialog({
   return Container(
     margin: EdgeInsets.symmetric(
       horizontal: screenSize.width * .15,
-      vertical: screenSize.height * .355,
+      vertical: screenSize.height * .352,
     ),
     padding: EdgeInsets.symmetric(horizontal: screenSize.width * .03),
     decoration: BoxDecoration(

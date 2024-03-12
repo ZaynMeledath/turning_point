@@ -190,7 +190,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                     ],
                   );
                 } else {
-                  return spinningLinesLoading();
+                  return spinningLinesLoading(color: Colors.red);
                 }
               },
               onPageChanged: (index) {

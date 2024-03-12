@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +11,8 @@ import 'package:turning_point/bloc/scanner/scanner_bloc.dart';
 import 'package:turning_point/dialog/show_scanner_coupon_dialog.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'dart:math' as math;
+
+import 'package:turning_point/resources/location_repository.dart';
 
 part 'segments/scanner_overlay.dart';
 part 'segments/scanner_error_widget.dart';
@@ -27,6 +31,14 @@ class _ScannerScreenState extends State<ScannerScreen> {
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }
+    getLocation();
+  }
+
+  void getLocation() async {
+    final location = await LocationRepository.getCurrentLocation();
+    log('##############LOCATION###########');
+    log(location.latitude.toString());
+    log(location.longitude.toString());
   }
 
   @override
