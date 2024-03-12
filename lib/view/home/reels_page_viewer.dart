@@ -64,7 +64,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
   Widget build(BuildContext context) {
     preloadBloc.add(PreloadEvent(
         currentIndex: preloadBloc.state.focusedIndex, isInitial: true));
-    reelsBloc.add(ReelLoadEvent(reelIndex: preloadBloc.state.focusedIndex));
+
     return BlocBuilder<PreloadBloc, PreloadState>(
       builder: (context, preloadState) {
         final user = widget.user;

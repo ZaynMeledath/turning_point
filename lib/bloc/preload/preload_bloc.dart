@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/resources/reels_repository.dart';
 import 'package:video_player/video_player.dart';
 part 'preload_event.dart';
@@ -11,8 +12,14 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
   PreloadBloc() : super(PreloadState.initial()) {
     on<PreloadEvent>((event, emit) async {
       state.urls = ReelsRepository.urlList;
+
       if (event.currentIndex == 0) {
         if (event.isInitial) {
+          //To ensure that video is not played whenever the profile load event is called
+          if (state.controllers.isNotEmpty) {
+            return;
+          }
+
           if (state.focusedIndex == 0) {
             _initializeControllerAtIndex(0);
           }
@@ -24,6 +31,8 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
                 controllers: state.controllers,
                 focusedIndex: event.currentIndex),
           );
+          reelsBloc
+              .add(ReelLoadEvent(reelIndex: preloadBloc.state.focusedIndex));
         } else {
           _playPrevious(event.currentIndex);
           emit(
@@ -33,6 +42,10 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
           );
         }
       } else {
+        //To ensure that video is not played whenever the profile load event is called
+        if (event.isInitial) {
+          return;
+        }
         if (event.currentIndex < state.focusedIndex) {
           _playPrevious(event.currentIndex);
           emit(
