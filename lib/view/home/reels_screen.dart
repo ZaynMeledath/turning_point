@@ -131,9 +131,7 @@ class ReelsScreenState extends State<ReelsScreen>
                   children: [
                     //====================Reels Player====================//
 
-                    ReelsPageViewer(
-                      user: state.userModel!,
-                    ),
+                    const ReelsPageViewer(),
 
                     //====================Points Container====================//
                     Positioned(
@@ -210,7 +208,7 @@ class ReelsScreenState extends State<ReelsScreen>
                     //====================Avatar Icon====================//
                     Positioned(
                       right: screenSize.width * .03,
-                      top: screenSize.height * .07,
+                      top: screenSize.height * .065,
                       child: GestureDetector(
                         onTap: () async {
                           preloadBloc.pauseCurrentController();

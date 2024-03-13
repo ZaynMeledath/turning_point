@@ -8,15 +8,12 @@ import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/dialog/show_points_received_dialog.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
-import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/view/home/reels_player.dart';
 import 'package:turning_point/view/home/reels_screen.dart';
 import 'package:vibration/vibration.dart';
 
 class ReelsPageViewer extends StatefulWidget {
-  final UserModel user;
   const ReelsPageViewer({
-    required this.user,
     super.key,
   });
 
@@ -67,7 +64,6 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
 
     return BlocBuilder<PreloadBloc, PreloadState>(
       builder: (context, preloadState) {
-        final user = widget.user;
         return BlocConsumer<ReelsBloc, ReelsState>(
           listener: (context, state) {
             if (state is ReelsLoadedState) {
@@ -108,49 +104,36 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                 scale: _animation,
                                 child: GestureDetector(
                                   onTap: () async {
-                                    showPointsReceivedToast(
-                                      context: context,
-                                      points: reelsState
-                                          .reelsModelList![index].points!,
-                                    );
-                                    // if (reelsState.reelsModelList![index]
-                                    //     .isLikeButtonActive) {
-                                    //   _animationController.forward();
-                                    //   if (reelsState
-                                    //           .reelsModelList![index].isLiked !=
-                                    //       true) {
-                                    //     ReelsScreenState.likeAnimationController
-                                    //         .forward();
-                                    //     reelsBloc.add(
-                                    //         ReelLikeEvent(reelIndex: index));
+                                    if (reelsState.reelsModelList![index]
+                                        .isLikeButtonActive) {
+                                      _animationController.forward();
+                                      if (reelsState
+                                              .reelsModelList![index].isLiked !=
+                                          true) {
+                                        ReelsScreenState.likeAnimationController
+                                            .forward();
+                                        reelsBloc.add(
+                                            ReelLikeEvent(reelIndex: index));
 
-                                    //     if (await Vibration.hasVibrator() ==
-                                    //         true) {
-                                    //       Vibration.vibrate(
-                                    //         duration: 100,
-                                    //       );
-                                    //     }
+                                        if (await Vibration.hasVibrator() ==
+                                            true) {
+                                          Vibration.vibrate(
+                                            duration: 100,
+                                          );
+                                        }
+                                        showPointsReceivedToast(
+                                          context: context,
+                                          points: reelsState
+                                              .reelsModelList![index].points!,
+                                        );
 
-                                    //     // AudioPlayer().play(
-                                    //     //   volume: 100,
-                                    //     //   AssetSource(
-                                    //     //       'sounds/success_sound.mp3'),
-                                    //     // );
-                                    //   }
-
-                                    //   // if (user.points != 0) {
-                                    //   //   showPointsReceivedDialog(
-                                    //   //     context: context,
-                                    //   //     points: reelsState
-                                    //   //         .reelsModelList![index].points!,
-                                    //   //   );
-                                    //   // }
-                                    // }
-
-                                    // if (state.reelsModelList![index].isLiked ==
-                                    //     true) {
-                                    //   _animationController.forward();
-                                    // }
+                                        // AudioPlayer().play(
+                                        //   volume: 100,
+                                        //   AssetSource(
+                                        //       'sounds/success_sound.mp3'),
+                                        // );
+                                      }
+                                    }
                                   },
                                   child: Image.asset(
                                     'assets/icons/rupee_icon.png',
