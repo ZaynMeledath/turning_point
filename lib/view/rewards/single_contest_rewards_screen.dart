@@ -64,7 +64,7 @@ class _SingleContestRewardsScreenState extends State<SingleContestRewardsScreen>
                 backgroundColor: Colors.white,
                 pinned: true,
                 automaticallyImplyLeading: false,
-                toolbarHeight: 0,
+                toolbarHeight: screenSize.width * .07,
                 flexibleSpace: singleContestRewardsTabBar(tabController),
               ),
             ];

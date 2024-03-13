@@ -5,6 +5,7 @@ import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/points/segments/available_points_segment.dart';
 import 'package:turning_point/view/points/segments/points_history_segment.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class PointsScreen extends StatefulWidget {
   final bool? directEntry;
@@ -23,6 +24,7 @@ class _PointsScreenState extends State<PointsScreen> {
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }
+    WakelockPlus.disable();
     super.initState();
   }
 

@@ -17,6 +17,7 @@ import 'package:turning_point/view/home/profile_inactive_screen.dart';
 import 'package:turning_point/view/home/reels_page_viewer.dart';
 import 'package:turning_point/view/points/points_screen.dart';
 import 'package:turning_point/view/profile/profile_screen.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class ReelsScreen extends StatefulWidget {
   const ReelsScreen({super.key});
@@ -33,7 +34,7 @@ class ReelsScreenState extends State<ReelsScreen>
   @override
   void initState() {
     super.initState();
-
+    WakelockPlus.enable();
     // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
     //   routeObserver.subscribe(this, ModalRoute.of(context)!);
     // });
@@ -52,6 +53,9 @@ class ReelsScreenState extends State<ReelsScreen>
         likeAnimationController.reverse();
       }
     });
+    if (preloadBloc.state.controllers.isNotEmpty) {
+      preloadBloc.playCurrentController();
+    }
   }
 
   // @override
@@ -77,6 +81,7 @@ class ReelsScreenState extends State<ReelsScreen>
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }
+    WakelockPlus.disable();
   }
 
   Future<void> handleRefresh() async {

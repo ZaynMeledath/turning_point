@@ -60,6 +60,7 @@ dependencies:
   stacked_card_carousel: ^0.0.4
   vibration: ^1.8.4
   video_player: ^2.8.3
+  wakelock_plus: ^1.1.4
   
   
   
@@ -73,11 +74,8 @@ dev_dependencies:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/images/turning_point_circle_logo.png"
-  background_color: "#000000"
-  theme_color: "#000000"
-  # adaptive_icon_background: "#000000"
-  # adaptive_icon_foreground: "assets/images/turning_point_logo.png"
+  image_path: "assets/icons/turning_point_logo_icon.png"
+
 
 
 
