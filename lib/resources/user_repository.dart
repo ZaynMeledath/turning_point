@@ -133,7 +133,7 @@ class UserRepository {
       );
 
 //---google account image will have the whole url, but image from server will only have the image name---//
-      if (!response['data']['image'].startsWith('https')) {
+      if (!response['data']['image'].startsWith('http')) {
         response['data']['image'] =
             '${ApiEndpoints.uploads}/${response['data']['image']}';
       }
@@ -182,29 +182,30 @@ class UserRepository {
       await ApiService().sendRequest(
         url: ApiEndpoints.updateUserProfile,
         requestMethod: RequestMethod.PATCH,
-        data: {
-          "name": userModel.name,
-          "phone": userModel.phone,
-          "businessName": userModel.businessName,
-          "address": userModel.address,
-          "email": userModel.email,
-          "pincode": userModel.pincode,
-          "role": userModel.role,
-          "contractor": {
-            "name": userModel.contractor?.name,
-            "businessName": userModel.contractor?.businessName,
-          },
-          "idFrontImage": idFrontImage,
-          "idBackImage": idBackImage,
-          if (userModel.bankDetails != null &&
-              userModel.bankDetails!.isNotEmpty)
-            "bankDetails": {
-              "type": userModel.bankDetails![0].banktype,
-              "accountName": userModel.bankDetails![0].accountName,
-              "accountNo": userModel.bankDetails![0].accountNo,
-              "ifsc": userModel.bankDetails![0].ifsc,
-            },
-        },
+        data: userModel.toJson(),
+        //     {
+        //   "name": userModel.name,
+        //   "phone": userModel.phone,
+        //   "businessName": userModel.businessName,
+        //   "address": userModel.address,
+        //   "email": userModel.email,
+        //   "pincode": userModel.pincode,
+        //   "role": userModel.role,
+        //   "contractor": {
+        //     "name": userModel.contractor?.name,
+        //     "businessName": userModel.contractor?.businessName,
+        //   },
+        //   "idFrontImage": idFrontImage,
+        //   "idBackImage": idBackImage,
+        //   if (userModel.bankDetails != null &&
+        //       userModel.bankDetails!.isNotEmpty)
+        //     "bankDetails": {
+        //       "type": userModel.bankDetails![0].banktype,
+        //       "accountName": userModel.bankDetails![0].accountName,
+        //       "accountNo": userModel.bankDetails![0].accountNo,
+        //       "ifsc": userModel.bankDetails![0].ifsc,
+        //     },
+        // },
         isTokenRequired: true,
       );
       final userModelResponse =

@@ -120,7 +120,10 @@ class UserModel {
     data['points'] = points;
     data['isActive'] = isActive;
     data['role'] = role;
-    data['contractor'] = ContractorModel().toJson();
+    if (contractor != null) {
+      data['contractor'] = contractor!.toJson();
+    }
+
     if (bankDetails != null) {
       data['bankDetails'] = bankDetails!.map((v) => v.toJson()).toList();
     }

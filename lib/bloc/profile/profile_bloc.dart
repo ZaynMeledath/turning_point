@@ -173,7 +173,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         );
         emit(
           ProfileLoadedState(
-            isLoading: false,
+            isLoading: true,
             isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
             userModel: userModelResponse.data!,
             verifyOtp: true,
@@ -190,10 +190,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         verificationId: FirebaseAuthProvider.verifyId,
         otp: event.otp,
       );
-      final userModelResponse = UserRepository.getUserFromPreference()!;
+      UserModelResponse userModelResponse =
+          UserRepository.getUserFromPreference()!;
       userModelResponse.data!.phone = event.phone;
       UserRepository.addUserToPreference(userModelResponse);
-      UserRepository.updateUserProfile(userModel: userModelResponse.data!);
+      userModelResponse = UserRepository.getUserFromPreference()!;
+      await UserRepository.updateUserProfile(
+          userModel: userModelResponse.data!);
       emit(
         ProfileLoadedState(
           isLoading: false,
