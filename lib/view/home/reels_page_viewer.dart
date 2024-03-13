@@ -108,39 +108,44 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                 scale: _animation,
                                 child: GestureDetector(
                                   onTap: () async {
-                                    if (reelsState.reelsModelList![index]
-                                        .isLikeButtonActive) {
-                                      _animationController.forward();
-                                      if (reelsState
-                                              .reelsModelList![index].isLiked !=
-                                          true) {
-                                        ReelsScreenState.likeAnimationController
-                                            .forward();
-                                        reelsBloc.add(
-                                            ReelLikeEvent(reelIndex: index));
+                                    showPointsReceivedToast(
+                                      context: context,
+                                      points: reelsState
+                                          .reelsModelList![index].points!,
+                                    );
+                                    // if (reelsState.reelsModelList![index]
+                                    //     .isLikeButtonActive) {
+                                    //   _animationController.forward();
+                                    //   if (reelsState
+                                    //           .reelsModelList![index].isLiked !=
+                                    //       true) {
+                                    //     ReelsScreenState.likeAnimationController
+                                    //         .forward();
+                                    //     reelsBloc.add(
+                                    //         ReelLikeEvent(reelIndex: index));
 
-                                        if (await Vibration.hasVibrator() ==
-                                            true) {
-                                          Vibration.vibrate(
-                                            duration: 100,
-                                          );
-                                        }
+                                    //     if (await Vibration.hasVibrator() ==
+                                    //         true) {
+                                    //       Vibration.vibrate(
+                                    //         duration: 100,
+                                    //       );
+                                    //     }
 
-                                        // AudioPlayer().play(
-                                        //   volume: 100,
-                                        //   AssetSource(
-                                        //       'sounds/success_sound.mp3'),
-                                        // );
-                                      }
+                                    //     // AudioPlayer().play(
+                                    //     //   volume: 100,
+                                    //     //   AssetSource(
+                                    //     //       'sounds/success_sound.mp3'),
+                                    //     // );
+                                    //   }
 
-                                      if (user.points == 0) {
-                                        showPointsReceivedDialog(
-                                          context: context,
-                                          points: reelsState
-                                              .reelsModelList![index].points!,
-                                        );
-                                      }
-                                    }
+                                    //   // if (user.points != 0) {
+                                    //   //   showPointsReceivedDialog(
+                                    //   //     context: context,
+                                    //   //     points: reelsState
+                                    //   //         .reelsModelList![index].points!,
+                                    //   //   );
+                                    //   // }
+                                    // }
 
                                     // if (state.reelsModelList![index].isLiked ==
                                     //     true) {
