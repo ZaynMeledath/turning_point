@@ -102,54 +102,68 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                             children: [
                               ScaleTransition(
                                 scale: _animation,
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    if (reelsState.reelsModelList![index]
-                                        .isLikeButtonActive) {
-                                      _animationController.forward();
-                                      if (reelsState
-                                              .reelsModelList![index].isLiked !=
-                                          true) {
-                                        ReelsScreenState.likeAnimationController
-                                            .forward();
-                                        reelsBloc.add(
-                                            ReelLikeEvent(reelIndex: index));
+                                child: ValueListenableBuilder(
+                                    valueListenable:
+                                        preloadState.controllers[index]!,
+                                    builder: (context, controllerValue, child) {
+                                      return GestureDetector(
+                                        onTap: () async {
+                                          if (reelsState.reelsModelList![index]
+                                                  .isLikeButtonActive &&
+                                              controllerValue.isInitialized) {
+                                            _animationController.forward();
+                                            if (reelsState
+                                                    .reelsModelList![index]
+                                                    .isLiked !=
+                                                true) {
+                                              ReelsScreenState
+                                                  .likeAnimationController
+                                                  .forward();
+                                              reelsBloc.add(ReelLikeEvent(
+                                                  reelIndex: index));
 
-                                        if (await Vibration.hasVibrator() ==
-                                            true) {
-                                          Vibration.vibrate(
-                                            duration: 100,
-                                          );
-                                        }
-                                        showPointsReceivedToast(
-                                          context: context,
-                                          points: reelsState
-                                              .reelsModelList![index].points!,
-                                        );
+                                              if (await Vibration
+                                                      .hasVibrator() ==
+                                                  true) {
+                                                Vibration.vibrate(
+                                                  duration: 100,
+                                                );
+                                              }
+                                              showPointsReceivedToast(
+                                                context: context,
+                                                points: reelsState
+                                                    .reelsModelList![index]
+                                                    .points!,
+                                              );
 
-                                        // AudioPlayer().play(
-                                        //   volume: 100,
-                                        //   AssetSource(
-                                        //       'sounds/success_sound.mp3'),
-                                        // );
-                                      }
-                                    }
-                                  },
-                                  child: Image.asset(
-                                    'assets/icons/rupee_icon.png',
-                                    width: screenSize.width * .105,
-                                    height: screenSize.width * .105,
-                                    color: reelsState.reelsModelList![index]
-                                            .isLikeButtonActive
-                                        ? reelsState.reelsModelList![index]
-                                                    .isLiked ==
-                                                true
-                                            ? const Color.fromRGBO(
-                                                255, 215, 0, 1)
-                                            : Colors.white
-                                        : Colors.grey,
-                                  ),
-                                ),
+                                              // AudioPlayer().play(
+                                              //   volume: 100,
+                                              //   AssetSource(
+                                              //       'sounds/success_sound.mp3'),
+                                              // );
+                                            }
+                                          }
+                                        },
+                                        child: Image.asset(
+                                          'assets/icons/rupee_icon.png',
+                                          width: screenSize.width * .105,
+                                          height: screenSize.width * .105,
+                                          color: reelsState
+                                                      .reelsModelList![index]
+                                                      .isLikeButtonActive &&
+                                                  controllerValue.isInitialized
+                                              ? reelsState
+                                                          .reelsModelList![
+                                                              index]
+                                                          .isLiked ==
+                                                      true
+                                                  ? const Color.fromRGBO(
+                                                      255, 215, 0, 1)
+                                                  : Colors.white
+                                              : Colors.grey,
+                                        ),
+                                      );
+                                    }),
                               ),
 
                               SizedBox(height: screenSize.height * .02),

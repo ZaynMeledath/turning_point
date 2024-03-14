@@ -27,7 +27,7 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
           reelsModelList: ReelsRepository.reelsModelResponse.data,
         ),
       );
-      await Future.delayed(Duration(seconds: reelData.displayLikeAfter ?? 10));
+      // await Future.delayed(Duration(seconds: reelData.displayLikeAfter ?? 10));
       ReelsRepository
           .reelsModelResponse.data![event.reelIndex].isLikeButtonActive = true;
       return emit(
