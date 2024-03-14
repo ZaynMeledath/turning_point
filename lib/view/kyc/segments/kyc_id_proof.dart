@@ -9,7 +9,7 @@ Widget kycIdProof({required Size screenSize}) {
     builder: (context, state) {
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: screenSize.width * .041),
-        child: Column(
+        child: ListView(
           children: [
             Text(
               'Take a Photo of the Front & Back of your Aadhar Card',

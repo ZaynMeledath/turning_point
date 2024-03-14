@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/dialog/show_loading_dialog.dart';
-import 'package:turning_point/dialog/show_points_received_dialog.dart';
+import 'package:turning_point/dialog/show_points_received_toast.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/view/home/reels_player.dart';
