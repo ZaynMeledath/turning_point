@@ -105,6 +105,8 @@ class ApiService {
       rethrow;
     } on NotFoundException {
       rethrow;
+    } on ProfileInactiveException {
+      rethrow;
     } catch (e) {
       throw Exception(e);
     }

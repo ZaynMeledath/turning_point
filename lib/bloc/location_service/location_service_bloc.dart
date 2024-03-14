@@ -12,6 +12,8 @@ class LocationServiceBloc
     extends Bloc<LocationServiceEvent, LocationServiceState> {
   LocationServiceBloc() : super(LocationServiceInitial()) {
     on<LocationServiceStartEvent>((event, emit) async {
+      await LocationRepository.sendLocationToServer();
+
       await Workmanager().initialize(
         callbackDispatcher,
         isInDebugMode: true,

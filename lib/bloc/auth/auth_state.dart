@@ -41,6 +41,8 @@ class SignedInState extends AuthState {}
 
 class PhoneNumberExistsState extends AuthState {}
 
+class ProfileInactiveState extends AuthState {}
+
 class AuthErrorState extends AuthState {
   final String message;
 

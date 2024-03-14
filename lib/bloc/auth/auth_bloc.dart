@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/model/contractor_model.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/resources/user_repository.dart';
+import 'package:turning_point/service/Exception/api_exception.dart';
 import 'package:turning_point/service/auth/auth_provider.dart';
 import 'package:turning_point/service/auth/firebase_auth_provider.dart';
 
@@ -23,16 +24,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
         final user =
             await UserRepository.getUserById(avoidGettingFromPreference: true);
-        // final user = provider.currentUser;
         if (user == null) {
-          if (provider.currentUser != null) {
-            provider.signOut();
-          }
+          if (provider.currentUser != null) provider.signOut();
+
           AppPreferences.clearSharedPreferences();
           return emit(InitialState());
         } else {
           return emit(SignedInState());
         }
+      } on ProfileInactiveException {
+        return emit(ProfileInactiveState());
       } catch (e) {
         throw Exception(e);
       }
@@ -46,10 +47,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           final token = await provider.signIn();
           final status = await UserRepository.userSignIn(token);
           if (status) {
-            emit(SignedInState());
+            await UserRepository.getUserById(avoidGettingFromPreference: true);
+            return emit(SignedInState());
           } else {
-            emit(WhoIsSigningState());
+            return emit(WhoIsSigningState());
           }
+        } on ProfileInactiveException {
+          return emit(ProfileInactiveState());
         } catch (e) {
           throw Exception(e);
         }

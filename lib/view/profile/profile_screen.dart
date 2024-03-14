@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/flight_shuttle.dart';
 import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/view/edit_profile/edit_profile_screen.dart';
 import 'package:turning_point/view/profile/segments/edit_profile_dashboard_segment.dart';
 import 'package:turning_point/view/profile/segments/profile_options_segment.dart';
 import 'package:turning_point/view/referral/refer_screen.dart';
@@ -83,16 +85,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Hero(
                               tag: 'profile_picture',
                               flightShuttleBuilder: flightShuttleBuilder,
-                              child: CircleAvatar(
-                                radius: screenSize.height * .063,
-                                backgroundColor:
-                                    const Color.fromRGBO(225, 225, 225, .7),
+                              child: GestureDetector(
+                                onTap: () => Navigator.of(context).push(
+                                  PageTransition(
+                                    child: const ProfilePictureView(),
+                                    type: PageTransitionType.fade,
+                                  ),
+                                ),
                                 child: CircleAvatar(
-                                  radius: (screenSize.height * .063) - 3,
+                                  radius: screenSize.height * .063,
+                                  backgroundColor:
+                                      const Color.fromRGBO(225, 225, 225, .7),
                                   child: CircleAvatar(
-                                    radius: (screenSize.height * .063) - 4,
-                                    foregroundImage:
-                                        NetworkImage(state.userModel!.image!),
+                                    radius: (screenSize.height * .063) - 3,
+                                    child: CircleAvatar(
+                                      radius: (screenSize.height * .063) - 4,
+                                      foregroundImage:
+                                          NetworkImage(state.userModel!.image!),
+                                    ),
                                   ),
                                 ),
                               ),

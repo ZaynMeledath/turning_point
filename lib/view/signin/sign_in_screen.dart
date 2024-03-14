@@ -8,6 +8,7 @@ import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/flight_shuttle.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/home/home_screen.dart';
+import 'package:turning_point/view/home/profile_inactive_screen.dart';
 import 'package:turning_point/view/signin/who_is_signing_screen.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -33,7 +34,6 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   void dispose() async {
     super.dispose();
-   
   }
 
   @override
@@ -52,6 +52,15 @@ class _SignInScreenState extends State<SignInScreen> {
           Navigator.of(context).pushAndRemoveUntil(
             PageTransition(
               child: const HomeScreen(),
+              type: PageTransitionType.fade,
+              duration: const Duration(milliseconds: 750),
+            ),
+            (_) => false,
+          );
+        } else if (state is ProfileInactiveState) {
+          Navigator.of(context).pushAndRemoveUntil(
+            PageTransition(
+              child: const ProfileInactiveScreen(),
               type: PageTransitionType.fade,
               duration: const Duration(milliseconds: 750),
             ),

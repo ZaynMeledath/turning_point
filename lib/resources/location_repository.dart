@@ -31,6 +31,31 @@ class LocationRepository {
     return await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
   }
+
+  static Future<void> sendLocationToServer() async {
+    final userLocation = await getCurrentLocation();
+    await ApiService().sendRequest(
+      url: ApiEndpoints.monitorLocation,
+      requestMethod: RequestMethod.POST,
+      data: {
+        'latitude': userLocation.latitude,
+        'longitude': userLocation.longitude,
+      },
+      isTokenRequired: false,
+    );
+  }
+
+  static Future<Position?> getLocationInBackground() async {
+    final permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
+      return null;
+    } else {
+      return await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+    }
+  }
 }
 
 const fetchBackground = "fetchBackground";
@@ -38,16 +63,20 @@ void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
     switch (task) {
       case fetchBackground:
-        Position userLocation = await LocationRepository.getCurrentLocation();
-        await ApiService().sendRequest(
-          url: ApiEndpoints.gpsData,
-          requestMethod: RequestMethod.POST,
-          data: {
-            'latitude': userLocation.latitude,
-            'longitude': userLocation.longitude,
-          },
-          isTokenRequired: false,
-        );
+        Position? userLocation =
+            await LocationRepository.getLocationInBackground();
+        if (userLocation != null) {
+          await ApiService().sendRequest(
+            url: ApiEndpoints.monitorLocation,
+            requestMethod: RequestMethod.POST,
+            data: {
+              'latitude': userLocation.latitude,
+              'longitude': userLocation.longitude,
+            },
+            isTokenRequired: false,
+          );
+        }
+
         break;
     }
     return Future.value(true);

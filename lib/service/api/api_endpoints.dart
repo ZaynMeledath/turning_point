@@ -1,8 +1,8 @@
 class ApiEndpoints {
   // static const baseUrl = 'https://turningpoint.ebslonserver3.com/api';
   // static const baseUrl = 'http://api.turningpointvapi.com';
-  // static const baseUrl = 'http://192.168.1.148:4023';
-  static const baseUrl = 'http://13.126.184.197';
+  static const baseUrl = 'http://192.168.1.148:4023';
+  // static const baseUrl = 'http://13.126.184.197';
 
   static const register = '$baseUrl/users/register';
   // static const login = '$baseUrl/users/login';
@@ -27,5 +27,5 @@ class ApiEndpoints {
   static const applyCoupon = '$baseUrl/coupon/applyCoupon';
   static const redeemPoints = '$baseUrl/points/redeem';
   static const generateCoupon = '$baseUrl/coupon/generateCoupon';
-  static const gpsData = '$baseUrl/users/gps-data';
+  static const monitorLocation = '$baseUrl/users/monitor-location';
 }
