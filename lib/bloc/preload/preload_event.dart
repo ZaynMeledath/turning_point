@@ -8,3 +8,11 @@ class PreloadEvent {
     required this.isInitial,
   });
 }
+
+class PreloadResetEvent extends PreloadEvent {
+  PreloadResetEvent()
+      : super(
+          currentIndex: 0,
+          isInitial: true,
+        );
+}

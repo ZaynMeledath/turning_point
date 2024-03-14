@@ -91,16 +91,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     onTap: () async {
                       final shouldSignOut = await showLogoutDialog(context);
                       if (shouldSignOut) {
-                        preloadBloc.disposeAllControllers();
                         AppPreferences.clearSharedPreferences();
-                        Navigator.of(context).push(
+                        Navigator.of(context).pushAndRemoveUntil(
                           PageTransition(
                             child: const SignInScreen(),
                             childCurrent: const SettingsScreen(),
                             type: PageTransitionType.fade,
                             duration: const Duration(milliseconds: 1800),
                           ),
+                          (_) => false,
                         );
+                        preloadBloc.add(PreloadResetEvent());
                       }
                     },
                     child: settingsOption(

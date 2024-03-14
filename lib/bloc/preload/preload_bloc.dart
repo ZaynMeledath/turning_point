@@ -63,6 +63,11 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
         }
       }
     });
+
+    on<PreloadResetEvent>((event, emit) {
+      disposeAllControllers();
+      emit(PreloadState.initial());
+    });
   }
 
 //====================Play Next Video====================//
@@ -193,7 +198,7 @@ final preloadBloc = PreloadBloc();
 
 
 
-//====================Initialize Controller on Given Index====================//
+//====================Initialize Controller on Given Index(Uses Cache)====================//
   // Future _initializeControllerAtIndex(int index) async {
   //   if (state.urls.length > index && index >= 0) {
   //     final VideoPlayerController? controller;
