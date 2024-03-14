@@ -136,7 +136,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                     children: [
                       Image.asset(
                         'assets/images/otp_screen_image.png',
-                        width: screenSize.width * .6,
+                        height: screenSize.height * .28,
                       ),
                       SizedBox(height: screenSize.height * .03),
 
@@ -167,7 +167,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                           color: const Color.fromRGBO(0, 0, 0, 1),
                         ),
                       ),
-                      SizedBox(height: screenSize.height * .024),
+                      SizedBox(height: screenSize.height * .025),
 
                       //====================OTP Containers====================//
                       Pinput(
@@ -247,7 +247,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                             ),
                         ],
                       ),
-                      SizedBox(height: screenSize.height * .21),
+                      SizedBox(height: screenSize.height * .08),
 
                       //====================Verify Button====================//
                       BlocBuilder<AuthBloc, AuthState>(
@@ -269,7 +269,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                               width: screenSize.width * .37,
                               height: screenSize.width * .11,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(6),
+                                borderRadius: BorderRadius.circular(8),
                                 color: const Color.fromRGBO(0, 99, 255, 1),
                               ),
                               child: Center(

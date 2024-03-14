@@ -27,7 +27,7 @@ class ProfilePictureView extends StatelessWidget {
             );
 
           case ProfileInactiveState():
-            return const ProfileInactiveScreen();
+            return ProfileInactiveScreen();
 
           case ProfileLoadErrorState():
             return CupertinoActivityIndicator(

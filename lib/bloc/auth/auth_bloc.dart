@@ -17,6 +17,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 //====================Initialize====================//
     on<AuthInitializeEvent>((event, emit) async {
       try {
+        emit(const AuthLoadingState());
         await provider.initialize();
         if (provider.currentUser == null) {
           AppPreferences.clearSharedPreferences();

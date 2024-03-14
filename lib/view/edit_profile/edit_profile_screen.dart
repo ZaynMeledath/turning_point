@@ -115,7 +115,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 );
 
               case ProfileInactiveState():
-                return const ProfileInactiveScreen();
+                return ProfileInactiveScreen();
 
               case ProfileLoadErrorState():
                 return Center(

@@ -15,7 +15,7 @@ class InitializeScreen extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state is ProfileInactiveState) {
-          return const ProfileInactiveScreen();
+          return ProfileInactiveScreen();
         } else if (state is SignedInState) {
           return const HomeScreen();
         } else if (state is WhoIsSigningState) {

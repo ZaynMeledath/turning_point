@@ -16,12 +16,13 @@ class AboutUsScreen extends StatelessWidget {
         child: Column(
           children: [
             customAppBar(context: context, title: 'About Us'),
-            SizedBox(height: screenSize.height * .02),
+            SizedBox(height: screenSize.height * .03),
 //====================About App Segment====================//
             Image.asset(
-              'assets/images/splash_logo.png',
+              'assets/icons/turning_point_logo_icon.png',
               width: screenSize.width * .2,
             ),
+            SizedBox(height: screenSize.height * .012),
             Text(
               'TURNING POINT',
               style: GoogleFonts.poppins(

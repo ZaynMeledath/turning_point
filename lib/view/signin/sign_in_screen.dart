@@ -60,7 +60,7 @@ class _SignInScreenState extends State<SignInScreen> {
         } else if (state is ProfileInactiveState) {
           Navigator.of(context).pushAndRemoveUntil(
             PageTransition(
-              child: const ProfileInactiveScreen(),
+              child: ProfileInactiveScreen(),
               type: PageTransitionType.fade,
               duration: const Duration(milliseconds: 750),
             ),

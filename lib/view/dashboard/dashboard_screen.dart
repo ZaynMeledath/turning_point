@@ -52,7 +52,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               );
 
             case ProfileInactiveState():
-              return const ProfileInactiveScreen();
+              return ProfileInactiveScreen();
 
             case ProfileLoadErrorState():
               return Center(

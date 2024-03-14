@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/rewards/rewards_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/service/api/api_endpoints.dart';
 import 'package:turning_point/view/rewards/segments/round_prize_container.dart';
 
 Widget mainPrizeSegment() {
@@ -33,8 +32,7 @@ Widget mainPrizeSegment() {
                     ),
                     SizedBox(height: screenSize.height * .01),
                     roundPrizeContainer(
-                      imagePath:
-                          '${ApiEndpoints.uploads}/${rewardsModel!.contestPrizes![0].image}',
+                      imagePath: '${rewardsModel!.contestPrizes![0].image}',
                       backgroundColor: const Color.fromRGBO(255, 219, 73, 1),
                       shadowColor: const Color.fromRGBO(206, 166, 4, 1),
                     ),
@@ -48,7 +46,7 @@ Widget mainPrizeSegment() {
                                       .startsWith('http')
                                   ? rewardsModel
                                       .contestPrizes![0].winnerDetails!.image!
-                                  : '${ApiEndpoints.uploads}/${rewardsModel.contestPrizes![0].winnerDetails!.image}',
+                                  : '${rewardsModel.contestPrizes![0].winnerDetails!.image}',
                             ),
                           )
                         : const SizedBox(),
@@ -69,7 +67,7 @@ Widget mainPrizeSegment() {
               //====================Second Prize Segment====================//
               Positioned(
                 top: screenSize.height * .34,
-                left: screenSize.width * .051,
+                left: screenSize.width * .065,
                 child: Column(
                   children: [
                     Text(
@@ -81,8 +79,7 @@ Widget mainPrizeSegment() {
                     ),
                     SizedBox(height: screenSize.height * .01),
                     roundPrizeContainer(
-                      imagePath:
-                          '${ApiEndpoints.uploads}/${rewardsModel.contestPrizes![1].image}',
+                      imagePath: '${rewardsModel.contestPrizes![1].image}',
                       backgroundColor: const Color.fromRGBO(255, 50, 56, 1),
                       shadowColor: const Color.fromRGBO(173, 0, 2, 1),
                     ),
@@ -96,7 +93,7 @@ Widget mainPrizeSegment() {
                                       .startsWith('http')
                                   ? rewardsModel
                                       .contestPrizes![1].winnerDetails!.image!
-                                  : '${ApiEndpoints.uploads}/${rewardsModel.contestPrizes![1].winnerDetails?.image}',
+                                  : '${rewardsModel.contestPrizes![1].winnerDetails?.image}',
                             ),
                           )
                         : const SizedBox(),
@@ -126,7 +123,7 @@ Widget mainPrizeSegment() {
               //====================Third Prize Segment====================//
               Positioned(
                 top: screenSize.height * .34,
-                right: screenSize.width * .051,
+                right: screenSize.width * .065,
                 child: Column(
                   children: [
                     Text(
@@ -138,8 +135,7 @@ Widget mainPrizeSegment() {
                     ),
                     SizedBox(height: screenSize.height * .01),
                     roundPrizeContainer(
-                      imagePath:
-                          '${ApiEndpoints.uploads}/${rewardsModel.contestPrizes![2].image}',
+                      imagePath: '${rewardsModel.contestPrizes![2].image}',
                       backgroundColor: const Color.fromRGBO(23, 195, 196, 1),
                       shadowColor: const Color.fromRGBO(0, 151, 152, 1),
                     ),
@@ -153,7 +149,7 @@ Widget mainPrizeSegment() {
                                       .startsWith('http')
                                   ? rewardsModel
                                       .contestPrizes![2].winnerDetails!.image!
-                                  : '${ApiEndpoints.uploads}/${rewardsModel.contestPrizes![2].winnerDetails?.image}',
+                                  : '${rewardsModel.contestPrizes![2].winnerDetails?.image}',
                             ),
                           )
                         : const SizedBox(),
@@ -172,7 +168,7 @@ Widget mainPrizeSegment() {
                 ),
               ),
               Positioned(
-                top: screenSize.height * .58,
+                top: screenSize.height * .55,
                 child: Text(
                   rewardsModel.contestName.toString(),
                   textAlign: TextAlign.center,

@@ -8,7 +8,7 @@ Widget roundPrizeContainer({
   required Color shadowColor,
 }) {
   return CircleAvatar(
-    radius: screenSize.width * .13,
+    radius: screenSize.width * .12,
     backgroundColor: backgroundColor,
     child: Stack(
       alignment: Alignment.center,
@@ -28,12 +28,9 @@ Widget roundPrizeContainer({
           ),
           // child: Image.network(imagePath),
         ),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(100),
-          child: Image.network(
-            imagePath,
-            fit: BoxFit.contain,
-          ),
+        Image.network(
+          imagePath,
+          width: screenSize.width * .18,
         )
       ],
     ),

@@ -135,7 +135,7 @@ Widget rankListSegment({
               ),
             )
           : Image.network(
-              '${ApiEndpoints.uploads}/${rewardsModel.contestPrizes![index].image}',
+              '${rewardsModel.contestPrizes![index].image}',
               width: screenSize.width * .15,
             ),
     ),

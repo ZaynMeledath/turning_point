@@ -100,7 +100,7 @@ class ReelsScreenState extends State<ReelsScreen>
               return spinningLinesLoading(color: Colors.red);
 
             case ProfileInactiveState():
-              return const ProfileInactiveScreen();
+              return ProfileInactiveScreen();
 
             case ProfileLoadErrorState():
               return Scaffold(
@@ -220,7 +220,7 @@ class ReelsScreenState extends State<ReelsScreen>
                         child: CircleAvatar(
                           backgroundColor:
                               const Color.fromRGBO(225, 225, 225, .6),
-                          radius: 22,
+                          radius: screenSize.width * .056,
                           child: CircleAvatar(
                             foregroundImage:
                                 NetworkImage(state.userModel!.image!),
