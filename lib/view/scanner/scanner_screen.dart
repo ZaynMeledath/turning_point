@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
@@ -41,7 +40,6 @@ class _ScannerScreenState extends State<ScannerScreen> {
 
   void getLocation() async {
     final location = await LocationRepository.getCurrentLocation();
-    log('##############LOCATION###########');
     log(location.latitude.toString());
     log(location.longitude.toString());
   }
@@ -230,7 +228,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                       } else {
                         scannerBloc.add(
                           ScannerCodeDetectEvent(
-                            couponId: couponController.text,
+                            couponId: couponController.text.trim(),
                           ),
                         );
                       }

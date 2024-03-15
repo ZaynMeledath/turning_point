@@ -17,7 +17,7 @@ showPointsReceivedToast({
     positionedToastBuilder: (context, child) {
       return Positioned(
         top: screenSize.height * .066,
-        left: screenSize.width * .305,
+        left: screenSize.width * .31,
         child: child,
       );
     },

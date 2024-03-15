@@ -56,7 +56,9 @@ Widget dialog({
     ),
     child: Column(
       children: [
-        SizedBox(height: screenSize.height * .011),
+        SizedBox(
+          height: isLottie ? screenSize.height * .11 : screenSize.height * .02,
+        ),
         isLottie
             ? Lottie.asset(
                 iconPath,

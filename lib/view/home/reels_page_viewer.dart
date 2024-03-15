@@ -88,6 +88,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
               itemCount: preloadState.urls.length,
               itemBuilder: (context, index) {
                 if (preloadState.controllers.isNotEmpty) {
+                  bool likeButtonActiveStatus = false;
                   return Stack(
                     children: [
                       ReelsPlayer(
@@ -106,11 +107,22 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                     valueListenable:
                                         preloadState.controllers[index]!,
                                     builder: (context, controllerValue, child) {
+                                      //Determining Like button active status
+                                      if (reelsState.reelsModelList![index]
+                                                  .isLikeButtonActive &&
+                                              controllerValue.isInitialized &&
+                                              controllerValue
+                                                      .position.inSeconds >=
+                                                  reelsState
+                                                      .reelsModelList![index]
+                                                      .displayLikeAfter! ||
+                                          controllerValue.position ==
+                                              controllerValue.duration) {
+                                        likeButtonActiveStatus = true;
+                                      }
                                       return GestureDetector(
                                         onTap: () async {
-                                          if (reelsState.reelsModelList![index]
-                                                  .isLikeButtonActive &&
-                                              controllerValue.isInitialized) {
+                                          if (likeButtonActiveStatus) {
                                             _animationController.forward();
                                             if (reelsState
                                                     .reelsModelList![index]
@@ -148,10 +160,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                           'assets/icons/rupee_icon.png',
                                           width: screenSize.width * .105,
                                           height: screenSize.width * .105,
-                                          color: reelsState
-                                                      .reelsModelList![index]
-                                                      .isLikeButtonActive &&
-                                                  controllerValue.isInitialized
+                                          color: likeButtonActiveStatus
                                               ? reelsState
                                                           .reelsModelList![
                                                               index]

@@ -44,11 +44,12 @@ class _ContestScreenState extends State<ContestScreen> {
           switch (state.exception) {
             case InsufficientBalanceToJoinContestException():
               showAnimatedGenericDialog(
-                  context: context,
-                  iconPath: 'assets/icons/kyc_declined_icon.png',
-                  title: 'Oops',
-                  content: 'Insufficient Balance to join the\ncontest',
-                  buttonTitle: 'Dismiss');
+                context: context,
+                iconPath: 'assets/icons/kyc_declined_icon.png',
+                title: 'Oops',
+                content: 'Insufficient Balance to join the\ncontest',
+                buttonTitle: 'Dismiss',
+              );
               break;
             case VerificationRequiredToJoinContestException():
               showAnimatedGenericDialog(
