@@ -1,7 +1,9 @@
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart' show TextEditingController, immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:turning_point/model/contractor_model.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/resources/user_repository.dart';
@@ -86,6 +88,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               otpController: event.otpController,
             );
           }
+        } on FirebaseAuthException catch (e) {
+          emit(SignUpState(exception: e));
         } catch (e) {
           throw Exception(e);
         }
@@ -116,6 +120,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             contractor: state.contractor,
             token: token,
             fcmToken: firebaseMessagingToken,
+            location: event.location,
           );
         } else {
           emit(
@@ -125,7 +130,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         emit(OtpVerifiedState());
       } catch (e) {
-        throw Exception(e);
+        return emit(
+          OtpVerificationNeededState(
+            phone: state.phone,
+            businessName: state.businessName,
+            contractor: state.contractor,
+            exception: Exception(e),
+          ),
+        );
       }
     });
 

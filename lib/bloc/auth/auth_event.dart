@@ -31,7 +31,11 @@ class UpdateContractor extends AuthEvent {
 
 class VerifyOtpEvent extends AuthEvent {
   final String otp;
-  VerifyOtpEvent(this.otp);
+  final Position? location;
+  VerifyOtpEvent({
+    required this.otp,
+    required this.location,
+  });
 }
 
 class ResendOtpEvent extends AuthEvent {

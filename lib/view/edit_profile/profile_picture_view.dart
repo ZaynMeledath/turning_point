@@ -79,21 +79,23 @@ class ProfilePictureView extends StatelessWidget {
                         ),
                 ],
               ),
-              body: Column(
-                children: [
-                  SizedBox(
-                      height: screenSize.height * .4 - screenSize.width * .5),
-                  SizedBox(
-                    width: screenSize.width,
-                    height: screenSize.width,
-                    child: Hero(
-                      tag: 'profile_picture',
-                      child: PhotoView(
-                        imageProvider: NetworkImage(state.userModel!.image!),
+              body: Center(
+                child: Column(
+                  children: [
+                    SizedBox(
+                        height: screenSize.height * .4 - screenSize.width * .5),
+                    SizedBox(
+                      width: screenSize.width,
+                      height: screenSize.width,
+                      child: Hero(
+                        tag: 'profile_picture',
+                        child: PhotoView(
+                          imageProvider: NetworkImage(state.userModel!.image!),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
         }

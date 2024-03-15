@@ -28,16 +28,26 @@ class SignInState extends AuthState {}
 class WhoIsSigningState extends AuthState {}
 
 class OtpVerificationNeededState extends AuthState {
+  final Exception? exception;
   const OtpVerificationNeededState({
     required super.phone,
     required super.businessName,
     required super.contractor,
+    this.exception,
   });
 }
 
 class OtpVerifiedState extends AuthState {}
 
 class SignedInState extends AuthState {}
+
+class SignUpState extends AuthState {
+  final Exception? exception;
+
+  const SignUpState({
+    this.exception,
+  });
+}
 
 class PhoneNumberExistsState extends AuthState {}
 

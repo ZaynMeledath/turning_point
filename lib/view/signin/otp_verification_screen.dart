@@ -1,7 +1,7 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
@@ -15,8 +15,10 @@ import 'package:turning_point/view/terms_and_conditions/terms_and_conditions_scr
 
 class OtpVerificationScreen extends StatefulWidget {
   final TextEditingController otpController;
+  final Position? location;
   const OtpVerificationScreen({
     required this.otpController,
+    required this.location,
     super.key,
   });
 
@@ -63,6 +65,16 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
       listener: (context, state) {
         if (state is AuthLoadingState) {
           showCustomLoadingDialog(context);
+        } else if (state is OtpVerificationNeededState &&
+            state.exception != null) {
+          Navigator.pop(context);
+          showAnimatedGenericDialog(
+            context: context,
+            iconPath: 'assets/icons/kyc_declined_icon.png',
+            title: 'Something Went Wrong',
+            content: state.exception.toString(),
+            buttonTitle: 'OK',
+          );
         } else if (state is AuthErrorState) {
           Navigator.pop(context);
           showAnimatedGenericDialog(
@@ -207,7 +219,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                               fontWeight: FontWeight.w400,
                             ),
                           ),
-                          GestureDetector(
+                          InkWell(
+                            borderRadius: BorderRadius.circular(8),
                             onTap: () {
                               if (isResendButtonActive) {
                                 isResendButtonActive = false;
@@ -254,7 +267,12 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                           return GestureDetector(
                             onTap: () {
                               if (otp.length == 6) {
-                                authBloc.add(VerifyOtpEvent(otp));
+                                authBloc.add(
+                                  VerifyOtpEvent(
+                                    otp: otp,
+                                    location: widget.location,
+                                  ),
+                                );
                               } else {
                                 showGenericDialog(
                                   context: context,

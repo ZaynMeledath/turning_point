@@ -67,7 +67,7 @@ Widget mainPrizeSegment() {
 
               //====================Second Prize Segment====================//
               Positioned(
-                top: screenSize.height * .34,
+                top: screenSize.height * .32,
                 left: screenSize.width * .065,
                 child: Column(
                   children: [
@@ -123,7 +123,7 @@ Widget mainPrizeSegment() {
 
               //====================Third Prize Segment====================//
               Positioned(
-                top: screenSize.height * .34,
+                top: screenSize.height * .32,
                 right: screenSize.width * .065,
                 child: Column(
                   children: [
@@ -169,7 +169,7 @@ Widget mainPrizeSegment() {
                 ),
               ),
               Positioned(
-                top: screenSize.height * .57,
+                top: screenSize.height * .56,
                 child: Text(
                   rewardsModel.contestName.toString(),
                   textAlign: TextAlign.center,

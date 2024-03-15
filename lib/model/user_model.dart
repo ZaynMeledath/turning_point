@@ -31,7 +31,7 @@ class UserModel {
   String? name;
   String? businessName;
   String? pincode;
-  String? address;
+  String? actualAddress;
   int? points;
   bool? isActive;
   String? role;
@@ -48,31 +48,34 @@ class UserModel {
   int? contestsParticipatedInCount;
   int? contestWonCount;
   int? contestUniqueWonCount;
+  List<dynamic>? address;
 
-  UserModel(
-      {this.id,
-      this.email,
-      this.phone,
-      this.name,
-      this.businessName,
-      this.points,
-      this.pincode,
-      this.address,
-      this.isActive,
-      this.role,
-      this.contractor,
-      this.bankDetails,
-      this.shopImageArr,
-      this.createdAt,
-      this.updatedAt,
-      this.image,
-      this.idBackImage,
-      this.idFrontImage,
-      this.kycStatus,
-      this.contestParticipationCount,
-      this.contestsParticipatedInCount,
-      this.contestWonCount,
-      this.contestUniqueWonCount});
+  UserModel({
+    this.id,
+    this.email,
+    this.phone,
+    this.name,
+    this.businessName,
+    this.points,
+    this.pincode,
+    this.actualAddress,
+    this.isActive,
+    this.role,
+    this.contractor,
+    this.bankDetails,
+    this.shopImageArr,
+    this.createdAt,
+    this.updatedAt,
+    this.image,
+    this.idBackImage,
+    this.idFrontImage,
+    this.kycStatus,
+    this.contestParticipationCount,
+    this.contestsParticipatedInCount,
+    this.contestWonCount,
+    this.contestUniqueWonCount,
+    this.address,
+  });
 
   UserModel.fromJson(Map<String, dynamic> json) {
     id = json['_id'];
@@ -81,7 +84,7 @@ class UserModel {
     name = json['name'];
     businessName = json['businessName'];
     pincode = json['pincode'];
-    address = json['address'];
+    actualAddress = json['actualAddress'];
     points = json['points'];
     isActive = json['isActive'];
     role = json['role'];
@@ -106,6 +109,7 @@ class UserModel {
     contestsParticipatedInCount = json['contestsParticipatedInCount'];
     contestWonCount = json['contestWonCount'];
     contestUniqueWonCount = json['contestUniqueWonCount'];
+    address = json['address']['coordinates'];
   }
 
   Map<String, dynamic> toJson() {
@@ -116,7 +120,7 @@ class UserModel {
     data['name'] = name;
     data['businessName'] = businessName;
     data['pincode'] = pincode;
-    data['address'] = address;
+    data['actualAddress'] = actualAddress;
     data['points'] = points;
     data['isActive'] = isActive;
     data['role'] = role;
@@ -138,6 +142,7 @@ class UserModel {
     data['contestsParticipatedInCount'] = contestsParticipatedInCount;
     data['contestWonCount'] = contestWonCount;
     data['contestUniqueWonCount'] = contestUniqueWonCount;
+    data['address']['coordinates'] = address;
     return data;
   }
 }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
+late Size realScreenSize;
 late Size screenSize;
 
 void getInitialScreenSize({required BuildContext context}) {
   screenSize = MediaQuery.of(context).size;
-  if (screenSize.width > 600) {
-    screenSize = Size(600, screenSize.height);
+  realScreenSize = screenSize;
+  if (screenSize.width > 550) {
+    screenSize = Size(550, screenSize.height);
   }
 }

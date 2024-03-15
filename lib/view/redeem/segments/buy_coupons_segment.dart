@@ -12,7 +12,6 @@ Widget buyCouponsSegment({
         child: Column(
           children: [
             //====================Coupon Image====================//
-
             redeemState is BuyCouponsState && redeemState.coupon != null
                 ? couponCodeContainer(
                     context: context,

@@ -54,7 +54,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         userModelResponse.data!.contractor = event.contractor;
         userModelResponse.data!.phone = event.phone;
         userModelResponse.data!.businessName = event.businessName;
-        userModelResponse.data!.address = event.address;
+        userModelResponse.data!.actualAddress = event.address;
         userModelResponse.data!.email = event.email;
         userModelResponse.data!.role =
             event.isContractor ? Role.CONTRACTOR : Role.CARPENTER;

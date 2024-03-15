@@ -13,10 +13,10 @@ class KycVerifiedScreen extends StatelessWidget {
         child: Column(
           children: [
             customAppBar(context: context, title: 'KYC'),
-            SizedBox(height: screenSize.height * .2),
+            SizedBox(height: screenSize.height * .03),
             Image.asset(
               'assets/icons/kyc_verified_icon.png',
-              width: screenSize.width * .26,
+              width: screenSize.width * .21,
             ),
             SizedBox(height: screenSize.height * .018),
             Text(
@@ -38,24 +38,24 @@ class KycVerifiedScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: screenSize.height * .05),
-            Container(
-              width: screenSize.width * .8,
-              height: screenSize.height * .05,
-              decoration: BoxDecoration(
-                color: const Color.fromRGBO(0, 99, 255, 1),
-                borderRadius: BorderRadius.circular(6),
-              ),
-              child: Center(
-                child: Text(
-                  'Go Back',
-                  style: GoogleFonts.roboto(
-                    fontSize: screenSize.width * .036,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
+            // Container(
+            //   width: screenSize.width * .8,
+            //   height: screenSize.height * .05,
+            //   decoration: BoxDecoration(
+            //     color: const Color.fromRGBO(0, 99, 255, 1),
+            //     borderRadius: BorderRadius.circular(6),
+            //   ),
+            //   child: Center(
+            //     child: Text(
+            //       'Go Back',
+            //       style: GoogleFonts.roboto(
+            //         fontSize: screenSize.width * .036,
+            //         fontWeight: FontWeight.w600,
+            //         color: Colors.white,
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

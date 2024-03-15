@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:turning_point/constants/constants.dart';
@@ -66,10 +67,10 @@ class UserRepository {
     String? businessName,
     String? token,
     String? fcmToken,
+    Position? location,
   }) async {
     try {
       final authService = AuthService.firebase();
-      log('UID : ${authService.currentUser!.uid}');
       final response = await ApiService().sendRequest(
         url: ApiEndpoints.register,
         data: {
@@ -84,7 +85,11 @@ class UserRepository {
               "phone": contractor.phone,
             },
           "idToken": token,
-          "fcmToken": fcmToken
+          "fcmToken": fcmToken,
+          if (location != null)
+            "address": {
+              "coordinates": [location.latitude, location.longitude]
+            },
         },
         requestMethod: RequestMethod.POST,
         isTokenRequired: false,
@@ -183,29 +188,6 @@ class UserRepository {
         url: ApiEndpoints.updateUserProfile,
         requestMethod: RequestMethod.PATCH,
         data: userModel.toJson(),
-        //     {
-        //   "name": userModel.name,
-        //   "phone": userModel.phone,
-        //   "businessName": userModel.businessName,
-        //   "address": userModel.address,
-        //   "email": userModel.email,
-        //   "pincode": userModel.pincode,
-        //   "role": userModel.role,
-        //   "contractor": {
-        //     "name": userModel.contractor?.name,
-        //     "businessName": userModel.contractor?.businessName,
-        //   },
-        //   "idFrontImage": idFrontImage,
-        //   "idBackImage": idBackImage,
-        //   if (userModel.bankDetails != null &&
-        //       userModel.bankDetails!.isNotEmpty)
-        //     "bankDetails": {
-        //       "type": userModel.bankDetails![0].banktype,
-        //       "accountName": userModel.bankDetails![0].accountName,
-        //       "accountNo": userModel.bankDetails![0].accountNo,
-        //       "ifsc": userModel.bankDetails![0].ifsc,
-        //     },
-        // },
         isTokenRequired: true,
       );
       final userModelResponse =
