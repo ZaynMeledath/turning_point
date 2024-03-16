@@ -1,7 +1,6 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
 import 'package:turning_point/service/api/api_service.dart';
-import 'package:workmanager/workmanager.dart';
 
 //====================Get Current Location Method====================//
 class LocationRepository {
@@ -58,27 +57,27 @@ class LocationRepository {
   }
 }
 
-const fetchBackground = "fetchBackground";
-void callbackDispatcher() {
-  Workmanager().executeTask((task, inputData) async {
-    switch (task) {
-      case fetchBackground:
-        Position? userLocation =
-            await LocationRepository.getLocationInBackground();
-        if (userLocation != null) {
-          await ApiService().sendRequest(
-            url: ApiEndpoints.monitorLocation,
-            requestMethod: RequestMethod.POST,
-            data: {
-              'latitude': userLocation.latitude,
-              'longitude': userLocation.longitude,
-            },
-            isTokenRequired: false,
-          );
-        }
+// const fetchBackground = "fetchBackground";
+// void callbackDispatcher() {
+//   Workmanager().executeTask((task, inputData) async {
+//     switch (task) {
+//       case fetchBackground:
+//         Position? userLocation =
+//             await LocationRepository.getLocationInBackground();
+//         if (userLocation != null) {
+//           await ApiService().sendRequest(
+//             url: ApiEndpoints.monitorLocation,
+//             requestMethod: RequestMethod.POST,
+//             data: {
+//               'latitude': userLocation.latitude,
+//               'longitude': userLocation.longitude,
+//             },
+//             isTokenRequired: false,
+//           );
+//         }
 
-        break;
-    }
-    return Future.value(true);
-  });
-}
+//         break;
+//     }
+//     return Future.value(true);
+//   });
+// }

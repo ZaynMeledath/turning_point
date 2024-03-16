@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
-import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/view/home/home_screen.dart';
@@ -26,7 +25,7 @@ class ProfileInactiveScreen extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthLoadingState && closeDialogHandle == null) {
-          closeDialogHandle = showLoadingDialog(context: context);
+          // closeDialogHandle = showLoadingDialog(context: context);
         } else if (state is SignedInState) {
           if (closeDialogHandle != null) Navigator.pop(context);
           closeDialogHandle = null;

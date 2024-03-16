@@ -1,7 +1,10 @@
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/view/kyc/segments/kyc_submitted_details_segment.dart';
 
 class KycVerifiedScreen extends StatelessWidget {
   const KycVerifiedScreen({super.key});
@@ -13,12 +16,18 @@ class KycVerifiedScreen extends StatelessWidget {
         child: Column(
           children: [
             customAppBar(context: context, title: 'KYC'),
-            SizedBox(height: screenSize.height * .03),
-            Image.asset(
-              'assets/icons/kyc_verified_icon.png',
-              width: screenSize.width * .21,
+            SizedBox(height: screenSize.height * .015),
+            DottedLine(
+              lineLength: realScreenSize.width * .95,
+              dashGradient: const [
+                Colors.green,
+                Colors.blue,
+              ],
             ),
-            SizedBox(height: screenSize.height * .018),
+            Lottie.asset(
+              'assets/lottie/kyc_verified_animation.json',
+              width: screenSize.width * .3,
+            ),
             Text(
               'Verified',
               style: GoogleFonts.inter(
@@ -37,7 +46,7 @@ class KycVerifiedScreen extends StatelessWidget {
                 color: const Color.fromRGBO(102, 112, 133, 1),
               ),
             ),
-            SizedBox(height: screenSize.height * .05),
+            SizedBox(height: screenSize.height * .025),
             // Container(
             //   width: screenSize.width * .8,
             //   height: screenSize.height * .05,
@@ -56,6 +65,18 @@ class KycVerifiedScreen extends StatelessWidget {
             //     ),
             //   ),
             // ),
+
+            DottedLine(
+              lineLength: realScreenSize.width * .95,
+              dashGradient: const [
+                Colors.green,
+                Colors.blue,
+              ],
+            ),
+
+            SizedBox(height: screenSize.height * .02),
+
+            kycSubmittedDetailsSegment(),
           ],
         ),
       ),

@@ -142,7 +142,7 @@ class UserModel {
     data['contestsParticipatedInCount'] = contestsParticipatedInCount;
     data['contestWonCount'] = contestWonCount;
     data['contestUniqueWonCount'] = contestUniqueWonCount;
-    // data['address']['coordinates'] = address;
+    // data['address']['coordinates'] = address?.map((e) => double.parse(e));
     return data;
   }
 }
