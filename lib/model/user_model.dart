@@ -48,7 +48,7 @@ class UserModel {
   int? contestsParticipatedInCount;
   int? contestWonCount;
   int? contestUniqueWonCount;
-  List<dynamic>? address;
+  // List<dynamic>? address;
 
   UserModel({
     this.id,
@@ -74,7 +74,7 @@ class UserModel {
     this.contestsParticipatedInCount,
     this.contestWonCount,
     this.contestUniqueWonCount,
-    this.address,
+    // this.address,
   });
 
   UserModel.fromJson(Map<String, dynamic> json) {
@@ -109,7 +109,7 @@ class UserModel {
     contestsParticipatedInCount = json['contestsParticipatedInCount'];
     contestWonCount = json['contestWonCount'];
     contestUniqueWonCount = json['contestUniqueWonCount'];
-    address = json['address']['coordinates'];
+    // address = json['address']['coordinates'];
   }
 
   Map<String, dynamic> toJson() {
@@ -142,7 +142,7 @@ class UserModel {
     data['contestsParticipatedInCount'] = contestsParticipatedInCount;
     data['contestWonCount'] = contestWonCount;
     data['contestUniqueWonCount'] = contestUniqueWonCount;
-    data['address']['coordinates'] = address;
+    // data['address']['coordinates'] = address;
     return data;
   }
 }

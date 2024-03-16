@@ -21,6 +21,7 @@ class PointsScreen extends StatefulWidget {
 class _PointsScreenState extends State<PointsScreen> {
   @override
   void initState() {
+    preloadBloc.state.isReelsVisible = false;
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }
@@ -30,11 +31,14 @@ class _PointsScreenState extends State<PointsScreen> {
 
   @override
   void dispose() {
-    if (preloadBloc.state.controllers.isNotEmpty &&
-        !preloadBloc.manuallyPaused &&
-        widget.directEntry == true) {
-      preloadBloc.playCurrentController();
+    if (widget.directEntry == true) {
+      preloadBloc.state.isReelsVisible = true;
+      if (preloadBloc.state.controllers.isNotEmpty &&
+          !preloadBloc.manuallyPaused) {
+        preloadBloc.playCurrentController();
+      }
     }
+
     super.dispose();
   }
 

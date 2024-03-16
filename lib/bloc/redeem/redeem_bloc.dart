@@ -13,41 +13,18 @@ part 'redeem_state.dart';
 class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
   RedeemBloc()
       : super(BuyCouponsState(
-          selectedOptionNumber: 1,
+          selectedOptionNumber: 3,
           redeemPoints: DEFAULT_REDEEM_POINTS,
           isTermsAgreed: false,
           isLoading: false,
         )) {
     final redeemRepo = RedeemRepository();
-//====================Buy Coupon Event====================//
-    on<BuyCouponsPressedEvent>((event, emit) {
-      emit(
-        BuyCouponsState(
-          selectedOptionNumber: 1,
-          redeemPoints: DEFAULT_REDEEM_POINTS,
-          isTermsAgreed: false,
-          isLoading: false,
-        ),
-      );
-    });
 
 //====================Bank Transfer Event====================//
     on<BankTransferPressedEvent>((event, emit) {
       emit(
         BankTransferState(
-          selectedOptionNumber: 2,
-          redeemPoints: DEFAULT_REDEEM_POINTS,
-          isTermsAgreed: false,
-          isLoading: false,
-        ),
-      );
-    });
-
-//====================In-App Purchase Event====================//
-    on<InAppPurchasePressedEvent>((event, emit) {
-      emit(
-        InAppPurchaseState(
-          selectedOptionNumber: 3,
+          selectedOptionNumber: 1,
           redeemPoints: DEFAULT_REDEEM_POINTS,
           isTermsAgreed: false,
           isLoading: false,
@@ -59,13 +36,37 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
     on<UpiTransferPressedEvent>((event, emit) {
       emit(
         UpiTransferState(
-          selectedOptionNumber: 4,
+          selectedOptionNumber: 2,
           redeemPoints: DEFAULT_REDEEM_POINTS,
           isTermsAgreed: false,
           isLoading: false,
         ),
       );
     });
+
+//====================Buy Coupon Event====================//
+    on<BuyCouponsPressedEvent>((event, emit) {
+      emit(
+        BuyCouponsState(
+          selectedOptionNumber: 3,
+          redeemPoints: DEFAULT_REDEEM_POINTS,
+          isTermsAgreed: false,
+          isLoading: false,
+        ),
+      );
+    });
+
+// //====================In-App Purchase Event====================//
+//     on<InAppPurchasePressedEvent>((event, emit) {
+//       emit(
+//         InAppPurchaseState(
+//           selectedOptionNumber: 4,
+//           redeemPoints: DEFAULT_REDEEM_POINTS,
+//           isTermsAgreed: false,
+//           isLoading: false,
+//         ),
+//       );
+//     });
 
 //====================Points Increment Event====================//
     on<PointsIncrementEvent>((event, emit) {

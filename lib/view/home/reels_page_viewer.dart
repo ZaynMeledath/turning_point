@@ -116,8 +116,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                                   reelsState
                                                       .reelsModelList![index]
                                                       .displayLikeAfter! ||
-                                          controllerValue.position ==
-                                              controllerValue.duration) {
+                                          controllerValue.isCompleted) {
                                         likeButtonActiveStatus = true;
                                       }
                                       return GestureDetector(

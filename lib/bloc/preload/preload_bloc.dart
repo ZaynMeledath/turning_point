@@ -109,6 +109,9 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
 
 //====================Play Video on Given Index====================//
   void _playControllerAtIndex(int index) {
+    if (!state.isReelsVisible) {
+      return;
+    }
     if (state.urls.length > index && index >= 0) {
       /// Get controller at [index]
       final VideoPlayerController controller = state.controllers[index]!;
@@ -155,7 +158,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
   void pauseCurrentController() {
     log('CONTROLLER PAUSED');
     Future.delayed(Duration.zero, () {
-      state.controllers[state.focusedIndex]!.pause();
+      _stopControllerAtIndex(state.focusedIndex);
     });
   }
 
@@ -164,7 +167,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
     log('CONTROLLER STARTED PLAYING');
     if (!state.controllers[state.focusedIndex]!.value.isPlaying) {
       Future.delayed(Duration.zero, () {
-        state.controllers[state.focusedIndex]!.play();
+        _playControllerAtIndex(state.focusedIndex);
       });
     }
   }

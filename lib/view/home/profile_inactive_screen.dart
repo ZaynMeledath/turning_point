@@ -46,6 +46,7 @@ class ProfileInactiveScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          toolbarHeight: screenSize.height * .066,
           backgroundColor: const Color.fromRGBO(0, 99, 255, 1),
           automaticallyImplyLeading: false,
           centerTitle: true,

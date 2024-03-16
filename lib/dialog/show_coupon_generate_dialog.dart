@@ -22,89 +22,92 @@ Future<Object?> showCouponGenerateDialog({
 }
 
 Widget dialog() {
-  return Container(
-    margin: EdgeInsets.symmetric(
-      horizontal: screenSize.width * .25,
-      vertical: screenSize.height * .36,
-    ),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(9),
-    ),
-    child: Stack(
-      alignment: Alignment.topCenter,
-      children: [
-        Container(
-          height: screenSize.width * .22,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(9),
-              topLeft: Radius.circular(9),
-            ),
-            color: Color.fromRGBO(253, 215, 54, 1),
-          ),
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Container(
+        width: screenSize.width * .55,
+        height: screenSize.height * .28,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(9),
         ),
-        Positioned(
-          top: (screenSize.width * .22) - (screenSize.width * .3 / 2),
-          child: Container(
-            width: screenSize.width * .3,
-            height: screenSize.width * .3,
-            padding: EdgeInsets.all(screenSize.width * .041),
-            decoration: BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(100),
-              border: Border.all(
-                color: Colors.white,
+        child: Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            Container(
+              height: screenSize.width * .22,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(9),
+                  topLeft: Radius.circular(9),
+                ),
+                color: Color.fromRGBO(253, 215, 54, 1),
               ),
             ),
-            child: Container(
-              padding: EdgeInsets.all(screenSize.width * .025),
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(100),
-                border: Border.all(
-                  color: Colors.white,
-                ),
-              ),
+            Positioned(
+              top: (screenSize.width * .22) - (screenSize.width * .3 / 2),
               child: Container(
+                width: screenSize.width * .3,
+                height: screenSize.width * .3,
+                padding: EdgeInsets.all(screenSize.width * .041),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Colors.transparent,
                   borderRadius: BorderRadius.circular(100),
-                  boxShadow: [
-                    BoxShadow(
-                      offset: const Offset(0, 2),
-                      blurRadius: .3,
-                      color: Colors.black.withOpacity(.06),
-                    )
-                  ],
+                  border: Border.all(
+                    color: Colors.white,
+                  ),
                 ),
-                child: Center(
-                  child: AnimatedRotation(
-                    turns: 10,
-                    duration: const Duration(seconds: 2),
-                    child: Image.asset(
-                      'assets/icons/percentage_icon.png',
-                      width: screenSize.width * .046,
+                child: Container(
+                  padding: EdgeInsets.all(screenSize.width * .025),
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(100),
+                    border: Border.all(
+                      color: Colors.white,
+                    ),
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(100),
+                      boxShadow: [
+                        BoxShadow(
+                          offset: const Offset(0, 2),
+                          blurRadius: .3,
+                          color: Colors.black.withOpacity(.06),
+                        )
+                      ],
+                    ),
+                    child: Center(
+                      child: AnimatedRotation(
+                        turns: 10,
+                        duration: const Duration(seconds: 2),
+                        child: Image.asset(
+                          'assets/icons/percentage_icon.png',
+                          width: screenSize.width * .046,
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
+            Positioned(
+              bottom: 40,
+              child: Text(
+                'Generating...',
+                style: GoogleFonts.roboto(
+                  decoration: TextDecoration.none,
+                  color: Colors.black,
+                  fontSize: screenSize.width * .036,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            )
+          ],
         ),
-        Positioned(
-          bottom: 40,
-          child: Text(
-            'Generating...',
-            style: GoogleFonts.roboto(
-              decoration: TextDecoration.none,
-              color: Colors.black,
-              fontSize: screenSize.width * .036,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        )
-      ],
-    ),
+      ),
+    ],
   );
 }

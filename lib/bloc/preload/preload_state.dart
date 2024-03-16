@@ -4,6 +4,7 @@ class PreloadState {
   List<dynamic> urls = ReelsRepository.urlList;
   final Map<int, VideoPlayerController> controllers;
   final int focusedIndex;
+  bool isReelsVisible = true;
   PreloadState({
     required this.controllers,
     required this.focusedIndex,

@@ -15,9 +15,8 @@ Widget yourAmountSegment() {
 //====================Amount in Rupees Segment====================//
       BlocBuilder<RedeemBloc, RedeemState>(
         builder: (context, state) {
-          final pointsToRupees = (state.redeemPoints ~/ 5);
           return Text(
-            '₹$pointsToRupees',
+            '₹${state.redeemPoints}',
             style: GoogleFonts.roboto(
               fontSize: screenSize.width * .07,
               fontWeight: FontWeight.w700,
