@@ -37,7 +37,7 @@ class CustomNavigator {
     required BuildContext context,
     required Widget child,
   }) {
-    return Navigator.of(context).push(
+    return Navigator.of(context).pushReplacement(
       PageTransition(
         child: child,
         type: PageTransitionType.rightToLeft,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:turning_point/bloc/connect/connect_bloc.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
 import 'package:turning_point/bloc/contest/join_contest_bloc.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
@@ -93,6 +94,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => locationServiceBloc,
         ),
+        BlocProvider(
+          create: (_) => connectBloc,
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -105,7 +109,6 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: const SplashScreen(),
-        // home: const KycVerifiedScreen(),
       ),
     );
   }

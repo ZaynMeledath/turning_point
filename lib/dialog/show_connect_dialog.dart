@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/bloc/connect/connect_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'dart:math' as math show pi;
 
@@ -22,40 +23,6 @@ Future<Object?> showConnectDialog({
     },
   );
 }
-
-// Widget dialog(BuildContext context) {
-//   return Stack(
-//     children: [
-//       GestureDetector(
-//         onTap: () => Navigator.of(context).pop(true),
-//         child: Container(
-//           color: Colors.transparent,
-//         ),
-//       ),
-//       Container(
-//         margin: EdgeInsets.only(
-//           left: screenSize.width * .7,
-//           right: screenSize.width * .02,
-//           top: screenSize.height * .8,
-//           bottom: screenSize.height * .05,
-//         ),
-//         child: Row(
-//           children: [
-//             Image.asset(
-//               'assets/icons/phone_icon.png',
-//               width: screenSize.width * .1,
-//             ),
-//             SizedBox(width: screenSize.width * .07),
-//             Image.asset(
-//               'assets/icons/whatsapp_icon.png',
-//               width: screenSize.width * .09,
-//             ),
-//           ],
-//         ),
-//       ),
-//     ],
-//   );
-// }
 
 Widget dialog(BuildContext context) {
   return Stack(
@@ -101,80 +68,79 @@ Widget dialog(BuildContext context) {
                   ),
                   child: const Text('Customer Support'),
                 ),
-                // GestureDetector(
-                //   onTap: () => Navigator.of(context).pop(true),
-                //   child: Container(
-                //     width: screenSize.width * .061,
-                //     height: screenSize.width * .061,
-                //     decoration: const BoxDecoration(
-                //       shape: BoxShape.circle,
-                //       color: Color.fromRGBO(199, 199, 199, 1),
-                //     ),
-                //     child: Center(
-                //       child: Image.asset(
-                //         'assets/icons/connect_close_icon.png',
-                //         width: screenSize.width * .024,
-                //       ),
-                //     ),
-                //   ),
-                // ),
               ],
             ),
             SizedBox(height: screenSize.height * .016),
-            Row(
-              children: [
-                Container(
-                  width: screenSize.width * .089,
-                  height: screenSize.width * .089,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color.fromRGBO(236, 236, 236, 1),
-                  ),
-                  child: Center(
-                    child: Image.asset(
-                      'assets/icons/phone_icon.png',
-                      width: screenSize.width * .061,
+            Material(
+              child: InkWell(
+                borderRadius: BorderRadius.circular(8),
+                onTap: () {
+                  connectBloc.add(PhoneConnectEvent());
+                },
+                child: Row(
+                  children: [
+                    Container(
+                      width: screenSize.width * .089,
+                      height: screenSize.width * .089,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color.fromRGBO(236, 236, 236, 1),
+                      ),
+                      child: Center(
+                        child: Image.asset(
+                          'assets/icons/phone_icon.png',
+                          width: screenSize.width * .061,
+                        ),
+                      ),
                     ),
-                  ),
+                    SizedBox(width: screenSize.width * .051),
+                    DefaultTextStyle(
+                      style: GoogleFonts.roboto(
+                        fontSize: screenSize.width * .031,
+                        fontWeight: FontWeight.w500,
+                        color: const Color.fromRGBO(87, 87, 87, 1),
+                      ),
+                      child: const Text('Phone'),
+                    ),
+                  ],
                 ),
-                SizedBox(width: screenSize.width * .051),
-                DefaultTextStyle(
-                  style: GoogleFonts.roboto(
-                    fontSize: screenSize.width * .031,
-                    fontWeight: FontWeight.w500,
-                    color: const Color.fromRGBO(87, 87, 87, 1),
-                  ),
-                  child: const Text('Phone'),
-                ),
-              ],
+              ),
             ),
             SizedBox(height: screenSize.height * .015),
-            Row(
-              children: [
-                Container(
-                  width: screenSize.width * .089,
-                  height: screenSize.width * .089,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color.fromRGBO(236, 236, 236, 1),
-                  ),
-                  child: Center(
-                    child: Image.asset(
-                      'assets/icons/whatsapp_icon.png',
-                      width: screenSize.width * .069,
+            Material(
+              child: InkWell(
+                borderRadius: BorderRadius.circular(8),
+                onTap: () {
+                  connectBloc.add(WhatsAppConnectEvent());
+                },
+                child: Row(
+                  children: [
+                    Container(
+                      width: screenSize.width * .089,
+                      height: screenSize.width * .089,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color.fromRGBO(236, 236, 236, 1),
+                      ),
+                      child: Center(
+                        child: Image.asset(
+                          'assets/icons/whatsapp_icon.png',
+                          width: screenSize.width * .069,
+                        ),
+                      ),
                     ),
-                  ),
+                    SizedBox(width: screenSize.width * .051),
+                    DefaultTextStyle(
+                      style: GoogleFonts.roboto(
+                        fontSize: screenSize.width * .031,
+                        fontWeight: FontWeight.w500,
+                        color: const Color.fromRGBO(87, 87, 87, 1),
+                      ),
+                      child: const Text('WhatsApp'),
+                    ),
+                  ],
                 ),
-                SizedBox(width: screenSize.width * .051),
-                DefaultTextStyle(
-                  style: GoogleFonts.roboto(
-                    fontSize: screenSize.width * .031,
-                    fontWeight: FontWeight.w500,
-                    color: const Color.fromRGBO(87, 87, 87, 1),
-                  ),
-                  child: const Text('WhatsApp'),
-                ),
-              ],
+              ),
             ),
           ],
         ),

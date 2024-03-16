@@ -66,7 +66,7 @@ class KycSubmittedScreen extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: screenSize.height * .02),
-                kycSubmittedDetailsSegment(),
+                kycSubmittedDetailsSegment(context: context),
               ],
             ),
           ),

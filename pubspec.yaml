@@ -58,6 +58,7 @@ dependencies:
   shimmer: ^3.0.0
   smooth_page_indicator: ^1.1.0
   stacked_card_carousel: ^0.0.4
+  url_launcher: ^6.2.5
   vibration: ^1.8.4
   video_player: ^2.8.3
   wakelock_plus: ^1.1.4
