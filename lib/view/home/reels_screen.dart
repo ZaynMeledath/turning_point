@@ -98,7 +98,7 @@ class ReelsScreenState extends State<ReelsScreen>
         builder: (context, state) {
           switch (state) {
             case ProfileLoadingState():
-              return spinningLinesLoading(color: Colors.red);
+              return rippleLoading();
 
             case ProfileInactiveState():
               return ProfileInactiveScreen();

@@ -157,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             } else {
-              return spinningLinesLoading(color: Colors.red);
+              return rippleLoading();
             }
           },
         );

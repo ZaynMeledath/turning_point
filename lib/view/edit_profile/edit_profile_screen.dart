@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/dialog/show_animated_otp_dialog.dart';
@@ -104,6 +105,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               context: context,
               phone: _phoneController.text,
               otpController: otpController,
+            );
+          } else if (state is ProfileInactiveState) {
+            Navigator.of(context).pushAndRemoveUntil(
+              PageTransition(
+                child: ProfileInactiveScreen(),
+                type: PageTransitionType.fade,
+                duration: const Duration(milliseconds: 1),
+              ),
+              (_) => false,
             );
           }
         },

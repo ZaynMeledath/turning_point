@@ -50,9 +50,9 @@ class ProfileInactiveScreen extends StatelessWidget {
           automaticallyImplyLeading: false,
           centerTitle: true,
           title: Text(
-            'Verification Pending',
+            'Verification Pending...',
             style: GoogleFonts.inter(
-              fontSize: screenSize.width * .045,
+              fontSize: screenSize.width * .042,
               fontWeight: FontWeight.w600,
               // color: const Color.fromRGBO(16, 24, 40, 1),
               color: Colors.white,
@@ -77,7 +77,7 @@ class ProfileInactiveScreen extends StatelessWidget {
                     'Your Profile will be approved by the admin\nwithin the next 24 hours',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.inter(
-                      fontSize: screenSize.width * .041,
+                      fontSize: screenSize.width * .04,
                       fontWeight: FontWeight.w600,
                       color: const Color.fromRGBO(16, 24, 40, 1),
                     ),

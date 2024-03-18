@@ -7,6 +7,18 @@ Widget spinningLinesLoading({Color? color}) {
   );
 }
 
+Widget rippleLoading({
+  Color? color,
+  double? size,
+}) {
+  return Center(
+    child: SpinKitRipple(
+      color: color ?? Colors.white,
+      size: size ?? 50,
+    ),
+  );
+}
+
 Widget circleLoading() {
   return const Center(
     child: SpinKitFadingCircle(
