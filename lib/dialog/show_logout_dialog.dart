@@ -30,101 +30,107 @@ Future<Object?> showLogoutDialog({
 }
 
 Widget dialog({required BuildContext context}) {
-  return Container(
-    margin: EdgeInsets.symmetric(
-      horizontal: screenSize.width * .15,
-      vertical: screenSize.height * .378,
-    ),
-    padding: EdgeInsets.symmetric(horizontal: screenSize.width * .03),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(15),
-    ),
-    child: Column(
-      children: [
-        Lottie.asset(
-          'assets/lottie/logout_animation.json',
-          width: screenSize.width * .3,
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Container(
+        width: screenSize.width * .6,
+        padding: EdgeInsets.only(
+          left: screenSize.width * .03,
+          right: screenSize.width * .03,
+          bottom: screenSize.height * .025,
         ),
-        DefaultTextStyle(
-          style: GoogleFonts.roboto(
-            fontSize: screenSize.width * .051,
-            fontWeight: FontWeight.w500,
-            color: Colors.black,
-          ),
-          child: const Text(
-            'Log Out',
-            textAlign: TextAlign.center,
-          ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
         ),
-        SizedBox(height: screenSize.height * .01),
-        DefaultTextStyle(
-          style: GoogleFonts.roboto(
-            fontSize: screenSize.width * .035,
-            fontWeight: FontWeight.w400,
-            color: Colors.black,
-            height: 1.4,
-          ),
-          child: const Text(
-            'Are you sure you want to log out?',
-            textAlign: TextAlign.center,
-          ),
-        ),
-        SizedBox(height: screenSize.height * .03),
-        Padding(
-          padding: EdgeInsets.only(right: screenSize.width * .028),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: DefaultTextStyle(
-                  style: GoogleFonts.roboto(
-                    fontSize: screenSize.width * .036,
-                    fontWeight: FontWeight.w500,
-                    color: const Color.fromRGBO(0, 99, 255, 1),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'Cancel',
-                    ),
-                  ),
-                ),
+        child: Column(
+          children: [
+            Lottie.asset(
+              'assets/lottie/logout_animation.json',
+              width: screenSize.width * .3,
+            ),
+            DefaultTextStyle(
+              style: GoogleFonts.roboto(
+                fontSize: screenSize.width * .051,
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
               ),
-              SizedBox(width: screenSize.width * .05),
-              GestureDetector(
-                onTap: () {
-                  AppPreferences.clearSharedPreferences();
-                  Navigator.of(context).pushAndRemoveUntil(
-                    PageTransition(
-                      child: const SignInScreen(),
-                      childCurrent: const SettingsScreen(),
-                      type: PageTransitionType.fade,
-                      duration: const Duration(milliseconds: 1800),
-                    ),
-                    (_) => false,
-                  );
-                  preloadBloc.add(PreloadResetEvent());
-                },
-                child: DefaultTextStyle(
-                  style: GoogleFonts.roboto(
-                    fontSize: screenSize.width * .036,
-                    fontWeight: FontWeight.w500,
-                    color: const Color.fromRGBO(0, 99, 255, 1),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'Log Out',
-                    ),
-                  ),
-                ),
+              child: const Text(
+                'Log Out',
+                textAlign: TextAlign.center,
               ),
-            ],
-          ),
+            ),
+            SizedBox(height: screenSize.height * .01),
+            DefaultTextStyle(
+              style: GoogleFonts.roboto(
+                fontSize: screenSize.width * .035,
+                fontWeight: FontWeight.w400,
+                color: Colors.black,
+                height: 1.4,
+              ),
+              child: const Text(
+                'Are you sure you want to log out?',
+                textAlign: TextAlign.center,
+              ),
+            ),
+            SizedBox(height: screenSize.height * .035),
+            Padding(
+              padding: EdgeInsets.only(right: screenSize.width * .028),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: DefaultTextStyle(
+                      style: GoogleFonts.roboto(
+                        fontSize: screenSize.width * .036,
+                        fontWeight: FontWeight.w500,
+                        color: const Color.fromRGBO(0, 99, 255, 1),
+                      ),
+                      child: const Center(
+                        child: Text(
+                          'Cancel',
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: screenSize.width * .05),
+                  GestureDetector(
+                    onTap: () {
+                      AppPreferences.clearSharedPreferences();
+                      Navigator.of(context).pushAndRemoveUntil(
+                        PageTransition(
+                          child: const SignInScreen(),
+                          childCurrent: const SettingsScreen(),
+                          type: PageTransitionType.fade,
+                          duration: const Duration(milliseconds: 1800),
+                        ),
+                        (_) => false,
+                      );
+                      preloadBloc.add(PreloadResetEvent());
+                    },
+                    child: DefaultTextStyle(
+                      style: GoogleFonts.roboto(
+                        fontSize: screenSize.width * .036,
+                        fontWeight: FontWeight.w500,
+                        color: const Color.fromRGBO(0, 99, 255, 1),
+                      ),
+                      child: const Center(
+                        child: Text(
+                          'Log Out',
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-      ],
-    ),
+      ),
+    ],
   );
 }

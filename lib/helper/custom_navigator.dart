@@ -12,7 +12,7 @@ class CustomNavigator {
         child: child,
         type: PageTransitionType.rightToLeft,
         duration: const Duration(milliseconds: 350),
-        reverseDuration: const Duration(milliseconds: 150),
+        reverseDuration: const Duration(milliseconds: 300),
       ),
     );
   }

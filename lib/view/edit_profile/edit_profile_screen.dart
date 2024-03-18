@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/dialog/show_animated_otp_dialog.dart';
+import 'package:turning_point/dialog/show_edit_profile_warning_dialog.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
@@ -269,31 +270,36 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                           SizedBox(height: screenSize.height * .051),
                           GestureDetector(
-                            onTap: () {
+                            onTap: () async {
                               if (_formKey.currentState!.validate()) {
-                                profileBloc.add(
-                                  ProfileUpdateEvent(
-                                    isContractor: state.isContractor,
-                                    name: _nameController.text.trim(),
-                                    phone: _phoneController.text.trim(),
-                                    address: _addressController.text.trim(),
-                                    businessName: state.isContractor
-                                        ? _businessController.text.trim()
-                                        : null,
-                                    email: state.userModel!.email!,
-                                    contractor: !state.isContractor
-                                        ? contractorBloc.state.contractor
-                                        : null,
-                                  ),
-                                );
-                                if (_phoneController.text.trim() !=
-                                    state.userModel!.phone) {
+                                final shouldUpdate =
+                                    await showEditProfileWarningDialog(
+                                        context: context);
+                                if (shouldUpdate == true) {
                                   profileBloc.add(
-                                    ProfilePhoneUpdateEvent(
+                                    ProfileUpdateEvent(
+                                      isContractor: state.isContractor,
+                                      name: _nameController.text.trim(),
                                       phone: _phoneController.text.trim(),
-                                      otpController: otpController,
+                                      address: _addressController.text.trim(),
+                                      businessName: state.isContractor
+                                          ? _businessController.text.trim()
+                                          : null,
+                                      email: state.userModel!.email!,
+                                      contractor: !state.isContractor
+                                          ? contractorBloc.state.contractor
+                                          : null,
                                     ),
                                   );
+                                  if (_phoneController.text.trim() !=
+                                      state.userModel!.phone) {
+                                    profileBloc.add(
+                                      ProfilePhoneUpdateEvent(
+                                        phone: _phoneController.text.trim(),
+                                        otpController: otpController,
+                                      ),
+                                    );
+                                  }
                                 }
                               }
                             },
