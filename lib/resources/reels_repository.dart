@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
@@ -11,12 +10,9 @@ import 'package:turning_point/service/api/api_service.dart';
 
 class ReelsRepository {
   static List<dynamic> urlList = [];
-  // static List<Map<String, dynamic>> reelsMap = [];
   static ReelsModelResponse reelsModelResponse = ReelsModelResponse();
 
   static int reelDownloadProgress = 0;
-  // static StreamController<Map<String, dynamic>> reelsStreamController =
-  //     StreamController<Map<String, dynamic>>();
 
 //====================Get Reels Method====================//
   static Future<ReelsModelResponse> getReels() async {
@@ -37,7 +33,6 @@ class ReelsRepository {
     final data = response['data'];
 
     urlList = data.map((e) => e['fileUrl']).toList();
-    log(urlList.toString());
     // final videoNames = data.map((e) => e['fileUrl']).toList();
     // urlList = videoNames
     //     .map((videoName) => '${ApiEndpoints.uploads}/$videoName')

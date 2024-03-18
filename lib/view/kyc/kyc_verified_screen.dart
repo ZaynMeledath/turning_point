@@ -1,4 +1,3 @@
-import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
@@ -18,13 +17,13 @@ class KycVerifiedScreen extends StatelessWidget {
             children: [
               customAppBar(context: context, title: 'KYC'),
               SizedBox(height: screenSize.height * .015),
-              DottedLine(
-                lineLength: realScreenSize.width * .95,
-                dashGradient: const [
-                  Colors.green,
-                  Colors.blue,
-                ],
-              ),
+              // DottedLine(
+              //   lineLength: realScreenSize.width * .95,
+              //   dashGradient: const [
+              //     Colors.green,
+              //     Colors.blue,
+              //   ],
+              // ),
               Lottie.asset(
                 'assets/lottie/kyc_verified_animation.json',
                 width: screenSize.width * .3,
@@ -67,15 +66,15 @@ class KycVerifiedScreen extends StatelessWidget {
               //   ),
               // ),
 
-              DottedLine(
-                lineLength: realScreenSize.width * .95,
-                dashGradient: const [
-                  Colors.green,
-                  Colors.blue,
-                ],
-              ),
+              // DottedLine(
+              //   lineLength: realScreenSize.width * .95,
+              //   dashGradient: const [
+              //     Colors.green,
+              //     Colors.blue,
+              //   ],
+              // ),
 
-              SizedBox(height: screenSize.height * .02),
+              // SizedBox(height: screenSize.height * .02),
 
               kycSubmittedDetailsSegment(context: context),
             ],

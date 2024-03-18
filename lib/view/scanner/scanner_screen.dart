@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -39,9 +37,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
   }
 
   void getLocation() async {
-    final location = await LocationRepository.getCurrentLocation();
-    log(location.latitude.toString());
-    log(location.longitude.toString());
+    await LocationRepository.sendLocationToServer();
   }
 
   @override

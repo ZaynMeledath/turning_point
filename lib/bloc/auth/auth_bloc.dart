@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart' show TextEditingController, immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:location/location.dart';
 import 'package:turning_point/model/contractor_model.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/resources/user_repository.dart';

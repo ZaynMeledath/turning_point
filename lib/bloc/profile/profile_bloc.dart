@@ -58,6 +58,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         userModelResponse.data!.email = event.email;
         userModelResponse.data!.role =
             event.isContractor ? Role.CONTRACTOR : Role.CARPENTER;
+        userModelResponse.data!.isActive = false;
 
         if (!event.isContractor &&
             (userModelResponse.data!.contractor?.name == null)) {
@@ -74,11 +75,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           userModel: userModelResponse.data!,
         );
         contractorBloc.add(ContractorLoadEvent(isSignUp: false));
-        emit(ProfileLoadedState(
-          isLoading: false,
-          userModel: userModelResponse.data!,
-          isContractor: event.isContractor,
-        ));
+        emit(ProfileInactiveState());
       } catch (_) {}
     });
 

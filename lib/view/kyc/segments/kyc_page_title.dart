@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/helper/screen_size.dart';
 
 Widget kycPageTitle({
-  required Size screenSize,
   required String title,
   required String titleNumber,
   required bool isDoneOrActive,
@@ -10,8 +10,8 @@ Widget kycPageTitle({
   return Column(
     children: [
       Container(
-        width: screenSize.width * .042,
-        height: screenSize.width * .042,
+        width: realScreenSize.width * .042,
+        height: realScreenSize.width * .042,
         decoration: BoxDecoration(
           color: isDoneOrActive
               ? const Color.fromRGBO(0, 99, 255, 1)

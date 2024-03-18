@@ -30,6 +30,12 @@
 	<string>Main</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This app needs camera access to scan QR codes</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs location access for geofencing</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app needs location access for geofencing</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app needs location access for geofencing</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app needs photos access to get QR code from photo library</string>
 	<key>UISupportedInterfaceOrientations</key>

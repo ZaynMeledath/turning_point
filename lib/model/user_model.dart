@@ -129,7 +129,7 @@ class UserModel {
     }
 
     if (bankDetails != null) {
-      data['bankDetails'] = bankDetails!.map((v) => v.toJson()).toList();
+      data['bankDetails'] = bankDetails!.map((item) => item.toJson()).toList();
     }
 
     data['createdAt'] = createdAt;

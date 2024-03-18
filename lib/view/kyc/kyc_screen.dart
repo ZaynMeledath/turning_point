@@ -125,9 +125,9 @@ class _KycScreenState extends State<KycScreen>
 //===================================Body Container===================================//
                       Container(
                         margin: EdgeInsets.symmetric(
-                            horizontal: screenSize.width * .031),
+                            horizontal: realScreenSize.width * .031),
                         padding: EdgeInsets.symmetric(
-                            vertical: screenSize.height * .019),
+                            vertical: realScreenSize.height * .019),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(13),
                           border: Border.all(
@@ -139,7 +139,7 @@ class _KycScreenState extends State<KycScreen>
                           children: [
                             Padding(
                               padding: EdgeInsets.symmetric(
-                                  horizontal: screenSize.width * .051),
+                                  horizontal: realScreenSize.width * .051),
                               child: Stack(
                                 children: [
                                   TabBar(
@@ -164,19 +164,16 @@ class _KycScreenState extends State<KycScreen>
                                             Colors.transparent),
                                     tabs: [
                                       kycPageTitle(
-                                          screenSize: screenSize,
                                           title: 'Personal Details',
                                           titleNumber: '1',
                                           isDoneOrActive: true),
                                       kycPageTitle(
-                                        screenSize: screenSize,
                                         title: 'ID Proof',
                                         titleNumber: '2',
                                         isDoneOrActive:
                                             state.tabIndex > 0 ? true : false,
                                       ),
                                       kycPageTitle(
-                                        screenSize: screenSize,
                                         title: 'Bank Details',
                                         titleNumber: '3',
                                         isDoneOrActive:
@@ -185,19 +182,19 @@ class _KycScreenState extends State<KycScreen>
                                     ],
                                   ),
                                   Positioned(
-                                    left: screenSize.width * .18,
-                                    top: screenSize.width * .019,
+                                    left: realScreenSize.width * .18,
+                                    top: realScreenSize.width * .019,
                                     child: Container(
-                                        width: screenSize.width * .18,
+                                        width: realScreenSize.width * .18,
                                         height: 1,
                                         color: const Color.fromRGBO(
                                             199, 199, 199, 1)),
                                   ),
                                   Positioned(
-                                    left: screenSize.width * .45,
-                                    top: screenSize.width * .019,
+                                    left: realScreenSize.width * .45,
+                                    top: realScreenSize.width * .019,
                                     child: Container(
-                                        width: screenSize.width * .18,
+                                        width: realScreenSize.width * .18,
                                         height: 1,
                                         color: const Color.fromRGBO(
                                             199, 199, 199, 1)),
@@ -206,7 +203,7 @@ class _KycScreenState extends State<KycScreen>
                               ),
                             ),
 
-                            SizedBox(height: screenSize.height * .03),
+                            SizedBox(height: realScreenSize.height * .03),
 
                             //====================TabBarView Segment====================//
                             Form(

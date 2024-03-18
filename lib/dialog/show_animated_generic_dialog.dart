@@ -49,7 +49,7 @@ Widget dialog({
     children: [
       Container(
         padding: EdgeInsets.symmetric(
-          horizontal: screenSize.width * .03,
+          horizontal: realScreenSize.width * .03,
           vertical: screenSize.width * .05,
         ),
         margin: EdgeInsets.symmetric(horizontal: screenSize.width * .14),

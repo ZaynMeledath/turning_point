@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:location/location.dart';
 import 'package:pinput/pinput.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/dialog/show_custom_loading_dialog.dart';
-import 'package:turning_point/dialog/show_generic_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/main.dart';
@@ -15,7 +14,7 @@ import 'package:turning_point/view/terms_and_conditions/terms_and_conditions_scr
 
 class OtpVerificationScreen extends StatefulWidget {
   final TextEditingController otpController;
-  final Position? location;
+  final LocationData? location;
   const OtpVerificationScreen({
     required this.otpController,
     required this.location,
@@ -274,12 +273,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                                   ),
                                 );
                               } else {
-                                showGenericDialog(
-                                  context: context,
-                                  title: 'OTP Incorrect',
-                                  content: 'Please enter all the 6 digits',
-                                  options: {'OK': null},
-                                );
+                                showAnimatedGenericDialog(
+                                    iconPath:
+                                        'assets/icons/kyc_declined_icon.png',
+                                    context: context,
+                                    title: 'OTP Incorrect',
+                                    content: 'Please enter all the 6 digits',
+                                    buttonTitle: 'OK');
                               }
                             },
                             child: Container(

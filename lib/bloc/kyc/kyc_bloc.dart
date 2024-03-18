@@ -97,6 +97,8 @@ class KycBloc extends Bloc<KycEvent, KycState> {
         userModelResponse.data!.phone = event.phone;
         userModelResponse.data!.email = event.email;
         userModelResponse.data!.pincode = event.pincode;
+        userModelResponse.data!.idFrontImage = state.idFrontImage;
+        userModelResponse.data!.idBackImage = state.idBackImage;
         if (userModelResponse.data!.bankDetails != null &&
             userModelResponse.data!.bankDetails!.isNotEmpty) {
           userModelResponse.data!.bankDetails![0].accountName = event.accName;
@@ -117,8 +119,6 @@ class KycBloc extends Bloc<KycEvent, KycState> {
 
         userModelResponse = await UserRepository.updateUserProfile(
           userModel: userModelResponse.data!,
-          idFrontImage: state.idFrontImage,
-          idBackImage: state.idBackImage,
         );
         profileBloc.add(ProfileLoadEvent());
         emit(const KycSubmittedState());
