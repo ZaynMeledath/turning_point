@@ -32,7 +32,7 @@ Widget dialog({required BuildContext context}) {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.symmetric(horizontal: screenSize.width * .03),
+            padding: EdgeInsets.symmetric(horizontal: screenSize.width * .035),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(15),
@@ -63,7 +63,7 @@ Widget dialog({required BuildContext context}) {
                     height: 1.4,
                   ),
                   child: const Text(
-                    'Updating profile will make your profile inactive\ntill admin approves the changes',
+                    'Updating profile will make your profile\ninactive till admin approves the changes',
                     textAlign: TextAlign.center,
                   ),
                 ),

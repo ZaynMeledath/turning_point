@@ -1,8 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
+import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
+import 'package:turning_point/view/kyc/kyc_screen.dart';
 
 Widget kycSubmittedDetailsSegment({required BuildContext context}) {
   final userModel = profileBloc.state.userModel!;
@@ -100,7 +104,7 @@ Widget kycSubmittedDetailsSegment({required BuildContext context}) {
                   // SizedBox(height: screenSize.height * .025),
                 ],
               ),
-              SizedBox(width: screenSize.width * .15),
+
               //====================Details Row====================//
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,22 +181,31 @@ Widget kycSubmittedDetailsSegment({required BuildContext context}) {
           ),
           child: Row(
             children: [
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: screenSize.width * .055,
-                  vertical: screenSize.width * .007,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color.fromRGBO(0, 99, 255, .9),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Center(
-                  child: Text(
-                    'Edit',
-                    style: GoogleFonts.roboto(
-                      fontSize: screenSize.width * .028,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
+              InkWell(
+                borderRadius: BorderRadius.circular(8),
+                onTap: () {
+                  CustomNavigator.pushReplacement(
+                    context: context,
+                    child: const KycScreen(),
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenSize.width * .055,
+                    vertical: screenSize.width * .007,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color.fromRGBO(0, 99, 255, .9),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Edit',
+                      style: GoogleFonts.roboto(
+                        fontSize: screenSize.width * .028,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -218,17 +231,27 @@ Widget kycSubmittedDetailsSegment({required BuildContext context}) {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(width: realScreenSize.width * .008),
-            Image.network(
-              '${ApiEndpoints.uploads}/${userModel.idFrontImage.toString()}',
+            SizedBox(
               width: screenSize.width * .4,
+              child: AspectRatio(
+                aspectRatio: 4 / 3,
+                child: Image.network(
+                  '${ApiEndpoints.uploads}/${userModel.idFrontImage.toString()}',
+                  // width: screenSize.width * .4,
+                ),
+              ),
             ),
             SizedBox(width: screenSize.width * .06),
-            Image.network(
-              '${ApiEndpoints.uploads}/${userModel.idBackImage.toString()}',
+            SizedBox(
               width: screenSize.width * .4,
+              child: Image.network(
+                '${ApiEndpoints.uploads}/${userModel.idBackImage.toString()}',
+                // width: screenSize.width * .4,
+              ),
             ),
           ],
         ),
+        SizedBox(height: screenSize.height * .015),
       ],
     ),
   );

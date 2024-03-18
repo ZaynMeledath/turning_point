@@ -63,7 +63,7 @@ Widget dialog({required BuildContext context}) {
                     height: 1.4,
                   ),
                   child: const Text(
-                    'Your KYC details will be submitted\nfor approval by clicking on Submit',
+                    'Submit your KYC details for approval by clicking on "Submit"',
                     textAlign: TextAlign.center,
                   ),
                 ),
