@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart' show TextEditingController, immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
+import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/exceptions/user_exceptions.dart';
@@ -58,7 +59,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         userModelResponse.data!.email = event.email;
         userModelResponse.data!.role =
             event.isContractor ? Role.CONTRACTOR : Role.CARPENTER;
-        userModelResponse.data!.isActive = false;
 
         if (!event.isContractor &&
             (userModelResponse.data!.contractor?.name == null)) {
@@ -70,12 +70,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           userModel: userModelResponse.data!,
           isContractor: event.isContractor,
         ));
+        preloadBloc.add(PreloadResetEvent());
+        contractorBloc.add(ContractorLoadEvent(isSignUp: false));
 
         userModelResponse = await UserRepository.updateUserProfile(
           userModel: userModelResponse.data!,
         );
-        contractorBloc.add(ContractorLoadEvent(isSignUp: false));
-        emit(ProfileInactiveState());
+      } on ProfileInactiveException {
+        return emit(ProfileInactiveState());
       } catch (_) {}
     });
 

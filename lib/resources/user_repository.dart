@@ -9,6 +9,7 @@ import 'package:turning_point/exceptions/user_exceptions.dart';
 import 'package:turning_point/model/contractor_model.dart';
 import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
+import 'package:turning_point/service/Exception/api_exception.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
 import 'package:turning_point/service/api/api_service.dart';
 import 'package:turning_point/service/auth/auth_exceptions.dart';
@@ -191,6 +192,8 @@ class UserRepository {
       final userModelResponse =
           await getUserById(avoidGettingFromPreference: true);
       return userModelResponse!;
+    } on ProfileInactiveException {
+      rethrow;
     } catch (e) {
       log('EXCEPTION IN UPDATE USER PROFILE : $e');
       throw CouldNotUpdateUserException();

@@ -2,8 +2,8 @@ part of '../edit_profile_screen.dart';
 
 Widget contractorDropDownLoadingStateContainer() {
   return Container(
-    width: screenSize.width,
-    height: screenSize.height * .052,
+    width: realScreenSize.width,
+    height: realScreenSize.height * .052,
     margin: EdgeInsets.symmetric(horizontal: screenSize.width * .041),
     decoration: BoxDecoration(
       color: Colors.white,

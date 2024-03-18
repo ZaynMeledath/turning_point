@@ -18,8 +18,10 @@ class _FirstBoardingScreenState extends State<FirstBoardingScreen> {
   @override
   void initState() {
     Future.delayed(const Duration(milliseconds: 300), () {
-      setState(() {
-        isLoaded = true;
+      Future.delayed(Duration.zero, () {
+        setState(() {
+          isLoaded = true;
+        });
       });
     });
     super.initState();

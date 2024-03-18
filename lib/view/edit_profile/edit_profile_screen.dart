@@ -96,49 +96,47 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     contractorBloc.add(ContractorLoadEvent(isSignUp: false));
 
     return Scaffold(
-      body: SafeArea(
-        child: BlocConsumer<ProfileBloc, ProfileState>(
-          listener: (context, state) {
-            if (state is ProfileLoadedState && state.verifyOtp == true) {
-              showAnimatedOtpDialog(
-                context: context,
-                phone: _phoneController.text,
-                otpController: otpController,
+      body: BlocConsumer<ProfileBloc, ProfileState>(
+        listener: (context, state) {
+          if (state is ProfileLoadedState && state.verifyOtp == true) {
+            showAnimatedOtpDialog(
+              context: context,
+              phone: _phoneController.text,
+              otpController: otpController,
+            );
+          }
+        },
+        builder: (context, state) {
+          switch (state) {
+            case ProfileLoadingState():
+              return const Center(
+                child: CircularProgressIndicator.adaptive(),
               );
-            }
-          },
-          builder: (context, state) {
-            switch (state) {
-              case ProfileLoadingState():
-                return const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                );
 
-              case ProfileInactiveState():
-                return ProfileInactiveScreen();
+            case ProfileInactiveState():
+              return ProfileInactiveScreen();
 
-              case ProfileLoadErrorState():
-                return Center(
-                  child: Text(
-                    'Something Went Wrong',
-                    style: GoogleFonts.poppins(
-                      fontSize: screenSize.width * .05,
-                      fontWeight: FontWeight.bold,
-                    ),
+            case ProfileLoadErrorState():
+              return Center(
+                child: Text(
+                  'Something Went Wrong',
+                  style: GoogleFonts.poppins(
+                    fontSize: screenSize.width * .05,
+                    fontWeight: FontWeight.bold,
                   ),
-                );
+                ),
+              );
 
-              case ProfileLoadedState():
-                if (!state.isLoading) {
-                  _addressController.text =
-                      state.userModel!.actualAddress ?? '';
-                  _businessController.text =
-                      state.userModel!.businessName ?? '';
-                  _nameController.text = state.userModel!.name!;
-                  _phoneController.text = state.userModel!.phone!;
-                }
+            case ProfileLoadedState():
+              if (!state.isLoading) {
+                _addressController.text = state.userModel!.actualAddress ?? '';
+                _businessController.text = state.userModel!.businessName ?? '';
+                _nameController.text = state.userModel!.name!;
+                _phoneController.text = state.userModel!.phone!;
+              }
 
-                return SingleChildScrollView(
+              return SafeArea(
+                child: SingleChildScrollView(
                   child: Center(
                     child: Form(
                       key: _formKey,
@@ -323,10 +321,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                   ),
-                );
-            }
-          },
-        ),
+                ),
+              );
+          }
+        },
       ),
     );
   }
