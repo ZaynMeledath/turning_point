@@ -31,7 +31,7 @@ class KycVerifiedScreen extends StatelessWidget {
               Text(
                 'Verified',
                 style: GoogleFonts.inter(
-                  fontSize: screenSize.width * .048,
+                  fontSize: screenSize.width * .04,
                   fontWeight: FontWeight.w600,
                   color: const Color.fromRGBO(16, 24, 40, 1),
                 ),
@@ -41,7 +41,7 @@ class KycVerifiedScreen extends StatelessWidget {
                 'Congratulations! Your KYC Details Have Been\nSuccessfully Verified',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.inter(
-                  fontSize: screenSize.width * .036,
+                  fontSize: screenSize.width * .031,
                   fontWeight: FontWeight.w400,
                   color: const Color.fromRGBO(102, 112, 133, 1),
                 ),

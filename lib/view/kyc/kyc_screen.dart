@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/kyc/kyc_bloc.dart';
+import 'package:turning_point/dialog/show_kyc_update_dialog.dart';
 import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
@@ -240,7 +241,7 @@ class _KycScreenState extends State<KycScreen>
                       ),
                       SizedBox(height: screenSize.height * .02),
                       GestureDetector(
-                        onTap: () {
+                        onTap: () async {
                           if (_tabController.index == 1 &&
                               (state.idFrontImage == null ||
                                   state.idBackImage == null)) {
@@ -262,18 +263,22 @@ class _KycScreenState extends State<KycScreen>
                                 ),
                               );
                             } else {
-                              kycBloc.add(
-                                KycUpdateEvent(
-                                  name: nameController.text,
-                                  phone: phoneController.text,
-                                  email: emailController.text,
-                                  pincode: pinController.text,
-                                  isSavings: state.isSavings,
-                                  accName: accNameController.text,
-                                  accNum: accNumController.text,
-                                  ifsc: ifscController.text,
-                                ),
-                              );
+                              final shouldUpdate =
+                                  await showKycUpdateDialog(context: context);
+                              if (shouldUpdate == true) {
+                                kycBloc.add(
+                                  KycUpdateEvent(
+                                    name: nameController.text,
+                                    phone: phoneController.text,
+                                    email: emailController.text,
+                                    pincode: pinController.text,
+                                    isSavings: state.isSavings,
+                                    accName: accNameController.text,
+                                    accNum: accNumController.text,
+                                    ifsc: ifscController.text,
+                                  ),
+                                );
+                              }
                             }
                           }
                         },

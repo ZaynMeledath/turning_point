@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:turning_point/helper/screen_size.dart';
 
-Future<Object?> showEditProfileWarningDialog({
+Future<Object?> showEditProfileDialog({
   required BuildContext context,
 }) async {
   return showGeneralDialog(

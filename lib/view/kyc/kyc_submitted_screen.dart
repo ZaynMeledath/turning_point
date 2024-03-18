@@ -27,13 +27,6 @@ class KycSubmittedScreen extends StatelessWidget {
               children: [
                 customAppBar(context: context, title: 'KYC'),
                 SizedBox(height: screenSize.height * .015),
-                // DottedLine(
-                //   lineLength: realScreenSize.width * .95,
-                //   dashGradient: const [
-                //     Color.fromRGBO(0, 99, 255, 1),
-                //     Colors.green,
-                //   ],
-                // ),
                 Lottie.asset(
                   'assets/lottie/kyc_submitted_animation.json',
                   width: screenSize.width * .3,
@@ -41,7 +34,7 @@ class KycSubmittedScreen extends StatelessWidget {
                 Text(
                   'Submitted',
                   style: GoogleFonts.inter(
-                    fontSize: screenSize.width * .048,
+                    fontSize: screenSize.width * .04,
                     fontWeight: FontWeight.w600,
                     color: const Color.fromRGBO(16, 24, 40, 1),
                   ),
@@ -51,20 +44,12 @@ class KycSubmittedScreen extends StatelessWidget {
                   'Your KYC details have been\nsuccessfully submitted',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.inter(
-                    fontSize: screenSize.width * .036,
+                    fontSize: screenSize.width * .031,
                     fontWeight: FontWeight.w400,
                     color: const Color.fromRGBO(102, 112, 133, 1),
                   ),
                 ),
                 SizedBox(height: screenSize.height * .025),
-                // DottedLine(
-                //   lineLength: realScreenSize.width * .95,
-                //   dashGradient: const [
-                //     Color.fromRGBO(0, 99, 255, 1),
-                //     Colors.green,
-                //   ],
-                // ),
-                // SizedBox(height: screenSize.height * .02),
                 kycSubmittedDetailsSegment(context: context),
               ],
             ),
