@@ -72,8 +72,11 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
 
         final temp = timeMap.values.map((e) => e == '00');
 
+        // if the timer is 00
         if (!temp.contains(false)) {
           //Do some animations to display the winners
+          timeMap.clear();
+          // return add(LuckyDrawWinnersDisplayEvent());
         }
 
         if (timeMap.isEmpty) {
@@ -96,6 +99,11 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
         }
       }
     });
+
+//====================Winners Display Event====================//
+    // on<LuckyDrawWinnersDisplayEvent>((event, emit) {
+    //   emit(Lucky);
+    // });
 
 //====================Timer Dispose Event====================//
     on<LuckyDrawTimerDisposeEvent>((event, emit) {

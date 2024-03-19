@@ -150,17 +150,17 @@ Widget contestCardInnerContainer({
                           children: [
                             GestureDetector(
                               onTap: () {
-                                if (state.contestModelList![index]
-                                        .userJoinStatus !=
-                                    true) {
-                                  joinContestBloc.add(
-                                    JoinContestEvent(
-                                      contestModel:
-                                          state.contestModelList![index],
-                                      contestIndex: index,
-                                    ),
-                                  );
-                                }
+                                // if (state.contestModelList![index]
+                                //         .userJoinStatus !=
+                                //     true) {
+                                joinContestBloc.add(
+                                  JoinContestEvent(
+                                    contestModel:
+                                        state.contestModelList![index],
+                                    contestIndex: index,
+                                  ),
+                                );
+                                // }
                               },
                               child: Container(
                                 width: screenSize.width * .28,

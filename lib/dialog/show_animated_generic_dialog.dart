@@ -48,8 +48,9 @@ Widget dialog({
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Container(
+        width: screenSize.width * .62,
         padding: EdgeInsets.symmetric(
-          horizontal: realScreenSize.width * .03,
+          horizontal: realScreenSize.width * .05,
           vertical: screenSize.width * .05,
         ),
         margin: EdgeInsets.symmetric(horizontal: screenSize.width * .14),

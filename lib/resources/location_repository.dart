@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:location/location.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
 import 'package:turning_point/service/api/api_service.dart';
@@ -34,24 +36,41 @@ class LocationRepository {
   static final location = Location();
 
   static Future<LocationData?> getCurrentLocation() async {
-    bool serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
+    try {
+      bool serviceEnabled = await location.serviceEnabled();
       if (!serviceEnabled) {
-        return null;
+        serviceEnabled = await location.requestService();
+        if (!serviceEnabled) {
+          return null;
+        }
       }
-    }
 
-    PermissionStatus permissionGranted = await location.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await location.requestPermission();
-      if (permissionGranted != PermissionStatus.granted) {
-        return null;
+      PermissionStatus permissionGranted = await location.hasPermission();
+      if (permissionGranted == PermissionStatus.denied) {
+        permissionGranted = await location.requestPermission();
+        if (permissionGranted != PermissionStatus.granted) {
+          return null;
+        }
       }
+      final locationData = await location.getLocation();
+      await location.enableBackgroundMode(enable: true);
+      await location.changeSettings(interval: 10000);
+      location.onLocationChanged.listen((LocationData currentLocation) async {
+        log('############BACKGROUND LOCATION EXECUTED###########');
+        await ApiService().sendRequest(
+          url: ApiEndpoints.monitorLocation,
+          requestMethod: RequestMethod.POST,
+          data: {
+            'latitude': currentLocation.latitude,
+            'longitude': currentLocation.longitude,
+          },
+          isTokenRequired: false,
+        );
+      });
+      return locationData;
+    } catch (e) {
+      throw Exception(e);
     }
-    final locationData = await location.getLocation();
-    await location.enableBackgroundMode(enable: true);
-    return locationData;
   }
 
   static Future<void> sendLocationToServer() async {

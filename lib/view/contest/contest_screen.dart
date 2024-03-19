@@ -12,6 +12,7 @@ import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/model/contest_model.dart';
+import 'package:turning_point/resources/contest_repository.dart';
 import 'package:turning_point/service/Exception/user_exceptions.dart';
 import 'package:turning_point/view/contest/segments/banner_segment.dart';
 
@@ -33,6 +34,11 @@ class _ContestScreenState extends State<ContestScreen> {
   void dispose() async {
     super.dispose();
     contestBloc.add(ContestTimerDisposeEvent());
+  }
+
+  Future<void> _handleRefresh() async {
+    await ContestRepository.getContests();
+    contestBloc.add(ContestLoadEvent());
   }
 
   @override
@@ -129,22 +135,26 @@ class _ContestScreenState extends State<ContestScreen> {
                           ),
                         );
                       } else {
-                        return Expanded(
-                          child: Column(
-                            children: [
-                              Lottie.asset(
-                                'assets/lottie/no_data_animation.json',
-                                width: screenSize.width * .6,
-                              ),
-                              Text(
-                                'No Contest Available at the moment',
-                                style: GoogleFonts.inter(
-                                  fontSize: screenSize.width * .041,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black.withOpacity(.75),
+                        return RefreshIndicator(
+                          onRefresh: () => _handleRefresh(),
+                          child: SingleChildScrollView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            child: Column(
+                              children: [
+                                Lottie.asset(
+                                  'assets/lottie/no_data_animation.json',
+                                  width: screenSize.width * .6,
                                 ),
-                              ),
-                            ],
+                                Text(
+                                  'No Contest Available at the moment',
+                                  style: GoogleFonts.inter(
+                                    fontSize: screenSize.width * .041,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black.withOpacity(.75),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       }

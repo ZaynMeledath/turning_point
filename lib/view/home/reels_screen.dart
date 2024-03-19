@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/bloc/location_service/location_service_bloc.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
@@ -34,10 +35,8 @@ class ReelsScreenState extends State<ReelsScreen>
   @override
   void initState() {
     super.initState();
+    preloadBloc.state.isReelsVisible = true;
     WakelockPlus.enable();
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    //   routeObserver.subscribe(this, ModalRoute.of(context)!);
-    // });
     log('${AppPreferences.getValueShared('auth_token')}');
 
     likeAnimationController = AnimationController(
@@ -56,24 +55,8 @@ class ReelsScreenState extends State<ReelsScreen>
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.playCurrentController();
     }
+    locationServiceBloc.add(LocationServiceStartEvent());
   }
-
-  // @override
-  // void didPushNext() {
-  //   if (preloadBloc.state.controllers.isNotEmpty) {
-  //     preloadBloc.pauseCurrentController();
-  //   }
-  //   super.didPushNext();
-  // }
-
-  // @override
-  // void didPopNext() {
-  //   if (preloadBloc.state.controllers.isNotEmpty &&
-  //       !preloadBloc.manuallyPaused) {
-  //     preloadBloc.playCurrentController();
-  //   }
-  //   super.didPopNext();
-  // }
 
   @override
   void dispose() {

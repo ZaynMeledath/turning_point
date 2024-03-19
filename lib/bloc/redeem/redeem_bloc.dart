@@ -166,13 +166,13 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
       }
     });
 
-//====================Points Decrement Event====================//
+//====================Agree Terms Event====================//
     on<AgreeTermsPressedEvent>((event, emit) {
       switch (state) {
         case BuyCouponsState():
           emit(
             BuyCouponsState(
-              selectedOptionNumber: 1,
+              selectedOptionNumber: state.selectedOptionNumber,
               redeemPoints: state.redeemPoints,
               isTermsAgreed: !state.isTermsAgreed,
               isLoading: false,
@@ -182,7 +182,7 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
         case BankTransferState():
           emit(
             BankTransferState(
-              selectedOptionNumber: 2,
+              selectedOptionNumber: state.selectedOptionNumber,
               redeemPoints: state.redeemPoints,
               isTermsAgreed: !state.isTermsAgreed,
               isLoading: false,
@@ -192,7 +192,7 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
         case InAppPurchaseState():
           emit(
             InAppPurchaseState(
-              selectedOptionNumber: 3,
+              selectedOptionNumber: state.selectedOptionNumber,
               redeemPoints: state.redeemPoints,
               isTermsAgreed: !state.isTermsAgreed,
               isLoading: false,
@@ -202,7 +202,7 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
         case UpiTransferState():
           emit(
             UpiTransferState(
-              selectedOptionNumber: 4,
+              selectedOptionNumber: state.selectedOptionNumber,
               redeemPoints: state.redeemPoints,
               isTermsAgreed: !state.isTermsAgreed,
               isLoading: false,
@@ -212,7 +212,7 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
       }
     });
 
-//====================Points Decrement Event====================//
+//====================Redeem Button Pressed Event====================//
     on<RedeemButtonPressedEvent>((event, emit) async {
       try {
         switch (state) {
