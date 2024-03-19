@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:turning_point/resources/location_repository.dart';
+import 'package:workmanager/workmanager.dart';
 
 part 'location_service_event.dart';
 part 'location_service_state.dart';
@@ -13,19 +14,16 @@ class LocationServiceBloc
     on<LocationServiceStartEvent>((event, emit) async {
       await LocationRepository.sendLocationToServer();
 
-      // await Workmanager().initialize(
+      await Workmanager().initialize(
+        LocationRepository.callbackDispatcher,
+        isInDebugMode: true,
+      );
 
-      //   callbackDispatcher,
-      //   isInDebugMode: true,
-
-      // );
-
-      // await Workmanager().registerPeriodicTask(
-
-      //   "1",
-      //   fetchBackground,
-      //   frequency: const Duration(minutes: 15),
-      // );
+      await Workmanager().registerPeriodicTask(
+        "1",
+        LocationRepository.fetchBackground,
+        frequency: const Duration(minutes: 15),
+      );
 
       log('LOCATION SERVICE BLOC EXECUTED');
     });

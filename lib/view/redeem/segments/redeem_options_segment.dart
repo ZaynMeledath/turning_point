@@ -151,7 +151,7 @@ Widget redeemOptionsSegment({
                         //     : null,
                         ),
                     child: Text(
-                      'Redeem Coupon',
+                      'Buy Coupons',
                       style: GoogleFonts.roboto(
                         fontSize: screenSize.width * .033,
                         color: state.selectedOptionNumber == 3

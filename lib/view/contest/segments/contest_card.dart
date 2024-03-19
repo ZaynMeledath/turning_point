@@ -7,7 +7,7 @@ Widget contestCard({
   return Container(
     width: double.infinity,
     height: screenSize.height * .32,
-    margin: EdgeInsets.symmetric(horizontal: screenSize.width * .055),
+    margin: EdgeInsets.symmetric(horizontal: realScreenSize.width * .055),
     decoration: const BoxDecoration(
       color: Color.fromRGBO(255, 255, 255, 1),
       boxShadow: [

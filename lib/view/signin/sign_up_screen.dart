@@ -1,8 +1,8 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:location/location.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/constants/constants.dart';
@@ -40,7 +40,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   late final TextEditingController searchController;
   late final TextEditingController otpController;
   final GlobalKey<FormState> _formKey = GlobalKey();
-  LocationData? location;
+  Position? location;
 
   @override
   void initState() {

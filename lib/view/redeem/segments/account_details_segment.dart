@@ -9,36 +9,89 @@ Widget accountDetailsSegment(
       Text(
         'Account Details',
         style: GoogleFonts.roboto(
-          fontSize: screenSize.width * .046,
+          fontSize: screenSize.width * .045,
           fontWeight: FontWeight.w500,
         ),
       ),
       SizedBox(height: screenSize.height * .02),
 
       //====================Account Details====================//
-      SizedBox(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            accountDetailsRow(
-              key: 'Account Name',
-              value: bankDetails.accountName ?? '',
-              spacing: screenSize.width * .1,
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: realScreenSize.width * .04,
+              vertical: realScreenSize.height * .016,
             ),
-            SizedBox(height: screenSize.height * .013),
-            accountDetailsRow(
-              key: 'Account Number',
-              value: bankDetails.accountNo ?? '',
-              spacing: screenSize.width * .06,
+            decoration: const BoxDecoration(
+              color: Color.fromRGBO(247, 250, 252, 1),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
             ),
-            SizedBox(height: screenSize.height * .013),
-            accountDetailsRow(
-              key: 'IFSC Code',
-              value: bankDetails.ifsc ?? '',
-              spacing: screenSize.width * .17,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Account Name',
+                      style: GoogleFonts.roboto(
+                        fontSize: screenSize.width * .036,
+                        color: const Color.fromRGBO(109, 109, 109, 1),
+                      ),
+                    ),
+                    SizedBox(height: screenSize.height * .013),
+                    Text(
+                      'Account Number',
+                      style: GoogleFonts.roboto(
+                        fontSize: screenSize.width * .036,
+                        color: const Color.fromRGBO(109, 109, 109, 1),
+                      ),
+                    ),
+                    SizedBox(height: screenSize.height * .013),
+                    Text(
+                      'IFSC',
+                      style: GoogleFonts.roboto(
+                        fontSize: screenSize.width * .036,
+                        color: const Color.fromRGBO(109, 109, 109, 1),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(width: realScreenSize.width * .15),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      bankDetails.accountName.toString(),
+                      style: GoogleFonts.roboto(
+                        fontSize: screenSize.width * .036,
+                        color: const Color.fromRGBO(109, 109, 109, 1),
+                      ),
+                    ),
+                    SizedBox(height: screenSize.height * .013),
+                    Text(
+                      bankDetails.accountNo.toString(),
+                      style: GoogleFonts.roboto(
+                        fontSize: screenSize.width * .036,
+                        color: const Color.fromRGBO(109, 109, 109, 1),
+                      ),
+                    ),
+                    SizedBox(height: screenSize.height * .013),
+                    Text(
+                      bankDetails.ifsc.toString(),
+                      style: GoogleFonts.roboto(
+                        fontSize: screenSize.width * .036,
+                        color: const Color.fromRGBO(109, 109, 109, 1),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     ],
   );

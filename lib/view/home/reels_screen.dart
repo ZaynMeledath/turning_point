@@ -35,7 +35,7 @@ class ReelsScreenState extends State<ReelsScreen>
   @override
   void initState() {
     super.initState();
-    preloadBloc.state.isReelsVisible = true;
+    locationServiceBloc.add(LocationServiceStartEvent());
     WakelockPlus.enable();
     log('${AppPreferences.getValueShared('auth_token')}');
 
@@ -55,7 +55,7 @@ class ReelsScreenState extends State<ReelsScreen>
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.playCurrentController();
     }
-    locationServiceBloc.add(LocationServiceStartEvent());
+    preloadBloc.state.isReelsVisible = true;
   }
 
   @override

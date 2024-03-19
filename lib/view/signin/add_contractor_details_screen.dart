@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:location/location.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/dialog/show_custom_loading_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
@@ -13,7 +13,7 @@ import 'package:turning_point/view/signin/sign_up_screen.dart';
 class AddContractorDetailsScreen extends StatefulWidget {
   final String phone;
   final TextEditingController otpController;
-  final LocationData? location;
+  final Position? location;
   const AddContractorDetailsScreen({
     required this.phone,
     required this.otpController,

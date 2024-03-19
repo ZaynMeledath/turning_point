@@ -9,7 +9,7 @@ Widget redeemPointsFieldSegment() {
           Text(
             'Enter the Points you want to Redeem',
             style: GoogleFonts.roboto(
-              fontSize: screenSize.width * .04,
+              fontSize: screenSize.width * .031,
               fontWeight: FontWeight.w500,
             ),
           ),

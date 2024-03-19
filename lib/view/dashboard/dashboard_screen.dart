@@ -141,7 +141,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     userModel: state.userModel!,
                   ),
                   Positioned(
-                    top: screenSize.height * .475,
+                    top: screenSize.height * .49,
                     left: screenSize.width * .081,
                     child: Text(
                       'Activity',
@@ -154,7 +154,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   Container(
                     width: double.infinity,
                     margin: EdgeInsets.only(
-                      top: screenSize.height * .515,
+                      top: screenSize.height * .525,
                       // left: screenSize.width * .05,
                       // right: screenSize.width * .05,
                     ),

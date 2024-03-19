@@ -32,6 +32,7 @@ Widget dialog({required BuildContext context}) {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
+            width: screenSize.width * .7,
             padding: EdgeInsets.symmetric(horizontal: screenSize.width * .03),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -67,7 +68,7 @@ Widget dialog({required BuildContext context}) {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(height: screenSize.height * .035),
+                SizedBox(height: screenSize.height * .037),
                 Padding(
                   padding: EdgeInsets.only(
                     right: screenSize.width * .028,
@@ -75,7 +76,7 @@ Widget dialog({required BuildContext context}) {
                   ),
                   child: Row(
                     children: [
-                      SizedBox(width: screenSize.width * .41),
+                      SizedBox(width: screenSize.width * .33),
                       GestureDetector(
                         onTap: () {
                           Navigator.of(context).pop(false);
