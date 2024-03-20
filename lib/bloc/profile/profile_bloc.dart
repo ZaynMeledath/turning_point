@@ -35,6 +35,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             isLoading: false,
             userModel: userModelResponse.data!,
             isContractor: isContractor,
+            isContractorTemp: isContractor,
           ));
         } else {
           return emit(ProfileLoadErrorState());
@@ -68,6 +69,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(ProfileLoadedState(
           isLoading: true,
           userModel: userModelResponse.data!,
+          isContractorTemp: event.isContractor,
           isContractor: event.isContractor,
         ));
         preloadBloc.add(PreloadResetEvent());
@@ -88,7 +90,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(ProfileLoadedState(
         isLoading: false,
         userModel: userModelResponse!.data!,
-        isContractor: event.isContractor,
+        isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
+        isContractorTemp: event.isContractor,
       ));
     });
 
@@ -102,6 +105,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             isLoading: true,
             userModel: userModelResponse!.data!,
             isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
+            isContractorTemp: userModelResponse.data!.role == Role.CONTRACTOR,
           ),
         );
         final imageMap = await UserRepository.fetchImageFromStorage();
@@ -115,6 +119,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             isLoading: false,
             userModel: userModelResponse.data!,
             isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
+            isContractorTemp: userModelResponse.data!.role == Role.CONTRACTOR,
           ),
         );
       } catch (_) {
@@ -124,35 +129,35 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     });
 
 //====================Profile Email Update Event====================//
-    on<ProfileEmailUpdateEvent>((event, emit) async {
-      try {
-        final userModelResponse = UserRepository.getUserFromPreference()!;
-        emit(
-          ProfileLoadedState(
-            isLoading: true,
-            isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
-            userModel: userModelResponse.data!,
-          ),
-        );
-        // await provider.signOut();
-        final token = await provider.signIn();
+    // on<ProfileEmailUpdateEvent>((event, emit) async {
+    //   try {
+    //     final userModelResponse = UserRepository.getUserFromPreference()!;
+    //     emit(
+    //       ProfileLoadedState(
+    //         isLoading: true,
+    //         isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
+    //         userModel: userModelResponse.data!,
+    //       ),
+    //     );
+    //     // await provider.signOut();
+    //     final token = await provider.signIn();
 
-        log('TOKEN : $token');
+    //     log('TOKEN : $token');
 
-        userModelResponse.data!.email = provider.currentUser!.email;
-        UserRepository.updateUserProfile(userModel: userModelResponse.data!);
+    //     userModelResponse.data!.email = provider.currentUser!.email;
+    //     UserRepository.updateUserProfile(userModel: userModelResponse.data!);
 
-        emit(
-          ProfileLoadedState(
-            isLoading: false,
-            isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
-            userModel: userModelResponse.data!,
-          ),
-        );
-      } catch (e) {
-        throw Exception(e);
-      }
-    });
+    //     emit(
+    //       ProfileLoadedState(
+    //         isLoading: false,
+    //         isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
+    //         userModel: userModelResponse.data!,
+    //       ),
+    //     );
+    //   } catch (e) {
+    //     throw Exception(e);
+    //   }
+    // });
 
 //====================Profile Phone Update Event====================//
     on<ProfilePhoneUpdateEvent>((event, emit) async {
@@ -163,6 +168,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             isLoading: true,
             isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
             userModel: userModelResponse.data!,
+            isContractorTemp: userModelResponse.data!.role == Role.CONTRACTOR,
           ),
         );
         await provider.signIn();
@@ -176,6 +182,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
             userModel: userModelResponse.data!,
             verifyOtp: true,
+            isContractorTemp: userModelResponse.data!.role == Role.CONTRACTOR,
           ),
         );
       } catch (e) {
@@ -183,7 +190,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       }
     });
 
-//====================Profile Phone Update Event====================//
+//====================Profile Verify OTP Event====================//
     on<ProfileVerifyOtpEvent>((event, emit) async {
       await provider.verifyOtp(
         verificationId: FirebaseAuthProvider.verifyId,
@@ -201,6 +208,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           isLoading: false,
           userModel: userModelResponse.data!,
           isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
+          isContractorTemp: userModelResponse.data!.role == Role.CONTRACTOR,
         ),
       );
     });

@@ -117,8 +117,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             );
           }
         },
-        builder: (context, state) {
-          switch (state) {
+        builder: (context, profileState) {
+          switch (profileState) {
             case ProfileLoadingState():
               return const Center(
                 child: CircularProgressIndicator.adaptive(),
@@ -139,11 +139,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               );
 
             case ProfileLoadedState():
-              if (!state.isLoading) {
-                _addressController.text = state.userModel!.actualAddress ?? '';
-                _businessController.text = state.userModel!.businessName ?? '';
-                _nameController.text = state.userModel!.name!;
-                _phoneController.text = state.userModel!.phone!;
+              if (!profileState.isLoading) {
+                _addressController.text =
+                    profileState.userModel!.actualAddress ?? '';
+                _businessController.text =
+                    profileState.userModel!.businessName ?? '';
+                _nameController.text = profileState.userModel!.name!;
+                _phoneController.text = profileState.userModel!.phone!;
               }
 
               return SafeArea(
@@ -160,9 +162,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           //====================Body Segment====================//
                           editProfilePictureSegment(
                             context: context,
-                            userModel: state.userModel!,
+                            userModel: profileState.userModel!,
                           ),
-                          state.isLoading
+                          profileState.isLoading
                               ? Container(
                                   height: screenSize.height * .042,
                                   color: Colors.transparent,
@@ -182,15 +184,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  profileBloc.add(ProfileRadioTriggerEvent(
-                                      isContractor: true));
+                                  profileBloc.add(
+                                    ProfileRadioTriggerEvent(
+                                        isContractor: true),
+                                  );
                                 },
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     customRadioButton(
-                                      isActive:
-                                          state.isContractor ? true : false,
+                                      isActive: profileState.isContractorTemp,
                                     ),
                                     SizedBox(width: screenSize.width * .01),
                                     Text(
@@ -213,8 +216,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     customRadioButton(
-                                      isActive:
-                                          state.isContractor ? false : true,
+                                      isActive: !profileState.isContractorTemp,
                                     ),
                                     SizedBox(width: screenSize.width * .01),
                                     Text(
@@ -251,7 +253,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           ),
 
                           SizedBox(height: screenSize.height * .037),
-                          state.isContractor
+                          profileState.isContractorTemp
                               ? textFieldSegment(
                                   screenSize: screenSize,
                                   controller: _businessController,
@@ -276,7 +278,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ),
                           SizedBox(height: screenSize.height * .037),
                           editProfileEmailContainer(
-                              email: state.userModel!.email!),
+                              email: profileState.userModel!.email!),
 
                           SizedBox(height: screenSize.height * .051),
                           GestureDetector(
@@ -288,21 +290,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 if (shouldUpdate == true) {
                                   profileBloc.add(
                                     ProfileUpdateEvent(
-                                      isContractor: state.isContractor,
+                                      isContractor:
+                                          profileState.isContractorTemp,
                                       name: _nameController.text.trim(),
                                       phone: _phoneController.text.trim(),
                                       address: _addressController.text.trim(),
-                                      businessName: state.isContractor
+                                      businessName: profileState.isContractor
                                           ? _businessController.text.trim()
                                           : null,
-                                      email: state.userModel!.email!,
-                                      contractor: !state.isContractor
+                                      email: profileState.userModel!.email!,
+                                      contractor: !profileState.isContractor
                                           ? contractorBloc.state.contractor
                                           : null,
                                     ),
                                   );
                                   if (_phoneController.text.trim() !=
-                                      state.userModel!.phone) {
+                                      profileState.userModel!.phone) {
                                     profileBloc.add(
                                       ProfilePhoneUpdateEvent(
                                         phone: _phoneController.text.trim(),
