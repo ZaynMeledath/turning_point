@@ -16,7 +16,7 @@ class LocationServiceBloc
 
       await Workmanager().initialize(
         LocationRepository.callbackDispatcher,
-        isInDebugMode: true,
+        isInDebugMode: false,
       );
 
       await Workmanager().registerPeriodicTask(

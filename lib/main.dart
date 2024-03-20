@@ -1,6 +1,10 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:turning_point/bloc/connect/connect_bloc.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
 import 'package:turning_point/bloc/contest/join_contest_bloc.dart';
@@ -21,6 +25,7 @@ import 'package:turning_point/bloc/redeem/redeem_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/view/splash/splash_screen.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 final GlobalKey<NavigatorState> globalNavigatorKey =
     GlobalKey<NavigatorState>();
@@ -28,12 +33,55 @@ final GlobalKey<NavigatorState> globalNavigatorKey =
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppPreferences.init();
-  // await Firebase.initializeApp();
-  // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+
+  // Create customized instance which can be registered via dependency injection
+  final InternetConnectionChecker customInstance =
+      InternetConnectionChecker.createInstance(
+    checkTimeout: const Duration(seconds: 1),
+    checkInterval: const Duration(seconds: 1),
+  );
+
+  // Check internet connection with created instance
+  await executeInternetChecker(customInstance);
+
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]).then((value) => runApp(const MyApp()));
+}
+
+//====================Show toast according to the internet connection====================//
+Future<void> executeInternetChecker(
+  InternetConnectionChecker internetConnectionChecker,
+) async {
+  internetConnectionChecker.onStatusChange.listen(
+    (InternetConnectionStatus status) {
+      switch (status) {
+        case InternetConnectionStatus.connected:
+          log('INTERNET CONNECTED');
+          Fluttertoast.showToast(
+            msg: "Back Online",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.CENTER,
+            backgroundColor: Colors.black54,
+            textColor: Colors.white,
+            fontSize: screenSize.width * .036,
+          );
+          break;
+        case InternetConnectionStatus.disconnected:
+          log('INTERNET DISCONNECTED');
+          Fluttertoast.showToast(
+            msg: "No Internet Connection",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.CENTER,
+            backgroundColor: Colors.black54,
+            textColor: Colors.white,
+            fontSize: screenSize.width * .036,
+          );
+          break;
+      }
+    },
+  );
 }
 
 final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
@@ -99,6 +147,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        builder: FToastBuilder(),
         debugShowCheckedModeBanner: false,
         title: 'Turning Point',
         theme: ThemeData(
