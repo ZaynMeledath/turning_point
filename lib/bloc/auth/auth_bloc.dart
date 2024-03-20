@@ -63,7 +63,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
     );
 
-//====================SignUpEvent====================//
+//====================Sign Up Event====================//
     on<SignUpEvent>(
       (event, emit) async {
         emit(
@@ -96,7 +96,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
     );
 
-//====================VerifyOtpEvent====================//
+//====================Verify Otp Event====================//
     on<VerifyOtpEvent>((event, emit) async {
       emit(
         AuthLoadingState(

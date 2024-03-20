@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,19 +25,61 @@ import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/bloc/home/home_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/redeem/redeem_bloc.dart';
+import 'package:turning_point/firebase_options.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
+import 'package:turning_point/service/notification/awesome_notification_controller.dart';
 import 'package:turning_point/view/splash/splash_screen.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 final GlobalKey<NavigatorState> globalNavigatorKey =
     GlobalKey<NavigatorState>();
 
+final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppPreferences.init();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
-  // Create customized instance which can be registered via dependency injection
+  FirebaseMessaging.onMessage.listen((event) => _firebasePushHandler(event));
+  FirebaseMessaging.onBackgroundMessage(_firebasePushHandler);
+  AwesomeNotifications().initialize(
+    null,
+    [
+      NotificationChannel(
+        channelGroupKey: 'basic_group',
+        channelKey: 'basic_channel',
+        channelName: 'Basic Notifications',
+        channelDescription: 'Channel for basic notifications',
+        enableVibration: true,
+      ),
+    ],
+    channelGroups: [
+      NotificationChannelGroup(
+        channelGroupKey: 'basic_group',
+        channelGroupName: 'Basic Group',
+      ),
+    ],
+  );
+
+  if (!await AwesomeNotifications().isNotificationAllowed()) {
+    AwesomeNotifications().requestPermissionToSendNotifications();
+  }
+
+  AwesomeNotifications().setListeners(
+    onActionReceivedMethod: NotificationController.onActionReceivedMethod,
+    onNotificationCreatedMethod:
+        NotificationController.onNotificationCreatedMethod,
+    onNotificationDisplayedMethod:
+        NotificationController.onNotificationDisplayedMethod,
+    onDismissActionReceivedMethod:
+        NotificationController.onDismissActionReceivedMethod,
+  );
+
+//--------------------Internet Check--------------------//
   final InternetConnectionChecker customInstance =
       InternetConnectionChecker.createInstance(
     checkTimeout: const Duration(seconds: 1),
@@ -50,7 +95,7 @@ void main() async {
   ]).then((value) => runApp(const MyApp()));
 }
 
-//====================Show toast according to the internet connection====================//
+//--------------------Show toast according to the internet connection--------------------//
 Future<void> executeInternetChecker(
   InternetConnectionChecker internetConnectionChecker,
 ) async {
@@ -58,7 +103,6 @@ Future<void> executeInternetChecker(
     (InternetConnectionStatus status) {
       switch (status) {
         case InternetConnectionStatus.connected:
-          log('INTERNET CONNECTED');
           Fluttertoast.showToast(
             msg: "Back Online",
             toastLength: Toast.LENGTH_LONG,
@@ -69,7 +113,6 @@ Future<void> executeInternetChecker(
           );
           break;
         case InternetConnectionStatus.disconnected:
-          log('INTERNET DISCONNECTED');
           Fluttertoast.showToast(
             msg: "No Internet Connection",
             toastLength: Toast.LENGTH_LONG,
@@ -84,7 +127,17 @@ Future<void> executeInternetChecker(
   );
 }
 
-final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
+Future<void> _firebasePushHandler(RemoteMessage message) async {
+  log('Notificatication');
+  await AwesomeNotifications().createNotification(
+    content: NotificationContent(
+      id: DateTime.now().millisecondsSinceEpoch,
+      channelKey: 'basic_channel',
+      title: message.notification!.title,
+      body: message.notification!.body,
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

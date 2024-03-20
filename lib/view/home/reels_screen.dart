@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -56,6 +57,12 @@ class ReelsScreenState extends State<ReelsScreen>
       preloadBloc.playCurrentController();
     }
     preloadBloc.state.isReelsVisible = true;
+    getData();
+  }
+
+  void getData() async {
+    final token = await FirebaseMessaging.instance.getToken();
+    log(token.toString());
   }
 
   @override
