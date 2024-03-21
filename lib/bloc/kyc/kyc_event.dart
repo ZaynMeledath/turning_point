@@ -45,3 +45,7 @@ class KycAccountTypeTriggerEvent extends KycEvent {
 }
 
 class KycIdUpdateEvent extends KycEvent {}
+
+class KycSelfieUpdateEvent extends KycEvent {}
+
+class KycIdResetEvent extends KycEvent {}

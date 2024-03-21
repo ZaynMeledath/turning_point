@@ -127,8 +127,10 @@ class _KycScreenState extends State<KycScreen>
                       Container(
                         margin: EdgeInsets.symmetric(
                             horizontal: realScreenSize.width * .031),
-                        padding: EdgeInsets.symmetric(
-                            vertical: realScreenSize.height * .019),
+                        padding: EdgeInsets.only(
+                          top: realScreenSize.height * .019,
+                          bottom: realScreenSize.height * .015,
+                        ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(13),
                           border: Border.all(
@@ -223,7 +225,7 @@ class _KycScreenState extends State<KycScreen>
                                       emailController: emailController,
                                       pinController: pinController,
                                     ),
-                                    kycIdProof(screenSize: screenSize),
+                                    kycIdProof(),
                                     kycBankDetails(
                                       screenSize: screenSize,
                                       accNameController: accNameController,

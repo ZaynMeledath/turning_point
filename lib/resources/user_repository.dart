@@ -232,28 +232,15 @@ class UserRepository {
     }
   }
 
-// //====================Get User Profile Image from Storage====================//
-//   static Future<File?> fetchImageFromStorage() async {
-//     final ImagePicker picker = ImagePicker();
-//     try {
-//       final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-
-//       if (image != null) {
-//         final imageFile = File(image.path);
-//         return imageFile;
-//       } else {
-//         return null;
-//       }
-//     } catch (_) {
-//       throw CouldNotFetchImageFromStorageException();
-//     }
-//   }
-
 //====================Get User Profile Image from Storage====================//
-  static Future<Map<String, File>?> fetchImageFromStorage() async {
+  static Future<Map<String, File>?> fetchAndConvertImageToBase64(
+      {bool? isSelfie}) async {
     final ImagePicker picker = ImagePicker();
     try {
-      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+      final XFile? image = await picker.pickImage(
+        source: isSelfie == true ? ImageSource.camera : ImageSource.gallery,
+        preferredCameraDevice: CameraDevice.front,
+      );
 
       if (image != null) {
         final imageFile = File(image.path);

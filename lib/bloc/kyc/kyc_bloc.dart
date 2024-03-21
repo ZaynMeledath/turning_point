@@ -18,16 +18,17 @@ class KycBloc extends Bloc<KycEvent, KycState> {
       if (userModel.bankDetails != null && userModel.bankDetails!.isNotEmpty) {
         emit(
           KycLoadedState(
-            isLoading: false,
-            tabIndex: event.tabIndex,
-            isSavings: userModel.bankDetails?[0].banktype == 'savings',
-            name: event.name ?? state.name ?? userModel.name!,
-            phone: userModel.phone!,
-            email: event.email ?? state.email ?? userModel.email!,
-            pincode: event.pincode ?? state.pincode ?? userModel.pincode ?? '',
-            idFrontImage: state.idFrontImage,
-            idBackImage: state.idBackImage,
-          ),
+              isLoading: false,
+              tabIndex: event.tabIndex,
+              isSavings: userModel.bankDetails?[0].banktype == 'savings',
+              name: event.name ?? state.name ?? userModel.name!,
+              phone: userModel.phone!,
+              email: event.email ?? state.email ?? userModel.email!,
+              pincode:
+                  event.pincode ?? state.pincode ?? userModel.pincode ?? '',
+              idFrontImage: state.idFrontImage,
+              idBackImage: state.idBackImage,
+              selfie: state.selfie),
         );
       } else {
         emit(
@@ -41,6 +42,7 @@ class KycBloc extends Bloc<KycEvent, KycState> {
             pincode: event.pincode ?? state.pincode ?? userModel.pincode ?? '',
             idFrontImage: state.idFrontImage,
             idBackImage: state.idBackImage,
+            selfie: state.selfie,
           ),
         );
       }
@@ -49,7 +51,7 @@ class KycBloc extends Bloc<KycEvent, KycState> {
 //====================KYC ID Update Event====================//
     on<KycIdUpdateEvent>((event, emit) async {
       try {
-        final imageMap = await UserRepository.fetchImageFromStorage();
+        final imageMap = await UserRepository.fetchAndConvertImageToBase64();
         if (imageMap != null) {
           emit(
             KycLoadedState(
@@ -64,6 +66,53 @@ class KycBloc extends Bloc<KycEvent, KycState> {
               idBackImage:
                   state.idFrontImage != null ? imageMap.keys.first : null,
               idDisplayImage: File(imageMap.values.first.path),
+              selfie: null,
+            ),
+          );
+        }
+      } catch (e) {
+        throw Exception(e);
+      }
+    });
+
+//====================KYC ID Reset Event====================//
+    on<KycIdResetEvent>((event, emit) {
+      emit(
+        KycLoadedState(
+          isLoading: false,
+          tabIndex: 1,
+          isSavings: state.isSavings,
+          name: state.name,
+          phone: state.phone,
+          email: state.email,
+          pincode: state.pincode,
+          idFrontImage: null,
+          idBackImage: null,
+          idDisplayImage: null,
+          selfie: null,
+        ),
+      );
+    });
+
+//====================KYC Selfie Reset Event====================//
+    on<KycSelfieUpdateEvent>((event, emit) async {
+      try {
+        final imageMap =
+            await UserRepository.fetchAndConvertImageToBase64(isSelfie: true);
+        if (imageMap != null) {
+          emit(
+            KycLoadedState(
+              isLoading: false,
+              tabIndex: 1,
+              isSavings: state.isSavings,
+              name: state.name,
+              phone: state.phone,
+              email: state.email,
+              pincode: state.pincode,
+              idFrontImage: state.idFrontImage,
+              idBackImage: state.idBackImage,
+              idDisplayImage: File(imageMap.values.first.path),
+              selfie: imageMap.keys.first,
             ),
           );
         }
@@ -80,16 +129,16 @@ class KycBloc extends Bloc<KycEvent, KycState> {
 
         emit(
           KycLoadedState(
-            isLoading: true,
-            tabIndex: 2,
-            isSavings: event.isSavings,
-            name: event.name,
-            phone: event.phone,
-            email: event.email,
-            pincode: event.pincode,
-            idFrontImage: state.idFrontImage,
-            idBackImage: state.idBackImage,
-          ),
+              isLoading: true,
+              tabIndex: 2,
+              isSavings: event.isSavings,
+              name: event.name,
+              phone: event.phone,
+              email: event.email,
+              pincode: event.pincode,
+              idFrontImage: state.idFrontImage,
+              idBackImage: state.idBackImage,
+              selfie: state.selfie),
         );
 
         //---------------Assigning new values to the UserModel---------------//
@@ -138,6 +187,7 @@ class KycBloc extends Bloc<KycEvent, KycState> {
           pincode: state.pincode,
           idFrontImage: state.idFrontImage,
           idBackImage: state.idBackImage,
+          selfie: state.selfie,
         ),
       );
     });
