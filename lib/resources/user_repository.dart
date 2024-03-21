@@ -25,12 +25,19 @@ class UserRepository {
     return decodedData;
   }
 
-  static Future<bool> userSignIn(String token) async {
+//====================User Sign In====================//
+  static Future<bool> userSignIn({
+    required String token,
+    required String fcmToken,
+  }) async {
     try {
       final response = await ApiService().sendRequest(
         url: ApiEndpoints.googleSignIn,
         requestMethod: RequestMethod.POST,
-        data: {"idToken": token},
+        data: {
+          "idToken": token,
+          // "fcmToken": fcmToken,
+        },
         isTokenRequired: false,
       );
 
@@ -49,6 +56,7 @@ class UserRepository {
     }
   }
 
+//====================Check Phone Number====================//
   static Future<bool> checkPhoneNumber(String phone) async {
     final response = await ApiService().sendRequest(
       url: ApiEndpoints.checkPhoneNumber,
@@ -62,6 +70,7 @@ class UserRepository {
     return status;
   }
 
+//====================User Sign Up====================//
   static Future<bool> userSignUp({
     required String phone,
     ContractorModel? contractor,

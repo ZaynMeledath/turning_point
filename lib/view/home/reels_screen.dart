@@ -77,7 +77,11 @@ class ReelsScreenState extends State<ReelsScreen>
 
   Future<void> handleRefresh() async {
     await ReelsRepository.getReels();
-    preloadBloc.add(PreloadEvent(currentIndex: 0, isInitial: true));
+    preloadBloc.add(PreloadEvent(
+      currentIndex: 0,
+      isInitial: true,
+      isReloading: true,
+    ));
   }
 
   @override
@@ -114,8 +118,8 @@ class ReelsScreenState extends State<ReelsScreen>
             case ProfileLoadedState():
               return RefreshIndicator(
                 onRefresh: () => handleRefresh(),
-                strokeWidth: 4,
-                color: Colors.blue,
+                color: Colors.red,
+                displacement: 50,
                 backgroundColor: Colors.white,
                 child: Stack(
                   alignment: Alignment.center,

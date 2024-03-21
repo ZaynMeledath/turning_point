@@ -305,6 +305,16 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
         throw Exception(e);
       }
     });
+
+//====================State Change Logger====================//
+    on<ResetStateEvent>((event, emit) {
+      emit(BuyCouponsState(
+        selectedOptionNumber: 3,
+        redeemPoints: DEFAULT_REDEEM_POINTS,
+        isTermsAgreed: false,
+        isLoading: false,
+      ));
+    });
   }
 
 //====================State Change Logger====================//

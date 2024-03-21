@@ -15,9 +15,11 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
 
       if (event.currentIndex == 0) {
         if (event.isInitial) {
-          //To ensure that video is not played whenever the profile load event is called
-          if (state.controllers.isNotEmpty) {
-            return;
+          if (event.isReloading == false) {
+            //To ensure that video is not played whenever the profile load event is called
+            if (state.controllers.isNotEmpty) {
+              return;
+            }
           }
 
           if (state.focusedIndex == 0) {

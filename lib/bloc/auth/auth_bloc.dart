@@ -48,7 +48,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(const AuthLoadingState());
         try {
           final token = await provider.signIn();
-          final status = await UserRepository.userSignIn(token);
+          final fcmToken = await provider.getFcmToken();
+          final status = await UserRepository.userSignIn(
+            token: token,
+            fcmToken: fcmToken!,
+          );
           if (status) {
             await UserRepository.getUserById(avoidGettingFromPreference: true);
             return emit(SignedInState());

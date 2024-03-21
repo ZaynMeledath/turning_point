@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/kyc/kyc_bloc.dart';
+import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/kyc/segments/kyc_id_capture_container.dart';
 
 Widget kycIdProof({required Size screenSize}) {
@@ -82,7 +85,29 @@ Widget kycIdProof({required Size screenSize}) {
                 ],
               ),
             ),
-            SizedBox(height: screenSize.height * .045),
+            SizedBox(height: screenSize.height * .015),
+            Padding(
+              padding: EdgeInsets.only(right: realScreenSize.width * .12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  InkWell(
+                    borderRadius: BorderRadius.circular(8),
+                    focusColor: Colors.blue.shade100,
+                    enableFeedback: true,
+                    onTap: () {},
+                    child: Text(
+                      'Reset',
+                      style: GoogleFonts.roboto(
+                        fontSize: screenSize.width * .031,
+                        color: const Color.fromRGBO(0, 99, 255, 1),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: screenSize.height * .025),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Row(

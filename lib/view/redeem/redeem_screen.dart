@@ -50,6 +50,7 @@ class _RedeemScreenState extends State<RedeemScreen> {
   @override
   void dispose() {
     super.dispose();
+    redeemBloc.add(ResetStateEvent());
     contestBloc.add(ContestTimerDisposeEvent());
     upiController.dispose();
   }
