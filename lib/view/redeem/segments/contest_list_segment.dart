@@ -84,7 +84,7 @@ Widget contestListSegment({
                       child: Text(
                         'Buy Coupon',
                         style: GoogleFonts.inter(
-                          fontSize: screenSize.width * .032,
+                          fontSize: screenSize.width * .031,
                           fontWeight: FontWeight.w800,
                           color: Colors.black87,
                         ),

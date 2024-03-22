@@ -44,10 +44,10 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  FirebaseMessaging.onMessage.listen((event) => _firebasePushHandler(event));
+  FirebaseMessaging.onMessage.listen(_firebasePushHandler);
   FirebaseMessaging.onBackgroundMessage(_firebasePushHandler);
   AwesomeNotifications().initialize(
-    null,
+    'resource://drawable/notification_icon',
     [
       NotificationChannel(
         channelGroupKey: 'basic_group',
@@ -55,6 +55,8 @@ void main() async {
         channelName: 'Basic Notifications',
         channelDescription: 'Channel for basic notifications',
         enableVibration: true,
+        importance: NotificationImportance.High,
+        defaultColor: Colors.red,
       ),
     ],
     channelGroups: [
@@ -129,9 +131,10 @@ Future<void> executeInternetChecker(
 
 Future<void> _firebasePushHandler(RemoteMessage message) async {
   log('Notificatication');
+  log('MESSAGE ID : ${message.messageId}');
   await AwesomeNotifications().createNotification(
     content: NotificationContent(
-      id: DateTime.now().millisecondsSinceEpoch,
+      id: DateTime.now().millisecondsSinceEpoch.remainder(1000),
       channelKey: 'basic_channel',
       title: message.notification!.title,
       body: message.notification!.body,

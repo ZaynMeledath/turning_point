@@ -62,7 +62,7 @@ class ReelsScreenState extends State<ReelsScreen>
 
   void getData() async {
     final token = await FirebaseMessaging.instance.getToken();
-    log(token.toString());
+    log('FCM Token : ${token.toString()}');
   }
 
   @override
