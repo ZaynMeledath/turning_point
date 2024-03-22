@@ -8,6 +8,7 @@ import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
+import 'package:turning_point/view/contest/contest_screen.dart';
 
 part 'segments/gift_boxes_segment.dart';
 part 'all_gifts_screen.dart';
@@ -106,13 +107,12 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
                           //====================Lucky Draw Image====================//
                           Image.asset(
                             'assets/images/lucky_draw_image.png',
-                            width: screenSize.width * .7,
+                            width: screenSize.width * .6,
                           ),
 
                           SizedBox(height: screenSize.height * .025),
                           //====================Days Left Blue Container====================//
-                          daysLeftContainer(
-                              daysLeft: state.timeMap!['timeInDays']!),
+                          daysLeftContainer(context: context),
 
                           SizedBox(height: screenSize.height * .035),
                           //====================Count Down Timer====================//

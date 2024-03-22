@@ -1,7 +1,7 @@
 part of '../lucky_draw_screen.dart';
 
 //====================Individual Gift Container Styling====================//
-Widget giftBoxContainer() {
+Widget giftBoxContainer({String? image}) {
   return Container(
     width: screenSize.width * .24,
     height: screenSize.width * .24,
@@ -24,6 +24,8 @@ Widget giftBoxContainer() {
         ),
       ],
     ),
-    child: Image.asset('assets/images/red_gift_box.png'),
+    child: image != null
+        ? Image.network(image)
+        : Image.asset('assets/images/red_gift_box.png'),
   );
 }
