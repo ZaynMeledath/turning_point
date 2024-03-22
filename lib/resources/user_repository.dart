@@ -41,8 +41,6 @@ class UserRepository {
         isTokenRequired: false,
       );
 
-      log('RESPONSE: $response');
-
       await AppPreferences.init();
       AppPreferences.addSharedPreference(
         key: 'auth_token',
@@ -112,8 +110,6 @@ class UserRepository {
         value: response["token"],
       );
 
-      log('AUTH TOKEN FROM SERVER: ${response['token']}');
-
       if (response['token'] == null) {
         throw Exception('Token is Null');
       }
@@ -160,7 +156,6 @@ class UserRepository {
         value: jsonEncode(response),
       );
 
-      log('GET USER BY ID FUNCTION: $response');
       final userModelResponse = UserModelResponse.fromJson(response);
       return userModelResponse;
     } catch (e) {
@@ -191,7 +186,6 @@ class UserRepository {
     required UserModel userModel,
   }) async {
     try {
-      log('UPDATING');
       await ApiService().sendRequest(
         url: ApiEndpoints.updateUserProfile,
         requestMethod: RequestMethod.PATCH,
@@ -213,7 +207,6 @@ class UserRepository {
   static Future<UserModelResponse> updateProfileImage(
       String imageString) async {
     try {
-      log('UPDATING');
       await ApiService().sendRequest(
         url: ApiEndpoints.updateProfileImage,
         requestMethod: RequestMethod.PATCH,
