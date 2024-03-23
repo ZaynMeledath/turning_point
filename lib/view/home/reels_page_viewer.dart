@@ -27,6 +27,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
   late final AnimationController _animationController;
   late final Animation<double> _animation;
   final reelsScreenState = ReelsScreenState();
+  bool likeButtonActiveStatus = false;
   dynamic closeDialogHandle;
 
   @override
@@ -88,7 +89,6 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
               itemCount: preloadState.urls.length,
               itemBuilder: (context, index) {
                 if (preloadState.controllers.isNotEmpty) {
-                  bool likeButtonActiveStatus = false;
                   return Stack(
                     children: [
                       ReelsPlayer(
@@ -108,15 +108,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                         preloadState.controllers[index]!,
                                     builder: (context, controllerValue, child) {
                                       //Determining Like button active status
-                                      if (reelsState.reelsModelList![index]
-                                                  .isLikeButtonActive &&
-                                              controllerValue.isInitialized &&
-                                              controllerValue
-                                                      .position.inSeconds >=
-                                                  reelsState
-                                                      .reelsModelList![index]
-                                                      .displayLikeAfter! ||
-                                          controllerValue.isCompleted) {
+                                      if (controllerValue.isCompleted) {
                                         likeButtonActiveStatus = true;
                                       }
                                       return GestureDetector(
@@ -204,6 +196,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                 }
               },
               onPageChanged: (index) {
+                likeButtonActiveStatus = false;
                 reelsBloc.add(ReelLoadEvent(reelIndex: index));
                 context
                     .read<PreloadBloc>()

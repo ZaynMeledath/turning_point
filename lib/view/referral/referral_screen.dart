@@ -10,16 +10,16 @@ part 'segments/referral_instruction_container.dart';
 part 'segments/invite_link_container.dart';
 part 'segments/rewards_container.dart';
 
-class ReferScreen extends StatefulWidget {
-  const ReferScreen({
+class ReferralScreen extends StatefulWidget {
+  const ReferralScreen({
     super.key, // Added optional Key parameter
   });
 
   @override
-  State<ReferScreen> createState() => _ReferScreenState();
+  State<ReferralScreen> createState() => _ReferralScreenState();
 }
 
-class _ReferScreenState extends State<ReferScreen> {
+class _ReferralScreenState extends State<ReferralScreen> {
   @override
   void initState() {
     super.initState();

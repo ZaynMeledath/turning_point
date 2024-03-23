@@ -158,6 +158,7 @@ Widget contestCardInnerContainer({
                                     contestModel:
                                         state.contestModelList![index],
                                     contestIndex: index,
+                                    entryCount: 1,
                                   ),
                                 );
                                 // }

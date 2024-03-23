@@ -10,7 +10,7 @@ import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/edit_profile/edit_profile_screen.dart';
 import 'package:turning_point/view/profile/segments/edit_profile_dashboard_segment.dart';
 import 'package:turning_point/view/profile/segments/profile_options_segment.dart';
-import 'package:turning_point/view/referral/refer_screen.dart';
+import 'package:turning_point/view/referral/referral_screen.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 part 'segments/refer_and_earn_container.dart';

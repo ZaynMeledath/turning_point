@@ -229,7 +229,7 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
             final coupon =
                 await redeemRepo.generateCoupon(points: state.redeemPoints);
 
-            await Future.delayed(const Duration(seconds: 1));
+            // await Future.delayed(const Duration(seconds: 1));
 
             pointsBloc
                 .add(PointsLoadEvent(avoidGettingUserFromPreference: true));

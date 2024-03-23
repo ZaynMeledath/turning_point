@@ -1,4 +1,4 @@
-part of '../refer_screen.dart';
+part of '../referral_screen.dart';
 
 void copyToClipboard(String text) {
   Clipboard.setData(ClipboardData(text: text));

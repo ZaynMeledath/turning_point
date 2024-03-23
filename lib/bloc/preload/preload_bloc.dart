@@ -120,7 +120,11 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
 
       /// Play controller
       controller.play();
-      controller.setLooping(true);
+      controller.addListener(() {
+        if (controller.value.isCompleted) {
+          controller.play();
+        }
+      });
     }
   }
 

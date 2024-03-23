@@ -230,6 +230,7 @@ class ContestDetailsScreen extends StatelessWidget {
                         JoinContestEvent(
                           contestModel: state.contestModelList![index],
                           contestIndex: index,
+                          entryCount: 1,
                         ),
                       );
                     }

@@ -44,6 +44,7 @@ class UserModel {
   String? image;
   String? idBackImage;
   String? idFrontImage;
+  List<CouponModel>? coupons;
   int? contestParticipationCount;
   int? contestsParticipatedInCount;
   int? contestWonCount;
@@ -70,6 +71,7 @@ class UserModel {
     this.idBackImage,
     this.idFrontImage,
     this.kycStatus,
+    this.coupons,
     this.contestParticipationCount,
     this.contestsParticipatedInCount,
     this.contestWonCount,
@@ -105,6 +107,7 @@ class UserModel {
     image = json['image'];
     idBackImage = json['idBackImage'];
     idFrontImage = json['idFrontImage'];
+    coupons = json['coupons'];
     contestParticipationCount = json['contestParticipationCount'];
     contestsParticipatedInCount = json['contestsParticipatedInCount'];
     contestWonCount = json['contestWonCount'];
@@ -138,6 +141,7 @@ class UserModel {
     data['kycStatus'] = kycStatus;
     data['idBackImage'] = idBackImage;
     data['idFrontImage'] = idFrontImage;
+    data['coupons'] = coupons;
     data['contestParticipationCount'] = contestParticipationCount;
     data['contestsParticipatedInCount'] = contestsParticipatedInCount;
     data['contestWonCount'] = contestWonCount;
@@ -184,6 +188,28 @@ class BankDetails {
     data['bank'] = bank;
     data['isActive'] = isActive;
     data['_id'] = sId;
+    return data;
+  }
+}
+
+class CouponModel {
+  String? couponName;
+  int? count;
+
+  CouponModel(
+    this.couponName,
+    this.count,
+  );
+
+  CouponModel.fromJson(Map<String, dynamic> json) {
+    couponName = json['couponName'];
+    count = json['count'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['couponName'] = couponName;
+    data['count'] = count;
     return data;
   }
 }

@@ -1,4 +1,4 @@
-part of '../refer_screen.dart';
+part of '../referral_screen.dart';
 
 class ReferredScreen extends StatefulWidget {
   const ReferredScreen({super.key});

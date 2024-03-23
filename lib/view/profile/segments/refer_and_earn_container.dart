@@ -8,7 +8,7 @@ Widget referAndEarnContainer({required BuildContext context}) {
       onTap: () {
         CustomNavigator.push(
           context: context,
-          child: const ReferScreen(),
+          child: const ReferralScreen(),
         );
       },
       child: Stack(
