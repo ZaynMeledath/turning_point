@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
@@ -197,41 +196,32 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                       ValueListenableBuilder(
                           valueListenable: preloadState.controllers[index]!,
                           builder: (context, controllerValue, child) {
-                            // return AnimatedContainer(
-                            //   duration: const Duration(seconds: 1),
-                            //   height: 3,
-                            //   width: realScreenSize.width *
-                            //       (controllerValue.position.inSeconds /
-                            //           controllerValue.duration.inSeconds),
-                            //   decoration: BoxDecoration(
-                            //     color: controllerValue.position.inSeconds > .5
-                            //         ? Colors.red
-                            //         : Colors.transparent,
-                            //     borderRadius: BorderRadius.circular(6),
-                            //   ),
-                            // );
-                            return Padding(
-                              padding: EdgeInsets.only(
-                                top: screenSize.height * .922,
-                              ),
-                              child: SizedBox(
-                                width: double.maxFinite,
-                                child: LinearPercentIndicator(
-                                  padding: EdgeInsets.zero,
-                                  animation: true,
-                                  animateFromLastPercent: true,
-                                  animationDuration: 500,
-                                  backgroundColor: Colors.transparent,
-                                  progressColor:
-                                      controllerValue.position.inMilliseconds >
-                                              100
-                                          ? Colors.red
-                                          : Colors.transparent,
-                                  percent: (controllerValue
-                                          .position.inMilliseconds /
-                                      controllerValue.duration.inMilliseconds),
-                                  barRadius: const Radius.circular(6),
-                                  lineHeight: 3,
+                            return Visibility(
+                              visible: controllerValue.isInitialized,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  top: screenSize.height * .922,
+                                ),
+                                child: SizedBox(
+                                  width: double.maxFinite,
+                                  child: LinearPercentIndicator(
+                                    padding: EdgeInsets.zero,
+                                    animation: true,
+                                    animateFromLastPercent: true,
+                                    animationDuration: 500,
+                                    backgroundColor: Colors.transparent,
+                                    progressColor: controllerValue
+                                                .position.inMilliseconds >
+                                            100
+                                        ? Colors.red
+                                        : Colors.transparent,
+                                    percent: (controllerValue
+                                            .position.inMilliseconds /
+                                        controllerValue
+                                            .duration.inMilliseconds),
+                                    barRadius: const Radius.circular(6),
+                                    lineHeight: 3,
+                                  ),
                                 ),
                               ),
                             );

@@ -30,7 +30,6 @@ import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/service/notification/awesome_notification_controller.dart';
 import 'package:turning_point/view/splash/splash_screen.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 final GlobalKey<NavigatorState> globalNavigatorKey =
     GlobalKey<NavigatorState>();
@@ -82,14 +81,14 @@ void main() async {
   );
 
 //--------------------Internet Check--------------------//
-  final InternetConnectionChecker customInstance =
-      InternetConnectionChecker.createInstance(
-    checkTimeout: const Duration(seconds: 1),
-    checkInterval: const Duration(seconds: 1),
-  );
+  // final InternetConnectionChecker customInstance =
+  //     InternetConnectionChecker.createInstance(
+  //   checkTimeout: const Duration(seconds: 1),
+  //   checkInterval: const Duration(seconds: 1),
+  // );
 
-  // Check internet connection with created instance
-  await executeInternetChecker(customInstance);
+  // // Check internet connection with created instance
+  // await executeInternetChecker(customInstance);
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -98,36 +97,36 @@ void main() async {
 }
 
 //--------------------Show toast according to the internet connection--------------------//
-Future<void> executeInternetChecker(
-  InternetConnectionChecker internetConnectionChecker,
-) async {
-  internetConnectionChecker.onStatusChange.listen(
-    (InternetConnectionStatus status) {
-      switch (status) {
-        case InternetConnectionStatus.connected:
-          // Fluttertoast.showToast(
-          //   msg: "Back Online",
-          //   toastLength: Toast.LENGTH_SHORT,
-          //   gravity: ToastGravity.CENTER,
-          //   backgroundColor: Colors.black54,
-          //   textColor: Colors.white,
-          //   fontSize: screenSize.width * .036,
-          // );
-          break;
-        case InternetConnectionStatus.disconnected:
-          Fluttertoast.showToast(
-            msg: "No Internet Connection",
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.CENTER,
-            backgroundColor: Colors.black54,
-            textColor: Colors.white,
-            fontSize: screenSize.width * .036,
-          );
-          break;
-      }
-    },
-  );
-}
+// Future<void> executeInternetChecker(
+//   InternetConnectionChecker internetConnectionChecker,
+// ) async {
+//   internetConnectionChecker.onStatusChange.listen(
+//     (InternetConnectionStatus status) {
+//       switch (status) {
+//         case InternetConnectionStatus.connected:
+//           // Fluttertoast.showToast(
+//           //   msg: "Back Online",
+//           //   toastLength: Toast.LENGTH_SHORT,
+//           //   gravity: ToastGravity.CENTER,
+//           //   backgroundColor: Colors.black54,
+//           //   textColor: Colors.white,
+//           //   fontSize: screenSize.width * .036,
+//           // );
+//           break;
+//         case InternetConnectionStatus.disconnected:
+//           Fluttertoast.showToast(
+//             msg: "No Internet Connection",
+//             toastLength: Toast.LENGTH_LONG,
+//             gravity: ToastGravity.CENTER,
+//             backgroundColor: Colors.black54,
+//             textColor: Colors.white,
+//             fontSize: screenSize.width * .036,
+//           );
+//           break;
+//       }
+//     },
+//   );
+// }
 
 Future<void> _firebasePushHandler(RemoteMessage message) async {
   log('Notificatication');

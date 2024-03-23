@@ -37,7 +37,7 @@ class ReelsScreenState extends State<ReelsScreen>
   void initState() {
     super.initState();
     locationServiceBloc.add(LocationServiceStartEvent());
-    WakelockPlus.enable();
+
     log('${AppPreferences.getValueShared('auth_token')}');
 
     likeAnimationController = AnimationController(
@@ -61,6 +61,7 @@ class ReelsScreenState extends State<ReelsScreen>
   }
 
   void getData() async {
+    await WakelockPlus.enable();
     final token = await FirebaseMessaging.instance.getToken();
     log('FCM Token : ${token.toString()}');
   }
@@ -86,6 +87,7 @@ class ReelsScreenState extends State<ReelsScreen>
 
   @override
   Widget build(BuildContext context) {
+    WakelockPlus.enable();
     return Scaffold(
       backgroundColor: Colors.black,
       body: BlocBuilder<ProfileBloc, ProfileState>(
