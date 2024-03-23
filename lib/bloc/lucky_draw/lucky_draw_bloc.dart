@@ -10,44 +10,54 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
   LuckyDrawBloc() : super(LuckyDrawLoadingState()) {
 //====================Lucky Draw Load Event====================//
     on<LuckyDrawLoadEvent>((event, emit) async {
-      if (state.timeMap == null && state.secondsLeft == null) {
-        final contestModelResponse =
-            await ContestRepository.getCurrentContest();
-        if (contestModelResponse.data != null &&
-            contestModelResponse.data!.isNotEmpty) {
-          Map<String, String> timeMap = {};
-          final secondsLeft = ContestRepository.getLuckyDrawSecondsLeft(
-              contestModel: contestModelResponse.data![0]);
+      try {
+        if (state.timeMap == null && state.secondsLeft == null) {
+          final contestModelResponse =
+              await ContestRepository.getCurrentContest();
+          if (contestModelResponse.data != null &&
+              contestModelResponse.data!.isNotEmpty) {
+            Map<String, String> timeMap = {};
+            final secondsLeft = ContestRepository.getLuckyDrawSecondsLeft(
+                contestModel: contestModelResponse.data![0]);
 
-          int timeInSeconds = (secondsLeft % 60);
-          int timeInMinutes = (secondsLeft ~/ 60) % 60;
-          int timeInHours = (secondsLeft ~/ 3600) % 24;
-          int timeInDays = (secondsLeft ~/ 86400).abs();
+            int timeInSeconds = (secondsLeft % 60);
+            int timeInMinutes = (secondsLeft ~/ 60) % 60;
+            int timeInHours = (secondsLeft ~/ 3600) % 24;
+            int timeInDays = (secondsLeft ~/ 86400).abs();
 
-          timeMap = {
-            'timeInSeconds': timeInSeconds.toString().padLeft(2, '0'),
-            'timeInMinutes': timeInMinutes.toString().padLeft(2, '0'),
-            'timeInHours': timeInHours.toString().padLeft(2, '0'),
-            'timeInDays': timeInDays.toString().padLeft(2, '0'),
-          };
+            timeMap = {
+              'timeInSeconds': timeInSeconds.toString().padLeft(2, '0'),
+              'timeInMinutes': timeInMinutes.toString().padLeft(2, '0'),
+              'timeInHours': timeInHours.toString().padLeft(2, '0'),
+              'timeInDays': timeInDays.toString().padLeft(2, '0'),
+            };
 
-          emit(
-            LuckyDrawLoadedState(
-              contestModel: contestModelResponse.data![0],
-              timeMap: timeMap,
-              secondsLeft: secondsLeft,
-            ),
-          );
-          add(LuckyDrawTimerUpdateEvent());
-        } else {
-          emit(
-            LuckyDrawLoadedState(
-              contestModel: null,
-              timeMap: null,
-              secondsLeft: null,
-            ),
-          );
+            emit(
+              LuckyDrawLoadedState(
+                contestModel: contestModelResponse.data![0],
+                timeMap: timeMap,
+                secondsLeft: secondsLeft,
+              ),
+            );
+            add(LuckyDrawTimerUpdateEvent());
+          } else {
+            emit(
+              LuckyDrawLoadedState(
+                contestModel: null,
+                timeMap: null,
+                secondsLeft: null,
+              ),
+            );
+          }
         }
+      } catch (e) {
+        return emit(
+          LuckyDrawLoadedState(
+            contestModel: null,
+            timeMap: null,
+            secondsLeft: null,
+          ),
+        );
       }
     });
 

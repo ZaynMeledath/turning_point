@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
@@ -16,31 +17,36 @@ class ReelsRepository {
 
 //====================Get Reels Method====================//
   static Future<ReelsModelResponse> getReels() async {
-    final response = await ApiService().sendRequest(
-      url: ApiEndpoints.getReelsPaginated,
-      requestMethod: RequestMethod.GET,
-      data: null,
-      isTokenRequired: true,
-    );
+    try {
+      final response = await ApiService().sendRequest(
+        url: ApiEndpoints.getReelsPaginated,
+        requestMethod: RequestMethod.GET,
+        data: null,
+        isTokenRequired: true,
+      );
 
-    // final response = await ApiService().sendRequest(
-    //   url: ApiEndpoints.getReels,
-    //   requestMethod: FetchMethod.GET,
-    //   data: null,
-    //   isTokenRequired: false,
-    // );
+      // final response = await ApiService().sendRequest(
+      //   url: ApiEndpoints.getReels,
+      //   requestMethod: FetchMethod.GET,
+      //   data: null,
+      //   isTokenRequired: false,
+      // );
 
-    final data = response['data'];
+      final data = response['data'];
 
-    urlList = data.map((e) => e['fileUrl']).toList();
-    // final videoNames = data.map((e) => e['fileUrl']).toList();
-    // urlList = videoNames
-    //     .map((videoName) => '${ApiEndpoints.uploads}/$videoName')
-    //     .toList();
+      urlList = data.map((e) => e['fileUrl']).toList();
+      // final videoNames = data.map((e) => e['fileUrl']).toList();
+      // urlList = videoNames
+      //     .map((videoName) => '${ApiEndpoints.uploads}/$videoName')
+      //     .toList();
 
-    reelsModelResponse = ReelsModelResponse.fromJson(response);
+      reelsModelResponse = ReelsModelResponse.fromJson(response);
 
-    return reelsModelResponse;
+      return reelsModelResponse;
+    } catch (e) {
+      log('EXCEPTION IN GET REELS : $e');
+      throw Exception(e);
+    }
   }
 
 //====================Like Reel Method====================//

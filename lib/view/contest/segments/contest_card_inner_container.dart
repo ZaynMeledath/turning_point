@@ -126,7 +126,7 @@ Widget contestCardInnerContainer({
                     ],
                   ),
                 ),
-                SizedBox(height: screenSize.width * .01),
+                SizedBox(height: screenSize.width * .007),
                 Text(
                   'Join The Contest and Win Exciting Prizes!',
                   style: GoogleFonts.poppins(
@@ -179,9 +179,9 @@ Widget contestCardInnerContainer({
                                 ),
                               ),
                             ),
-                            SizedBox(height: screenSize.width * .005),
+                            SizedBox(height: screenSize.width * .008),
                             Text(
-                              'You have ${contestModel.userJoinedCount ?? 0} Coupon',
+                              'You have ${contestModel.userJoinedCount ?? 0} Entries',
                               style: GoogleFonts.inter(
                                 fontSize: screenSize.width * .026,
                                 fontWeight: FontWeight.w500,

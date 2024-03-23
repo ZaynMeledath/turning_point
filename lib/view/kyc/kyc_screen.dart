@@ -73,7 +73,8 @@ class _KycScreenState extends State<KycScreen>
               if (state.isLoading && closeDialogHandle == null) {
                 closeDialogHandle = showLoadingDialog(context: context);
               }
-            } else if (state is KycSubmittedState &&
+            } else if (state is KycLoadedState &&
+                !state.isLoading &&
                 closeDialogHandle != null) {
               Navigator.pop(context);
               closeDialogHandle = null;

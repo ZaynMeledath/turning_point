@@ -13,9 +13,9 @@ Widget redeemPlusMinusContainer({required bool isPlus}) {
           // borderRadius: BorderRadius.circular(100),
           borderRadius: BorderRadius.horizontal(
             right:
-                isPlus ? const Radius.circular(30) : const Radius.circular(0),
+                isPlus ? const Radius.circular(16) : const Radius.circular(0),
             left:
-                !isPlus ? const Radius.circular(30) : const Radius.circular(0),
+                !isPlus ? const Radius.circular(16) : const Radius.circular(0),
           ),
         ),
 

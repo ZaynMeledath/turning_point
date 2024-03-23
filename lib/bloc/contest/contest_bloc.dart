@@ -14,46 +14,57 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
   ContestBloc() : super(ContestLoadingState()) {
 //====================Contest Load Event====================//
     on<ContestLoadEvent>((event, emit) async {
-      if (state.timeList == null && state.secondsLeftList == null) {
-        final contestModelResponse = await ContestRepository.getContests();
-        if (contestModelResponse.data != null &&
-            contestModelResponse.data!.isNotEmpty) {
-          final List<Map<String, String>> timeList = [];
-          final secondsLeftList = ContestRepository.getSecondsLeft(
-              contestModelList: contestModelResponse.data!);
-          for (int i = 0; i < contestModelResponse.data!.length; i++) {
-            int seconds = secondsLeftList[i];
-            int timeInSeconds = (seconds % 60);
-            int timeInMinutes = (seconds ~/ 60) % 60;
-            int timeInHours = (seconds ~/ 3600) % 24;
-            int timeInDays = (seconds ~/ 86400).abs();
+      try {
+        if (state.timeList == null && state.secondsLeftList == null) {
+          final contestModelResponse = await ContestRepository.getContests();
+          if (contestModelResponse.data != null &&
+              contestModelResponse.data!.isNotEmpty) {
+            final List<Map<String, String>> timeList = [];
+            final secondsLeftList = ContestRepository.getSecondsLeft(
+                contestModelList: contestModelResponse.data!);
+            for (int i = 0; i < contestModelResponse.data!.length; i++) {
+              int seconds = secondsLeftList[i];
+              int timeInSeconds = (seconds % 60);
+              int timeInMinutes = (seconds ~/ 60) % 60;
+              int timeInHours = (seconds ~/ 3600) % 24;
+              int timeInDays = (seconds ~/ 86400).abs();
 
-            timeList.add({
-              'timeInSeconds': timeInSeconds.toString().padLeft(2, '0'),
-              'timeInMinutes': timeInMinutes.toString().padLeft(2, '0'),
-              'timeInHours': timeInHours.toString().padLeft(2, '0'),
-              'timeInDays': timeInDays.toString().padLeft(2, '0'),
-            });
+              timeList.add({
+                'timeInSeconds': timeInSeconds.toString().padLeft(2, '0'),
+                'timeInMinutes': timeInMinutes.toString().padLeft(2, '0'),
+                'timeInHours': timeInHours.toString().padLeft(2, '0'),
+                'timeInDays': timeInDays.toString().padLeft(2, '0'),
+              });
+            }
+            emit(
+              ContestLoadedState(
+                contestModelList: contestModelResponse.data!,
+                timeList: timeList,
+                secondsLeftList: secondsLeftList,
+                entryCount: state.entryCount,
+              ),
+            );
+            add(ContestTimerUpdateEvent());
+          } else {
+            emit(
+              ContestLoadedState(
+                contestModelList: null,
+                timeList: null,
+                secondsLeftList: null,
+                entryCount: 1,
+              ),
+            );
           }
-          emit(
-            ContestLoadedState(
-              contestModelList: contestModelResponse.data!,
-              timeList: timeList,
-              secondsLeftList: secondsLeftList,
-              entryCount: state.entryCount,
-            ),
-          );
-          add(ContestTimerUpdateEvent());
-        } else {
-          emit(
-            ContestLoadedState(
-              contestModelList: null,
-              timeList: null,
-              secondsLeftList: null,
-              entryCount: 1,
-            ),
-          );
         }
+      } catch (e) {
+        return emit(
+          ContestLoadedState(
+            contestModelList: null,
+            timeList: null,
+            secondsLeftList: null,
+            entryCount: 1,
+          ),
+        );
       }
     });
 

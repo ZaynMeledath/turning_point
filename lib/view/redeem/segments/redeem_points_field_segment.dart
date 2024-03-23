@@ -21,7 +21,7 @@ Widget redeemPointsFieldSegment() {
             height: screenSize.width * .11,
             decoration: BoxDecoration(
               color: const Color.fromRGBO(246, 246, 246, 1),
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(16),
               border: Border.all(
                 color: Colors.black12,
               ),

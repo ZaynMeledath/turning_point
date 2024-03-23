@@ -141,14 +141,15 @@ class _ContestScreenState extends State<ContestScreen> {
                             physics: const AlwaysScrollableScrollPhysics(),
                             child: Column(
                               children: [
+                                SizedBox(height: screenSize.height * .03),
                                 Lottie.asset(
                                   'assets/lottie/no_data_animation.json',
-                                  width: screenSize.width * .6,
+                                  width: screenSize.width * .5,
                                 ),
                                 Text(
                                   'No Contest Available at the moment',
                                   style: GoogleFonts.inter(
-                                    fontSize: screenSize.width * .041,
+                                    fontSize: screenSize.width * .038,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black.withOpacity(.75),
                                   ),

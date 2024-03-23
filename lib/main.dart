@@ -105,14 +105,14 @@ Future<void> executeInternetChecker(
     (InternetConnectionStatus status) {
       switch (status) {
         case InternetConnectionStatus.connected:
-          Fluttertoast.showToast(
-            msg: "Back Online",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
-            backgroundColor: Colors.black54,
-            textColor: Colors.white,
-            fontSize: screenSize.width * .036,
-          );
+          // Fluttertoast.showToast(
+          //   msg: "Back Online",
+          //   toastLength: Toast.LENGTH_SHORT,
+          //   gravity: ToastGravity.CENTER,
+          //   backgroundColor: Colors.black54,
+          //   textColor: Colors.white,
+          //   fontSize: screenSize.width * .036,
+          // );
           break;
         case InternetConnectionStatus.disconnected:
           Fluttertoast.showToast(

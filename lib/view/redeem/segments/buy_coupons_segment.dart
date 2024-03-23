@@ -42,12 +42,12 @@ Widget buyCouponsSegment({
                   SizedBox(height: screenSize.height * .05),
                   Lottie.asset(
                     'assets/lottie/no_data_animation.json',
-                    width: screenSize.width * .4,
+                    width: screenSize.width * .45,
                   ),
                   Text(
                     'No Coupons Available at the moment',
                     style: GoogleFonts.inter(
-                      fontSize: screenSize.width * .031,
+                      fontSize: screenSize.width * .034,
                       fontWeight: FontWeight.bold,
                       color: Colors.black.withOpacity(.75),
                     ),

@@ -34,7 +34,7 @@ Widget contestListSegment({
           '${contestModel.image}',
           width: screenSize.width * .12,
         ),
-        SizedBox(width: screenSize.width * .02),
+        SizedBox(width: screenSize.width * .025),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
