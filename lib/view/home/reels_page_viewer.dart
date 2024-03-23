@@ -109,11 +109,13 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                     builder: (context, controllerValue, child) {
                                       //Determining Like button active status
                                       if (controllerValue.isCompleted) {
-                                        likeButtonActiveStatus = true;
+                                        reelsBloc.add(ReelLikeButtonEnableEvent(
+                                            reelIndex: index));
+                                        preloadState.controllers[index]!.play();
                                       }
                                       return GestureDetector(
                                         onTap: () async {
-                                          if (likeButtonActiveStatus) {
+                                          if (reelsState.isLikeButtonActive) {
                                             _animationController.forward();
                                             if (reelsState
                                                     .reelsModelList![index]
@@ -151,7 +153,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                           'assets/icons/rupee_icon.png',
                                           width: screenSize.width * .105,
                                           height: screenSize.width * .105,
-                                          color: likeButtonActiveStatus
+                                          color: reelsState.isLikeButtonActive
                                               ? reelsState
                                                           .reelsModelList![
                                                               index]

@@ -110,11 +110,11 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
                             width: screenSize.width * .6,
                           ),
 
-                          SizedBox(height: screenSize.height * .025),
+                          SizedBox(height: screenSize.height * .035),
                           //====================Days Left Blue Container====================//
                           daysLeftContainer(context: context),
 
-                          SizedBox(height: screenSize.height * .035),
+                          SizedBox(height: screenSize.height * .045),
                           //====================Count Down Timer====================//
                           countDownTimerSegment(
                             days: state.timeMap!['timeInDays']!,

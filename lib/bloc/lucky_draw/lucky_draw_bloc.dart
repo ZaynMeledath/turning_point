@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/foundation.dart' show immutable;
+import 'package:turning_point/bloc/home/home_bloc.dart';
 import 'package:turning_point/model/contest_model.dart';
 import 'package:turning_point/resources/contest_repository.dart';
 
@@ -91,7 +92,10 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
 
         if (timeMap.isEmpty) {
           emit(LuckyDrawLoadingState());
-          return add(LuckyDrawLoadEvent());
+          state.timeMap = null;
+          state.secondsLeft = null;
+          add(LuckyDrawLoadEvent());
+          return homeBloc.add(TriggerEvent(1));
         }
 
         if (timeMap.isNotEmpty && state is LuckyDrawLoadedState) {
@@ -109,6 +113,18 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
         }
       }
     });
+
+//====================Contest Load Again Event Event====================//
+    // on<LuckyDrawLoadAgainEvent>((event, emit) async {
+    //   final contestModelResponse = await ContestRepository.getCurrentContest();
+    //   emit(
+    //     LuckyDrawLoadedState(
+    //       contestModel: contestModelResponse.data![0],
+    //       secondsLeft: null,
+    //       timeMap: null,
+    //     ),
+    //   );
+    // });
 
 //====================Winners Display Event====================//
     // on<LuckyDrawWinnersDisplayEvent>((event, emit) {

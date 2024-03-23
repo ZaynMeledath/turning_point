@@ -22,17 +22,12 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
 
       reelData.isLikeButtonActive = false;
 
+      await Future.delayed(Duration.zero);
+
       emit(
         ReelsLoadedState(
           reelsModelList: ReelsRepository.reelsModelResponse.data,
-        ),
-      );
-
-      ReelsRepository
-          .reelsModelResponse.data![event.reelIndex].isLikeButtonActive = true;
-      return emit(
-        ReelsLoadedState(
-          reelsModelList: ReelsRepository.reelsModelResponse.data,
+          isLikeButtonActive: false,
         ),
       );
     });
@@ -55,6 +50,7 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
         emit(
           ReelsLoadedState(
             reelsModelList: ReelsRepository.reelsModelResponse.data,
+            isLikeButtonActive: true,
           ),
         );
         await ReelsRepository.likeReel(event.reelIndex);
@@ -67,6 +63,7 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
         emit(ReelsLoadedState(
           reelsModelList: state.reelsModelList,
           isLoading: true,
+          isLikeButtonActive: state.isLikeButtonActive,
         ));
 
         await ReelsRepository.downloadAndSaveVideo(
@@ -75,11 +72,19 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
         emit(ReelsLoadedState(
           reelsModelList: state.reelsModelList,
           isLoading: false,
+          isLikeButtonActive: state.isLikeButtonActive,
         ));
       } catch (e) {
         log('Exception : $e');
       }
     });
+
+    on<ReelLikeButtonEnableEvent>(((event, emit) {
+      emit(ReelsLoadedState(
+        reelsModelList: state.reelsModelList,
+        isLikeButtonActive: true,
+      ));
+    }));
   }
 
 //====================State Change Logger====================//

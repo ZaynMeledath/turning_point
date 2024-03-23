@@ -169,13 +169,16 @@ Widget mainPrizeSegment() {
                 ),
               ),
               Positioned(
-                top: screenSize.height * .56,
+                top: screenSize.width == 550
+                    ? screenSize.height * .56
+                    : screenSize.height * .59,
                 child: Text(
                   rewardsModel.contestName.toString(),
                   textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.poppins(
-                    fontSize: screenSize.width * .05,
-                    fontWeight: FontWeight.bold,
+                    fontSize: screenSize.width * .041,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
