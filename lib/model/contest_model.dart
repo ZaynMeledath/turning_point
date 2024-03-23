@@ -36,7 +36,7 @@ class ContestModel {
   int? points;
   String? description;
   List<String>? rulesArr;
-  bool? userJoinStatus;
+  int? userJoinedCount;
   String? startDate;
   String? endDate;
   String? startTime;
@@ -58,7 +58,7 @@ class ContestModel {
       this.image,
       this.points,
       this.description,
-      this.userJoinStatus,
+      this.userJoinedCount,
       this.rulesArr,
       this.startDate,
       this.endDate,
@@ -81,7 +81,7 @@ class ContestModel {
     image = json['image'];
     points = json['points'];
     description = json['description'];
-    userJoinStatus = json['userJoinStatus'];
+    userJoinedCount = json['userJoinCount'];
     rulesArr = json['rulesArr'].cast<String>();
     startDate = json['startDate'];
     endDate = json['endDate'];
@@ -111,7 +111,7 @@ class ContestModel {
     data['image'] = image;
     data['points'] = points;
     data['description'] = description;
-    data['userJoinStatus'] = userJoinStatus;
+    data['userJoinCount'] = userJoinedCount;
     data['rulesArr'] = rulesArr;
     data['startDate'] = startDate;
     data['endDate'] = endDate;

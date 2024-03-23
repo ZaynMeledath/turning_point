@@ -126,7 +126,7 @@ Widget contestCardInnerContainer({
                     ],
                   ),
                 ),
-                SizedBox(height: screenSize.width * .02),
+                SizedBox(height: screenSize.width * .01),
                 Text(
                   'Join The Contest and Win Exciting Prizes!',
                   style: GoogleFonts.poppins(
@@ -150,9 +150,6 @@ Widget contestCardInnerContainer({
                           children: [
                             GestureDetector(
                               onTap: () {
-                                // if (state.contestModelList![index]
-                                //         .userJoinStatus !=
-                                //     true) {
                                 joinContestBloc.add(
                                   JoinContestEvent(
                                     contestModel:
@@ -161,26 +158,17 @@ Widget contestCardInnerContainer({
                                     entryCount: 1,
                                   ),
                                 );
-                                // }
                               },
                               child: Container(
                                 width: screenSize.width * .28,
                                 height: screenSize.width * .092,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(25),
-                                  color: state.contestModelList![index]
-                                              .userJoinStatus ==
-                                          true
-                                      ? Colors.grey
-                                      : const Color.fromRGBO(0, 99, 255, 1),
+                                  color: const Color.fromRGBO(0, 99, 255, 1),
                                 ),
                                 child: Center(
                                   child: Text(
-                                    state.contestModelList![index]
-                                                .userJoinStatus ==
-                                            true
-                                        ? 'Joined'
-                                        : 'Enter Contest',
+                                    'Enter Contest',
                                     style: GoogleFonts.roboto(
                                       fontSize: screenSize.width * .032,
                                       fontWeight: FontWeight.w500,
@@ -191,7 +179,16 @@ Widget contestCardInnerContainer({
                                 ),
                               ),
                             ),
-                            SizedBox(height: screenSize.width * .02)
+                            SizedBox(height: screenSize.width * .005),
+                            Text(
+                              'You have ${contestModel.userJoinedCount ?? 0} Coupon',
+                              style: GoogleFonts.inter(
+                                fontSize: screenSize.width * .026,
+                                fontWeight: FontWeight.w500,
+                                color: const Color.fromRGBO(86, 86, 86, 1),
+                              ),
+                            ),
+                            SizedBox(height: screenSize.width * .01)
                           ],
                         ),
                       ],

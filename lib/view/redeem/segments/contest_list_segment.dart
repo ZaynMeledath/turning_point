@@ -1,52 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/bloc/contest/contest_bloc.dart';
+import 'package:turning_point/bloc/contest/join_contest_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/model/contest_model.dart';
 import 'package:turning_point/view/redeem/redeem_screen.dart';
 
 Widget contestListSegment({
+  required int contestIndex,
   required ContestModel contestModel,
+  required String daysLeft,
 }) {
   return Container(
     margin: const EdgeInsets.only(bottom: 15, top: 5),
     padding: EdgeInsets.symmetric(horizontal: screenSize.width * .026),
-    height: screenSize.height * .07,
+    height: screenSize.height * .096,
     decoration: BoxDecoration(
-      gradient: LinearGradient(
-        colors: [
-          Colors.white.withOpacity(.8),
-          Colors.white.withOpacity(.9),
-        ],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ),
+      color: Colors.white,
       borderRadius: BorderRadius.circular(12),
       boxShadow: [
         BoxShadow(
-          offset: const Offset(1, 1),
-          blurRadius: 2,
-          color: Colors.black.withOpacity(.07),
-        ),
-        BoxShadow(
-          offset: const Offset(-1, -1),
-          blurRadius: 2,
-          color: Colors.black.withOpacity(.07),
+          offset: const Offset(0, 0),
+          blurRadius: 4,
+          spreadRadius: -2,
+          color: Colors.black.withOpacity(.2),
+          blurStyle: BlurStyle.outer,
         ),
       ],
     ),
     child: Row(
       children: [
-        SizedBox(
-          width: screenSize.width * .34,
-          child: Text(
-            'Contest Name Something',
-            overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.poppins(
-              fontSize: screenSize.width * .035,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+        Image.network(
+          '${contestModel.image}',
+          width: screenSize.width * .12,
         ),
+        SizedBox(width: screenSize.width * .02),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: screenSize.width * .3,
+              child: Text(
+                contestModel.name.toString(),
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.poppins(
+                  fontSize: screenSize.width * .035,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: screenSize.width * .3,
+              child: Text(
+                int.parse(daysLeft) < 2
+                    ? 'Ends in a day'
+                    : 'Ends in $daysLeft days',
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.poppins(
+                  fontSize: screenSize.width * .025,
+                  fontWeight: FontWeight.w500,
+                  color: const Color.fromRGBO(86, 86, 86, 1),
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(width: screenSize.width * .025),
 
         buyCouponCounter(),
 //====================Yellow Buy Coupon Container====================//
@@ -57,38 +76,44 @@ Widget contestListSegment({
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    // height: screenSize.height * .03,
-                    // padding: const EdgeInsets.only(
-                    //   left: 2,
-                    //   right: 6,
-                    //   top: 2,
-                    //   bottom: 2,
-                    // ),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: screenSize.width * .03,
-                      vertical: screenSize.height * .007,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      gradient: const LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        colors: [
-                          Color.fromRGBO(255, 215, 0, 1),
-                          Color.fromRGBO(255, 238, 141, 1),
-                        ],
+                  SizedBox(height: screenSize.height * .01),
+                  InkWell(
+                    borderRadius: BorderRadius.circular(16),
+                    onTap: () {
+                      joinContestBloc.add(JoinContestEvent(
+                        contestModel: contestModel,
+                        contestIndex: contestIndex,
+                        entryCount: contestBloc.state.entryCount,
+                      ));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenSize.width * .028,
+                        vertical: screenSize.height * .009,
                       ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Buy Coupon',
-                        style: GoogleFonts.inter(
-                          fontSize: screenSize.width * .031,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.black87,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: const Color.fromRGBO(0, 146, 110, 1),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Buy Coupon',
+                          style: GoogleFonts.inter(
+                            fontSize: screenSize.width * .031,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
+                    ),
+                  ),
+                  SizedBox(height: screenSize.height * .005),
+                  Text(
+                    'You have ${contestModel.userJoinedCount ?? 0}',
+                    style: GoogleFonts.inter(
+                      fontSize: screenSize.width * .026,
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromRGBO(86, 86, 86, 1),
                     ),
                   ),
                 ],

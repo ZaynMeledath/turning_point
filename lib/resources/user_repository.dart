@@ -36,7 +36,7 @@ class UserRepository {
         requestMethod: RequestMethod.POST,
         data: {
           "idToken": token,
-          // "fcmToken": fcmToken,
+          "fcmToken": fcmToken,
         },
         isTokenRequired: false,
       );

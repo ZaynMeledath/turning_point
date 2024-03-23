@@ -12,7 +12,7 @@ class ContestRepository {
   static Future<ContestModelResponse> getContests() async {
     try {
       final response = await ApiService().sendRequest(
-        url: ApiEndpoints.getContests,
+        url: ApiEndpoints.getContestCoupons,
         requestMethod: RequestMethod.GET,
         data: null,
         isTokenRequired: true,
@@ -25,12 +25,17 @@ class ContestRepository {
   }
 
 //====================Join Contest====================//
-  static Future<void> joinContest(String id) async {
+  static Future<void> joinContest({
+    required String id,
+    required int entryCount,
+  }) async {
     try {
       await ApiService().sendRequest(
         url: '${ApiEndpoints.joinContest}/$id',
-        requestMethod: RequestMethod.GET,
-        data: null,
+        requestMethod: RequestMethod.POST,
+        data: {
+          'count': entryCount,
+        },
         isTokenRequired: true,
       );
     } catch (e) {

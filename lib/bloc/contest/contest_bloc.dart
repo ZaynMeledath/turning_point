@@ -40,13 +40,18 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
               contestModelList: contestModelResponse.data!,
               timeList: timeList,
               secondsLeftList: secondsLeftList,
+              entryCount: state.entryCount,
             ),
           );
           add(ContestTimerUpdateEvent());
         } else {
           emit(
             ContestLoadedState(
-                contestModelList: null, timeList: null, secondsLeftList: null),
+              contestModelList: null,
+              timeList: null,
+              secondsLeftList: null,
+              entryCount: 1,
+            ),
           );
         }
       }
@@ -90,6 +95,7 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
               contestModelList: state.contestModelList,
               timeList: timeList,
               secondsLeftList: secondsLeftList,
+              entryCount: state.entryCount,
             ),
           );
           await Future.delayed(const Duration(seconds: 1));
@@ -98,6 +104,45 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
           return;
         }
       }
+    });
+
+//====================Contest Entry Increment Event Event====================//
+    on<ContestEntryIncrementEvent>((event, emit) {
+      emit(
+        ContestLoadedState(
+          contestModelList: state.contestModelList,
+          timeList: state.timeList,
+          secondsLeftList: state.secondsLeftList,
+          entryCount: state.entryCount + 1,
+        ),
+      );
+    });
+
+//====================Contest Entry Decrement Event Event====================//
+    on<ContestEntryDecrementEvent>((event, emit) {
+      if (state.entryCount > 1) {
+        emit(
+          ContestLoadedState(
+            contestModelList: state.contestModelList,
+            timeList: state.timeList,
+            secondsLeftList: state.secondsLeftList,
+            entryCount: state.entryCount - 1,
+          ),
+        );
+      }
+    });
+
+//====================Contest Load Again Event Event====================//
+    on<ContestLoadAgainEvent>((event, emit) async {
+      final contestModelResponse = await ContestRepository.getContests();
+      emit(
+        ContestLoadedState(
+          contestModelList: contestModelResponse.data,
+          timeList: state.timeList,
+          secondsLeftList: state.secondsLeftList,
+          entryCount: 1,
+        ),
+      );
     });
 
 //====================Timer Dispose Event====================//

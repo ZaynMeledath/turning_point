@@ -14,20 +14,20 @@ part 'join_contest_state.dart';
 class JoinContestBloc extends Bloc<JoinContestEvent, JoinContestState> {
   JoinContestBloc() : super(JoinContestInitialState()) {
     on<JoinContestEvent>((event, emit) async {
+      emit(JoinContestLoadingState());
       try {
         final userModelResponse = UserRepository.getUserFromPreference()!;
         if (userModelResponse.data!.kycStatus == true) {
-          if (userModelResponse.data!.points! >= event.contestModel.points!) {
-            await ContestRepository.joinContest(event.contestModel.id!);
-            userModelResponse.data!.points =
-                userModelResponse.data!.points! - event.contestModel.points!;
+          if (userModelResponse.data!.points! >=
+              event.contestModel.points! * event.entryCount) {
+            await ContestRepository.joinContest(
+              id: event.contestModel.id!,
+              entryCount: event.entryCount,
+            );
 
-            contestBloc.state.contestModelList![event.contestIndex]
-                .userJoinStatus = true;
-            // reelsBloc.state.userPoints = userModelResponse.data!.points!;
-            UserRepository.addUserToPreference(userModelResponse);
-            pointsBloc.add(PointsLoadEvent());
-            // contestBloc.add(ContestLoadEvent());
+            pointsBloc
+                .add(PointsLoadEvent(avoidGettingUserFromPreference: true));
+            contestBloc.add(ContestLoadAgainEvent());
 
             emit(ContestJoinedState(event.contestModel));
           } else {

@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
+import 'package:turning_point/bloc/contest/join_contest_bloc.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
+import 'package:turning_point/bloc/points_history/points_history_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/bloc/redeem/redeem_bloc.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
@@ -15,6 +17,7 @@ import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/resources/contest_repository.dart';
 import 'package:turning_point/resources/user_repository.dart';
+import 'package:turning_point/service/Exception/user_exceptions.dart';
 import 'package:turning_point/view/redeem/segments/available_points_container.dart';
 import 'package:turning_point/view/redeem/segments/contest_list_segment.dart';
 import 'package:turning_point/view/redeem/segments/redeem_options_segment.dart';
@@ -53,6 +56,7 @@ class _RedeemScreenState extends State<RedeemScreen> {
     super.dispose();
     redeemBloc.add(ResetStateEvent());
     contestBloc.add(ContestTimerDisposeEvent());
+    pointsHistoryBloc.add(PointsHistoryLoadEvent());
     upiController.dispose();
   }
 
@@ -135,7 +139,56 @@ class _RedeemScreenState extends State<RedeemScreen> {
             builder: (context, state) {
               switch (state) {
                 case BuyCouponsState():
-                  return buyCouponsSegment(context: context);
+                  return BlocListener<JoinContestBloc, JoinContestState>(
+                    listener: (context, joinContestState) {
+                      if (joinContestState is JoinContestLoadingState &&
+                          closeDialogHandle == null) {
+                        closeDialogHandle = showLoadingDialog(context: context);
+                      } else if (joinContestState is ContestJoinedState &&
+                          closeDialogHandle != null) {
+                        Navigator.pop(context);
+                        closeDialogHandle = null;
+                      } else if (joinContestState is JoinContestErrorState) {
+                        Navigator.pop(context);
+                        closeDialogHandle = null;
+                        switch (joinContestState.exception) {
+                          case InsufficientBalanceToJoinContestException():
+                            showAnimatedGenericDialog(
+                              context: context,
+                              iconPath: 'assets/icons/kyc_declined_icon.png',
+                              title: 'Oops',
+                              content:
+                                  'Insufficient Balance to join the\ncontest',
+                              buttonTitle: 'Dismiss',
+                            );
+                            break;
+                          case VerificationRequiredToJoinContestException():
+                            showAnimatedGenericDialog(
+                              context: context,
+                              iconPath:
+                                  'assets/lottie/kyc_verification_animation.json',
+                              title: 'Not Verified',
+                              content:
+                                  'KYC should be verified to join the\ncontest',
+                              buttonTitle: 'Dismiss',
+                              iconWidth: screenSize.width * .2,
+                            );
+                            break;
+                          default:
+                            showAnimatedGenericDialog(
+                              context: context,
+                              iconPath:
+                                  'assets/lottie/something_went_wrong_animation.json',
+                              title: 'Error',
+                              content: 'Something Went Wrong',
+                              buttonTitle: 'Dismiss',
+                              iconWidth: screenSize.width * .2,
+                            );
+                        }
+                      }
+                    },
+                    child: buyCouponsSegment(context: context),
+                  );
 
                 case BankTransferState():
                   return bankTransferSegment(context: context);

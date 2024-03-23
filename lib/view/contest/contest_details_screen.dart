@@ -225,31 +225,24 @@ class ContestDetailsScreen extends StatelessWidget {
                 //====================Enter Contest Button====================//
                 GestureDetector(
                   onTap: () {
-                    if (state.contestModelList![index].userJoinStatus != true) {
-                      joinContestBloc.add(
-                        JoinContestEvent(
-                          contestModel: state.contestModelList![index],
-                          contestIndex: index,
-                          entryCount: 1,
-                        ),
-                      );
-                    }
+                    joinContestBloc.add(
+                      JoinContestEvent(
+                        contestModel: state.contestModelList![index],
+                        contestIndex: index,
+                        entryCount: 1,
+                      ),
+                    );
                   },
                   child: Container(
                     width: screenSize.width * .28,
                     height: screenSize.width * .092,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
-                      color:
-                          state.contestModelList![index].userJoinStatus == true
-                              ? Colors.grey
-                              : const Color.fromRGBO(0, 99, 255, 1),
+                      color: const Color.fromRGBO(0, 99, 255, 1),
                     ),
                     child: Center(
                       child: Text(
-                        state.contestModelList![index].userJoinStatus == true
-                            ? 'Joined'
-                            : 'Enter Contest',
+                        'Enter Contest',
                         style: GoogleFonts.roboto(
                           fontSize: screenSize.width * .032,
                           fontWeight: FontWeight.w500,

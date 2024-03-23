@@ -14,17 +14,22 @@ Widget buyCouponsSegment({
         if (state.contestModelList != null &&
             state.contestModelList!.isNotEmpty) {
           return Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.symmetric(
-                horizontal: realScreenSize.width * .05,
-                vertical: screenSize.height * .01,
+            child: Container(
+              color: const Color.fromRGBO(246, 246, 246, 1),
+              child: ListView.builder(
+                padding: EdgeInsets.symmetric(
+                  horizontal: realScreenSize.width * .036,
+                  vertical: screenSize.height * .01,
+                ),
+                itemCount: state.contestModelList!.length,
+                itemBuilder: (context, index) {
+                  return contestListSegment(
+                    contestModel: state.contestModelList![index],
+                    daysLeft: state.timeList![index]['timeInDays']!,
+                    contestIndex: index,
+                  );
+                },
               ),
-              itemCount: state.contestModelList!.length,
-              itemBuilder: (context, index) {
-                return contestListSegment(
-                  contestModel: state.contestModelList![index],
-                );
-              },
             ),
           );
         } else {

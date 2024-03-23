@@ -4,6 +4,8 @@ sealed class JoinContestState {}
 
 class JoinContestInitialState extends JoinContestState {}
 
+class JoinContestLoadingState extends JoinContestState {}
+
 class ContestJoinedState extends JoinContestState {
   final ContestModel contestModel;
 
