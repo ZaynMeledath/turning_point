@@ -126,7 +126,16 @@ class ReelsScreenState extends State<ReelsScreen>
                   children: [
                     //====================Reels Player====================//
 
-                    const ReelsPageViewer(),
+                    FutureBuilder(
+                      future: ReelsRepository.getReels(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return const ReelsPageViewer();
+                        } else {
+                          return rippleLoading();
+                        }
+                      },
+                    ),
 
                     //====================Points Container====================//
                     Positioned(

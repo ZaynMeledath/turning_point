@@ -3,12 +3,10 @@ import 'package:flutter/material.dart' show TextEditingController, immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
-import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/exceptions/user_exceptions.dart';
 import 'package:turning_point/model/contractor_model.dart';
 import 'package:turning_point/model/user_model.dart';
-import 'package:turning_point/resources/reels_repository.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/Exception/api_exception.dart';
 import 'package:turning_point/service/auth/firebase_auth_provider.dart';
@@ -28,8 +26,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
         if (userModelResponse != null && userModelResponse.data != null) {
           final isContractor = userModelResponse.data!.role == Role.CONTRACTOR;
-          final reelsModelResponse = await ReelsRepository.getReels();
-          reelsBloc.state.reelsModelList = reelsModelResponse.data;
+          // final reelsModelResponse = await ReelsRepository.getReels();
+          // reelsBloc.state.reelsModelList = reelsModelResponse.data;
 
           return emit(ProfileLoadedState(
             isLoading: false,
