@@ -148,6 +148,15 @@ class _RedeemScreenState extends State<RedeemScreen> {
                           closeDialogHandle != null) {
                         Navigator.pop(context);
                         closeDialogHandle = null;
+                        showAnimatedGenericDialog(
+                          context: context,
+                          iconPath:
+                              'assets/images/points_received_dialog_image.png',
+                          title: 'Joined Contest!',
+                          content:
+                              'You have Successfully joined\n${joinContestState.contestModel.name}',
+                          buttonTitle: 'Done',
+                        );
                       } else if (joinContestState is JoinContestErrorState) {
                         Navigator.pop(context);
                         closeDialogHandle = null;

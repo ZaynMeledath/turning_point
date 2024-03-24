@@ -47,6 +47,7 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
         UserRepository.addUserToPreference(userModelResponse);
 
         pointsBloc.add(PointsLoadEvent());
+
         emit(
           ReelsLoadedState(
             reelsModelList: ReelsRepository.reelsModelResponse.data,
@@ -54,6 +55,7 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
           ),
         );
         await ReelsRepository.likeReel(event.reelIndex);
+        pointsBloc.add(PointsLoadEvent(avoidGettingUserFromPreference: true));
       }
     });
 

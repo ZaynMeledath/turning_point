@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/connect/connect_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
