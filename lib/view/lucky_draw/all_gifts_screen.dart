@@ -112,15 +112,24 @@ class _AllGiftsScreenState extends State<AllGiftsScreen> {
                         ),
                         child: ListView(
                           children: [
-                            index < 6
-                                ? Image.network(
-                                    prizeModel.image.toString(),
-                                    height: screenSize.width * .15,
-                                  )
-                                : Image.asset(
-                                    'assets/images/red_gift_box.png',
-                                    height: screenSize.width * .15,
-                                  ),
+                            Text(
+                              '#${index + 1}',
+                              style: GoogleFonts.poppins(
+                                fontSize: screenSize.width * .035,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            // index < 6
+                            //     ?
+                            Image.network(
+                              prizeModel.image.toString(),
+                              height: screenSize.width * .15,
+                            ),
+                            // : Image.asset(
+                            //     'assets/images/red_gift_box.png',
+                            //     height: screenSize.width * .15,
+                            //   ),
                             SizedBox(height: screenSize.width * .007),
                             Text(
                               prizeModel.name.toString(),

@@ -114,7 +114,7 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
                           //====================Days Left Blue Container====================//
                           daysLeftContainer(context: context),
 
-                          SizedBox(height: screenSize.height * .045),
+                          SizedBox(height: screenSize.height * .04),
                           //====================Count Down Timer====================//
                           countDownTimerSegment(
                             days: state.timeMap!['timeInDays']!,
@@ -123,7 +123,7 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
                             seconds: state.timeMap!['timeInSeconds']!,
                           ),
 
-                          SizedBox(height: screenSize.height * .065),
+                          SizedBox(height: screenSize.height * .04),
                           //====================Gifts Segment====================//
                           Padding(
                             padding: EdgeInsets.symmetric(
@@ -157,7 +157,7 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
                               ],
                             ),
                           ),
-                          SizedBox(height: screenSize.height * .02),
+                          SizedBox(height: screenSize.height * .012),
                           Padding(
                             padding: EdgeInsets.symmetric(
                               horizontal: screenSize.width * .05,

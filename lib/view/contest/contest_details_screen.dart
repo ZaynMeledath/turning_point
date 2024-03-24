@@ -148,7 +148,7 @@ class ContestDetailsScreen extends StatelessWidget {
                             color: const Color.fromRGBO(0, 29, 75, 1),
                           ),
                         ),
-                        SizedBox(height: screenSize.height * .01),
+                        SizedBox(height: screenSize.height * .015),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
@@ -170,7 +170,7 @@ class ContestDetailsScreen extends StatelessWidget {
                             children: [
                               Text(
                                 '⦿  ${contestModel.rulesArr![i]}',
-                                textAlign: TextAlign.center,
+                                // textAlign: TextAlign.center,
                                 style: GoogleFonts.roboto(
                                   height: 2,
                                   fontSize: screenSize.width * .03,

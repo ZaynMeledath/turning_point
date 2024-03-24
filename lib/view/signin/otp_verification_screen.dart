@@ -71,7 +71,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
             context: context,
             iconPath: 'assets/icons/kyc_declined_icon.png',
             title: 'Something Went Wrong',
-            content: state.exception.toString(),
+            content: 'Check you OTP or try again after sometime',
             buttonTitle: 'OK',
           );
         } else if (state is AuthErrorState) {

@@ -30,6 +30,7 @@ import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/service/notification/awesome_notification_controller.dart';
 import 'package:turning_point/view/splash/splash_screen.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 final GlobalKey<NavigatorState> globalNavigatorKey =
     GlobalKey<NavigatorState>();
@@ -79,6 +80,8 @@ void main() async {
     onDismissActionReceivedMethod:
         NotificationController.onDismissActionReceivedMethod,
   );
+
+  await WakelockPlus.enable();
 
 //--------------------Internet Check--------------------//
   // final InternetConnectionChecker customInstance =

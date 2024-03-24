@@ -56,11 +56,11 @@ class ReelsScreenState extends State<ReelsScreen>
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.playCurrentController();
     }
-    preloadBloc.state.isReelsVisible = true;
-    getData();
+
+    enableWakelock();
   }
 
-  void getData() async {
+  void enableWakelock() async {
     await WakelockPlus.enable();
     final token = await FirebaseMessaging.instance.getToken();
     log('FCM Token : ${token.toString()}');
@@ -87,7 +87,6 @@ class ReelsScreenState extends State<ReelsScreen>
 
   @override
   Widget build(BuildContext context) {
-    WakelockPlus.enable();
     return Scaffold(
       backgroundColor: Colors.black,
       body: BlocBuilder<ProfileBloc, ProfileState>(
@@ -118,6 +117,7 @@ class ReelsScreenState extends State<ReelsScreen>
                 ),
               );
             case ProfileLoadedState():
+              preloadBloc.state.isReelsVisible = true;
               return RefreshIndicator(
                 onRefresh: () => handleRefresh(),
                 color: Colors.red,
