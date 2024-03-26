@@ -78,6 +78,9 @@ class _KycScreenState extends State<KycScreen>
                 closeDialogHandle != null) {
               Navigator.pop(context);
               closeDialogHandle = null;
+            } else if (state is! KycSubmittedState) {
+              Navigator.pop(context);
+              closeDialogHandle = null;
             }
           },
           builder: (context, state) {

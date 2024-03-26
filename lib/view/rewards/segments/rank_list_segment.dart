@@ -4,27 +4,6 @@ import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/model/rewards_model.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
 
-final rankList = [
-  'Sam',
-  'Karen',
-  'Anastasia',
-  'Jacob',
-  'Mathew',
-  'Annie',
-  'Cindy',
-  'Eva',
-  'Eden',
-  'Sam',
-  'Karen',
-  'Anastasia',
-  'Jacob',
-  'Mathew',
-  'Annie',
-  'Cindy',
-  'Eva',
-  'Eden',
-];
-
 Widget rankListSegment({
   required int index,
   required RewardsModel rewardsModel,
@@ -32,6 +11,8 @@ Widget rankListSegment({
   final winnerDetails = rewardsModel.contestPrizes!.length > 3
       ? rewardsModel.contestPrizes![index + 3].winnerDetails
       : null;
+
+  index = index + 3;
 
   return Container(
     margin: EdgeInsets.symmetric(
@@ -63,7 +44,7 @@ Widget rankListSegment({
 
 //====================Rank====================//
       leading: Text(
-        '#${index + 4}',
+        '#${index + 1}',
         style: GoogleFonts.roboto(
           fontSize: screenSize.width * .036,
           fontWeight: FontWeight.w700,

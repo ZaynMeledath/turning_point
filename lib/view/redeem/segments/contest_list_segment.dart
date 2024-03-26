@@ -89,7 +89,7 @@ Widget contestListSegment({
           ),
           SizedBox(width: screenSize.width * .025),
 
-          buyCouponCounter(),
+          buyCouponCounter(contestIndex: contestIndex),
           //====================Yellow Buy Coupon Container====================//
           Expanded(
             child: Row(
@@ -102,11 +102,14 @@ Widget contestListSegment({
                     InkWell(
                       borderRadius: BorderRadius.circular(16),
                       onTap: () {
-                        joinContestBloc.add(JoinContestEvent(
-                          contestModel: contestModel,
-                          contestIndex: contestIndex,
-                          entryCount: contestBloc.state.entryCount,
-                        ));
+                        joinContestBloc.add(
+                          JoinContestEvent(
+                            contestModel: contestModel,
+                            contestIndex: contestIndex,
+                            entryCount:
+                                contestBloc.state.entryCount[contestIndex],
+                          ),
+                        );
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(

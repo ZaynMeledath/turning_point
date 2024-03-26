@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,10 +10,12 @@ import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/dialog/show_custom_loading_dialog.dart';
+import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
 import 'package:turning_point/resources/location_repository.dart';
+import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/view/signin/add_contractor_details_screen.dart';
 import 'package:turning_point/view/signin/otp_verification_screen.dart';
 
@@ -225,21 +229,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             //====================Sign Up Button====================//
 
                             GestureDetector(
-                              onTap: () {
+                              onTap: () async {
                                 final status =
                                     _formKey.currentState!.validate();
                                 if (status) {
                                   if (contractorState.contractorNotListed ==
                                       true) {
-                                    CustomNavigator.push(
-                                      context: context,
-                                      child: AddContractorDetailsScreen(
-                                        phone: phoneController.text.trim(),
-                                        otpController: otpController,
-                                        location: location,
-                                      ),
-                                    );
-                                    return;
+                                    showLoadingDialog(context: context);
+                                    final phoneExists =
+                                        await UserRepository.checkPhoneNumber(
+                                            phoneController.text.trim());
+                                    if (phoneExists) {
+                                      Navigator.pop(context);
+                                      showAnimatedGenericDialog(
+                                        context: context,
+                                        iconPath:
+                                            'assets/icons/kyc_declined_icon.png',
+                                        title: 'Phone Already Exists',
+                                        content:
+                                            'The number you are trying to register already exists.',
+                                        buttonTitle: 'OK',
+                                      );
+                                    } else {
+                                      Navigator.pop(context);
+                                      CustomNavigator.push(
+                                        context: context,
+                                        child: AddContractorDetailsScreen(
+                                          phone: phoneController.text.trim(),
+                                          otpController: otpController,
+                                          location: location,
+                                        ),
+                                      );
+                                      return;
+                                    }
                                   }
                                   if (widget.isContractor) {
                                     authBloc.add(

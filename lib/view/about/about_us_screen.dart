@@ -12,6 +12,8 @@ class AboutUsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //     PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      // String version = packageInfo.version;
       body: SafeArea(
         child: Column(
           children: [

@@ -1,13 +1,14 @@
 part of '../redeem_screen.dart';
 
-Widget buyCouponCounter() {
+Widget buyCouponCounter({required int contestIndex}) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Row(
         children: [
           InkWell(
-            onTap: () => contestBloc.add(ContestEntryDecrementEvent()),
+            onTap: () => contestBloc
+                .add(ContestEntryDecrementEvent(contestIndex: contestIndex)),
             child: Container(
               width: screenSize.width * .058,
               height: screenSize.width * .058,
@@ -31,7 +32,8 @@ Widget buyCouponCounter() {
           ),
           SizedBox(width: screenSize.width * .015),
           InkWell(
-            onTap: () => contestBloc.add(ContestEntryIncrementEvent()),
+            onTap: () => contestBloc
+                .add(ContestEntryIncrementEvent(contestIndex: contestIndex)),
             child: Container(
               width: screenSize.width * .058,
               height: screenSize.width * .058,
@@ -68,7 +70,7 @@ Widget buyCouponCounter() {
           ),
           child: Center(
             child: Text(
-              state.entryCount.toString(),
+              state.entryCount[contestIndex].toString(),
               style: GoogleFonts.poppins(
                 fontSize: screenSize.width * .028,
                 fontWeight: FontWeight.w400,

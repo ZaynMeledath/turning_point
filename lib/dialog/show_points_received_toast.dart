@@ -29,7 +29,9 @@ Widget dialog({
 }) {
   return Container(
     width: screenSize.width * .48,
-    padding: EdgeInsets.symmetric(vertical: screenSize.width * .015),
+    padding: EdgeInsets.symmetric(
+      vertical: screenSize.width * .015,
+    ),
     decoration: BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.circular(15),
@@ -51,8 +53,14 @@ Widget dialog({
           child: Text(
             '$points Points Credited',
             textAlign: TextAlign.center,
+            style: GoogleFonts.roboto(
+              fontSize: screenSize.width * .04,
+              fontWeight: FontWeight.w400,
+              color: Colors.black,
+            ),
           ),
         ),
+        SizedBox(width: screenSize.width * .01),
       ],
     ),
   );

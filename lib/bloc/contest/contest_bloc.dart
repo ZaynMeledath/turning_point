@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/model/contest_model.dart';
 import 'package:turning_point/resources/contest_repository.dart';
 
@@ -36,12 +37,16 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
                 'timeInDays': timeInDays.toString().padLeft(2, '0'),
               });
             }
+            final entryCount = [];
+            for (int i = 0; i < contestModelResponse.data!.length; i++) {
+              entryCount.add(1);
+            }
             emit(
               ContestLoadedState(
                 contestModelList: contestModelResponse.data!,
                 timeList: timeList,
                 secondsLeftList: secondsLeftList,
-                entryCount: state.entryCount,
+                entryCount: entryCount.map((e) => int.parse('$e')).toList(),
               ),
             );
             add(ContestTimerUpdateEvent());
@@ -51,7 +56,7 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
                 contestModelList: null,
                 timeList: null,
                 secondsLeftList: null,
-                entryCount: 1,
+                entryCount: [],
               ),
             );
           }
@@ -62,7 +67,7 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
             contestModelList: null,
             timeList: null,
             secondsLeftList: null,
-            entryCount: 1,
+            entryCount: [],
           ),
         );
       }
@@ -93,11 +98,18 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
 
           if (!temp.contains(false)) {
             timeList.removeAt(i);
+            state.contestModelList!.removeAt(i);
           }
         }
         if (timeList.isEmpty) {
-          emit(ContestLoadingState());
-          return add(ContestLoadEvent());
+          return emit(
+            ContestLoadedState(
+              contestModelList: null,
+              timeList: null,
+              secondsLeftList: null,
+              entryCount: [],
+            ),
+          );
         }
 
         if (timeList.isNotEmpty && state is ContestLoadedState) {
@@ -119,25 +131,31 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
 
 //====================Contest Entry Increment Event Event====================//
     on<ContestEntryIncrementEvent>((event, emit) {
-      emit(
-        ContestLoadedState(
-          contestModelList: state.contestModelList,
-          timeList: state.timeList,
-          secondsLeftList: state.secondsLeftList,
-          entryCount: state.entryCount + 1,
-        ),
-      );
-    });
-
-//====================Contest Entry Decrement Event Event====================//
-    on<ContestEntryDecrementEvent>((event, emit) {
-      if (state.entryCount > 1) {
+      if (profileBloc.state.userModel!.points! >=
+          state.contestModelList![event.contestIndex].points! *
+              (state.entryCount[event.contestIndex] + 1)) {
+        state.entryCount[event.contestIndex] += 1;
         emit(
           ContestLoadedState(
             contestModelList: state.contestModelList,
             timeList: state.timeList,
             secondsLeftList: state.secondsLeftList,
-            entryCount: state.entryCount - 1,
+            entryCount: state.entryCount,
+          ),
+        );
+      }
+    });
+
+//====================Contest Entry Decrement Event Event====================//
+    on<ContestEntryDecrementEvent>((event, emit) {
+      if (state.entryCount[event.contestIndex] > 1) {
+        state.entryCount[event.contestIndex] -= 1;
+        emit(
+          ContestLoadedState(
+            contestModelList: state.contestModelList,
+            timeList: state.timeList,
+            secondsLeftList: state.secondsLeftList,
+            entryCount: state.entryCount,
           ),
         );
       }
@@ -146,12 +164,16 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
 //====================Contest Load Again Event Event====================//
     on<ContestLoadAgainEvent>((event, emit) async {
       final contestModelResponse = await ContestRepository.getContests();
+      final entryCount = [];
+      for (int i = 0; i < contestModelResponse.data!.length; i++) {
+        entryCount.add(1);
+      }
       emit(
         ContestLoadedState(
           contestModelList: contestModelResponse.data,
           timeList: state.timeList,
           secondsLeftList: state.secondsLeftList,
-          entryCount: 1,
+          entryCount: entryCount.map((e) => int.parse('$e')).toList(),
         ),
       );
     });

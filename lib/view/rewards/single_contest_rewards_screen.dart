@@ -74,7 +74,8 @@ class _SingleContestRewardsScreenState extends State<SingleContestRewardsScreen>
               ? ListView.builder(
                   padding:
                       EdgeInsets.symmetric(vertical: screenSize.height * .01),
-                  itemCount: rankList.length,
+                  itemCount:
+                      state.currentRewardsModel!.contestPrizes!.length - 3,
                   itemBuilder: (context, index) {
                     return rankListSegment(
                       index: index,
