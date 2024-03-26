@@ -1,19 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 
 part 'segments/about_company_container.dart';
 part 'segments/follow_us_segment.dart';
 
-class AboutUsScreen extends StatelessWidget {
+class AboutUsScreen extends StatefulWidget {
   const AboutUsScreen({super.key});
+
+  @override
+  State<AboutUsScreen> createState() => _AboutUsScreenState();
+}
+
+class _AboutUsScreenState extends State<AboutUsScreen> {
+  String version = '';
+  @override
+  void initState() {
+    getVersion();
+    super.initState();
+  }
+
+  void getVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    version = packageInfo.version;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      // String version = packageInfo.version;
       body: SafeArea(
         child: Column(
           children: [
@@ -35,7 +52,7 @@ class AboutUsScreen extends StatelessWidget {
               ),
             ),
             Text(
-              'v1.0.0',
+              'v$version',
               style: GoogleFonts.roboto(
                 fontSize: screenSize.width * .041,
                 fontWeight: FontWeight.w400,

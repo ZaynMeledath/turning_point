@@ -52,6 +52,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
       body: BlocConsumer<ScannerBloc, ScannerState>(
         listener: (context, state) {
           if (state is ScannerCodeDetectedState) {
+            couponController.clear();
             switch (state.couponModel!.message) {
               case 'Coupon Applied':
                 showScannerCouponDialog(
