@@ -31,6 +31,12 @@ class _SingleContestRewardsScreenState extends State<SingleContestRewardsScreen>
   }
 
   @override
+  void didChangeDependencies() {
+    rewardsBloc.add(RewardsLoadEvent());
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<RewardsBloc, RewardsState>(
       builder: (context, state) {
@@ -64,7 +70,9 @@ class _SingleContestRewardsScreenState extends State<SingleContestRewardsScreen>
                 backgroundColor: Colors.white,
                 pinned: true,
                 automaticallyImplyLeading: false,
-                toolbarHeight: screenSize.width * .07,
+                toolbarHeight: screenSize.width >= 550
+                    ? screenSize.width * .07
+                    : screenSize.width * .01,
                 flexibleSpace: singleContestRewardsTabBar(tabController),
               ),
             ];
@@ -72,8 +80,9 @@ class _SingleContestRewardsScreenState extends State<SingleContestRewardsScreen>
           //====================Rank List====================//
           body: state.currentRewardsModel!.contestPrizes!.length > 3
               ? ListView.builder(
-                  padding:
-                      EdgeInsets.symmetric(vertical: screenSize.height * .01),
+                  padding: screenSize.width >= 550
+                      ? EdgeInsets.symmetric(vertical: screenSize.height * .01)
+                      : EdgeInsets.zero,
                   itemCount:
                       state.currentRewardsModel!.contestPrizes!.length - 3,
                   itemBuilder: (context, index) {

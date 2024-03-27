@@ -36,6 +36,7 @@ class ReelsScreenState extends State<ReelsScreen>
   @override
   void initState() {
     super.initState();
+    preloadBloc.state.isReelsVisible = true;
     locationServiceBloc.add(LocationServiceStartEvent());
 
     log('${AppPreferences.getValueShared('auth_token')}');
@@ -117,7 +118,6 @@ class ReelsScreenState extends State<ReelsScreen>
                 ),
               );
             case ProfileLoadedState():
-              preloadBloc.state.isReelsVisible = true;
               return RefreshIndicator(
                 onRefresh: () => handleRefresh(),
                 color: Colors.red,

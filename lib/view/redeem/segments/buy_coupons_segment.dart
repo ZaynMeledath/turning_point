@@ -23,7 +23,7 @@ Widget buyCouponsSegment({
                 ),
                 itemCount: state.contestModelList!.length,
                 itemBuilder: (context, index) {
-                  return contestListSegment(
+                  return buyCouponContainer(
                     context: context,
                     contestModel: state.contestModelList![index],
                     daysLeft: state.timeList![index]['timeInDays']!,

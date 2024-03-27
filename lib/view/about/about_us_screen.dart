@@ -65,7 +65,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
               title: 'Turning Point',
               content:
                   'At Turningpoint, we believe in turning living spaces into sanctuaries. Established with a passion for craftsmanship and an unwavering commitment to quality, we curate furniture that resonates with both elegance and functionality.',
-              imagePath: 'assets/images/company_image_demo2.png',
+              imagePath: 'assets/images/turning_point_logo.png',
             ),
             SizedBox(height: screenSize.height * .035),
 
@@ -73,7 +73,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
               title: 'Furnipart',
               content:
                   'At Furnipart, we believe in turning living spaces into sanctuaries. Established with a passion for craftsmanship and an unwavering commitment to quality, we curate furniture that resonates with both elegance and functionality.',
-              imagePath: 'assets/images/company_image_demo1.png',
+              imagePath: 'assets/images/furnipart_logo.png',
             ),
             SizedBox(height: screenSize.height * .035),
 
@@ -81,7 +81,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
               title: 'Claart',
               content:
                   'At Claart, we believe in turning living spaces into sanctuaries. Established with a passion for craftsmanship and an unwavering commitment to quality, we curate furniture that resonates with both elegance and functionality.',
-              imagePath: 'assets/images/company_image_demo3.png',
+              imagePath: 'assets/images/claart_logo.png',
             ),
             SizedBox(height: screenSize.height * .045),
             followUsSegment(),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:turning_point/bloc/rewards/rewards_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
@@ -180,6 +181,13 @@ Widget mainPrizeSegment() {
                     fontSize: screenSize.width * .041,
                     fontWeight: FontWeight.w600,
                   ),
+                ),
+              ),
+              Positioned(
+                top: screenSize.height * .3,
+                child: Lottie.asset(
+                  'assets/lottie/celebration_animation.json',
+                  repeat: false,
                 ),
               ),
             ],

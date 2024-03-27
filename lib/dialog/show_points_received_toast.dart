@@ -52,6 +52,7 @@ Widget dialog({
           ),
           child: Text(
             '$points Points Credited',
+            overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             style: GoogleFonts.roboto(
               fontSize: screenSize.width * .04,

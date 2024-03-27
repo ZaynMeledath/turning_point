@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-Widget spinningLinesLoading({Color? color}) {
+Widget spinningLinesLoading({
+  Color? color,
+  double? size,
+}) {
   return Center(
-    child: SpinKitSpinningLines(color: color ?? Colors.amber),
+    child: SpinKitSpinningLines(
+      color: color ?? Colors.amber,
+      size: size ?? 60,
+    ),
   );
 }
 

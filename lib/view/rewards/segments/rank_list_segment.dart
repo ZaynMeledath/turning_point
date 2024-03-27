@@ -40,6 +40,7 @@ Widget rankListSegment({
         vertical: screenSize.height * .007,
         horizontal: screenSize.width * .061,
       ),
+      minVerticalPadding: 0,
       horizontalTitleGap: screenSize.width * .04,
 
 //====================Rank====================//
@@ -66,13 +67,17 @@ Widget rankListSegment({
                 )
               : const SizedBox(),
           SizedBox(width: screenSize.width * .04),
-          Text(
-            winnerDetails != null
-                ? winnerDetails.name.toString()
-                : 'No Participant',
-            style: GoogleFonts.roboto(
-              fontSize: screenSize.width * .035,
-              fontWeight: FontWeight.w400,
+          SizedBox(
+            width: screenSize.width * .35,
+            child: Text(
+              winnerDetails != null
+                  ? winnerDetails.name.toString()
+                  : 'No Participant',
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.roboto(
+                fontSize: screenSize.width * .035,
+                fontWeight: FontWeight.w400,
+              ),
             ),
           ),
         ],

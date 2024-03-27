@@ -8,7 +8,7 @@ import 'package:turning_point/model/contest_model.dart';
 import 'package:turning_point/view/contest/contest_screen.dart';
 import 'package:turning_point/view/redeem/redeem_screen.dart';
 
-Widget contestListSegment({
+Widget buyCouponContainer({
   required BuildContext context,
   required int contestIndex,
   required ContestModel contestModel,

@@ -22,6 +22,7 @@ class _ReelsPlayerState extends State<ReelsPlayer>
 
   @override
   void initState() {
+    preloadBloc.state.isReelsVisible = true;
     animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 150));
 

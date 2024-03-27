@@ -17,13 +17,6 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
 
 //====================Reel Load Event====================//
     on<ReelLoadEvent>((event, emit) async {
-      final reelData =
-          ReelsRepository.reelsModelResponse.data![event.reelIndex];
-
-      reelData.isLikeButtonActive = false;
-
-      await Future.delayed(Duration.zero);
-
       emit(
         ReelsLoadedState(
           reelsModelList: ReelsRepository.reelsModelResponse.data,

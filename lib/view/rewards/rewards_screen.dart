@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,6 +25,7 @@ class _RewardsScreenState extends State<RewardsScreen>
     with SingleTickerProviderStateMixin {
   late final TabController tabController;
   late final ScrollController scrollController;
+  bool audioPlayed = false;
 
   @override
   void initState() {
@@ -70,6 +72,13 @@ class _RewardsScreenState extends State<RewardsScreen>
               return spinningLinesLoading(color: Colors.red);
 
             case RewardsLoadedState():
+              if (!audioPlayed) {
+                audioPlayed = true;
+                AudioPlayer().play(
+                  volume: 100,
+                  AssetSource('sounds/ding_sparkle_sound.mp3'),
+                );
+              }
               if (rewardsState.currentRewardsModel != null &&
                   rewardsState.previousRewardsModel != null) {
                 final activeRewardsModel = rewardsState.tabIndex == 0

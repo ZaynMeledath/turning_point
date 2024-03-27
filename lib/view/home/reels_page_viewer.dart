@@ -142,12 +142,6 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                                     .reelsModelList![index]
                                                     .points!,
                                               );
-
-                                              // AudioPlayer().play(
-                                              //   volume: 100,
-                                              //   AssetSource(
-                                              //       'sounds/success_sound.mp3'),
-                                              // );
                                             }
                                           }
                                         },
