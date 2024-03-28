@@ -9,6 +9,7 @@ Widget dashboardActivityContainer({
   required String imagePath,
   required double imageHeight,
   required List<Color> imageContainerGradient,
+  bool? isContestContainer,
 }) {
   return Container(
     width: screenSize.height * .186,
@@ -65,25 +66,29 @@ Widget dashboardActivityContainer({
           bottom: screenSize.height * .005,
           left: screenSize.height * .014,
           child: Text(
-            userModel.contestUniqueWonCount.toString(),
+            isContestContainer == true
+                ? userModel.contestUniqueWonCount.toString()
+                : '0',
             style: GoogleFonts.roboto(
               fontSize: screenSize.width * .051,
               fontWeight: FontWeight.w700,
             ),
           ),
         ),
-        Positioned(
-          bottom: screenSize.height * .011,
-          right: screenSize.height * .014,
-          child: Text(
-            'Participated: ${userModel.contestsParticipatedInCount}',
-            style: GoogleFonts.roboto(
-              fontSize: screenSize.width * .02,
-              fontWeight: FontWeight.w600,
-              color: const Color.fromRGBO(72, 72, 72, 1),
-            ),
-          ),
-        ),
+        isContestContainer == true
+            ? Positioned(
+                bottom: screenSize.height * .011,
+                right: screenSize.height * .014,
+                child: Text(
+                  'Participated: ${userModel.contestsParticipatedInCount}',
+                  style: GoogleFonts.roboto(
+                    fontSize: screenSize.width * .02,
+                    fontWeight: FontWeight.w600,
+                    color: const Color.fromRGBO(72, 72, 72, 1),
+                  ),
+                ),
+              )
+            : const SizedBox(),
       ],
     ),
   );
