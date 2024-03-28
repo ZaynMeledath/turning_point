@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
 import 'package:turning_point/bloc/contest/join_contest_bloc.dart';
@@ -159,9 +160,31 @@ Widget dashboardCouponSegment({required BuildContext context}) {
               }),
         );
       } else {
-        return Container(
-          height: 50,
-          color: Colors.red,
+        return RefreshIndicator(
+          onRefresh: () async {
+            contestBloc.add(ContestLoadEvent());
+          },
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Center(
+              child: Column(
+                children: [
+                  Lottie.asset(
+                    'assets/lottie/no_data_animation.json',
+                    width: screenSize.width * .3,
+                  ),
+                  Text(
+                    "No coupons available at the moment",
+                    style: GoogleFonts.inter(
+                      fontSize: screenSize.width * .034,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black.withOpacity(.75),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         );
       }
     },

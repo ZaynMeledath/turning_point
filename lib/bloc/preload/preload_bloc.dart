@@ -22,11 +22,12 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
             }
           }
 
-          if (state.focusedIndex == 0) {
-            _initializeControllerAtIndex(0);
-          }
+          // if (state.focusedIndex == 0) {
+          _initializeControllerAtIndex(0)
+              .then((value) => _playControllerAtIndex(0));
+          // }
           await _initializeControllerAtIndex(1);
-          _playControllerAtIndex(0);
+          // _playControllerAtIndex(0);
           emit(
             PreloadState(
                 controllers: state.controllers,
@@ -119,13 +120,6 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
 
       /// Play controller
       controller.play();
-      // controller.addListener(() {
-      //   if (controller.value.isCompleted) {
-      //     Future.delayed(Duration.zero, () {
-      //       controller.play();
-      //     });
-      //   }
-      // });
     }
   }
 
