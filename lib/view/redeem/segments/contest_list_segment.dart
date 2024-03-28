@@ -20,7 +20,6 @@ Widget buyCouponContainer({
       Navigator.of(context).push(
         PageTransition(
           child: ContestDetailsScreen(
-            contestModel: contestModel,
             index: contestIndex,
           ),
           type: PageTransitionType.scale,

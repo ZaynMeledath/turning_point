@@ -1,10 +1,8 @@
 part of 'contest_screen.dart';
 
 class ContestDetailsScreen extends StatelessWidget {
-  final ContestModel contestModel;
   final int index;
   const ContestDetailsScreen({
-    required this.contestModel,
     required this.index,
     super.key,
   });
@@ -15,6 +13,7 @@ class ContestDetailsScreen extends StatelessWidget {
       body: SafeArea(
         child: BlocBuilder<ContestBloc, ContestState>(
           builder: (context, state) {
+            final contestModel = state.contestModelList![index];
             return Column(
               children: [
                 customAppBar(context: context, title: 'Contest Details'),
@@ -220,7 +219,7 @@ class ContestDetailsScreen extends StatelessWidget {
                   ],
                 ),
 
-                SizedBox(height: screenSize.height * .028),
+                SizedBox(height: screenSize.height * .026),
 
                 //====================Enter Contest Button====================//
                 GestureDetector(
@@ -250,6 +249,15 @@ class ContestDetailsScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                  ),
+                ),
+                SizedBox(height: screenSize.height * .003),
+                Text(
+                  'You have ${contestModel.userJoinedCount ?? 0} Entries',
+                  style: GoogleFonts.inter(
+                    fontSize: screenSize.width * .026,
+                    fontWeight: FontWeight.w500,
+                    color: const Color.fromRGBO(86, 86, 86, 1),
                   ),
                 ),
                 SizedBox(height: screenSize.height * .025),

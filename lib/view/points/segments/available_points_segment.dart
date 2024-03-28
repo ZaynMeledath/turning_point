@@ -13,7 +13,7 @@ Widget availablePointsSegment({
   return BlocBuilder<PointsBloc, PointsState>(
     builder: (context, state) {
       final points = state.points ?? 0;
-      final rewardPoints = points % 100;
+      final rewardPoints = points % 500;
       return Column(
         children: [
           //====================Available Points Segment====================//
@@ -125,12 +125,12 @@ Widget availablePointsSegment({
                     LinearPercentIndicator(
                       backgroundColor: const Color.fromRGBO(254, 241, 218, 1),
                       progressColor: const Color.fromRGBO(252, 190, 74, 1),
-                      percent: rewardPoints / 100,
+                      percent: rewardPoints / 500,
                       width: screenSize.width * .49,
                       lineHeight: 10,
                       barRadius: const Radius.circular(8.5),
                       trailing: Text(
-                        '$rewardPoints/100',
+                        '$rewardPoints/500',
                         style: GoogleFonts.roboto(
                           fontSize: screenSize.width * .031,
                           fontWeight: FontWeight.w400,

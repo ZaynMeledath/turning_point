@@ -11,7 +11,6 @@ import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
-import 'package:turning_point/model/contest_model.dart';
 import 'package:turning_point/resources/contest_repository.dart';
 import 'package:turning_point/service/Exception/user_exceptions.dart';
 import 'package:turning_point/view/contest/segments/banner_segment.dart';

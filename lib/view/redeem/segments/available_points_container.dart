@@ -57,7 +57,7 @@ Widget availablePointsContainer() {
               '$points',
               style: GoogleFonts.roboto(
                 fontSize: screenSize.width * .092,
-                color: Colors.black,
+                color: const Color.fromRGBO(255, 176, 53, 1),
                 fontWeight: FontWeight.w500,
               ),
             ),

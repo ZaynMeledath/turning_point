@@ -72,15 +72,15 @@ class _RewardsScreenState extends State<RewardsScreen>
               return spinningLinesLoading(color: Colors.red);
 
             case RewardsLoadedState():
-              if (!audioPlayed) {
-                audioPlayed = true;
-                AudioPlayer().play(
-                  volume: 100,
-                  AssetSource('sounds/ding_sparkle_sound.mp3'),
-                );
-              }
               if (rewardsState.currentRewardsModel != null &&
                   rewardsState.previousRewardsModel != null) {
+                if (!audioPlayed) {
+                  audioPlayed = true;
+                  AudioPlayer().play(
+                    volume: 100,
+                    AssetSource('sounds/ding_sparkle_sound.mp3'),
+                  );
+                }
                 final activeRewardsModel = rewardsState.tabIndex == 0
                     ? rewardsState.currentRewardsModel!
                     : rewardsState.previousRewardsModel!;
@@ -159,6 +159,13 @@ class _RewardsScreenState extends State<RewardsScreen>
                 );
               } else if (rewardsState.currentRewardsModel != null &&
                   rewardsState.previousRewardsModel == null) {
+                if (!audioPlayed) {
+                  audioPlayed = true;
+                  AudioPlayer().play(
+                    volume: 100,
+                    AssetSource('sounds/ding_sparkle_sound.mp3'),
+                  );
+                }
                 return const SingleContestRewardsScreen();
               } else {
                 return SafeArea(
