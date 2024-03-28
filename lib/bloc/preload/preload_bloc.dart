@@ -25,7 +25,6 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
           if (state.focusedIndex == 0) {
             _initializeControllerAtIndex(0);
           }
-          _playControllerAtIndex(0);
           await _initializeControllerAtIndex(1);
           _playControllerAtIndex(0);
           emit(

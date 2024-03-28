@@ -169,24 +169,33 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
                     ],
                   );
                 } else {
-                  return Center(
-                    child: Column(
-                      children: [
-                        SizedBox(height: screenSize.height * .25),
-                        Lottie.asset(
-                          'assets/lottie/no_data_animation.json',
-                          width: screenSize.width * .65,
+                  return RefreshIndicator.adaptive(
+                    onRefresh: () async {
+                      luckyDrawBloc.add(LuckyDrawLoadEvent());
+                    },
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            SizedBox(height: screenSize.height * .25),
+                            Lottie.asset(
+                              'assets/lottie/no_data_animation.json',
+                              width: screenSize.width * .65,
+                            ),
+                            Text(
+                              'No Lucky Draw Available at the moment',
+                              style: GoogleFonts.inter(
+                                fontSize: screenSize.width * .041,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black.withOpacity(.75),
+                                height: .1,
+                              ),
+                            ),
+                            SizedBox(height: screenSize.height * .1)
+                          ],
                         ),
-                        Text(
-                          'No Lucky Draw Available at the moment',
-                          style: GoogleFonts.inter(
-                            fontSize: screenSize.width * .041,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black.withOpacity(.75),
-                            height: .1,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   );
                 }

@@ -24,7 +24,7 @@ class ReelsPageViewer extends StatefulWidget {
 
 class ReelsPageViewerState extends State<ReelsPageViewer>
     with SingleTickerProviderStateMixin {
-  late final PageController _pageController;
+  static late PageController pageController;
   late final AnimationController _animationController;
   late final Animation<double> _animation;
   final reelsScreenState = ReelsScreenState();
@@ -33,7 +33,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
 
   @override
   void initState() {
-    _pageController =
+    pageController =
         PageController(initialPage: preloadBloc.state.focusedIndex);
 
     _animationController = AnimationController(
@@ -54,7 +54,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
 
   @override
   void dispose() {
-    _pageController.dispose();
+    pageController.dispose();
     _animationController.dispose();
     super.dispose();
   }
@@ -112,7 +112,10 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                       if (controllerValue.isCompleted) {
                                         reelsBloc.add(ReelLikeButtonEnableEvent(
                                             reelIndex: index));
-                                        preloadState.controllers[index]!.play();
+                                        Future.delayed(Duration.zero, () {
+                                          preloadState.controllers[index]!
+                                              .play();
+                                        });
                                       }
 
                                       return GestureDetector(
@@ -223,7 +226,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                     ],
                   );
                 } else {
-                  return rippleLoading(size: screenSize.width * .21);
+                  return circleLoading();
                 }
               },
               onPageChanged: (index) {
@@ -234,7 +237,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                     .add(PreloadEvent(currentIndex: index, isInitial: false));
               },
               scrollDirection: Axis.vertical,
-              controller: _pageController,
+              controller: pageController,
               physics: const BouncingScrollPhysics(),
             );
           },

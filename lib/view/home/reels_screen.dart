@@ -94,7 +94,7 @@ class ReelsScreenState extends State<ReelsScreen>
         builder: (context, state) {
           switch (state) {
             case ProfileLoadingState():
-              return rippleLoading();
+              return spinningLinesLoading();
 
             case ProfileInactiveState():
               return ProfileInactiveScreen();
@@ -128,16 +128,7 @@ class ReelsScreenState extends State<ReelsScreen>
                   children: [
                     //====================Reels Player====================//
 
-                    FutureBuilder(
-                      future: ReelsRepository.getReels(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return const ReelsPageViewer();
-                        } else {
-                          return rippleLoading();
-                        }
-                      },
-                    ),
+                    const ReelsPageViewer(),
 
                     //====================Points Container====================//
                     Positioned(
