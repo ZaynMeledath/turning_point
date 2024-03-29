@@ -209,7 +209,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     padding: EdgeInsets.symmetric(
                         horizontal: screenSize.width * .09),
                     child: Text(
-                      'My Coupons',
+                      'Coupons',
                       style: GoogleFonts.roboto(
                         fontSize: screenSize.width * .041,
                         fontWeight: FontWeight.w600,

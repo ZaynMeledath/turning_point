@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/model/contest_model.dart';
 import 'package:turning_point/model/rewards_model.dart';
 import 'package:turning_point/service/Exception/api_exception.dart';
@@ -110,7 +111,10 @@ class ContestRepository {
       final secondsLeft =
           (endDateToSecondsSinceEpoch - currentDateToSecondsSinceEpoch).toInt();
 
-      secondsLeftList.add(secondsLeft);
+      final prizeCount = contestModelList[i].prizeArr!.length;
+
+      secondsLeftList
+          .add(secondsLeft - (prizeCount * LUCKY_DRAW_WINNER_DISPLAY_DELAY));
     }
 
     return secondsLeftList;
@@ -120,6 +124,7 @@ class ContestRepository {
   static int getLuckyDrawSecondsLeft({required ContestModel contestModel}) {
     final String endDateString = contestModel.combinedEndDateTime!;
     final DateTime endDate = DateTime.parse(endDateString);
+
     final currentDateToSecondsSinceEpoch =
         DateTime.now().millisecondsSinceEpoch / 1000;
     final endDateToSecondsSinceEpoch = endDate.millisecondsSinceEpoch / 1000;
@@ -127,6 +132,9 @@ class ContestRepository {
     final secondsLeft =
         (endDateToSecondsSinceEpoch - currentDateToSecondsSinceEpoch).toInt();
 
+    // final prizeCount = contestModel.prizeArr!.length;
+
+    // return secondsLeft - (prizeCount * 30);
     return secondsLeft;
   }
 }

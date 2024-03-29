@@ -28,3 +28,13 @@ class LuckyDrawLoadedState extends LuckyDrawState {
     required super.secondsLeft,
   });
 }
+
+class LuckyDrawWinnersDisplayState extends LuckyDrawState {
+  final int prizeToDisplay;
+  LuckyDrawWinnersDisplayState({
+    required super.contestModel,
+    required super.timeMap,
+    required super.secondsLeft,
+    required this.prizeToDisplay,
+  });
+}

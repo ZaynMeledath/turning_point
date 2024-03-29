@@ -35,7 +35,7 @@ class ReelsScreenState extends State<ReelsScreen>
 
   @override
   void initState() {
-    super.initState();
+    
     preloadBloc.state.isReelsVisible = true;
     locationServiceBloc.add(LocationServiceStartEvent());
 
@@ -57,8 +57,8 @@ class ReelsScreenState extends State<ReelsScreen>
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.playCurrentController();
     }
-
     enableWakelock();
+    super.initState();
   }
 
   void enableWakelock() async {
@@ -75,6 +75,7 @@ class ReelsScreenState extends State<ReelsScreen>
       preloadBloc.pauseCurrentController();
     }
     WakelockPlus.disable();
+    
   }
 
   Future<void> handleRefresh() async {

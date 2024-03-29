@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:turning_point/bloc/home/home_bloc.dart';
+import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/model/contest_model.dart';
 import 'package:turning_point/resources/contest_repository.dart';
 
@@ -18,8 +19,15 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
           if (contestModelResponse.data != null &&
               contestModelResponse.data!.isNotEmpty) {
             Map<String, String> timeMap = {};
-            final secondsLeft = ContestRepository.getLuckyDrawSecondsLeft(
+            int secondsLeft = ContestRepository.getLuckyDrawSecondsLeft(
                 contestModel: contestModelResponse.data![0]);
+
+            if (secondsLeft <= 300) {
+              return add(
+                  LuckyDrawWinnersDisplayEvent(secondsLeft: secondsLeft));
+            }
+            final prizeCount = contestModelResponse.data![0].prizeArr!.length;
+            secondsLeft = secondsLeft - (prizeCount * 30);
 
             int timeInSeconds = (secondsLeft % 60);
             int timeInMinutes = (secondsLeft ~/ 60) % 60;
@@ -87,16 +95,22 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
         if (!temp.contains(false)) {
           //Do some animations to display the winners
           timeMap.clear();
-          // return add(LuckyDrawWinnersDisplayEvent());
-        }
-
-        if (timeMap.isEmpty) {
-          emit(LuckyDrawLoadingState());
           state.timeMap = null;
           state.secondsLeft = null;
-          add(LuckyDrawLoadEvent());
-          return homeBloc.add(TriggerEvent(1));
+          return add(
+            LuckyDrawWinnersDisplayEvent(
+              secondsLeft: state.contestModel!.prizeArr!.length *
+                  LUCKY_DRAW_WINNER_DISPLAY_DELAY,
+            ),
+          );
         }
+
+        // if (timeMap.isEmpty) {
+        //   // add(LuckyDrawLoadEvent());
+        //   // return homeBloc.add(TriggerEvent(1));
+
+        //   return add(LuckyDrawWinnersDisplayEvent());
+        // }
 
         if (timeMap.isNotEmpty && state is LuckyDrawLoadedState) {
           emit(
@@ -114,7 +128,74 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
       }
     });
 
-//====================Contest Load Again Event Event====================//
+//====================Lucky Draw Winners Display Event====================//
+    on<LuckyDrawWinnersDisplayEvent>((event, emit) {
+      final secondsLeft = event.secondsLeft - 1;
+
+      int timeInSeconds = secondsLeft % 60;
+      int timeInMinutes = secondsLeft ~/ 60;
+
+      final timeMap = {
+        'timeInSeconds': timeInSeconds.toString().padLeft(2, '0'),
+        'timeInMinutes': timeInMinutes.toString().padLeft(2, '0'),
+      };
+
+      final prizeToDisplay = (secondsLeft ~/ LUCKY_DRAW_WINNER_DISPLAY_DELAY);
+
+      emit(LuckyDrawWinnersDisplayState(
+        contestModel: state.contestModel,
+        timeMap: timeMap,
+        secondsLeft: secondsLeft,
+        prizeToDisplay: prizeToDisplay,
+      ));
+    });
+
+//====================Lucky Draw Winners Timer Update Event====================//
+    on<LuckyDrawWinnersDisplayTimerEvent>((event, emit) async {
+      if (state.timeMap != null && state.secondsLeft != null) {
+        var timeMap = state.timeMap!;
+        var secondsLeft = state.secondsLeft!;
+
+        int timeInSeconds = (secondsLeft % 60);
+        int timeInMinutes = (secondsLeft ~/ 60) % 60;
+
+        timeMap = {
+          'timeInSeconds': timeInSeconds.toString().padLeft(2, '0'),
+          'timeInMinutes': timeInMinutes.toString().padLeft(2, '0'),
+        };
+        secondsLeft -= 1;
+
+        final temp = timeMap.values.map((e) => e == '00');
+
+        // if the timer is 00
+        if (!temp.contains(false)) {
+          timeMap.clear();
+          state.timeMap = null;
+          state.secondsLeft = null;
+          add(LuckyDrawLoadEvent());
+          return homeBloc.add(TriggerEvent(1));
+        }
+
+        if (timeMap.isNotEmpty && state is LuckyDrawWinnersDisplayState) {
+          final prizeToDisplay =
+              (secondsLeft ~/ LUCKY_DRAW_WINNER_DISPLAY_DELAY);
+          emit(
+            LuckyDrawWinnersDisplayState(
+              contestModel: state.contestModel,
+              timeMap: timeMap,
+              secondsLeft: secondsLeft,
+              prizeToDisplay: prizeToDisplay,
+            ),
+          );
+          await Future.delayed(const Duration(seconds: 1));
+          return add(LuckyDrawWinnersDisplayTimerEvent());
+        } else {
+          return;
+        }
+      }
+    });
+
+//====================Contest Load Again Event ====================//
     // on<LuckyDrawLoadAgainEvent>((event, emit) async {
     //   final contestModelResponse = await ContestRepository.getCurrentContest();
     //   emit(

@@ -28,12 +28,14 @@ class _ScannerScreenState extends State<ScannerScreen> {
 
   @override
   void initState() {
-    super.initState();
+    preloadBloc.state.isReelsVisible = false;
+
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }
     couponController = TextEditingController();
     getLocation();
+    super.initState();
   }
 
   void getLocation() async {

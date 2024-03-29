@@ -27,6 +27,8 @@ class LuckyDrawScreen extends StatefulWidget {
 class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
   @override
   void initState() {
+    preloadBloc.state.isReelsVisible = false;
+
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }
@@ -103,18 +105,18 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
 
                       Column(
                         children: [
-                          SizedBox(height: screenSize.height * .035),
+                          SizedBox(height: screenSize.height * .038),
                           //====================Lucky Draw Image====================//
                           Image.asset(
                             'assets/images/lucky_draw_image.png',
-                            width: screenSize.width * .6,
+                            width: screenSize.width * .62,
                           ),
 
-                          SizedBox(height: screenSize.height * .035),
+                          SizedBox(height: screenSize.height * .024),
                           //====================Days Left Blue Container====================//
                           daysLeftContainer(context: context),
 
-                          SizedBox(height: screenSize.height * .04),
+                          SizedBox(height: screenSize.height * .035),
                           //====================Count Down Timer====================//
                           countDownTimerSegment(
                             days: state.timeMap!['timeInDays']!,
@@ -199,6 +201,8 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
                     ),
                   );
                 }
+              case LuckyDrawWinnersDisplayState():
+                return Container();
             }
           },
         ),

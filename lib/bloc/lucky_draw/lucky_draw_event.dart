@@ -9,6 +9,12 @@ class LuckyDrawTimerUpdateEvent extends LuckyDrawEvent {}
 
 class LuckyDrawTimerDisposeEvent extends LuckyDrawEvent {}
 
-class LuckyDrawWinnersDisplayEvent extends LuckyDrawEvent {}
+class LuckyDrawWinnersDisplayEvent extends LuckyDrawEvent {
+  final int secondsLeft;
+
+  LuckyDrawWinnersDisplayEvent({required this.secondsLeft});
+}
 
 class LuckyDrawLoadAgainEvent extends LuckyDrawEvent {}
+
+class LuckyDrawWinnersDisplayTimerEvent extends LuckyDrawEvent {}

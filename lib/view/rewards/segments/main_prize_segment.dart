@@ -35,10 +35,11 @@ Widget mainPrizeSegment() {
                     SizedBox(height: screenSize.height * .01),
                     roundPrizeContainer(
                       imagePath: '${rewardsModel!.contestPrizes![0].image}',
+                      medalPath: 'assets/icons/gold_medal.png',
                       backgroundColor: const Color.fromRGBO(255, 219, 73, 1),
                       shadowColor: const Color.fromRGBO(206, 166, 4, 1),
                     ),
-                    SizedBox(height: screenSize.height * .01),
+                    SizedBox(height: screenSize.height * .005),
                     rewardsModel.contestPrizes![0].winnerDetails != null
                         ? CircleAvatar(
                             radius: screenSize.width * .054,
@@ -82,10 +83,11 @@ Widget mainPrizeSegment() {
                     SizedBox(height: screenSize.height * .01),
                     roundPrizeContainer(
                       imagePath: '${rewardsModel.contestPrizes![1].image}',
+                      medalPath: 'assets/icons/silver_medal.png',
                       backgroundColor: const Color.fromRGBO(255, 50, 56, 1),
                       shadowColor: const Color.fromRGBO(173, 0, 2, 1),
                     ),
-                    SizedBox(height: screenSize.height * .01),
+                    SizedBox(height: screenSize.height * .005),
                     rewardsModel.contestPrizes![1].winnerDetails != null
                         ? CircleAvatar(
                             radius: screenSize.width * .054,
@@ -138,10 +140,11 @@ Widget mainPrizeSegment() {
                     SizedBox(height: screenSize.height * .01),
                     roundPrizeContainer(
                       imagePath: '${rewardsModel.contestPrizes![2].image}',
+                      medalPath: 'assets/icons/bronze_medal.png',
                       backgroundColor: const Color.fromRGBO(23, 195, 196, 1),
                       shadowColor: const Color.fromRGBO(0, 151, 152, 1),
                     ),
-                    SizedBox(height: screenSize.height * .01),
+                    SizedBox(height: screenSize.height * .005),
                     rewardsModel.contestPrizes![2].winnerDetails != null
                         ? CircleAvatar(
                             radius: screenSize.width * .054,

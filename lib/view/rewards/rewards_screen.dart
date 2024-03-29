@@ -29,6 +29,8 @@ class _RewardsScreenState extends State<RewardsScreen>
 
   @override
   void initState() {
+    preloadBloc.state.isReelsVisible = false;
+
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }

@@ -12,6 +12,8 @@ final DEFAULT_CONTRACTOR_STRING =
 
 const DEFAULT_REDEEM_POINTS = 500;
 
+const LUCKY_DRAW_WINNER_DISPLAY_DELAY = 30;
+
 class TransferType {
   static const BANK = 'BANK';
   static const UPI = 'UPI';
