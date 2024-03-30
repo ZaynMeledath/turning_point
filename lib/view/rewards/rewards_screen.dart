@@ -26,6 +26,7 @@ class _RewardsScreenState extends State<RewardsScreen>
   late final TabController tabController;
   late final ScrollController scrollController;
   bool audioPlayed = false;
+  final audioPlayer = AudioPlayer();
 
   @override
   void initState() {
@@ -59,6 +60,7 @@ class _RewardsScreenState extends State<RewardsScreen>
 
   @override
   void dispose() {
+    audioPlayer.dispose();
     tabController.dispose();
     scrollController.dispose();
     super.dispose();
@@ -79,7 +81,7 @@ class _RewardsScreenState extends State<RewardsScreen>
                 if (!audioPlayed) {
                   audioPlayed = true;
                   AudioPlayer().play(
-                    volume: 100,
+                    mode: PlayerMode.lowLatency,
                     AssetSource('sounds/ding_sparkle_sound.mp3'),
                   );
                 }
@@ -163,10 +165,11 @@ class _RewardsScreenState extends State<RewardsScreen>
                   rewardsState.previousRewardsModel == null) {
                 if (!audioPlayed) {
                   audioPlayed = true;
-                  AudioPlayer().play(
-                    volume: 100,
+                  audioPlayer.play(
+                    mode: PlayerMode.lowLatency,
                     AssetSource('sounds/ding_sparkle_sound.mp3'),
                   );
+                  
                 }
                 return const SingleContestRewardsScreen();
               } else {

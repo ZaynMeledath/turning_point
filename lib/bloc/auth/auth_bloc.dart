@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart' show TextEditingController, immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:turning_point/bloc/points/points_bloc.dart';
+import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/model/contractor_model.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/resources/user_repository.dart';
@@ -33,6 +35,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           AppPreferences.clearSharedPreferences();
           return emit(InitialState());
         } else {
+          profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
+          pointsBloc.add(PointsLoadEvent(avoidGettingUserFromPreference: true));
           return emit(SignedInState());
         }
       } on ProfileInactiveException {
@@ -55,6 +59,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           );
           if (status) {
             await UserRepository.getUserById(avoidGettingFromPreference: true);
+            profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
+            pointsBloc
+                .add(PointsLoadEvent(avoidGettingUserFromPreference: true));
             return emit(SignedInState());
           } else {
             return emit(WhoIsSigningState());

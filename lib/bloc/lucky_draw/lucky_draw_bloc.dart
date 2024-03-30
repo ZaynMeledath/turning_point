@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:turning_point/bloc/home/home_bloc.dart';
@@ -140,14 +142,18 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
         'timeInMinutes': timeInMinutes.toString().padLeft(2, '0'),
       };
 
-      final prizeToDisplay = (secondsLeft ~/ LUCKY_DRAW_WINNER_DISPLAY_DELAY);
+      final prizeIndex = (secondsLeft ~/ LUCKY_DRAW_WINNER_DISPLAY_DELAY);
 
       emit(LuckyDrawWinnersDisplayState(
         contestModel: state.contestModel,
         timeMap: timeMap,
         secondsLeft: secondsLeft,
-        prizeToDisplay: prizeToDisplay,
+        prizeIndex: prizeIndex,
+        scaleAnimate: state.scaleAnimate,
+        opacityAnimate: state.opacityAnimate,
+        repeatedScaleAnimate: state.repeatedScaleAnimate,
       ));
+      return add(LuckyDrawWinnersDisplayTimerEvent());
     });
 
 //====================Lucky Draw Winners Timer Update Event====================//
@@ -157,13 +163,12 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
         var secondsLeft = state.secondsLeft!;
 
         int timeInSeconds = (secondsLeft % 60);
-        int timeInMinutes = (secondsLeft ~/ 60) % 60;
+        int timeInMinutes = (secondsLeft ~/ 60);
 
         timeMap = {
           'timeInSeconds': timeInSeconds.toString().padLeft(2, '0'),
           'timeInMinutes': timeInMinutes.toString().padLeft(2, '0'),
         };
-        secondsLeft -= 1;
 
         final temp = timeMap.values.map((e) => e == '00');
 
@@ -172,22 +177,64 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
           timeMap.clear();
           state.timeMap = null;
           state.secondsLeft = null;
+          await Future.delayed(const Duration(seconds: 1));
           add(LuckyDrawLoadEvent());
           return homeBloc.add(TriggerEvent(1));
         }
 
         if (timeMap.isNotEmpty && state is LuckyDrawWinnersDisplayState) {
-          final prizeToDisplay =
-              (secondsLeft ~/ LUCKY_DRAW_WINNER_DISPLAY_DELAY);
+          final prizeIndex = (secondsLeft ~/ LUCKY_DRAW_WINNER_DISPLAY_DELAY);
+          // emit(
+          //   LuckyDrawWinnersDisplayState(
+          //     contestModel: state.contestModel,
+          //     timeMap: timeMap,
+          //     secondsLeft: secondsLeft,
+          //     prizeIndex: prizeIndex,
+          //   ),
+          // );
+          await Future.delayed(const Duration(seconds: 1));
+          if (state.scaleAnimate != true) {
+            emit(
+              LuckyDrawWinnersDisplayState(
+                contestModel: state.contestModel,
+                timeMap: timeMap,
+                secondsLeft: secondsLeft,
+                prizeIndex: prizeIndex,
+                scaleAnimate: true,
+                opacityAnimate: false,
+                repeatedScaleAnimate: state.repeatedScaleAnimate,
+              ),
+            );
+          }
+
+          if (secondsLeft % (LUCKY_DRAW_WINNER_DISPLAY_DELAY - 5) == 0) {
+            emit(
+              LuckyDrawWinnersDisplayState(
+                contestModel: state.contestModel,
+                timeMap: timeMap,
+                secondsLeft: secondsLeft,
+                prizeIndex: state.prizeIndex,
+                scaleAnimate: false,
+                repeatedScaleAnimate: false,
+                opacityAnimate: true,
+              ),
+            );
+          }
+          secondsLeft -= 1;
+
           emit(
             LuckyDrawWinnersDisplayState(
               contestModel: state.contestModel,
               timeMap: timeMap,
               secondsLeft: secondsLeft,
-              prizeToDisplay: prizeToDisplay,
+              prizeIndex: prizeIndex,
+              scaleAnimate: state.scaleAnimate,
+              opacityAnimate: state.opacityAnimate,
+              repeatedScaleAnimate:
+                  state.repeatedScaleAnimate == true ? false : true,
             ),
           );
-          await Future.delayed(const Duration(seconds: 1));
+
           return add(LuckyDrawWinnersDisplayTimerEvent());
         } else {
           return;

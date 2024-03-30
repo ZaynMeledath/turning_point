@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,6 +10,7 @@ import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/view/contest/contest_screen.dart';
+import 'package:turning_point/view/lucky_draw/winners_display_screen.dart';
 
 part 'segments/gift_boxes_segment.dart';
 part 'all_gifts_screen.dart';
@@ -25,6 +27,8 @@ class LuckyDrawScreen extends StatefulWidget {
 }
 
 class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
+  final audioPlayer = AudioPlayer();
+  bool isAudioPlaying = false;
   @override
   void initState() {
     preloadBloc.state.isReelsVisible = false;
@@ -37,8 +41,9 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
 
   @override
   void dispose() {
-    luckyDrawBloc.add(LuckyDrawTimerDisposeEvent());
     super.dispose();
+    luckyDrawBloc.add(LuckyDrawTimerDisposeEvent());
+    audioPlayer.dispose();
   }
 
   @override
@@ -52,6 +57,16 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
             switch (state) {
               case LuckyDrawLoadingState():
                 return spinningLinesLoading(color: Colors.red);
+              case LuckyDrawWinnersDisplayState():
+                if (!isAudioPlaying) {
+                  isAudioPlaying = true;
+                  audioPlayer.play(
+                    AssetSource(
+                      'sounds/lucky_draw_music.m4a',
+                    ),
+                  );
+                }
+                return winnersDisplayScreen();
               case LuckyDrawLoadedState():
                 if (state.contestModel != null) {
                   return Stack(
@@ -201,8 +216,6 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
                     ),
                   );
                 }
-              case LuckyDrawWinnersDisplayState():
-                return Container();
             }
           },
         ),
