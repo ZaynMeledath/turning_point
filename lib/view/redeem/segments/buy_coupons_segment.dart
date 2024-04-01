@@ -34,7 +34,12 @@ Widget buyCouponsSegment({
             ),
           );
         } else {
-          return RefreshIndicator(
+          return LiquidPullToRefresh(
+            height: 70,
+            animSpeedFactor: 1.5,
+            showChildOpacityTransition: false,
+            color: const Color.fromRGBO(255, 215, 0, 1),
+            backgroundColor: Colors.white,
             onRefresh: () => _handleRefresh(),
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),

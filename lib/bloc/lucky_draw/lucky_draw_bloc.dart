@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:turning_point/bloc/home/home_bloc.dart';
+import 'package:turning_point/bloc/rewards/rewards_bloc.dart';
 import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/model/contest_model.dart';
 import 'package:turning_point/resources/contest_repository.dart';
@@ -97,8 +98,7 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
         if (!temp.contains(false)) {
           //Do some animations to display the winners
           timeMap.clear();
-          state.timeMap = null;
-          state.secondsLeft = null;
+
           return add(
             LuckyDrawWinnersDisplayEvent(
               secondsLeft: state.contestModel!.prizeArr!.length *
@@ -132,6 +132,7 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
 
 //====================Lucky Draw Winners Display Event====================//
     on<LuckyDrawWinnersDisplayEvent>((event, emit) {
+      rewardsBloc.add(RewardsLoadEvent());
       final secondsLeft = event.secondsLeft - 1;
 
       int timeInSeconds = secondsLeft % 60;
@@ -184,14 +185,7 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
 
         if (timeMap.isNotEmpty && state is LuckyDrawWinnersDisplayState) {
           final prizeIndex = (secondsLeft ~/ LUCKY_DRAW_WINNER_DISPLAY_DELAY);
-          // emit(
-          //   LuckyDrawWinnersDisplayState(
-          //     contestModel: state.contestModel,
-          //     timeMap: timeMap,
-          //     secondsLeft: secondsLeft,
-          //     prizeIndex: prizeIndex,
-          //   ),
-          // );
+
           await Future.delayed(const Duration(seconds: 1));
           if (state.scaleAnimate != true) {
             emit(
@@ -207,7 +201,7 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
             );
           }
 
-          if (secondsLeft % (LUCKY_DRAW_WINNER_DISPLAY_DELAY - 5) == 0) {
+          if (secondsLeft % (LUCKY_DRAW_WINNER_DISPLAY_DELAY) == 0) {
             emit(
               LuckyDrawWinnersDisplayState(
                 contestModel: state.contestModel,

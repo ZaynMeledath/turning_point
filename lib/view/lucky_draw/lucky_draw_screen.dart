@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
 import 'package:turning_point/bloc/lucky_draw/lucky_draw_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
@@ -66,7 +67,7 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
                     ),
                   );
                 }
-                return winnersDisplayScreen();
+                return const WinnersDisplayScreen();
               case LuckyDrawLoadedState():
                 if (state.contestModel != null) {
                   return Stack(
@@ -186,7 +187,12 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
                     ],
                   );
                 } else {
-                  return RefreshIndicator.adaptive(
+                  return LiquidPullToRefresh(
+                    height: 80,
+                    animSpeedFactor: 1.5,
+                    showChildOpacityTransition: false,
+                    color: const Color.fromRGBO(255, 215, 0, 1),
+                    backgroundColor: Colors.white,
                     onRefresh: () async {
                       luckyDrawBloc.add(LuckyDrawLoadEvent());
                     },
@@ -198,7 +204,7 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
                             SizedBox(height: screenSize.height * .25),
                             Lottie.asset(
                               'assets/lottie/no_data_animation.json',
-                              width: screenSize.width * .65,
+                              width: screenSize.width * .55,
                             ),
                             Text(
                               'No Lucky Draw Available at the moment',

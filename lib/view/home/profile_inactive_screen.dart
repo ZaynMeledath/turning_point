@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
@@ -59,7 +60,12 @@ class ProfileInactiveScreen extends StatelessWidget {
             ),
           ),
         ),
-        body: RefreshIndicator.adaptive(
+        body: LiquidPullToRefresh(
+          height: 80,
+          animSpeedFactor: 1.5,
+          showChildOpacityTransition: false,
+          color: const Color.fromRGBO(89, 165, 255, 1),
+          backgroundColor: Colors.white,
           onRefresh: () => handleRefresh(),
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),

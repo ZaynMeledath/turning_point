@@ -26,7 +26,6 @@ class LuckyDrawLoadingState extends LuckyDrawState {
           contestModel: null,
           timeMap: null,
           secondsLeft: null,
-          prizeIndex: null,
         );
 }
 

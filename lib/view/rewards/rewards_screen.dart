@@ -2,7 +2,9 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
+import 'package:turning_point/bloc/lucky_draw/lucky_draw_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/rewards/rewards_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
@@ -31,7 +33,10 @@ class _RewardsScreenState extends State<RewardsScreen>
   @override
   void initState() {
     preloadBloc.state.isReelsVisible = false;
-
+    if (luckyDrawBloc.state.secondsLeft == null ||
+        luckyDrawBloc.state.secondsLeft! == 0) {
+      rewardsBloc.add(RewardsLoadEvent());
+    }
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }
@@ -50,12 +55,6 @@ class _RewardsScreenState extends State<RewardsScreen>
       );
     });
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    rewardsBloc.add(RewardsLoadEvent());
-    super.didChangeDependencies();
   }
 
   @override
@@ -169,29 +168,44 @@ class _RewardsScreenState extends State<RewardsScreen>
                     mode: PlayerMode.lowLatency,
                     AssetSource('sounds/ding_sparkle_sound.mp3'),
                   );
-                  
                 }
                 return const SingleContestRewardsScreen();
               } else {
                 return SafeArea(
-                  child: Center(
-                    child: Column(
-                      children: [
-                        SizedBox(height: screenSize.height * .25),
-                        Lottie.asset(
-                          'assets/lottie/no_data_animation.json',
-                          width: screenSize.width * .65,
+                  child: LiquidPullToRefresh(
+                    onRefresh: () async {
+                      if (luckyDrawBloc.state.secondsLeft == null ||
+                          luckyDrawBloc.state.secondsLeft! == 0) {
+                        rewardsBloc.add(RewardsLoadEvent());
+                      }
+                    },
+                    height: 80,
+                    animSpeedFactor: 1.5,
+                    showChildOpacityTransition: false,
+                    color: const Color.fromRGBO(89, 165, 255, 1),
+                    backgroundColor: Colors.white,
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            SizedBox(height: screenSize.height * .25),
+                            Lottie.asset(
+                              'assets/lottie/no_data_animation.json',
+                              width: screenSize.width * .65,
+                            ),
+                            Text(
+                              'No Data Available at the moment',
+                              style: GoogleFonts.inter(
+                                fontSize: screenSize.width * .041,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black.withOpacity(.75),
+                                height: .1,
+                              ),
+                            ),
+                          ],
                         ),
-                        Text(
-                          'No Data Available at the moment',
-                          style: GoogleFonts.inter(
-                            fontSize: screenSize.width * .041,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black.withOpacity(.75),
-                            height: .1,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                 );

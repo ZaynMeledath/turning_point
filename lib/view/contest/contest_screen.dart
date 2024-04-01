@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:stacked_card_carousel/stacked_card_carousel.dart';
@@ -134,26 +135,33 @@ class _ContestScreenState extends State<ContestScreen> {
                           ),
                         );
                       } else {
-                        return RefreshIndicator(
+                        return LiquidPullToRefresh(
+                          height: 70,
+                          animSpeedFactor: 1.5,
+                          showChildOpacityTransition: false,
+                          color: const Color.fromRGBO(89, 165, 255, 1),
+                          backgroundColor: Colors.white,
                           onRefresh: () => _handleRefresh(),
                           child: SingleChildScrollView(
                             physics: const AlwaysScrollableScrollPhysics(),
-                            child: Column(
-                              children: [
-                                SizedBox(height: screenSize.height * .03),
-                                Lottie.asset(
-                                  'assets/lottie/no_data_animation.json',
-                                  width: screenSize.width * .5,
-                                ),
-                                Text(
-                                  'No Contest Available at the moment',
-                                  style: GoogleFonts.inter(
-                                    fontSize: screenSize.width * .038,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black.withOpacity(.75),
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  SizedBox(height: screenSize.height * .03),
+                                  Lottie.asset(
+                                    'assets/lottie/no_data_animation.json',
+                                    width: screenSize.width * .5,
                                   ),
-                                ),
-                              ],
+                                  Text(
+                                    'No Contest Available at the moment',
+                                    style: GoogleFonts.inter(
+                                      fontSize: screenSize.width * .038,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black.withOpacity(.75),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         );

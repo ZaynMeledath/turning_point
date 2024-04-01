@@ -12,6 +12,7 @@ Widget roundPrizeContainer({
     width: screenSize.width * .25,
     height: screenSize.width * .256,
     child: Stack(
+      alignment: Alignment.center,
       children: [
         CircleAvatar(
           radius: screenSize.width * .12,
@@ -41,6 +42,19 @@ Widget roundPrizeContainer({
             ],
           ),
         ),
+        // Positioned(
+        //   child: Container(
+        //     width: screenSize.width * .232,
+        //     decoration: BoxDecoration(
+        //       color: Colors.transparent,
+        //       shape: BoxShape.circle,
+        //       border: Border.all(
+        //         color: Colors.white,
+        //         width: 2,
+        //       ),
+        //     ),
+        //   ),
+        // ),
         Positioned(
           bottom: 0,
           right: 0,
@@ -48,7 +62,7 @@ Widget roundPrizeContainer({
             medalPath,
             width: screenSize.width * .09,
           ),
-        )
+        ),
       ],
     ),
   );

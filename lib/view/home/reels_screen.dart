@@ -6,6 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:turning_point/bloc/location_service/location_service_bloc.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
@@ -35,7 +36,6 @@ class ReelsScreenState extends State<ReelsScreen>
 
   @override
   void initState() {
-    
     preloadBloc.state.isReelsVisible = true;
     locationServiceBloc.add(LocationServiceStartEvent());
 
@@ -75,7 +75,6 @@ class ReelsScreenState extends State<ReelsScreen>
       preloadBloc.pauseCurrentController();
     }
     WakelockPlus.disable();
-    
   }
 
   Future<void> handleRefresh() async {
@@ -119,10 +118,11 @@ class ReelsScreenState extends State<ReelsScreen>
                 ),
               );
             case ProfileLoadedState():
-              return RefreshIndicator(
+              return LiquidPullToRefresh(
                 onRefresh: () => handleRefresh(),
-                color: Colors.red,
-                displacement: 50,
+                animSpeedFactor: 1.5,
+                showChildOpacityTransition: false,
+                color: const Color.fromRGBO(255, 215, 0, 1),
                 backgroundColor: Colors.white,
                 child: Stack(
                   alignment: Alignment.center,

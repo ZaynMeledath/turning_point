@@ -27,6 +27,16 @@ class RewardsBloc extends Bloc<RewardsEvent, RewardsState> {
           ),
         );
       } on NotFoundException {
+        // if (luckyDrawBloc.state.secondsLeft != null &&
+        //     luckyDrawBloc.state.secondsLeft! > 0) {
+        //   return emit(
+        //     RewardsLoadedState(
+        //       currentRewardsModel: null,
+        //       previousRewardsModel: null,
+        //       tabIndex: state.tabIndex,
+        //     ),
+        //   );
+        // }
         return emit(
           RewardsLoadedState(
             currentRewardsModel: state.currentRewardsModel,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
@@ -160,7 +161,12 @@ Widget dashboardCouponSegment({required BuildContext context}) {
               }),
         );
       } else {
-        return RefreshIndicator(
+        return LiquidPullToRefresh(
+          height: 50,
+          animSpeedFactor: 1.5,
+          showChildOpacityTransition: false,
+          color: const Color.fromRGBO(89, 165, 255, 1),
+          backgroundColor: Colors.white,
           onRefresh: () async {
             contestBloc.add(ContestLoadEvent());
           },

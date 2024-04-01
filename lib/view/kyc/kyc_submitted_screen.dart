@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
@@ -26,7 +27,12 @@ class KycSubmittedScreen extends StatelessWidget {
         } else {
           return Scaffold(
             body: SafeArea(
-              child: RefreshIndicator(
+              child: LiquidPullToRefresh(
+                height: 80,
+                animSpeedFactor: 1.5,
+                showChildOpacityTransition: false,
+                color: const Color.fromRGBO(89, 165, 255, 1),
+                backgroundColor: Colors.white,
                 onRefresh: () => _handleRefresh(),
                 child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),

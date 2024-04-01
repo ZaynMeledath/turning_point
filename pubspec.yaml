@@ -46,6 +46,7 @@ dependencies:
   jwt_decoder: ^2.0.1
   local_auth: ^2.2.0
   location: ^5.0.3
+  liquid_pull_to_refresh: ^3.0.1
   lottie: ^3.1.0
   package_info_plus: ^5.0.1
   page_transition: ^2.1.0
@@ -64,9 +65,7 @@ dependencies:
   video_player: ^2.8.3
   wakelock_plus: ^1.1.4
   workmanager: ^0.5.2
-  
-  
-  
+   
 
 dev_dependencies:
   flutter_test:
@@ -80,40 +79,13 @@ flutter_launcher_icons:
   image_path: "assets/icons/turning_point_logo_icon.png"
 
 
-
-
 flutter:  
   uses-material-design: true
 
-  
+
   assets:
     - assets/images/
     - assets/icons/
     - assets/lottie/
     - assets/sounds/
-
-  
-  
-
-  
-  
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+    
