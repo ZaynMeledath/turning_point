@@ -13,15 +13,15 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
     on<PreloadEvent>((event, emit) async {
       state.urls = ReelsRepository.urlList;
 
+      if (event.isReloading == false) {
+        //To ensure that video is not played whenever the profile load event is called
+        if (state.controllers.isNotEmpty) {
+          return;
+        }
+      }
+
       if (event.currentIndex == 0) {
         if (event.isInitial) {
-          if (event.isReloading == false) {
-            //To ensure that video is not played whenever the profile load event is called
-            if (state.controllers.isNotEmpty) {
-              return;
-            }
-          }
-
           // if (state.focusedIndex == 0) {
           _initializeControllerAtIndex(0)
               .then((value) => _playControllerAtIndex(0));

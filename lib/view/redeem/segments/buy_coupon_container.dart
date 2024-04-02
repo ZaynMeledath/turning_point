@@ -86,8 +86,7 @@ Widget buyCouponContainer({
               ),
             ],
           ),
-          SizedBox(width: screenSize.width * .025),
-
+          SizedBox(width: screenSize.width * .01),
           buyCouponCounter(contestIndex: contestIndex),
           //====================Yellow Buy Coupon Container====================//
           Expanded(

@@ -9,6 +9,7 @@ import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/dialog/show_points_received_toast.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
+import 'package:turning_point/resources/reels_repository.dart';
 import 'package:turning_point/view/home/reels_player.dart';
 import 'package:turning_point/view/home/reels_screen.dart';
 import 'package:vibration/vibration.dart';
@@ -30,6 +31,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
   final reelsScreenState = ReelsScreenState();
   bool likeButtonActiveStatus = false;
   dynamic closeDialogHandle;
+  int tempIndex = 1;
 
   @override
   void initState() {
@@ -229,12 +231,17 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                   return circleLoading();
                 }
               },
-              onPageChanged: (index) {
+              onPageChanged: (index) async {
                 likeButtonActiveStatus = false;
+                tempIndex++;
                 reelsBloc.add(ReelLoadEvent(reelIndex: index));
                 context
                     .read<PreloadBloc>()
                     .add(PreloadEvent(currentIndex: index, isInitial: false));
+                if (tempIndex > 8) {
+                  tempIndex = 1;
+                  await ReelsRepository.getReels(page: (index ~/ 10).ceil());
+                }
               },
               scrollDirection: Axis.vertical,
               controller: pageController,

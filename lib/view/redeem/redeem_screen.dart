@@ -20,7 +20,7 @@ import 'package:turning_point/resources/contest_repository.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/Exception/user_exceptions.dart';
 import 'package:turning_point/view/redeem/segments/available_points_container.dart';
-import 'package:turning_point/view/redeem/segments/contest_list_segment.dart';
+import 'package:turning_point/view/redeem/segments/buy_coupon_container.dart';
 import 'package:turning_point/view/redeem/segments/redeem_options_segment.dart';
 
 part 'segments/buy_coupons_segment.dart';

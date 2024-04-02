@@ -10,8 +10,8 @@ Widget buyCouponCounter({required int contestIndex}) {
             onTap: () => contestBloc
                 .add(ContestEntryDecrementEvent(contestIndex: contestIndex)),
             child: Container(
-              width: screenSize.width * .058,
-              height: screenSize.width * .058,
+              width: screenSize.width * .068,
+              height: screenSize.width * .068,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
                 border: Border.all(
@@ -35,8 +35,8 @@ Widget buyCouponCounter({required int contestIndex}) {
             onTap: () => contestBloc
                 .add(ContestEntryIncrementEvent(contestIndex: contestIndex)),
             child: Container(
-              width: screenSize.width * .058,
-              height: screenSize.width * .058,
+              width: screenSize.width * .068,
+              height: screenSize.width * .068,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
                 border: Border.all(
@@ -60,8 +60,8 @@ Widget buyCouponCounter({required int contestIndex}) {
       SizedBox(height: screenSize.height * .005),
       BlocBuilder<ContestBloc, ContestState>(builder: (context, state) {
         return Container(
-          width: screenSize.width * .13,
-          height: screenSize.width * .04,
+          width: screenSize.width * .14,
+          height: screenSize.width * .042,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
             border: Border.all(

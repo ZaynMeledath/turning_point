@@ -16,10 +16,10 @@ class ReelsRepository {
   static int reelDownloadProgress = 0;
 
 //====================Get Reels Method====================//
-  static Future<ReelsModelResponse> getReels() async {
+  static Future<ReelsModelResponse> getReels({required int page}) async {
     try {
       final response = await ApiService().sendRequest(
-        url: ApiEndpoints.getReelsPaginated,
+        url: '${ApiEndpoints.getReelsPaginated}?page=$page',
         requestMethod: RequestMethod.GET,
         data: null,
         isTokenRequired: true,
@@ -34,7 +34,7 @@ class ReelsRepository {
 
       final data = response['data'];
 
-      urlList = data.map((e) => e['fileUrl']).toList();
+      urlList.addAll(data.map((e) => e['fileUrl']).toList());
       // final videoNames = data.map((e) => e['fileUrl']).toList();
       // urlList = videoNames
       //     .map((videoName) => '${ApiEndpoints.uploads}/$videoName')

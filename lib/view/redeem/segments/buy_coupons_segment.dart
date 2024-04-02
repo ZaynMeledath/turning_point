@@ -35,7 +35,7 @@ Widget buyCouponsSegment({
           );
         } else {
           return LiquidPullToRefresh(
-            height: 70,
+            height: 60,
             animSpeedFactor: 1.5,
             showChildOpacityTransition: false,
             color: const Color.fromRGBO(255, 215, 0, 1),
@@ -43,22 +43,24 @@ Widget buyCouponsSegment({
             onRefresh: () => _handleRefresh(),
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
-              child: Column(
-                children: [
-                  SizedBox(height: screenSize.height * .05),
-                  Lottie.asset(
-                    'assets/lottie/no_data_animation.json',
-                    width: screenSize.width * .45,
-                  ),
-                  Text(
-                    'No Coupons Available at the moment',
-                    style: GoogleFonts.inter(
-                      fontSize: screenSize.width * .034,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black.withOpacity(.75),
+              child: Center(
+                child: Column(
+                  children: [
+                    SizedBox(height: screenSize.height * .05),
+                    Lottie.asset(
+                      'assets/lottie/no_data_animation.json',
+                      width: screenSize.width * .45,
                     ),
-                  ),
-                ],
+                    Text(
+                      'No Coupons Available at the moment',
+                      style: GoogleFonts.inter(
+                        fontSize: screenSize.width * .034,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black.withOpacity(.75),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );

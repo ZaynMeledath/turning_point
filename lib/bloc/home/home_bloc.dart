@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
@@ -23,12 +22,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         if (state is! ConnectState &&
             event.index == 0 &&
             state.currentIndex == 0) {
-          await ReelsRepository.getReels();
-          await ReelsPageViewerState.pageController.animateToPage(
-            1,
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.linear,
-          );
+          ReelsRepository.urlList.clear();
+          ReelsPageViewerState.pageController.jumpToPage(0);
+          await ReelsRepository.getReels(page: 1);
           preloadBloc.add(
             PreloadEvent(
               currentIndex: 0,
