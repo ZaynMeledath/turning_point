@@ -16,38 +16,36 @@ Widget inviteLinkContainer({required String couponCode}) {
               )),
         ),
         SizedBox(height: screenSize.height * .012),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: screenSize.width * .035),
-          child: GestureDetector(
-            onTap: () {
-              // Share.share(message);
-            },
-            child: Container(
-                width: double.infinity,
-                height: screenSize.height * .05,
-                decoration: BoxDecoration(
-                  color: Colors.green,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/icons/whatsapp.png',
-                      width: screenSize.width * .051,
+        GestureDetector(
+          onTap: () {
+            // Share.share(message);
+          },
+          child: Container(
+              width: double.maxFinite,
+              height: screenSize.height * .05,
+              margin: EdgeInsets.symmetric(horizontal: screenSize.width * .05),
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(23, 230, 104, 1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/icons/whatsapp.png',
+                    width: screenSize.width * .051,
+                  ),
+                  SizedBox(width: screenSize.width * .015),
+                  Text(
+                    'Invite via WhatsApp',
+                    style: GoogleFonts.roboto(
+                      color: Colors.white,
+                      fontSize: screenSize.width * .034,
+                      fontWeight: FontWeight.w600,
                     ),
-                    SizedBox(width: screenSize.width * .015),
-                    Text(
-                      'Invite via WhatsApp',
-                      style: GoogleFonts.roboto(
-                        color: Colors.white,
-                        fontSize: screenSize.width * .034,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    )
-                  ],
-                )),
-          ),
+                  )
+                ],
+              )),
         )
       ],
     ),

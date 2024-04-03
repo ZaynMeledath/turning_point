@@ -78,6 +78,7 @@ class ApiService {
             response = await Response.fromStream(streamedResponse);
           } else {
             final requestBody = data is String ? data : json.encode(data);
+
             response = await http.patch(
               Uri.parse(url),
               headers: headers,

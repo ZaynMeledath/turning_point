@@ -10,12 +10,13 @@ Widget referralCodeContainer({
 }) {
   return Container(
     width: screenSize.width * .8,
-    height: screenSize.height * .09,
+    height: screenSize.height * .08,
     decoration: BoxDecoration(
       color: Colors.black87,
       borderRadius: BorderRadius.circular(6),
     ),
     child: CustomPaint(
+      // clipper: CustomClipperWidget(),
       painter: StepsPainter(),
       child: Row(
         children: [
@@ -75,11 +76,65 @@ Widget referralCodeContainer({
   );
 }
 
+// class CustomClipperWidget extends CustomClipper<Path> {
+//   @override
+//   Path getClip(Size size) {
+//     final path = Path();
+
+//     const numberOfSteps = 14;
+//     const numberOfVerticalSteps = 3;
+//     final stepSize = size.width / numberOfSteps;
+
+//     path.moveTo(0, size.height * .05);
+
+//     for (int i = 1; i <= numberOfSteps; i++) {
+//       path.lineTo(stepSize * i, stepSize);
+//       path.lineTo(stepSize * i, 0);
+//       i++;
+//       path.lineTo(stepSize * i, 0);
+//       path.lineTo(stepSize * i, stepSize);
+//     }
+
+//     for (int i = 1; i <= numberOfVerticalSteps; i++) {
+//       path.lineTo(size.width - stepSize, stepSize * i);
+//       path.lineTo(size.width, stepSize * i);
+//       i++;
+//       path.lineTo(size.width, stepSize * i);
+//       path.lineTo(size.width - size.width, stepSize * i);
+//     }
+
+//     for (int i = 14; i > 0; i--) {
+//       path.lineTo(stepSize * i, stepSize);
+//       path.lineTo(stepSize * i, 0);
+//       i--;
+//       path.lineTo(stepSize * i, 0);
+//       path.lineTo(stepSize * i, stepSize);
+//     }
+
+//     for (int i = 3; i > 0; i--) {
+//       path.lineTo(size.width - stepSize, stepSize * i);
+//       path.lineTo(size.width, stepSize * i);
+//       i--;
+//       path.lineTo(size.width, stepSize * i);
+//       path.lineTo(size.width - size.width, stepSize * i);
+//     }
+
+//     path.close();
+
+//     return path;
+//   }
+
+//   @override
+//   bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+//     return false;
+//   }
+// }
+
 class StepsPainter extends CustomPainter {
   final int numberOfStepsHorizontal =
       28; // Number of horizontal rectangular steps
   final int numberOfStepsVertical = 8; //Number of vertical steps
-  final double stepHeight = screenSize.width * .0072; // Height of each step
+  final double stepHeight = screenSize.width * .012; // Height of each step
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -113,13 +168,13 @@ stepHeight is given in the place of width parameter in LTWH and vice versa */
       if (i % 2 == 0) {
         final leftRect = Rect.fromLTWH(
             0,
-            (sideStepWidth + screenSize.height * .005) * i,
+            (sideStepWidth + screenSize.height * .004) * i,
             sideStepWidth,
             sideStepHeight / 2);
         canvas.drawRect(leftRect, paint);
         final rightRect = Rect.fromLTWH(
             (size.width - sideStepWidth),
-            (sideStepWidth + screenSize.height * .005) * i,
+            (sideStepWidth + screenSize.height * .004) * i,
             sideStepWidth,
             sideStepHeight / 2);
         canvas.drawRect(rightRect, paint);

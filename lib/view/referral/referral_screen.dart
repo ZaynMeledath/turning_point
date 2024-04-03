@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/view/referral/segments/scratch_card_pop_up.dart';
+import 'package:turning_point/view/referral/total_referral_earned_screen.dart';
 
 part 'segments/coupon_code_container.dart';
 part 'segments/referral_instruction_container.dart';
@@ -90,10 +92,10 @@ class _ReferralScreenState extends State<ReferralScreen> {
 
                   Center(
                     child: GestureDetector(
-                      // onTap: () => CustomNavigator.push(
-                      //   context: context,
-                      //   child: const TotalReferralEarnedScreen(),
-                      // ),
+                      onTap: () => CustomNavigator.push(
+                        context: context,
+                        child: const TotalReferralEarnedScreen(),
+                      ),
                       child: Container(
                         width: screenSize.width * .86,
                         height: screenSize.height * .08,

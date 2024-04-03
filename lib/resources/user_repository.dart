@@ -165,12 +165,12 @@ class UserRepository {
   }
 
 //====================Update User Online Status====================//
-  static Future<void> updateUserOnlineStatus() async {
+  static Future<void> updateUserOnlineStatus({required bool isOnline}) async {
     try {
       await ApiService().sendRequest(
         url: ApiEndpoints.updateUserOnlineStatus,
         requestMethod: RequestMethod.PATCH,
-        data: null,
+        data: {'isOnline': isOnline},
         isTokenRequired: true,
       );
     } catch (e) {
