@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart' show TextEditingController, immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/reels/reels_bloc.dart';
@@ -130,35 +131,32 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     });
 
 //====================Profile Email Update Event====================//
-    // on<ProfileEmailUpdateEvent>((event, emit) async {
-    //   try {
-    //     final userModelResponse = UserRepository.getUserFromPreference()!;
-    //     emit(
-    //       ProfileLoadedState(
-    //         isLoading: true,
-    //         isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
-    //         userModel: userModelResponse.data!,
-    //       ),
-    //     );
-    //     // await provider.signOut();
-    //     final token = await provider.signIn();
+    on<ProfileEmailUpdateEvent>((event, emit) async {
+      try {
+        final userModelResponse = UserRepository.getUserFromPreference()!;
+        emit(
+          ProfileLoadedState(
+            isLoading: true,
+            isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
+            userModel: userModelResponse.data!,
+            isContractorTemp: userModelResponse.data!.role == Role.CONTRACTOR,
+          ),
+        );
+        await provider.signOut();
+        await GoogleSignIn().signOut();
+        final token = await provider.signIn();
 
-    //     log('TOKEN : $token');
+        log('TOKEN : $token');
 
-    //     userModelResponse.data!.email = provider.currentUser!.email;
-    //     UserRepository.updateUserProfile(userModel: userModelResponse.data!);
-
-    //     emit(
-    //       ProfileLoadedState(
-    //         isLoading: false,
-    //         isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
-    //         userModel: userModelResponse.data!,
-    //       ),
-    //     );
-    //   } catch (e) {
-    //     throw Exception(e);
-    //   }
-    // });
+        userModelResponse.data!.email = provider.currentUser!.email;
+        UserRepository.updateUserProfile(userModel: userModelResponse.data!);
+        return emit(ProfileInactiveState());
+      } on ProfileInactiveException {
+        return emit(ProfileInactiveState());
+      } catch (e) {
+        throw Exception(e);
+      }
+    });
 
 //====================Profile Phone Update Event====================//
     on<ProfilePhoneUpdateEvent>((event, emit) async {

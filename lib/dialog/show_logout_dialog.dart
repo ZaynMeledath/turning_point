@@ -1,4 +1,5 @@
 import 'package:page_transition/page_transition.dart';
+import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -101,6 +102,7 @@ Widget dialog({required BuildContext context}) {
                   GestureDetector(
                     onTap: () {
                       AppPreferences.clearSharedPreferences();
+                      authBloc.add(SignOutEvent());
                       Navigator.of(context).pushAndRemoveUntil(
                         PageTransition(
                           child: const SignInScreen(),
