@@ -18,7 +18,7 @@ Widget bankTransferSegment({required BuildContext context}) {
               yourAmountSegment(),
               SizedBox(height: screenSize.height * .03),
 
-              state.userModel!.kycStatus == true
+              state.userModel!.kycStatus == KycStatus.APPROVED
                   ? Column(
                       children: [
                         //====================Account Details Segment====================//

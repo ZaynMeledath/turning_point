@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
+import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/view/kyc/kyc_submitted_screen.dart';
@@ -15,7 +16,7 @@ class KycVerifiedScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
-        if (state.userModel!.kycStatus == false) {
+        if (state.userModel!.kycStatus == KycStatus.SUBMITTED) {
           return const KycSubmittedScreen();
         } else {
           return Scaffold(

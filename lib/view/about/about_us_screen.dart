@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 part 'segments/about_company_container.dart';
 part 'segments/follow_us_segment.dart';
@@ -65,9 +66,9 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
               title: 'Turning Point',
               content:
                   'At Turningpoint, we believe in turning living spaces into sanctuaries. Established with a passion for craftsmanship and an unwavering commitment to quality, we curate furniture that resonates with both elegance and functionality.',
-              imagePath: 'assets/images/turning_point_logo.png',
+              imagePath: 'assets/icons/turning_point_logo_icon.png',
             ),
-            SizedBox(height: screenSize.height * .035),
+            SizedBox(height: screenSize.height * .04),
 
             aboutCompanyContainer(
               title: 'Furnipart',
@@ -75,15 +76,15 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                   'At Furnipart, we believe in turning living spaces into sanctuaries. Established with a passion for craftsmanship and an unwavering commitment to quality, we curate furniture that resonates with both elegance and functionality.',
               imagePath: 'assets/images/furnipart_logo.png',
             ),
-            SizedBox(height: screenSize.height * .035),
+            SizedBox(height: screenSize.height * .04),
 
             aboutCompanyContainer(
               title: 'Claart',
               content:
                   'At Claart, we believe in turning living spaces into sanctuaries. Established with a passion for craftsmanship and an unwavering commitment to quality, we curate furniture that resonates with both elegance and functionality.',
-              imagePath: 'assets/images/claart_logo.png',
+              imagePath: 'assets/images/claart_logo_with_bg.png',
             ),
-            SizedBox(height: screenSize.height * .045),
+            SizedBox(height: screenSize.height * .06),
             followUsSegment(),
           ],
         ),

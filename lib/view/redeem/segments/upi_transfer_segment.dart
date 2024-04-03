@@ -18,7 +18,7 @@ Widget upiTransferSegment({required TextEditingController upiController}) {
               yourAmountSegment(),
               SizedBox(height: screenSize.height * .03),
 
-              state.userModel!.kycStatus == true
+              state.userModel!.kycStatus == KycStatus.APPROVED
                   ? Column(
                       children: [
                         //====================Title====================//

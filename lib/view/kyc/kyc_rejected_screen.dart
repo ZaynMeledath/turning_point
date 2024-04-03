@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
+import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/view/kyc/segments/kyc_submitted_details_segment.dart';
 
 class KycRejectedScreen extends StatelessWidget {
@@ -14,7 +16,10 @@ class KycRejectedScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: LiquidPullToRefresh(
-          onRefresh: () async {},
+          onRefresh: () async {
+            UserRepository.getUserById(avoidGettingFromPreference: true);
+            profileBloc.add(ProfileLoadEvent());
+          },
           height: 80,
           animSpeedFactor: 1.5,
           showChildOpacityTransition: false,

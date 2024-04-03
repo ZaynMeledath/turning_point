@@ -7,6 +7,7 @@ import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/dialog/show_connect_dialog.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
+import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/view/home/reels_screen.dart';
 import 'package:turning_point/view/lucky_draw/lucky_draw_screen.dart';
 import 'package:turning_point/view/rewards/rewards_screen.dart';
@@ -23,7 +24,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     locationServiceBloc.add(LocationServiceStartEvent());
+    updateUserOnlineStatus();
     super.initState();
+  }
+
+  void updateUserOnlineStatus() async {
+    await UserRepository.updateUserOnlineStatus();
   }
 
   @override

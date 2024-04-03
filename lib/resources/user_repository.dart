@@ -164,6 +164,20 @@ class UserRepository {
     }
   }
 
+//====================Update User Online Status====================//
+  static Future<void> updateUserOnlineStatus() async {
+    try {
+      await ApiService().sendRequest(
+        url: ApiEndpoints.updateUserOnlineStatus,
+        requestMethod: RequestMethod.PATCH,
+        data: null,
+        isTokenRequired: true,
+      );
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
 //====================Get All Contractors====================//
   static Future<ContractorModelResponse> getContractors() async {
     try {

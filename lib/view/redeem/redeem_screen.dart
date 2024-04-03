@@ -9,6 +9,7 @@ import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/points_history/points_history_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/bloc/redeem/redeem_bloc.dart';
+import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/dialog/show_coupon_generate_dialog.dart';

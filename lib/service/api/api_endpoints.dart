@@ -10,6 +10,7 @@ class ApiEndpoints {
   static const checkPhoneNumber = '$baseUrl/users/checkPhoneNumber';
   static const getUser = '$baseUrl/users/getUserById';
   static const getContractors = '$baseUrl/users/getContractors';
+  static const updateUserOnlineStatus = '$baseUrl/users/updateUserOnlineStatus';
   static const updateUserProfile = '$baseUrl/users/update-profile';
   static const updateProfileImage = '$baseUrl/users/update-profile-image';
   static const getReels = '$baseUrl/reels/getReels';

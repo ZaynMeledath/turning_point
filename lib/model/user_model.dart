@@ -36,7 +36,7 @@ class UserModel {
   bool? isActive;
   String? role;
   ContractorModel? contractor;
-  bool? kycStatus;
+  String? kycStatus;
   List<BankDetails>? bankDetails;
   List? shopImageArr;
   String? createdAt;

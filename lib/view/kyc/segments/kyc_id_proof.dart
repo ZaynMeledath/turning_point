@@ -153,8 +153,9 @@ Widget kycIdProof() {
                   child: kycIdCaptureContainer(
                     title: 'Selfie',
                     isSelfie: true,
-                    isActive:
-                        state.idFrontImage != null && state.idBackImage != null,
+                    isActive: state.idFrontImage != null &&
+                        state.idBackImage != null &&
+                        state.selfie == null,
                   ),
                 ),
               ],

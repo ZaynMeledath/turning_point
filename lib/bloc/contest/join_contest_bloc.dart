@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
+import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/model/contest_model.dart';
 import 'package:turning_point/resources/contest_repository.dart';
 import 'package:turning_point/resources/user_repository.dart';
@@ -17,7 +18,7 @@ class JoinContestBloc extends Bloc<JoinContestEvent, JoinContestState> {
       emit(JoinContestLoadingState());
       try {
         final userModelResponse = UserRepository.getUserFromPreference()!;
-        if (userModelResponse.data!.kycStatus == true) {
+        if (userModelResponse.data!.kycStatus == KycStatus.APPROVED) {
           if (userModelResponse.data!.points! >=
               event.contestModel.points! * event.entryCount) {
             await ContestRepository.joinContest(

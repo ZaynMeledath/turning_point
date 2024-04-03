@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
@@ -139,7 +137,7 @@ class _WinnersDisplayScreenState extends State<WinnersDisplayScreen>
                           ),
                           SizedBox(height: screenSize.height * .01),
                           countDownContainer(
-                            time: ((luckyDrawState.secondsLeft ?? 0 % 30) + 1)
+                            time: ((luckyDrawState.secondsLeft! % 30) + 1)
                                 .toString(),
                             title: 'SECONDS',
                           ),
