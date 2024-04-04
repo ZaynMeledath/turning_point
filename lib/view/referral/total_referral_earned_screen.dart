@@ -2,8 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/view/redeem/redeem_screen.dart';
 
 class TotalReferralEarnedScreen extends StatefulWidget {
   const TotalReferralEarnedScreen({
@@ -29,7 +31,7 @@ class _TotalReferralEarnedScreenState extends State<TotalReferralEarnedScreen> {
           //---------------Blue Container---------------//
           Container(
             width: double.infinity,
-            height: 300,
+            height: screenSize.height * .27,
             color: const Color(0xff0054b4),
             child: SafeArea(
               child: Stack(
@@ -43,49 +45,80 @@ class _TotalReferralEarnedScreenState extends State<TotalReferralEarnedScreen> {
                         title: '',
                         foregroundColor: Colors.white,
                       ),
-                      Text(
-                        'Total Referral Earned',
-                        style: GoogleFonts.roboto(
-                          color: Colors.white,
-                          fontSize: screenSize.width * .036,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Text(
-                        '₹ 2450',
-                        style: GoogleFonts.roboto(
-                          color: Colors.white,
-                          fontSize: screenSize.width * .06,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          // send the user to subscription screen
-                        },
-                        child: Container(
-                          width: 88,
-                          height: 24,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Redeem Now',
+                      Padding(
+                        padding: EdgeInsets.only(left: screenSize.width * .05),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: screenSize.height * .015),
+                            Text(
+                              'Total Referrals Earned',
                               style: GoogleFonts.roboto(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w400,
+                                color: Colors.white,
+                                fontSize: screenSize.width * .038,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
-                          ),
+                            SizedBox(height: screenSize.height * .007),
+                            Row(
+                              children: [
+                                Image.asset(
+                                  'assets/icons/coin_icon.png',
+                                  width: screenSize.width * .065,
+                                ),
+                                SizedBox(width: screenSize.width * .005),
+                                Text(
+                                  '2450',
+                                  style: GoogleFonts.roboto(
+                                    color: Colors.white,
+                                    fontSize: screenSize.width * .06,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: screenSize.height * .02),
+                            GestureDetector(
+                              onTap: () {
+                                CustomNavigator.push(
+                                  context: context,
+                                  child: const RedeemScreen(),
+                                );
+                              },
+                              child: Container(
+                                width: screenSize.width * .2,
+                                height: screenSize.width * .07,
+                                decoration: BoxDecoration(
+                                  // color: Colors.white,
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      const Color.fromRGBO(255, 221, 84, 1),
+                                      Colors.white.withOpacity(1),
+                                    ],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                  ),
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Redeem',
+                                    style: GoogleFonts.roboto(
+                                      fontSize: screenSize.width * .03,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 20),
                     ],
                   ),
                   Positioned(
-                    right: -5,
+                    right: -6,
+                    bottom: screenSize.height * .012,
                     child: CircleAvatar(
                       radius: screenSize.width * .17,
                       backgroundColor: const Color.fromRGBO(255, 255, 255, 0.2),

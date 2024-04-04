@@ -144,7 +144,7 @@ class _ReferralScreenState extends State<ReferralScreen> {
                                       ),
                                     ),
                                   ],
-                                )
+                                ),
                               ],
                             ),
                             Expanded(
