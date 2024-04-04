@@ -28,7 +28,7 @@ class SignInState extends AuthState {}
 class WhoIsSigningState extends AuthState {}
 
 class OtpVerificationNeededState extends AuthState {
-  final Exception? exception;
+  final dynamic exception;
   const OtpVerificationNeededState({
     required super.phone,
     required super.businessName,

@@ -153,6 +153,8 @@ class FirebaseAuthProvider implements CustomAuthProvider {
         log('COULD NOT FETCH ID TOKEN AUTH EXCEPTION');
         throw CouldNotFetchIdTokenAuthException();
       }
+    } on FirebaseAuthException {
+      rethrow;
     } catch (e) {
       log('EXCEPTION IN VERIFY OTP FUNCTION: $e');
       throw Exception(e);

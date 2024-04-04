@@ -26,7 +26,6 @@ class ProfileInactiveScreen extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthLoadingState && closeDialogHandle == null) {
-          // closeDialogHandle = showLoadingDialog(context: context);
         } else if (state is SignedInState) {
           if (closeDialogHandle != null) Navigator.pop(context);
           closeDialogHandle = null;
@@ -61,7 +60,7 @@ class ProfileInactiveScreen extends StatelessWidget {
           ),
         ),
         body: LiquidPullToRefresh(
-          height: 80,
+          height: 70,
           animSpeedFactor: 1.5,
           showChildOpacityTransition: false,
           color: const Color.fromRGBO(89, 165, 255, 1),
@@ -71,7 +70,6 @@ class ProfileInactiveScreen extends StatelessWidget {
             physics: const AlwaysScrollableScrollPhysics(),
             child: Center(
               child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(height: screenSize.height * .15),
                   Lottie.asset(

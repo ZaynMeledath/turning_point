@@ -141,6 +141,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
 
         emit(OtpVerifiedState());
+      } on FirebaseAuthException catch (e) {
+        return emit(
+          OtpVerificationNeededState(
+            phone: state.phone,
+            businessName: state.businessName,
+            contractor: state.contractor,
+            exception: e.code,
+          ),
+        );
       } catch (e) {
         return emit(
           OtpVerificationNeededState(
