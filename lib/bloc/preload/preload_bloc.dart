@@ -39,8 +39,9 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
           _playPrevious(event.currentIndex);
           emit(
             PreloadState(
-                controllers: state.controllers,
-                focusedIndex: event.currentIndex),
+              controllers: state.controllers,
+              focusedIndex: event.currentIndex,
+            ),
           );
         }
       } else {

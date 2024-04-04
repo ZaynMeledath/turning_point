@@ -124,7 +124,7 @@ class _TotalReferralEarnedScreenState extends State<TotalReferralEarnedScreen> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: Image.asset(
-                          'assets/images/avatar.png',
+                          'assets/images/avatar.jpg',
                           width: screenSize.width * .2,
                         ),
                       ),

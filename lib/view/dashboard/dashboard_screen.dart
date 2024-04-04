@@ -185,14 +185,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         isContestContainer: true,
                       ),
                       dashboardActivityContainer(
-                          title: 'Badges Earned',
+                          title: 'Total Referrals',
                           imagePath:
-                              'assets/images/dashboard_challenges_image.png',
+                              'assets/images/dashboard_referral_image.png',
                           userModel: state.userModel!,
-                          imageHeight: screenSize.height * .058,
+                          imageHeight: screenSize.height * .07,
                           imageContainerGradient: [
-                            const Color.fromRGBO(187, 221, 255, 1),
-                            const Color.fromRGBO(234, 244, 255, 1),
+                            const Color.fromRGBO(255, 245, 203, 1),
+                            const Color.fromRGBO(255, 227, 205, 1),
                           ]),
                     ],
                   ),

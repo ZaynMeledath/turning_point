@@ -121,7 +121,7 @@ class _ReferralScreenState extends State<ReferralScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  'Total Referrals Earned',
+                                  'Referral Rewards Earned',
                                   style: GoogleFonts.roboto(
                                     color: const Color(0xff727576),
                                     fontSize: screenSize.width * .035,

@@ -119,6 +119,7 @@ class ReelsScreenState extends State<ReelsScreen>
                 ),
               );
             case ProfileLoadedState():
+              preloadBloc.state.isReelsVisible = true;
               return LiquidPullToRefresh(
                 onRefresh: () => handleRefresh(),
                 animSpeedFactor: 1.5,
