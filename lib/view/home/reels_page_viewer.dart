@@ -31,7 +31,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
   final reelsScreenState = ReelsScreenState();
   bool likeButtonActiveStatus = false;
   dynamic closeDialogHandle;
-  int tempIndex = 1;
+  int pageIndex = 1; // Reels Paginated (1 page contains 10 reels)
 
   @override
   void initState() {
@@ -233,14 +233,13 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
               },
               onPageChanged: (index) async {
                 likeButtonActiveStatus = false;
-                tempIndex++;
                 reelsBloc.add(ReelLoadEvent(reelIndex: index));
                 context
                     .read<PreloadBloc>()
                     .add(PreloadEvent(currentIndex: index, isInitial: false));
-                if (tempIndex > 8) {
-                  tempIndex = 1;
-                  await ReelsRepository.getReels(page: (index ~/ 10).ceil());
+                if (index > pageIndex * 8) {
+                  pageIndex++;
+                  await ReelsRepository.getReels(page: pageIndex);
                 }
               },
               scrollDirection: Axis.vertical,

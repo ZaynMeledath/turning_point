@@ -95,7 +95,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
   }
 
 //====================Initialize Controller on Given Index====================//
-  Future _initializeControllerAtIndex(int index) async {
+  Future<void> _initializeControllerAtIndex(int index) async {
     if (state.urls.length > index && index >= 0) {
       /// Create new controller
       final VideoPlayerController controller =

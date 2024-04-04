@@ -196,14 +196,14 @@ class _ReferralScreenState extends State<ReferralScreen> {
     );
   }
 
-  String extractReferralCode(String url) {
-    RegExp regExp = RegExp(r'/([^/]+)$');
-    Match? match = regExp.firstMatch(url);
+  // String extractReferralCode(String url) {
+  //   RegExp regExp = RegExp(r'/([^/]+)$');
+  //   Match? match = regExp.firstMatch(url);
 
-    if (match != null && match.groupCount >= 1) {
-      return match.group(1)!;
-    } else {
-      return ''; // Return an empty string if no referral code is found
-    }
-  }
+  //   if (match != null && match.groupCount >= 1) {
+  //     return match.group(1)!;
+  //   } else {
+  //     return ''; // Return an empty string if no referral code is found
+  //   }
+  // }
 }
