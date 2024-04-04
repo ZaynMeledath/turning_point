@@ -11,6 +11,7 @@ import 'package:turning_point/service/api/api_service.dart';
 
 class ReelsRepository {
   static List<dynamic> urlList = [];
+  static int reelsPageSize = 0;
   static ReelsModelResponse reelsModelResponse = ReelsModelResponse();
 
   static int reelDownloadProgress = 0;
@@ -34,13 +35,21 @@ class ReelsRepository {
 
       final data = response['data'];
 
+      reelsPageSize = data.length;
+
       urlList.addAll(data.map((e) => e['fileUrl']).toList());
       // final videoNames = data.map((e) => e['fileUrl']).toList();
       // urlList = videoNames
       //     .map((videoName) => '${ApiEndpoints.uploads}/$videoName')
       //     .toList();
 
-      reelsModelResponse = ReelsModelResponse.fromJson(response);
+      final tempReelsModelResponse = ReelsModelResponse.fromJson(response);
+
+      if (reelsModelResponse.data != null) {
+        reelsModelResponse.data!.addAll(tempReelsModelResponse.data!);
+      } else {
+        reelsModelResponse = ReelsModelResponse.fromJson(response);
+      }
 
       return reelsModelResponse;
     } catch (e) {

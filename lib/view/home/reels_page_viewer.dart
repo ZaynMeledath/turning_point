@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -90,8 +92,26 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
           builder: (context, reelsState) {
             return PageView.builder(
               itemCount: preloadState.urls.length,
+              onPageChanged: (index) async {
+                likeButtonActiveStatus = false;
+                reelsBloc.add(ReelLoadEvent(reelIndex: index));
+                context
+                    .read<PreloadBloc>()
+                    .add(PreloadEvent(currentIndex: index, isInitial: false));
+                if (index >= pageIndex * ReelsRepository.reelsPageSize - 2) {
+                  pageIndex++;
+                  await ReelsRepository.getReels(page: pageIndex);
+                }
+              },
+              scrollDirection: Axis.vertical,
+              controller: pageController,
+              physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
-                if (preloadState.controllers.isNotEmpty) {
+                if (preloadState.controllers.isNotEmpty &&
+                    (index == preloadState.focusedIndex ||
+                        index == preloadState.focusedIndex + 1 ||
+                        index == preloadState.focusedIndex - 1)) {
+                  log('INDEX : $index');
                   return Stack(
                     children: [
                       ReelsPlayer(
@@ -216,8 +236,9 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                         : Colors.transparent,
                                     percent: (controllerValue
                                             .position.inMilliseconds /
-                                        controllerValue
-                                            .duration.inMilliseconds),
+                                        (controllerValue
+                                                .duration.inMilliseconds +
+                                            10)),
                                     barRadius: const Radius.circular(6),
                                     lineHeight: 3,
                                   ),
@@ -231,20 +252,6 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                   return circleLoading();
                 }
               },
-              onPageChanged: (index) async {
-                likeButtonActiveStatus = false;
-                reelsBloc.add(ReelLoadEvent(reelIndex: index));
-                context
-                    .read<PreloadBloc>()
-                    .add(PreloadEvent(currentIndex: index, isInitial: false));
-                if (index > pageIndex * 8) {
-                  pageIndex++;
-                  await ReelsRepository.getReels(page: pageIndex);
-                }
-              },
-              scrollDirection: Axis.vertical,
-              controller: pageController,
-              physics: const BouncingScrollPhysics(),
             );
           },
         );
