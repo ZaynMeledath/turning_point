@@ -129,16 +129,17 @@ class KycBloc extends Bloc<KycEvent, KycState> {
 
         emit(
           KycLoadedState(
-              isLoading: true,
-              tabIndex: 2,
-              isSavings: event.isSavings,
-              name: event.name,
-              phone: event.phone,
-              email: event.email,
-              pincode: event.pincode,
-              idFrontImage: state.idFrontImage,
-              idBackImage: state.idBackImage,
-              selfie: state.selfie),
+            isLoading: true,
+            tabIndex: 2,
+            isSavings: event.isSavings,
+            name: event.name,
+            phone: event.phone,
+            email: event.email,
+            pincode: event.pincode,
+            idFrontImage: state.idFrontImage,
+            idBackImage: state.idBackImage,
+            selfie: state.selfie,
+          ),
         );
 
         //---------------Assigning new values to the UserModel---------------//
