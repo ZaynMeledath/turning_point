@@ -18,17 +18,17 @@ class KycBloc extends Bloc<KycEvent, KycState> {
       if (userModel.bankDetails != null && userModel.bankDetails!.isNotEmpty) {
         emit(
           KycLoadedState(
-              isLoading: false,
-              tabIndex: event.tabIndex,
-              isSavings: userModel.bankDetails?[0].banktype == 'savings',
-              name: event.name ?? state.name ?? userModel.name!,
-              phone: userModel.phone!,
-              email: event.email ?? state.email ?? userModel.email!,
-              pincode:
-                  event.pincode ?? state.pincode ?? userModel.pincode ?? '',
-              idFrontImage: state.idFrontImage,
-              idBackImage: state.idBackImage,
-              selfie: state.selfie),
+            isLoading: false,
+            tabIndex: event.tabIndex,
+            isSavings: userModel.bankDetails?[0].banktype == 'savings',
+            name: event.name ?? state.name ?? userModel.name!,
+            phone: userModel.phone!,
+            email: event.email ?? state.email ?? userModel.email!,
+            pincode: event.pincode ?? state.pincode ?? userModel.pincode ?? '',
+            idFrontImage: state.idFrontImage,
+            idBackImage: state.idBackImage,
+            selfie: state.selfie,
+          ),
         );
       } else {
         emit(
@@ -148,6 +148,7 @@ class KycBloc extends Bloc<KycEvent, KycState> {
         userModelResponse.data!.pincode = event.pincode;
         userModelResponse.data!.idFrontImage = state.idFrontImage;
         userModelResponse.data!.idBackImage = state.idBackImage;
+        userModelResponse.data!.selfie = state.selfie;
         if (userModelResponse.data!.bankDetails != null &&
             userModelResponse.data!.bankDetails!.isNotEmpty) {
           userModelResponse.data!.bankDetails![0].accountName = event.accName;

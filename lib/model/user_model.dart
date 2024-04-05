@@ -44,6 +44,7 @@ class UserModel {
   String? image;
   String? idBackImage;
   String? idFrontImage;
+  String? selfie;
   List<CouponModel>? coupons;
   int? contestParticipationCount;
   int? contestsParticipatedInCount;
@@ -70,6 +71,7 @@ class UserModel {
     this.image,
     this.idBackImage,
     this.idFrontImage,
+    this.selfie,
     this.kycStatus,
     this.coupons,
     this.contestParticipationCount,
@@ -107,6 +109,7 @@ class UserModel {
     image = json['image'];
     idBackImage = json['idBackImage'];
     idFrontImage = json['idFrontImage'];
+    selfie = json['selfie'];
     coupons = json['coupons'];
     contestParticipationCount = json['contestParticipationCount'];
     contestsParticipatedInCount = json['contestsParticipatedInCount'];
@@ -141,6 +144,7 @@ class UserModel {
     data['kycStatus'] = kycStatus;
     data['idBackImage'] = idBackImage;
     data['idFrontImage'] = idFrontImage;
+    data['selfie'] = selfie;
     data['coupons'] = coupons;
     data['contestParticipationCount'] = contestParticipationCount;
     data['contestsParticipatedInCount'] = contestsParticipatedInCount;
