@@ -1,7 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -111,7 +109,6 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                     (index == preloadState.focusedIndex ||
                         index == preloadState.focusedIndex + 1 ||
                         index == preloadState.focusedIndex - 1)) {
-                  log('INDEX : $index');
                   return Stack(
                     children: [
                       ReelsPlayer(

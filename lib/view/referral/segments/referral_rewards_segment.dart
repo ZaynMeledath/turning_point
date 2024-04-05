@@ -24,8 +24,6 @@ Widget referralRewardsSegment(BuildContext context) {
                   onTap: () => scratchCardPopUp(context),
                   child: Image.asset(
                     'assets/images/star_pattern.png',
-                    width: screenSize.width * .41,
-                    height: screenSize.width * .44,
                   ),
                 ),
               ),
@@ -35,7 +33,7 @@ Widget referralRewardsSegment(BuildContext context) {
 //---------------See Rewards History--------------//
           Container(
             width: screenSize.width * .84,
-            height: screenSize.height * .06,
+            height: screenSize.height * .055,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(8),
@@ -55,12 +53,14 @@ Widget referralRewardsSegment(BuildContext context) {
                   width: screenSize.width * .085,
                 ),
                 SizedBox(width: screenSize.width * .019),
-                Text('See Reward History',
-                    style: GoogleFonts.roboto(
-                      fontSize: screenSize.width * .036,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xff0054b4),
-                    )),
+                Text(
+                  'See Reward History',
+                  style: GoogleFonts.roboto(
+                    fontSize: screenSize.width * .036,
+                    fontWeight: FontWeight.w400,
+                    color: const Color(0xff0054b4),
+                  ),
+                ),
                 Expanded(
                   child: Align(
                     alignment: Alignment.centerRight,

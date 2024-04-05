@@ -11,7 +11,7 @@ Future<void> scratchCardPopUp(BuildContext context) {
       child: Scratcher(
         key: scratchKey,
         brushSize: 50,
-        threshold: 70,
+        threshold: 75,
         color: Colors.transparent,
         image: Image.asset(
           'assets/images/star_pattern.png',
@@ -22,8 +22,8 @@ Future<void> scratchCardPopUp(BuildContext context) {
               ?.reveal(duration: const Duration(milliseconds: 500));
         },
         child: Container(
-          width: 270,
-          height: 300,
+          width: screenSize.width * .62,
+          height: screenSize.height * .345,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),

@@ -51,7 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           children: [
 //====================Header segment with Back button, Profile Picture Stack and Name====================//
-            SizedBox(height: screenSize.height * .007),
+            SizedBox(height: screenSize.height * .006),
             Stack(
               alignment: Alignment.topCenter,
               children: [
@@ -150,8 +150,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SizedBox(height: screenSize.height * .023),
             profileOptionsSegment(context: context),
             SizedBox(height: screenSize.height * .012),
-            // referAndEarnContainer(context: context),
-            // SizedBox(height: screenSize.height * .03),
+            referAndEarnContainer(context: context),
+            SizedBox(height: screenSize.height * .03),
           ],
         ),
       ),

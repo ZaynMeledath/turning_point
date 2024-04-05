@@ -112,15 +112,15 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
 
 //====================Play Video on Given Index====================//
   void _playControllerAtIndex(int index) {
-    if (!state.isReelsVisible) {
-      return;
-    }
-    if (state.urls.length > index && index >= 0) {
-      /// Get controller at [index]
-      final VideoPlayerController controller = state.controllers[index]!;
+    if (state.isReelsVisible) {
+      if (state.urls.length > index && index >= 0) {
+        /// Get controller at [index]
+        final VideoPlayerController controller = state.controllers[index]!;
 
-      /// Play controller
-      controller.play();
+        /// Play controller
+        log('IS REELS VISIBLE: ${state.isReelsVisible}');
+        controller.play();
+      }
     }
   }
 
