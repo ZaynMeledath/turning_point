@@ -98,11 +98,12 @@ class _ScannerScreenState extends State<ScannerScreen> {
               default:
                 showScannerCouponDialog(
                   context: context,
-                  iconPath: 'assets/icons/kyc_declined_icon.png',
+                  iconPath: 'assets/lottie/gear_error_animation.json',
                   title: 'Something Went Wrong',
                   content:
                       'Something went wrong while connecting to the server',
                   buttonTitle: 'OK',
+                  iconWidth: screenSize.width * .2,
                 );
                 break;
             }

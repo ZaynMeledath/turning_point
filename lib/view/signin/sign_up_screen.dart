@@ -81,11 +81,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
           Navigator.pop(context);
           showAnimatedGenericDialog(
             context: context,
-            iconPath: 'assets/icons/kyc_declined_icon.png',
+            iconPath: 'assets/lottie/gear_error_animation.json',
             title: 'Something Went Wrong',
             content:
                 'Something went wrong while accessing\nthe server. Please try after sometime',
             buttonTitle: 'OK',
+            iconWidth: screenSize.width * .2,
           );
         } else if (state is PhoneNumberExistsState) {
           Navigator.pop(context);

@@ -81,12 +81,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
           } else {
             showAnimatedGenericDialog(
               context: context,
-              iconPath: 'assets/icons/kyc_declined_icon.png',
+              iconPath: 'assets/lottie/gear_error_animation.json',
               title: 'Error',
               content: state.exception is String
                   ? 'Error Code: ${state.exception}'
                   : 'Check your OTP or try again after sometime',
               buttonTitle: 'OK',
+              iconWidth: screenSize.width * .2,
             );
           }
         } else if (state is AuthErrorState) {

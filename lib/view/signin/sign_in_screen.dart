@@ -71,10 +71,11 @@ class _SignInScreenState extends State<SignInScreen> {
           Navigator.pop(context);
           showAnimatedGenericDialog(
             context: context,
-            iconPath: 'assets/icons/kyc_declined_icon.png',
+            iconPath: 'assets/lottie/gear_error_animation.json',
             title: 'Error Signing in',
             content: state.message,
             buttonTitle: 'OK',
+            iconWidth: screenSize.width * .2,
           );
         }
       },
