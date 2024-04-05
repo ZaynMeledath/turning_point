@@ -25,7 +25,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
-    preloadBloc.state.isReelsVisible = false;
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }
@@ -35,7 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void dispose() {
-    preloadBloc.state.isReelsVisible = true;
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: true));
     if (preloadBloc.state.controllers.isNotEmpty &&
         !preloadBloc.manuallyPaused) {
       preloadBloc.playCurrentController();

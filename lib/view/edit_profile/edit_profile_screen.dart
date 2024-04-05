@@ -9,7 +9,7 @@ import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/dialog/show_animated_otp_dialog.dart';
 import 'package:turning_point/dialog/show_edit_profile_dialog.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/helper/widget/my_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
 import 'package:turning_point/view/edit_profile/segments/edit_profile_picture_segment.dart';
@@ -155,7 +155,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       key: _formKey,
                       child: Column(
                         children: [
-                          customAppBar(
+                          myAppBar(
                             context: context,
                             title: 'Edit Profile',
                           ),

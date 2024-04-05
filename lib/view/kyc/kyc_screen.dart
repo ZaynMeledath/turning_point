@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/kyc/kyc_bloc.dart';
 import 'package:turning_point/dialog/show_kyc_update_dialog.dart';
 import 'package:turning_point/dialog/show_loading_dialog.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/helper/widget/my_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/kyc/kyc_submitted_screen.dart';
 import 'package:turning_point/view/kyc/segments/kyc_bank_details.dart';
@@ -114,7 +114,7 @@ class _KycScreenState extends State<KycScreen>
                       Column(
                         children: [
 //====================Header Segment with Back Button, Title and Doodle ====================//
-                          customAppBar(
+                          myAppBar(
                             context: context,
                             title: 'KYC',
                           ),

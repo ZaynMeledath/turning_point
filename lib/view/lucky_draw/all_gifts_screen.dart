@@ -17,7 +17,7 @@ class _AllGiftsScreenState extends State<AllGiftsScreen> {
           alignment: Alignment.topCenter,
           children: [
 //====================App Bar====================//
-            customAppBar(
+            myAppBar(
               context: context,
               title: 'Gifts',
               foregroundColor: Colors.black.withOpacity(.8),

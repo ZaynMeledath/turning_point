@@ -24,7 +24,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     locationServiceBloc.add(LocationServiceStartEvent());
-    // updateUserOnlineStatus(isOnline: true);
     WidgetsBinding.instance.addObserver(this);
     super.initState();
   }

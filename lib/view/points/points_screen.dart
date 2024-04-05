@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:turning_point/bloc/points_history/points_history_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/helper/widget/my_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/points/segments/available_points_segment.dart';
 import 'package:turning_point/view/points/segments/points_history_segment.dart';
@@ -21,7 +21,7 @@ class PointsScreen extends StatefulWidget {
 class _PointsScreenState extends State<PointsScreen> {
   @override
   void initState() {
-    preloadBloc.state.isReelsVisible = false;
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }
@@ -32,7 +32,7 @@ class _PointsScreenState extends State<PointsScreen> {
   @override
   void dispose() {
     if (widget.directEntry == true) {
-      preloadBloc.state.isReelsVisible = true;
+      preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: true));
       if (preloadBloc.state.controllers.isNotEmpty &&
           !preloadBloc.manuallyPaused) {
         preloadBloc.playCurrentController();
@@ -51,7 +51,7 @@ class _PointsScreenState extends State<PointsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 //====================Header Segment with Back Button and Title====================//
-            customAppBar(
+            myAppBar(
               context: context,
               title: 'Points',
             ),

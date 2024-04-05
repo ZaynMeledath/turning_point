@@ -36,7 +36,6 @@ class ReelsScreenState extends State<ReelsScreen>
 
   @override
   void initState() {
-    preloadBloc.state.isReelsVisible = true;
     locationServiceBloc.add(LocationServiceStartEvent());
 
     log('${AppPreferences.getValueShared('auth_token')}');
@@ -70,7 +69,7 @@ class ReelsScreenState extends State<ReelsScreen>
   @override
   void dispose() {
     super.dispose();
-    preloadBloc.state.isReelsVisible = false;
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }

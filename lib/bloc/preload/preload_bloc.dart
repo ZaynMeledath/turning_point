@@ -30,8 +30,10 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
           // _playControllerAtIndex(0);
           emit(
             PreloadState(
-                controllers: state.controllers,
-                focusedIndex: event.currentIndex),
+              controllers: state.controllers,
+              focusedIndex: event.currentIndex,
+              isReelsVisible: state.isReelsVisible,
+            ),
           );
           reelsBloc
               .add(ReelLoadEvent(reelIndex: preloadBloc.state.focusedIndex));
@@ -41,6 +43,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
             PreloadState(
               controllers: state.controllers,
               focusedIndex: event.currentIndex,
+              isReelsVisible: state.isReelsVisible,
             ),
           );
         }
@@ -53,15 +56,19 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
           _playPrevious(event.currentIndex);
           emit(
             PreloadState(
-                controllers: state.controllers,
-                focusedIndex: event.currentIndex),
+              controllers: state.controllers,
+              focusedIndex: event.currentIndex,
+              isReelsVisible: state.isReelsVisible,
+            ),
           );
         } else {
           _playNext(event.currentIndex);
           emit(
             PreloadState(
-                controllers: state.controllers,
-                focusedIndex: event.currentIndex),
+              controllers: state.controllers,
+              focusedIndex: event.currentIndex,
+              isReelsVisible: state.isReelsVisible,
+            ),
           );
         }
       }
@@ -70,6 +77,16 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
     on<PreloadResetEvent>((event, emit) {
       disposeAllControllers();
       emit(PreloadState.initial());
+    });
+
+    on<ReelsScreenToggleEvent>((event, emit) {
+      emit(
+        PreloadState(
+          controllers: state.controllers,
+          focusedIndex: state.focusedIndex,
+          isReelsVisible: event.isReelsVisible,
+        ),
+      );
     });
   }
 
@@ -112,7 +129,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
 
 //====================Play Video on Given Index====================//
   void _playControllerAtIndex(int index) {
-    if (state.isReelsVisible) {
+    if (state.isReelsVisible == true) {
       if (state.urls.length > index && index >= 0) {
         /// Get controller at [index]
         final VideoPlayerController controller = state.controllers[index]!;

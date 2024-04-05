@@ -32,7 +32,7 @@ class _RewardsScreenState extends State<RewardsScreen>
 
   @override
   void initState() {
-    preloadBloc.state.isReelsVisible = false;
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
     if (luckyDrawBloc.state.secondsLeft == null ||
         luckyDrawBloc.state.secondsLeft! == 0) {
       rewardsBloc.add(RewardsLoadEvent());

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/dialog/show_logout_dialog.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/helper/widget/my_app_bar.dart';
 
 part 'segments/settings_option.dart';
 
@@ -26,7 +26,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            customAppBar(
+            myAppBar(
               context: context,
               title: 'Settings',
             ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/helper/widget/my_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 part 'segments/about_company_container.dart';
@@ -35,7 +35,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            customAppBar(context: context, title: 'About Us'),
+            myAppBar(context: context, title: 'About Us'),
             SizedBox(height: screenSize.height * .03),
 //====================About App Segment====================//
             Image.asset(

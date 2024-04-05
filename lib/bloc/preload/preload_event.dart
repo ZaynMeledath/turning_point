@@ -18,3 +18,13 @@ class PreloadResetEvent extends PreloadEvent {
           isInitial: true,
         );
 }
+
+class ReelsScreenToggleEvent extends PreloadEvent {
+  final bool isReelsVisible;
+  ReelsScreenToggleEvent({
+    required this.isReelsVisible,
+  }) : super(
+          isInitial: false,
+          currentIndex: preloadBloc.state.focusedIndex,
+        );
+}

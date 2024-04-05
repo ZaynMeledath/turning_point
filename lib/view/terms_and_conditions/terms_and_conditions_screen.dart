@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/helper/widget/my_app_bar.dart';
 import 'package:turning_point/helper/widget/title_content_text.dart';
 import 'package:turning_point/view/boarding/boarding_screen.dart';
 
@@ -35,8 +35,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
             children: [
 //====================AppBar====================//
               widget.isAccepted
-                  ? customAppBar(
-                      context: context, title: 'Terms and Conditions')
+                  ? myAppBar(context: context, title: 'Terms and Conditions')
                   : Column(
                       children: [
                         SizedBox(height: screenSize.height * .011),

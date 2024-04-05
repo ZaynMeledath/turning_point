@@ -28,7 +28,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
 
   @override
   void initState() {
-    preloadBloc.state.isReelsVisible = false;
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
 
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();

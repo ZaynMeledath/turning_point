@@ -8,7 +8,7 @@ import 'package:turning_point/bloc/lucky_draw/lucky_draw_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/helper/widget/my_app_bar.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/view/contest/contest_screen.dart';
 import 'package:turning_point/view/lucky_draw/winners_display_screen.dart';
@@ -32,7 +32,7 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
   bool isAudioPlaying = false;
   @override
   void initState() {
-    preloadBloc.state.isReelsVisible = false;
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
 
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();

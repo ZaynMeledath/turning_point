@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/helper/widget/my_app_bar.dart';
 import 'package:turning_point/view/redeem/redeem_screen.dart';
 import 'package:turning_point/view/referral/segments/my_referrals_segment.dart';
 import 'package:turning_point/view/referral/segments/referral_rewards_segment.dart';
@@ -46,10 +46,11 @@ class _TotalReferralEarnedScreenState extends State<TotalReferralEarnedScreen>
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      customAppBar(
+                      myAppBar(
                         context: context,
                         title: '',
                         foregroundColor: Colors.white,
+                        backgroundColor: const Color(0xff0054b4),
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: screenSize.width * .05),

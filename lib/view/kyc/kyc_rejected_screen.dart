@@ -4,7 +4,7 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/helper/widget/my_app_bar.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/view/kyc/segments/kyc_submitted_details_segment.dart';
 
@@ -30,7 +30,7 @@ class KycRejectedScreen extends StatelessWidget {
             child: Center(
               child: Column(
                 children: [
-                  customAppBar(context: context, title: 'KYC'),
+                  myAppBar(context: context, title: 'KYC'),
                   SizedBox(height: screenSize.height * .005),
                   Lottie.asset(
                     'assets/lottie/kyc_rejected_animation.json',

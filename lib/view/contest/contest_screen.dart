@@ -9,7 +9,7 @@ import 'package:stacked_card_carousel/stacked_card_carousel.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
 import 'package:turning_point/bloc/contest/join_contest_bloc.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/helper/widget/my_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/resources/contest_repository.dart';
@@ -92,7 +92,7 @@ class _ContestScreenState extends State<ContestScreen> {
         body: SafeArea(
           child: Column(
             children: [
-              customAppBar(context: context, title: 'Contest'),
+              myAppBar(context: context, title: 'Contest'),
               bannerSegment(),
               SizedBox(height: screenSize.height * .005),
               Container(

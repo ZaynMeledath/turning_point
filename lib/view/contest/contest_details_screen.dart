@@ -16,7 +16,7 @@ class ContestDetailsScreen extends StatelessWidget {
             final contestModel = state.contestModelList![index];
             return Column(
               children: [
-                customAppBar(context: context, title: 'Contest Details'),
+                myAppBar(context: context, title: 'Contest Details'),
                 SizedBox(height: screenSize.height * .01),
 
                 Padding(
