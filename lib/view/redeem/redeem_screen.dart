@@ -166,11 +166,13 @@ class _RedeemScreenState extends State<RedeemScreen> {
                           case InsufficientBalanceToJoinContestException():
                             showAnimatedGenericDialog(
                               context: context,
-                              iconPath: 'assets/icons/kyc_declined_icon.png',
+                              iconPath:
+                                  'assets/lottie/insufficient_balance_animation.json',
                               title: 'Oops',
                               content:
                                   'Insufficient Balance to join the\ncontest',
                               buttonTitle: 'Dismiss',
+                              iconWidth: screenSize.width * .25,
                             );
                             break;
                           case VerificationRequiredToJoinContestException():
