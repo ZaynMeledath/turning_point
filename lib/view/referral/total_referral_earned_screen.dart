@@ -6,6 +6,8 @@ import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
 import 'package:turning_point/view/redeem/redeem_screen.dart';
+import 'package:turning_point/view/referral/segments/my_referrals_segment.dart';
+import 'package:turning_point/view/referral/segments/referral_rewards_segment.dart';
 
 class TotalReferralEarnedScreen extends StatefulWidget {
   const TotalReferralEarnedScreen({
@@ -17,9 +19,13 @@ class TotalReferralEarnedScreen extends StatefulWidget {
       _TotalReferralEarnedScreenState();
 }
 
-class _TotalReferralEarnedScreenState extends State<TotalReferralEarnedScreen> {
+class _TotalReferralEarnedScreenState extends State<TotalReferralEarnedScreen>
+    with SingleTickerProviderStateMixin {
+  late final TabController _controller;
+
   @override
   void initState() {
+    _controller = TabController(length: 2, vsync: this);
     super.initState();
   }
 
@@ -130,57 +136,68 @@ class _TotalReferralEarnedScreenState extends State<TotalReferralEarnedScreen> {
             ),
           ),
 
-          //referral List
-
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Referral List',
-              style: GoogleFonts.roboto(
-                  color: Colors.black,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500),
+          //---------------Rewards and My Referrals Container---------------//
+          SizedBox(height: screenSize.height * .02),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: screenSize.width * .05),
+            child: Container(
+              width: double.infinity,
+              height: screenSize.height * .05,
+              padding: EdgeInsets.symmetric(
+                horizontal: screenSize.width * .006,
+                vertical: screenSize.height * .003,
+              ),
+              decoration: BoxDecoration(
+                color: const Color(0xfff5f6ff),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: TabBar(
+                dividerColor: Colors.transparent,
+                controller: _controller,
+                labelColor: const Color(0xff0054b4),
+                unselectedLabelColor: const Color(0xff222222),
+                indicatorSize: TabBarIndicatorSize.tab,
+                indicator: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.white,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0x16000000),
+                      offset: Offset(0, 1),
+                      blurRadius: 1,
+                      blurStyle: BlurStyle.outer,
+                    )
+                  ],
+                ),
+                tabs: [
+                  Text(
+                    'Rewards',
+                    style: GoogleFonts.roboto(
+                      fontSize: screenSize.width * .036,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Text(
+                    'My Referrals',
+                    style: GoogleFonts.roboto(
+                      fontSize: screenSize.width * .036,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
 
           Expanded(
-            child: ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.symmetric(vertical: 0),
-              itemCount: 5,
-              itemBuilder: (context, index) => GestureDetector(
-                onTap: () {},
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.asset(
-                          'assets/images/avatar.jpg',
-                          width: screenSize.width * .2,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: Text(
-                        'Name',
-                        style: GoogleFonts.roboto(
-                          fontSize: screenSize.width * .035,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        maxLines: 1,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            child: TabBarView(
+              controller: _controller,
+              children: [
+                referralRewardsSegment(context),
+                myReferralsSegment(),
+              ],
             ),
-          ),
+          )
         ],
       ),
     );
