@@ -11,6 +11,7 @@ import 'package:turning_point/model/contractor_model.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/Exception/api_exception.dart';
+import 'package:turning_point/service/auth/auth_exceptions.dart';
 import 'package:turning_point/service/auth/auth_provider.dart';
 import 'package:turning_point/service/auth/firebase_auth_provider.dart';
 
@@ -69,6 +70,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           }
         } on ProfileInactiveException {
           return emit(ProfileInactiveState());
+        } on CouldNotSignInUserAuthException catch (e) {
+          return emit(AuthErrorState(message: e.errorMessage));
         } catch (e) {
           throw Exception(e);
         }

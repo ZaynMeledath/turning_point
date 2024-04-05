@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
+import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/dialog/show_custom_loading_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/flight_shuttle.dart';
@@ -65,6 +66,15 @@ class _SignInScreenState extends State<SignInScreen> {
               duration: const Duration(milliseconds: 750),
             ),
             (_) => false,
+          );
+        } else if (state is AuthErrorState) {
+          Navigator.pop(context);
+          showAnimatedGenericDialog(
+            context: context,
+            iconPath: 'assets/icons/kyc_declined_icon.png',
+            title: 'Error Signing in',
+            content: state.message,
+            buttonTitle: 'OK',
           );
         }
       },

@@ -50,7 +50,7 @@ class UserRepository {
       return response['status'];
     } catch (e) {
       log('EXCEPTION IN USER SIGN IN : $e');
-      throw CouldNotSignInUserAuthException();
+      throw CouldNotSignInUserAuthException(errorMessage: e.toString());
     }
   }
 
