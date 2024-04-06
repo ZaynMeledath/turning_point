@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/helper/flight_shuttle.dart';
 import 'package:turning_point/helper/screen_size.dart';
 
-Widget myAppBar({
+AppBar myAppBar({
   required BuildContext context,
   required String title,
   Color? backgroundColor,

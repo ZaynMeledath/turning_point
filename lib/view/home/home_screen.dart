@@ -72,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 body: pages[homeState.currentIndex],
                 //===============Bottom Navigation Bar===============//
                 bottomNavigationBar: SizedBox(
-                  height: screenSize.height * .075,
+                  height: screenSize.height * .076,
                   child: BottomNavigationBar(
                     selectedFontSize: screenSize.width * .031,
                     unselectedFontSize: screenSize.width * .029,

@@ -11,69 +11,27 @@ class _AllGiftsScreenState extends State<AllGiftsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(255, 204, 0, 1),
+      backgroundColor: const Color.fromRGBO(19, 24, 54, 1),
+      //====================App Bar====================//
+      appBar: myAppBar(
+        context: context,
+        title: 'Gifts',
+        foregroundColor: Colors.white,
+        backgroundColor: const Color.fromRGBO(19, 24, 54, 1),
+      ),
       body: SafeArea(
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
-//====================App Bar====================//
-            myAppBar(
-              context: context,
-              title: 'Gifts',
-              foregroundColor: Colors.black.withOpacity(.8),
-            ),
-
-//====================Background Decoration Circles====================//
-            Positioned(
-              bottom: -screenSize.width * .82,
-              width: screenSize.width * 1.3,
-              height: screenSize.width * 1.3,
-              child: Container(
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color.fromRGBO(226, 181, 54, 1),
-                    ),
-                    BoxShadow(
-                      color: Color.fromRGBO(209, 99, 1, 1),
-                      offset: Offset(0, 4),
-                      blurRadius: 121,
-                      spreadRadius: 4,
-                      blurStyle: BlurStyle.outer,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: -screenSize.width * .7,
-              width: screenSize.width * .8,
-              height: screenSize.width * .8,
-              child: Container(
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color.fromRGBO(226, 181, 54, 1),
-                    ),
-                    BoxShadow(
-                      color: Color.fromRGBO(209, 99, 1, .6),
-                      offset: Offset(0, 4),
-                      blurRadius: 121,
-                      spreadRadius: 47,
-                      blurStyle: BlurStyle.normal,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
 //====================Gifts Segment====================//
             BlocBuilder<LuckyDrawBloc, LuckyDrawState>(
               builder: (context, luckyDrawState) {
                 return Padding(
-                  padding: EdgeInsets.only(top: screenSize.height * .067),
+                  padding: EdgeInsets.only(
+                    top: 3,
+                    left: screenSize.width * .03,
+                    right: screenSize.width * .03,
+                  ),
                   child: GridView.builder(
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
@@ -85,7 +43,7 @@ class _AllGiftsScreenState extends State<AllGiftsScreen> {
                           luckyDrawState.contestModel!.prizeArr![index];
                       return Container(
                         margin: EdgeInsets.symmetric(
-                          horizontal: screenSize.width * .045,
+                          horizontal: screenSize.width * .05,
                           vertical: screenSize.width * .045,
                         ),
                         padding: EdgeInsets.symmetric(
@@ -93,20 +51,21 @@ class _AllGiftsScreenState extends State<AllGiftsScreen> {
                           vertical: screenSize.width * .025,
                         ),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              const Color.fromRGBO(255, 221, 84, 1),
-                              Colors.white.withOpacity(.8),
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                          ),
+                          color: const Color.fromRGBO(16, 34, 63, 1),
+                          // gradient: LinearGradient(
+                          //   colors: [
+                          //     const Color.fromRGBO(255, 221, 84, 1),
+                          //     Colors.white.withOpacity(.8),
+                          //   ],
+                          //   begin: Alignment.topCenter,
+                          //   end: Alignment.bottomCenter,
+                          // ),
                           borderRadius: BorderRadius.circular(8),
                           boxShadow: const [
                             BoxShadow(
-                              offset: Offset(0, 2),
-                              blurRadius: 4,
-                              color: Color.fromRGBO(0, 0, 0, .22),
+                              blurRadius: 1,
+                              color: Colors.white,
+                              blurStyle: BlurStyle.outer,
                             ),
                           ],
                         ),
@@ -137,6 +96,7 @@ class _AllGiftsScreenState extends State<AllGiftsScreen> {
                               style: GoogleFonts.roboto(
                                 fontSize: screenSize.width * .038,
                                 fontWeight: FontWeight.w500,
+                                color: Colors.white,
                               ),
                             ),
                             SizedBox(height: screenSize.width * .005),
@@ -146,6 +106,7 @@ class _AllGiftsScreenState extends State<AllGiftsScreen> {
                               style: GoogleFonts.roboto(
                                 fontSize: screenSize.width * .025,
                                 fontWeight: FontWeight.w300,
+                                color: Colors.white,
                               ),
                             ),
                           ],
