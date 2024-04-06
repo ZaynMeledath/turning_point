@@ -31,7 +31,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           final isContractor = userModelResponse.data!.role == Role.CONTRACTOR;
           final reelsModelResponse = await ReelsRepository.getReels(page: 1);
           reelsBloc.state.reelsModelList = reelsModelResponse.data;
-          preloadBloc.add(PreloadEvent(currentIndex: 0));
+          preloadBloc.add(PreloadEvent(currentIndex: 0, isInitial: true));
 
           return emit(ProfileLoadedState(
             isLoading: false,

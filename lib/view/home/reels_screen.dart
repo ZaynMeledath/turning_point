@@ -83,6 +83,8 @@ class ReelsScreenState extends State<ReelsScreen>
     await ReelsRepository.getReels(page: 1);
     preloadBloc.add(PreloadEvent(
       currentIndex: 0,
+      isInitial: true,
+      isReloading: true,
     ));
   }
 

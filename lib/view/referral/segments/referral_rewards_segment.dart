@@ -40,9 +40,14 @@ Widget referralRewardsSegment(BuildContext context) {
               boxShadow: const [
                 BoxShadow(
                   color: Color(0x16000000),
-                  offset: Offset(0, 1),
+                  offset: Offset(1, 1),
                   blurRadius: 4,
-                )
+                ),
+                BoxShadow(
+                  color: Color(0x16000000),
+                  offset: Offset(-1, -1),
+                  blurRadius: 4,
+                ),
               ],
             ),
             child: Row(

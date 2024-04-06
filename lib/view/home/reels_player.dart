@@ -29,6 +29,7 @@ class _ReelsPlayerState extends State<ReelsPlayer>
       begin: 0,
       end: 1.4,
     ).animate(animationController);
+
     super.initState();
   }
 
@@ -74,6 +75,9 @@ class _ReelsPlayerState extends State<ReelsPlayer>
     return ValueListenableBuilder(
         valueListenable: widget.videoController,
         builder: (context, value, child) {
+          if (!preloadBloc.manuallyPaused) {
+            animationController.reverse();
+          }
           return Stack(
             alignment: Alignment.center,
             children: [

@@ -102,6 +102,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
               onPageChanged: (index) async {
                 likeButtonActiveStatus = false;
                 // reelsBloc.add(ReelLoadEvent(reelIndex: index));
+                preloadBloc.manuallyPaused = false;
                 context
                     .read<PreloadBloc>()
                     .add(PreloadEvent(currentIndex: index));

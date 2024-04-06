@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:turning_point/constants/constants.dart';
@@ -250,16 +252,37 @@ class UserRepository {
       );
 
       if (image != null) {
-        final imageFile = File(image.path);
-        final base64Image = base64Encode(await image.readAsBytes());
-        final result =
-            'furnipart/${image.path.split('/').last};base64,$base64Image';
+        CroppedFile? croppedImage = await ImageCropper().cropImage(
+          sourcePath: image.path,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+          ],
+          cropStyle: CropStyle.circle,
+          uiSettings: [
+            AndroidUiSettings(
+              toolbarTitle: 'Cropper',
+              toolbarColor: Colors.black,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.square,
+              lockAspectRatio: false,
+              activeControlsWidgetColor: Colors.blue,
+            ),
+            IOSUiSettings(
+              title: 'Cropper',
+            ),
+          ],
+        );
+        if (croppedImage != null) {
+          final imageFile = File(croppedImage.path);
+          final base64Image = base64Encode(await croppedImage.readAsBytes());
+          final result =
+              'furnipart/${image.path.split('/').last};base64,$base64Image';
 
-        //Image Map is used for KYC Bloc
-        return {result: imageFile};
-      } else {
-        return null;
+          //Image Map is used for KYC Bloc
+          return {result: imageFile};
+        }
       }
+      return null;
     } catch (_) {
       throw CouldNotFetchImageFromStorageException();
     }
