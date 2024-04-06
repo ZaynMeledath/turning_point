@@ -63,18 +63,6 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
 
   @override
   Widget build(BuildContext context) {
-    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: true));
-
-    if (!preloadBloc.manuallyPaused) {
-      Future.delayed(Duration.zero, () {
-        preloadBloc.add(
-          PreloadEvent(
-            currentIndex: preloadBloc.state.focusedIndex,
-          ),
-        );
-      });
-    }
-
     return BlocBuilder<PreloadBloc, PreloadState>(
       builder: (context, preloadState) {
         return BlocConsumer<ReelsBloc, ReelsState>(

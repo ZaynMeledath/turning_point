@@ -11,8 +11,6 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
   bool manuallyPaused = false; // Will be removed while optimizing the app
   PreloadBloc() : super(PreloadState.initial()) {
     on<PreloadEvent>((event, emit) async {
-      //To make sure the reels are not loaded unwantedly on every profile load
-
       state.urls = ReelsRepository.urlList;
       if (state.isReelsVisible) {
         if (event.currentIndex == 0) {
@@ -22,6 +20,13 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
                   .then((value) => _playControllerAtIndex(0));
             } else {
               _playControllerAtIndex(0);
+              emit(
+                PreloadState(
+                  controllers: state.controllers,
+                  focusedIndex: event.currentIndex,
+                  isReelsVisible: state.isReelsVisible,
+                ),
+              );
             }
             await _initializeControllerAtIndex(1);
             emit(
@@ -150,7 +155,6 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
         final VideoPlayerController controller = state.controllers[index]!;
 
         /// Play controller
-        log('IS REELS VISIBLE: ${state.isReelsVisible}');
         controller.play();
       }
     }

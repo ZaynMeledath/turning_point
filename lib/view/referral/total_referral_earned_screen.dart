@@ -57,7 +57,7 @@ class _TotalReferralEarnedScreenState extends State<TotalReferralEarnedScreen>
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: screenSize.height * .013),
+                            SizedBox(height: screenSize.height * .011),
                             Text(
                               'Total Referrals Earned',
                               style: GoogleFonts.roboto(

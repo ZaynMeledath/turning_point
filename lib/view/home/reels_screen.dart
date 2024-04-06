@@ -58,6 +58,17 @@ class ReelsScreenState extends State<ReelsScreen>
   @override
   void didChangeDependencies() {
     locationServiceBloc.add(LocationServiceStartEvent());
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: true));
+
+    if (!preloadBloc.manuallyPaused) {
+      Future.delayed(Duration.zero, () {
+        preloadBloc.add(
+          PreloadEvent(
+            currentIndex: preloadBloc.state.focusedIndex,
+          ),
+        );
+      });
+    }
     enableWakelock();
     super.didChangeDependencies();
   }
@@ -182,11 +193,20 @@ class ReelsScreenState extends State<ReelsScreen>
                                           BlocBuilder<PointsBloc, PointsState>(
                                             builder: (context, pointsState) {
                                               return Text(
-                                                pointsState.points.toString(),
+                                                pointsState.points == null
+                                                    ? 'Loading...'
+                                                    : pointsState.points
+                                                        .toString(),
                                                 style: GoogleFonts.inter(
-                                                  fontSize:
-                                                      screenSize.width * .04,
-                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: pointsState
+                                                              .points ==
+                                                          null
+                                                      ? screenSize.width * .031
+                                                      : screenSize.width * .04,
+                                                  fontWeight:
+                                                      pointsState.points == null
+                                                          ? FontWeight.w500
+                                                          : FontWeight.w700,
                                                   color: const Color.fromRGBO(
                                                       27, 27, 27, 1),
                                                 ),
