@@ -36,8 +36,6 @@ class ReelsScreenState extends State<ReelsScreen>
 
   @override
   void initState() {
-    locationServiceBloc.add(LocationServiceStartEvent());
-
     log('${AppPreferences.getValueShared('auth_token')}');
 
     likeAnimationController = AnimationController(
@@ -53,11 +51,15 @@ class ReelsScreenState extends State<ReelsScreen>
         likeAnimationController.reverse();
       }
     });
-    if (preloadBloc.state.controllers.isNotEmpty) {
-      preloadBloc.playCurrentController();
-    }
-    enableWakelock();
+
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    locationServiceBloc.add(LocationServiceStartEvent());
+    enableWakelock();
+    super.didChangeDependencies();
   }
 
   void enableWakelock() async {
@@ -81,8 +83,6 @@ class ReelsScreenState extends State<ReelsScreen>
     await ReelsRepository.getReels(page: 1);
     preloadBloc.add(PreloadEvent(
       currentIndex: 0,
-      isInitial: true,
-      isReloading: true,
     ));
   }
 
@@ -118,7 +118,6 @@ class ReelsScreenState extends State<ReelsScreen>
                 ),
               );
             case ProfileLoadedState():
-              preloadBloc.state.isReelsVisible = true;
               return LiquidPullToRefresh(
                 onRefresh: () => handleRefresh(),
                 animSpeedFactor: 1.5,

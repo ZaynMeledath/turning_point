@@ -20,13 +20,17 @@ class PointsScreen extends StatefulWidget {
 
 class _PointsScreenState extends State<PointsScreen> {
   @override
-  void initState() {
+  void didChangeDependencies() {
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }
-    WakelockPlus.disable();
-    super.initState();
+    disableWakeLock();
+    super.didChangeDependencies();
+  }
+
+  void disableWakeLock() async {
+    await WakelockPlus.disable();
   }
 
   @override
@@ -35,7 +39,11 @@ class _PointsScreenState extends State<PointsScreen> {
       preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: true));
       if (preloadBloc.state.controllers.isNotEmpty &&
           !preloadBloc.manuallyPaused) {
-        preloadBloc.playCurrentController();
+        Future.delayed(Duration.zero, () {
+          preloadBloc.add(PreloadEvent(
+            currentIndex: preloadBloc.state.focusedIndex,
+          ));
+        });
       }
     }
 
@@ -44,6 +52,10 @@ class _PointsScreenState extends State<PointsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (preloadBloc.state.controllers.isNotEmpty) {
+      preloadBloc.pauseCurrentController();
+    }
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
     pointsHistoryBloc.add(PointsHistoryLoadEvent());
     return Scaffold(
       body: SafeArea(

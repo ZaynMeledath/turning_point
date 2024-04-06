@@ -28,8 +28,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           preloadBloc.add(
             PreloadEvent(
               currentIndex: 0,
-              isInitial: true,
-              isReloading: true,
             ),
           );
         }

@@ -23,21 +23,21 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void initState() {
-    locationServiceBloc.add(LocationServiceStartEvent());
     WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
 
-  void updateUserOnlineStatus({required bool isOnline}) async {
-    await UserRepository.updateUserOnlineStatus(isOnline: isOnline);
-  }
+  // void updateUserOnlineStatus({required bool isOnline}) async {
+  //   await UserRepository.updateUserOnlineStatus(isOnline: isOnline);
+  // }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    locationServiceBloc.add(LocationServiceStartEvent());
     if (state == AppLifecycleState.resumed) {
-      updateUserOnlineStatus(isOnline: true);
+      UserRepository.updateUserOnlineStatus(isOnline: true);
     } else {
-      updateUserOnlineStatus(isOnline: false);
+      UserRepository.updateUserOnlineStatus(isOnline: false);
     }
   }
 

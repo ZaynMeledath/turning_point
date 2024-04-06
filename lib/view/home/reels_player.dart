@@ -22,7 +22,6 @@ class _ReelsPlayerState extends State<ReelsPlayer>
 
   @override
   void initState() {
-    preloadBloc.state.isReelsVisible = true;
     animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 150));
 
@@ -43,6 +42,13 @@ class _ReelsPlayerState extends State<ReelsPlayer>
       animationController.reverse();
       preloadBloc.manuallyPaused = false;
     }
+  }
+
+  @override
+  void dispose() {
+    animationController.reverse();
+    animationController.dispose();
+    super.dispose();
   }
 
   // void showIconOverlay() {
@@ -74,10 +80,12 @@ class _ReelsPlayerState extends State<ReelsPlayer>
               Center(
                 child: value.isInitialized
                     ? GestureDetector(
-                        onTap: () {
+                        onTapDown: (details) {
                           onScreenTap();
                         },
-                        child: VideoPlayer(widget.videoController),
+                        child: VideoPlayer(
+                          widget.videoController,
+                        ),
                       )
                     : circleLoading(),
               ),

@@ -12,6 +12,7 @@ import 'package:turning_point/helper/widget/my_app_bar.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/view/contest/contest_screen.dart';
 import 'package:turning_point/view/lucky_draw/winners_display_screen.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 part 'segments/gift_boxes_segment.dart';
 part 'all_gifts_screen.dart';
@@ -30,14 +31,19 @@ class LuckyDrawScreen extends StatefulWidget {
 class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
   final audioPlayer = AudioPlayer();
   bool isAudioPlaying = false;
-  @override
-  void initState() {
-    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
 
+  @override
+  void didChangeDependencies() {
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }
-    super.initState();
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
+    disableWakeLock();
+    super.didChangeDependencies();
+  }
+
+  void disableWakeLock() async {
+    await WakelockPlus.disable();
   }
 
   @override
@@ -49,6 +55,10 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (preloadBloc.state.controllers.isNotEmpty) {
+      preloadBloc.pauseCurrentController();
+    }
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
     luckyDrawBloc.add(LuckyDrawLoadEvent());
     return Scaffold(
       backgroundColor: const Color.fromRGBO(255, 204, 0, 1),

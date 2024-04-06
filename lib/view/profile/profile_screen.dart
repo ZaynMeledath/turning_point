@@ -25,12 +25,21 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
-    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }
-    WakelockPlus.disable();
-    super.initState();
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
+    disableWakeLock();
+    super.didChangeDependencies();
+  }
+
+  void disableWakeLock() async {
+    await WakelockPlus.disable();
   }
 
   @override
@@ -38,7 +47,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: true));
     if (preloadBloc.state.controllers.isNotEmpty &&
         !preloadBloc.manuallyPaused) {
-      preloadBloc.playCurrentController();
+      Future.delayed(Duration.zero, () {
+        preloadBloc.add(PreloadEvent(
+          currentIndex: preloadBloc.state.focusedIndex,
+        ));
+      });
     }
 
     super.dispose();
@@ -46,6 +59,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (preloadBloc.state.controllers.isNotEmpty) {
+      preloadBloc.pauseCurrentController();
+    }
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
     return Scaffold(
       body: SafeArea(
         child: Column(

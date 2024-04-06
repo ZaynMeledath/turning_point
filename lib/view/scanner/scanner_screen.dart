@@ -11,6 +11,7 @@ import 'package:turning_point/helper/screen_size.dart';
 import 'dart:math' as math;
 
 import 'package:turning_point/resources/location_repository.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 part 'segments/scanner_overlay.dart';
 part 'segments/scanner_error_widget.dart';
@@ -28,14 +29,23 @@ class _ScannerScreenState extends State<ScannerScreen> {
 
   @override
   void initState() {
-    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
-
-    if (preloadBloc.state.controllers.isNotEmpty) {
-      preloadBloc.pauseCurrentController();
-    }
     couponController = TextEditingController();
     getLocation();
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (preloadBloc.state.controllers.isNotEmpty) {
+      preloadBloc.pauseCurrentController();
+    }
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
+    disableWakeLock();
+    super.didChangeDependencies();
+  }
+
+  void disableWakeLock() async {
+    await WakelockPlus.disable();
   }
 
   void getLocation() async {
@@ -50,6 +60,10 @@ class _ScannerScreenState extends State<ScannerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (preloadBloc.state.controllers.isNotEmpty) {
+      preloadBloc.pauseCurrentController();
+    }
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
     return Scaffold(
       body: BlocConsumer<ScannerBloc, ScannerState>(
         listener: (context, state) {

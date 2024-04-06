@@ -64,10 +64,16 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
   @override
   Widget build(BuildContext context) {
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: true));
-    Future.delayed(Duration.zero, () {
-      preloadBloc.add(PreloadEvent(
-          currentIndex: preloadBloc.state.focusedIndex, isInitial: true));
-    });
+
+    if (!preloadBloc.manuallyPaused) {
+      Future.delayed(Duration.zero, () {
+        preloadBloc.add(
+          PreloadEvent(
+            currentIndex: preloadBloc.state.focusedIndex,
+          ),
+        );
+      });
+    }
 
     return BlocBuilder<PreloadBloc, PreloadState>(
       builder: (context, preloadState) {
@@ -95,10 +101,10 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
               itemCount: preloadState.urls.length,
               onPageChanged: (index) async {
                 likeButtonActiveStatus = false;
-                reelsBloc.add(ReelLoadEvent(reelIndex: index));
+                // reelsBloc.add(ReelLoadEvent(reelIndex: index));
                 context
                     .read<PreloadBloc>()
-                    .add(PreloadEvent(currentIndex: index, isInitial: false));
+                    .add(PreloadEvent(currentIndex: index));
                 if (index >= pageIndex * ReelsRepository.reelsPageSize - 2) {
                   pageIndex++;
                   await ReelsRepository.getReels(page: pageIndex);

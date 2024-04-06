@@ -12,65 +12,78 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
   PreloadBloc() : super(PreloadState.initial()) {
     on<PreloadEvent>((event, emit) async {
       state.urls = ReelsRepository.urlList;
-
-      if (event.isReloading == false) {
-        //To ensure that video is not played whenever the profile load event is called
-        if (state.controllers.isNotEmpty) {
-          return;
-        }
-      }
-
-      if (event.currentIndex == 0) {
-        if (event.isInitial) {
-          // if (state.focusedIndex == 0) {
-          _initializeControllerAtIndex(0)
-              .then((value) => _playControllerAtIndex(0));
-          // }
-          await _initializeControllerAtIndex(1);
-          // _playControllerAtIndex(0);
-          emit(
-            PreloadState(
-              controllers: state.controllers,
-              focusedIndex: event.currentIndex,
-              isReelsVisible: state.isReelsVisible,
-            ),
-          );
-          reelsBloc
-              .add(ReelLoadEvent(reelIndex: preloadBloc.state.focusedIndex));
+      if (state.isReelsVisible) {
+        if (event.currentIndex == 0) {
+          if (state.controllers.isEmpty) {
+            if (state.focusedIndex == 0) {
+              _initializeControllerAtIndex(0)
+                  .then((value) => _playControllerAtIndex(0));
+            } else {
+              _playControllerAtIndex(0);
+            }
+            await _initializeControllerAtIndex(1);
+            emit(
+              PreloadState(
+                controllers: state.controllers,
+                focusedIndex: event.currentIndex,
+                isReelsVisible: state.isReelsVisible,
+              ),
+            );
+          } else {
+            if (state.controllers.length == 1) {
+              _playControllerAtIndex(0);
+              emit(
+                PreloadState(
+                  controllers: state.controllers,
+                  focusedIndex: event.currentIndex,
+                  isReelsVisible: state.isReelsVisible,
+                ),
+              );
+            } else {
+              _playPrevious(event.currentIndex);
+              emit(
+                PreloadState(
+                  controllers: state.controllers,
+                  focusedIndex: event.currentIndex,
+                  isReelsVisible: state.isReelsVisible,
+                ),
+              );
+            }
+          }
         } else {
-          _playPrevious(event.currentIndex);
-          emit(
-            PreloadState(
-              controllers: state.controllers,
-              focusedIndex: event.currentIndex,
-              isReelsVisible: state.isReelsVisible,
-            ),
-          );
+          //To ensure that video is not played whenever the profile load event is called
+
+          if (event.currentIndex < state.focusedIndex) {
+            _playPrevious(event.currentIndex);
+            emit(
+              PreloadState(
+                controllers: state.controllers,
+                focusedIndex: event.currentIndex,
+                isReelsVisible: state.isReelsVisible,
+              ),
+            );
+          } else if (event.currentIndex > state.focusedIndex) {
+            _playNext(event.currentIndex);
+            emit(
+              PreloadState(
+                controllers: state.controllers,
+                focusedIndex: event.currentIndex,
+                isReelsVisible: state.isReelsVisible,
+              ),
+            );
+          } else {
+            _playControllerAtIndex(event.currentIndex);
+            emit(
+              PreloadState(
+                controllers: state.controllers,
+                focusedIndex: event.currentIndex,
+                isReelsVisible: state.isReelsVisible,
+              ),
+            );
+          }
         }
-      } else {
-        //To ensure that video is not played whenever the profile load event is called
-        if (event.isInitial) {
-          return;
-        }
-        if (event.currentIndex < state.focusedIndex) {
-          _playPrevious(event.currentIndex);
-          emit(
-            PreloadState(
-              controllers: state.controllers,
-              focusedIndex: event.currentIndex,
-              isReelsVisible: state.isReelsVisible,
-            ),
-          );
-        } else {
-          _playNext(event.currentIndex);
-          emit(
-            PreloadState(
-              controllers: state.controllers,
-              focusedIndex: event.currentIndex,
-              isReelsVisible: state.isReelsVisible,
-            ),
-          );
-        }
+        return reelsBloc
+            .add(ReelLoadEvent(reelIndex: preloadBloc.state.focusedIndex));
       }
     });
 
@@ -175,7 +188,6 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
 
 //====================Pause Current Controller====================//
   void pauseCurrentController() {
-    log('CONTROLLER PAUSED');
     Future.delayed(Duration.zero, () {
       _stopControllerAtIndex(state.focusedIndex);
     });
@@ -183,7 +195,6 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
 
 //====================Play Paused Controller====================//
   void playCurrentController() async {
-    log('CONTROLLER STARTED PLAYING');
     if (!state.controllers[state.focusedIndex]!.value.isPlaying) {
       Future.delayed(Duration.zero, () {
         _playControllerAtIndex(state.focusedIndex);

@@ -12,6 +12,7 @@ import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/view/rewards/segments/rank_list_segment.dart';
 import 'package:turning_point/view/rewards/segments/rewards_body_segment.dart';
 import 'package:turning_point/view/rewards/segments/rewards_tab_bar.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 part 'single_contest_rewards_screen.dart';
 part 'segments/single_contest_rewards_tab_bar.dart';
@@ -32,14 +33,11 @@ class _RewardsScreenState extends State<RewardsScreen>
 
   @override
   void initState() {
-    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
     if (luckyDrawBloc.state.secondsLeft == null ||
         luckyDrawBloc.state.secondsLeft! == 0) {
       rewardsBloc.add(RewardsLoadEvent());
     }
-    if (preloadBloc.state.controllers.isNotEmpty) {
-      preloadBloc.pauseCurrentController();
-    }
+
     tabController = TabController(length: 2, vsync: this);
     scrollController = ScrollController();
     scrollController.addListener(() {
@@ -54,7 +52,22 @@ class _RewardsScreenState extends State<RewardsScreen>
         RewardsTabSwitchedEvent(tabController.index),
       );
     });
+
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (preloadBloc.state.controllers.isNotEmpty) {
+      preloadBloc.pauseCurrentController();
+    }
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
+    disableWakeLock();
+    super.didChangeDependencies();
+  }
+
+  void disableWakeLock() async {
+    await WakelockPlus.disable();
   }
 
   @override
@@ -67,6 +80,10 @@ class _RewardsScreenState extends State<RewardsScreen>
 
   @override
   Widget build(BuildContext context) {
+    if (preloadBloc.state.controllers.isNotEmpty) {
+      preloadBloc.pauseCurrentController();
+    }
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
     return Scaffold(
       body: BlocBuilder<RewardsBloc, RewardsState>(
         builder: (context, rewardsState) {
