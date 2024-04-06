@@ -10,13 +10,13 @@ class ContestDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: myAppBar(context: context, title: 'Contest Details'),
       body: SafeArea(
         child: BlocBuilder<ContestBloc, ContestState>(
           builder: (context, state) {
             final contestModel = state.contestModelList![index];
             return Column(
               children: [
-                myAppBar(context: context, title: 'Contest Details'),
                 SizedBox(height: screenSize.height * .01),
 
                 Padding(

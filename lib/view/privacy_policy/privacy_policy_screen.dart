@@ -16,14 +16,15 @@ class PrivacyPolicyScreen extends StatelessWidget {
     const text =
         "The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.";
     return Scaffold(
+      appBar: myAppBar(
+        context: context,
+        title: 'Privacy & Policy',
+      ),
       body: SafeArea(
         child: Column(
           children: [
 //====================AppBar====================//
-            myAppBar(
-              context: context,
-              title: 'Privacy & Policy',
-            ),
+
             SizedBox(height: screenSize.height * .01),
 
 //====================Illustration====================//

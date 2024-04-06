@@ -35,7 +35,11 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
             children: [
 //====================AppBar====================//
               widget.isAccepted
-                  ? myAppBar(context: context, title: 'Terms and Conditions')
+                  ? myAppBar(
+                      context: context,
+                      title: 'Terms and Conditions',
+                      backgroundColor: Colors.white,
+                    )
                   : Column(
                       children: [
                         SizedBox(height: screenSize.height * .011),
@@ -48,7 +52,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                         ),
                       ],
                     ),
-              SizedBox(height: screenSize.height * .008),
+              SizedBox(height: screenSize.height * .007),
 
 //====================Terms and Conditions====================//
               Expanded(

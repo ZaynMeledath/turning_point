@@ -9,10 +9,10 @@ class KycPendingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: myAppBar(context: context, title: 'KYC'),
       body: SafeArea(
         child: Column(
           children: [
-            myAppBar(context: context, title: 'KYC'),
             SizedBox(height: screenSize.height * .2),
             Image.asset(
               'assets/icons/kyc_pending_icon.png',

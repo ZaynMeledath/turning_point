@@ -23,13 +23,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: myAppBar(
+        context: context,
+        title: 'Settings',
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            myAppBar(
-              context: context,
-              title: 'Settings',
-            ),
             SizedBox(height: screenSize.height * .02),
             Padding(
               padding:

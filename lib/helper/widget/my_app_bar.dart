@@ -12,9 +12,10 @@ AppBar myAppBar({
 }) {
   return AppBar(
     automaticallyImplyLeading: false,
-    elevation: 0,
+    elevation: 10,
     titleSpacing: 0,
     toolbarHeight: screenSize.height * .066,
+    surfaceTintColor: Colors.transparent,
     backgroundColor: backgroundColor ?? Colors.transparent,
     title: Row(
       children: [

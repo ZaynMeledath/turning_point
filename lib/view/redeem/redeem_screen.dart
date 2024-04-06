@@ -65,6 +65,11 @@ class _RedeemScreenState extends State<RedeemScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: myAppBar(
+        context: context,
+        title: 'Redeem',
+        backgroundColor: Colors.yellow,
+      ),
 //====================Header Segment with back button and title====================//
       body: Column(
         children: [
@@ -81,14 +86,6 @@ class _RedeemScreenState extends State<RedeemScreen> {
             ),
             child: Column(
               children: [
-                SafeArea(
-                  child: myAppBar(
-                    context: context,
-                    title: 'Redeem',
-                    backgroundColor: Colors.transparent,
-                  ),
-                ),
-
                 //====================Available Points Segment====================//
                 availablePointsContainer(),
               ],

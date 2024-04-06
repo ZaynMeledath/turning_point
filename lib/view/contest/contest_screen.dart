@@ -89,10 +89,10 @@ class _ContestScreenState extends State<ContestScreen> {
         }
       },
       child: Scaffold(
+        appBar: myAppBar(context: context, title: 'Contest'),
         body: SafeArea(
           child: Column(
             children: [
-              myAppBar(context: context, title: 'Contest'),
               bannerSegment(),
               SizedBox(height: screenSize.height * .005),
               Container(

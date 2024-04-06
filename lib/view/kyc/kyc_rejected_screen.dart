@@ -14,6 +14,7 @@ class KycRejectedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: myAppBar(context: context, title: 'KYC'),
       body: SafeArea(
         child: LiquidPullToRefresh(
           onRefresh: () async {
@@ -30,7 +31,6 @@ class KycRejectedScreen extends StatelessWidget {
             child: Center(
               child: Column(
                 children: [
-                  myAppBar(context: context, title: 'KYC'),
                   SizedBox(height: screenSize.height * .005),
                   Lottie.asset(
                     'assets/lottie/kyc_rejected_animation.json',

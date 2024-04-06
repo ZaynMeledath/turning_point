@@ -66,6 +66,10 @@ class _KycScreenState extends State<KycScreen>
   Widget build(BuildContext context) {
     kycBloc.add(KycLoadEvent(tabIndex: 0));
     return Scaffold(
+      appBar: myAppBar(
+        context: context,
+        title: 'KYC',
+      ),
       body: SafeArea(
         child: BlocConsumer<KycBloc, KycState>(
           listener: (context, state) {
@@ -114,10 +118,7 @@ class _KycScreenState extends State<KycScreen>
                       Column(
                         children: [
 //====================Header Segment with Back Button, Title and Doodle ====================//
-                          myAppBar(
-                            context: context,
-                            title: 'KYC',
-                          ),
+
                           SizedBox(height: screenSize.height * .01),
                           Image.asset(
                             'assets/images/kyc_doodle.png',

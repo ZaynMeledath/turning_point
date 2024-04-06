@@ -27,6 +27,7 @@ class KycSubmittedScreen extends StatelessWidget {
           return const KycVerifiedScreen();
         } else {
           return Scaffold(
+            appBar: myAppBar(context: context, title: 'KYC'),
             body: SafeArea(
               child: LiquidPullToRefresh(
                 height: 80,
@@ -39,7 +40,6 @@ class KycSubmittedScreen extends StatelessWidget {
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: Column(
                     children: [
-                      myAppBar(context: context, title: 'KYC'),
                       SizedBox(height: screenSize.height * .005),
                       Lottie.asset(
                         'assets/lottie/kyc_submitted_animation.json',

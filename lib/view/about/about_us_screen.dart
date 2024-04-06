@@ -32,10 +32,10 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: myAppBar(context: context, title: 'About Us'),
       body: SafeArea(
         child: Column(
           children: [
-            myAppBar(context: context, title: 'About Us'),
             SizedBox(height: screenSize.height * .03),
 //====================About App Segment====================//
             Image.asset(
@@ -84,7 +84,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                   'At Claart, we believe in turning living spaces into sanctuaries. Established with a passion for craftsmanship and an unwavering commitment to quality, we curate furniture that resonates with both elegance and functionality.',
               imagePath: 'assets/images/claart_logo_with_bg.png',
             ),
-            SizedBox(height: screenSize.height * .06),
+            SizedBox(height: screenSize.height * .08),
             followUsSegment(),
           ],
         ),

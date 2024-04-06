@@ -58,15 +58,15 @@ class _PointsScreenState extends State<PointsScreen> {
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
     pointsHistoryBloc.add(PointsHistoryLoadEvent());
     return Scaffold(
+      appBar: myAppBar(
+        context: context,
+        title: 'Points',
+      ),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 //====================Header Segment with Back Button and Title====================//
-            myAppBar(
-              context: context,
-              title: 'Points',
-            ),
 
 //====================Body Segment====================//
             SizedBox(height: screenSize.height * .015),

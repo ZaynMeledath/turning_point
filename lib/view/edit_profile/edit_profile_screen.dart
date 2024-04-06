@@ -98,6 +98,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     contractorBloc.add(ContractorLoadEvent(isSignUp: false));
 
     return Scaffold(
+      appBar: myAppBar(
+        context: context,
+        title: 'Edit Profile',
+      ),
       body: BlocConsumer<ProfileBloc, ProfileState>(
         listener: (context, state) {
           if (state is ProfileLoadedState && state.verifyOtp == true) {
@@ -155,10 +159,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       key: _formKey,
                       child: Column(
                         children: [
-                          myAppBar(
-                            context: context,
-                            title: 'Edit Profile',
-                          ),
                           //====================Body Segment====================//
                           editProfilePictureSegment(
                             context: context,

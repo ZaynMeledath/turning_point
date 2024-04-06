@@ -20,11 +20,11 @@ class KycVerifiedScreen extends StatelessWidget {
           return const KycSubmittedScreen();
         } else {
           return Scaffold(
+            appBar: myAppBar(context: context, title: 'KYC'),
             body: SafeArea(
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    myAppBar(context: context, title: 'KYC'),
                     SizedBox(height: screenSize.height * .005),
                     Lottie.asset(
                       'assets/lottie/kyc_verified_animation.json',
