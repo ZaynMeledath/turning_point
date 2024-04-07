@@ -214,7 +214,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                               visible: controllerValue.isInitialized,
                               child: Padding(
                                 padding: EdgeInsets.only(
-                                  top: screenSize.height * .922,
+                                  top: screenSize.height * .921,
                                 ),
                                 child: SizedBox(
                                   width: double.maxFinite,

@@ -190,7 +190,7 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
         if (timeMap.isNotEmpty && state is LuckyDrawWinnersDisplayState) {
           final prizeIndex = (secondsLeft ~/ LUCKY_DRAW_WINNER_DISPLAY_DELAY);
 
-          await Future.delayed(const Duration(seconds: 1));
+          await Future.delayed(const Duration(seconds: 2));
           if (state.scaleAnimate != true) {
             emit(
               LuckyDrawWinnersDisplayState(

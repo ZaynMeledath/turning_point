@@ -150,7 +150,7 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
                     height: 80,
                     animSpeedFactor: 1.5,
                     showChildOpacityTransition: false,
-                    color: const Color.fromRGBO(255, 215, 0, 1),
+                    color: const Color.fromRGBO(31, 51, 170, .2),
                     backgroundColor: Colors.white,
                     onRefresh: () async {
                       luckyDrawBloc.add(LuckyDrawLoadEvent());

@@ -10,7 +10,8 @@ import 'package:turning_point/model/rewards_model.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
 import 'package:turning_point/view/lucky_draw/lucky_draw_screen.dart';
 
-part 'segments/winner_details_container.dart';
+part 'segments/winner_details_segment.dart';
+part 'segments/winners_display_count_down.dart';
 
 class WinnersDisplayScreen extends StatefulWidget {
   const WinnersDisplayScreen({super.key});
@@ -79,42 +80,26 @@ class _WinnersDisplayScreenState extends State<WinnersDisplayScreen>
                           : 1,
                       duration: const Duration(milliseconds: 1000),
                       curve: Curves.linear,
-                      child: Container(
-                        width: screenSize.width * .84,
-                        height: screenSize.height * .18,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              const Color.fromRGBO(255, 221, 84, 1),
-                              Colors.white.withOpacity(.9),
+                      child: BlocBuilder<RewardsBloc, RewardsState>(
+                          builder: (context, rewardsState) {
+                        if (rewardsState is RewardsLoadedState) {
+                          final rewardsModel =
+                              rewardsState.currentRewardsModel!;
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              winnerDetailsSegment(
+                                rewardsModel: rewardsModel,
+                                prizeIndex: luckyDrawState.prizeIndex!,
+                              ),
                             ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: const [
-                            BoxShadow(
-                              blurRadius: 1,
-                              color: Colors.black12,
-                            ),
-                          ],
-                        ),
-                        child: BlocBuilder<RewardsBloc, RewardsState>(
-                            builder: (context, rewardsState) {
-                          if (rewardsState is RewardsLoadedState) {
-                            final rewardsModel =
-                                rewardsState.currentRewardsModel!;
-                            return winnerDetailsSegment(
-                              rewardsModel: rewardsModel,
-                              prizeIndex: luckyDrawState.prizeIndex!,
-                            );
-                          } else {
-                            return spinningLinesLoading(
-                                color: Colors.white,
-                                size: screenSize.height * .05);
-                          }
-                        }),
-                      ),
+                          );
+                        } else {
+                          return spinningLinesLoading(
+                              color: Colors.white,
+                              size: screenSize.height * .05);
+                        }
+                      }),
                     ),
                   ),
                 ),
@@ -128,7 +113,7 @@ class _WinnersDisplayScreenState extends State<WinnersDisplayScreen>
                       child: Column(
                         children: [
                           Text(
-                            'Next Winner\nin',
+                            'Next Winner in',
                             textAlign: TextAlign.center,
                             style: GoogleFonts.poppins(
                               fontSize: screenSize.width * .04,
@@ -136,11 +121,6 @@ class _WinnersDisplayScreenState extends State<WinnersDisplayScreen>
                             ),
                           ),
                           SizedBox(height: screenSize.height * .01),
-                          countDownContainer(
-                            time: ((luckyDrawState.secondsLeft! % 30) + 1)
-                                .toString(),
-                            title: 'SECONDS',
-                          ),
                         ],
                       ),
                     ),
