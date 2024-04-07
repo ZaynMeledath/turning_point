@@ -52,19 +52,11 @@ class _AllGiftsScreenState extends State<AllGiftsScreen> {
                         ),
                         decoration: BoxDecoration(
                           color: const Color.fromRGBO(16, 34, 63, 1),
-                          // gradient: LinearGradient(
-                          //   colors: [
-                          //     const Color.fromRGBO(255, 221, 84, 1),
-                          //     Colors.white.withOpacity(.8),
-                          //   ],
-                          //   begin: Alignment.topCenter,
-                          //   end: Alignment.bottomCenter,
-                          // ),
                           borderRadius: BorderRadius.circular(8),
-                          boxShadow: const [
+                          boxShadow: [
                             BoxShadow(
-                              blurRadius: 1,
-                              color: Colors.white,
+                              blurRadius: 6,
+                              color: Colors.blue.shade200,
                               blurStyle: BlurStyle.outer,
                             ),
                           ],

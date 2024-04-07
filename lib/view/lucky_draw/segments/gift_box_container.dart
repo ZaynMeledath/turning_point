@@ -7,24 +7,17 @@ Widget giftBoxContainer({String? image}) {
     height: screenSize.width * .24,
     padding: EdgeInsets.all(screenSize.width * .02),
     decoration: BoxDecoration(
-      color: const Color.fromRGBO(49, 55, 92, 1),
-      // color: Color.fromARGB(255, 39, 45, 78),
-
       borderRadius: BorderRadius.circular(8),
-      boxShadow: const [
-        BoxShadow(
-          // offset: Offset(0, 1),
-          blurRadius: 1,
-          // spreadRadius: 3,
-          color: Color.fromRGBO(141, 149, 194, 1),
-          blurStyle: BlurStyle.outer,
+      boxShadow: [
+        const BoxShadow(
+          color: Color.fromRGBO(141, 149, 193, .8),
         ),
-        // BoxShadow(
-        //   offset: Offset(0, 1),
-        //   blurRadius: 40,
-        //   color: Color.fromRGBO(141, 149, 193, .6),
-        //   blurStyle: BlurStyle.inner,
-        // ),
+        BoxShadow(
+          offset: const Offset(1, 6),
+          color: const Color.fromRGBO(19, 24, 54, 1),
+          spreadRadius: -screenSize.width * .028,
+          blurRadius: screenSize.width * .06,
+        ),
       ],
     ),
     child: image != null
