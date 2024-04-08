@@ -65,9 +65,9 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
       body: BlocBuilder<LuckyDrawBloc, LuckyDrawState>(
         builder: (context, state) {
           switch (state) {
-//====================Lucky Draw Loading State====================//
+//====================Lucknny Draw Loading State====================//
             case LuckyDrawLoadingState():
-              return spinningLinesLoading(color: Colors.red);
+              return spinningLinesLoading(color: Colors.white);
 
 //====================Lucky Draw Winner Display State====================//
             case LuckyDrawWinnersDisplayState():
@@ -142,36 +142,38 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
                   ],
                 );
               } else {
-                return LiquidPullToRefresh(
-                  height: 80,
-                  animSpeedFactor: 1.5,
-                  showChildOpacityTransition: false,
-                  color: const Color.fromRGBO(31, 51, 170, .2),
-                  backgroundColor: Colors.white,
-                  onRefresh: () async {
-                    luckyDrawBloc.add(LuckyDrawLoadEvent());
-                  },
-                  child: SingleChildScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: Center(
-                      child: Column(
-                        children: [
-                          SizedBox(height: screenSize.height * .28),
-                          Lottie.asset(
-                            'assets/lottie/no_data_animation.json',
-                            width: screenSize.width * .55,
-                          ),
-                          Text(
-                            'No Lucky Draw Available at the moment',
-                            style: GoogleFonts.inter(
-                              fontSize: screenSize.width * .041,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              height: .1,
+                return SafeArea(
+                  child: LiquidPullToRefresh(
+                    height: 80,
+                    animSpeedFactor: 1.5,
+                    showChildOpacityTransition: false,
+                    color: const Color.fromRGBO(31, 51, 170, .2),
+                    backgroundColor: Colors.white,
+                    onRefresh: () async {
+                      luckyDrawBloc.add(LuckyDrawLoadEvent());
+                    },
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            SizedBox(height: screenSize.height * .25),
+                            Lottie.asset(
+                              'assets/lottie/no_data_animation.json',
+                              width: screenSize.width * .5,
                             ),
-                          ),
-                          SizedBox(height: screenSize.height * .1)
-                        ],
+                            Text(
+                              'No Lucky Draw Available at the moment',
+                              style: GoogleFonts.inter(
+                                fontSize: screenSize.width * .04,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                height: .1,
+                              ),
+                            ),
+                            SizedBox(height: screenSize.height * .1)
+                          ],
+                        ),
                       ),
                     ),
                   ),

@@ -69,6 +69,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                       titleContentText(isTitle: false, text: contentText),
                       titleContentText(isTitle: true, text: titleText),
                       titleContentText(isTitle: false, text: contentText),
+                      SizedBox(height: screenSize.height * .02),
                     ],
                   ),
                 ),

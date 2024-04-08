@@ -9,12 +9,17 @@ Widget winnerDetailsSegment({
       horizontal: screenSize.width * .03,
       vertical: screenSize.height * .01,
     ),
-    child: Column(
-      children: [
-        rewardsModel.contestPrizes![prizeIndex].winnerDetails != null
-            ? Container(
-                width: screenSize.height * .09,
-                height: screenSize.height * .09,
+    child: rewardsModel.contestPrizes![prizeIndex].winnerDetails != null
+        ? Column(
+            children: [
+              Image.asset(
+                'assets/icons/golden_crown_icon.png',
+                width: screenSize.width * .11,
+              ),
+              SizedBox(height: screenSize.height * .005),
+              Container(
+                width: screenSize.height * .07,
+                height: screenSize.height * .07,
                 padding: EdgeInsets.all(screenSize.height * .012),
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
@@ -38,21 +43,22 @@ Widget winnerDetailsSegment({
                         : '${ApiEndpoints.uploads}/${rewardsModel.contestPrizes![prizeIndex].winnerDetails!.image}',
                   ),
                 ),
-              )
-            : const SizedBox(),
-        SizedBox(height: screenSize.height * .01),
-        Text(
-          rewardsModel.contestPrizes![prizeIndex].winnerDetails != null
-              ? rewardsModel.contestPrizes![prizeIndex].winnerDetails!.name!
-              : 'No Participant',
-          style: GoogleFonts.poppins(
-            fontSize: screenSize.width * .04,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-          ),
-        ),
-      ],
-    ),
+              ),
+              SizedBox(height: screenSize.height * .01),
+              Text(
+                rewardsModel.contestPrizes![prizeIndex].winnerDetails != null
+                    ? rewardsModel
+                        .contestPrizes![prizeIndex].winnerDetails!.name!
+                    : 'No Participant',
+                style: GoogleFonts.poppins(
+                  fontSize: screenSize.width * .036,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          )
+        : const SizedBox(),
   );
 }
 

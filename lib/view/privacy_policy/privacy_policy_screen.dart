@@ -65,7 +65,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                 padding:
                     EdgeInsets.symmetric(horizontal: screenSize.width * .051),
                 child: ListView(
-                  physics: const BouncingScrollPhysics(),
+                  // physics: const BouncingScrollPhysics(),
                   children: [
                     titleContentText(isTitle: true, text: text),
                     titleContentText(isTitle: false, text: text),
@@ -77,6 +77,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                     titleContentText(isTitle: true, text: text),
                     titleContentText(isTitle: false, text: text),
                     titleContentText(isTitle: false, text: text),
+                    SizedBox(height: screenSize.height * .02),
                   ],
                 ),
               ),

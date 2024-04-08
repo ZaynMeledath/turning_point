@@ -19,6 +19,21 @@ class PointsScreen extends StatefulWidget {
 }
 
 class _PointsScreenState extends State<PointsScreen> {
+  late final ScrollController scrollController;
+  int page = 1;
+
+  @override
+  void initState() {
+    scrollController = ScrollController();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        pointsHistoryBloc.add(PointsHistoryLoadEvent());
+      }
+    });
+    super.initState();
+  }
+
   @override
   void didChangeDependencies() {
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
@@ -39,14 +54,19 @@ class _PointsScreenState extends State<PointsScreen> {
       preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: true));
       if (preloadBloc.state.controllers.isNotEmpty &&
           !preloadBloc.manuallyPaused) {
-        Future.delayed(Duration.zero, () {
-          preloadBloc.add(PreloadEvent(
-            currentIndex: preloadBloc.state.focusedIndex,
-          ));
-        });
+        Future.delayed(
+          Duration.zero,
+          () {
+            preloadBloc.add(
+              PreloadEvent(
+                currentIndex: preloadBloc.state.focusedIndex,
+              ),
+            );
+          },
+        );
       }
     }
-
+    scrollController.dispose();
     super.dispose();
   }
 
@@ -72,7 +92,10 @@ class _PointsScreenState extends State<PointsScreen> {
             SizedBox(height: screenSize.height * .015),
             availablePointsSegment(context: context),
             SizedBox(height: screenSize.height * .024),
-            pointsHistorySegment(screenSize: screenSize),
+            pointsHistorySegment(
+              screenSize: screenSize,
+              scrollController: scrollController,
+            ),
           ],
         ),
       ),
