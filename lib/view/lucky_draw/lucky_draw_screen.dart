@@ -62,128 +62,123 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
     luckyDrawBloc.add(LuckyDrawLoadEvent());
     return Scaffold(
       backgroundColor: const Color.fromRGBO(19, 24, 54, 1),
-      body: SafeArea(
-        child: BlocBuilder<LuckyDrawBloc, LuckyDrawState>(
-          builder: (context, state) {
-            switch (state) {
-              case LuckyDrawLoadingState():
-                return spinningLinesLoading(color: Colors.red);
-              case LuckyDrawWinnersDisplayState():
-                if (!isAudioPlaying) {
-                  isAudioPlaying = true;
-                  audioPlayer.play(
-                    AssetSource(
-                      'sounds/lucky_draw_music.m4a',
+      body: BlocBuilder<LuckyDrawBloc, LuckyDrawState>(
+        builder: (context, state) {
+          switch (state) {
+//====================Lucky Draw Loading State====================//
+            case LuckyDrawLoadingState():
+              return spinningLinesLoading(color: Colors.red);
+
+//====================Lucky Draw Winner Display State====================//
+            case LuckyDrawWinnersDisplayState():
+              return const WinnersDisplayScreen();
+
+//====================Lucky Draw Loaded State====================//
+            case LuckyDrawLoadedState():
+              if (state.contestModel != null) {
+                return Column(
+                  children: [
+                    SizedBox(height: screenSize.height * .09),
+                    //--------------------Lucky Draw Image--------------------//
+                    Image.asset(
+                      'assets/images/lucky_draw_image.png',
+                      width: screenSize.width * .62,
                     ),
-                  );
-                }
-                return const WinnersDisplayScreen();
-              case LuckyDrawLoadedState():
-                if (state.contestModel != null) {
-                  return Column(
-                    children: [
-                      SizedBox(height: screenSize.height * .038),
-                      //====================Lucky Draw Image====================//
-                      Image.asset(
-                        'assets/images/lucky_draw_image.png',
-                        width: screenSize.width * .62,
+
+                    SizedBox(height: screenSize.height * .024),
+                    //--------------------Days Left Blue Container--------------------//
+                    joinLuckyDraw(context: context),
+
+                    SizedBox(height: screenSize.height * .034),
+                    //--------------------Count Down Timer--------------------//
+                    countDownTimerSegment(
+                      days: state.timeMap!['timeInDays']!,
+                      hours: state.timeMap!['timeInHours']!,
+                      minutes: state.timeMap!['timeInMinutes']!,
+                      seconds: state.timeMap!['timeInSeconds']!,
+                    ),
+
+                    SizedBox(height: screenSize.height * .037),
+                    //--------------------Gifts Segment--------------------//
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenSize.width * .06,
                       ),
-
-                      SizedBox(height: screenSize.height * .024),
-                      //====================Days Left Blue Container====================//
-                      joinLuckyDraw(context: context),
-
-                      SizedBox(height: screenSize.height * .034),
-                      //====================Count Down Timer====================//
-                      countDownTimerSegment(
-                        days: state.timeMap!['timeInDays']!,
-                        hours: state.timeMap!['timeInHours']!,
-                        minutes: state.timeMap!['timeInMinutes']!,
-                        seconds: state.timeMap!['timeInSeconds']!,
-                      ),
-
-                      SizedBox(height: screenSize.height * .037),
-                      //====================Gifts Segment====================//
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: screenSize.width * .06,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Gifts',
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Gifts',
+                            style: GoogleFonts.roboto(
+                              color: Colors.white,
+                              fontSize: screenSize.width * .036,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () => CustomNavigator.push(
+                              context: context,
+                              child: const AllGiftsScreen(),
+                            ),
+                            child: Text(
+                              'View All',
                               style: GoogleFonts.roboto(
                                 color: Colors.white,
-                                fontSize: screenSize.width * .036,
-                                fontWeight: FontWeight.w600,
+                                fontSize: screenSize.width * .031,
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
-                            GestureDetector(
-                              onTap: () => CustomNavigator.push(
-                                context: context,
-                                child: const AllGiftsScreen(),
-                              ),
-                              child: Text(
-                                'View All',
-                                style: GoogleFonts.roboto(
-                                  color: Colors.white,
-                                  fontSize: screenSize.width * .031,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: screenSize.height * .015),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: screenSize.width * .05,
-                        ),
-                        child: giftBoxesSegment(context),
-                      ),
-                    ],
-                  );
-                } else {
-                  return LiquidPullToRefresh(
-                    height: 80,
-                    animSpeedFactor: 1.5,
-                    showChildOpacityTransition: false,
-                    color: const Color.fromRGBO(31, 51, 170, .2),
-                    backgroundColor: Colors.white,
-                    onRefresh: () async {
-                      luckyDrawBloc.add(LuckyDrawLoadEvent());
-                    },
-                    child: SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      child: Center(
-                        child: Column(
-                          children: [
-                            SizedBox(height: screenSize.height * .25),
-                            Lottie.asset(
-                              'assets/lottie/no_data_animation.json',
-                              width: screenSize.width * .55,
-                            ),
-                            Text(
-                              'No Lucky Draw Available at the moment',
-                              style: GoogleFonts.inter(
-                                fontSize: screenSize.width * .041,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                height: .1,
-                              ),
-                            ),
-                            SizedBox(height: screenSize.height * .1)
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                  );
-                }
-            }
-          },
-        ),
+                    SizedBox(height: screenSize.height * .015),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenSize.width * .05,
+                      ),
+                      child: giftBoxesSegment(context),
+                    ),
+                  ],
+                );
+              } else {
+                return LiquidPullToRefresh(
+                  height: 80,
+                  animSpeedFactor: 1.5,
+                  showChildOpacityTransition: false,
+                  color: const Color.fromRGBO(31, 51, 170, .2),
+                  backgroundColor: Colors.white,
+                  onRefresh: () async {
+                    luckyDrawBloc.add(LuckyDrawLoadEvent());
+                  },
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          SizedBox(height: screenSize.height * .28),
+                          Lottie.asset(
+                            'assets/lottie/no_data_animation.json',
+                            width: screenSize.width * .55,
+                          ),
+                          Text(
+                            'No Lucky Draw Available at the moment',
+                            style: GoogleFonts.inter(
+                              fontSize: screenSize.width * .041,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              height: .1,
+                            ),
+                          ),
+                          SizedBox(height: screenSize.height * .1)
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }
+          }
+        },
       ),
     );
   }

@@ -13,8 +13,8 @@ Widget winnerDetailsSegment({
       children: [
         rewardsModel.contestPrizes![prizeIndex].winnerDetails != null
             ? Container(
-                width: screenSize.height * .1,
-                height: screenSize.height * .1,
+                width: screenSize.height * .09,
+                height: screenSize.height * .09,
                 padding: EdgeInsets.all(screenSize.height * .012),
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
