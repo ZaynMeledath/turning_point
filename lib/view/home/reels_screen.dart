@@ -134,8 +134,9 @@ class ReelsScreenState extends State<ReelsScreen>
               return LiquidPullToRefresh(
                 onRefresh: () => handleRefresh(),
                 animSpeedFactor: 1.5,
+                height: 80,
                 showChildOpacityTransition: false,
-                color: const Color.fromRGBO(255, 215, 0, 1),
+                color: Colors.teal,
                 backgroundColor: Colors.white,
                 child: Stack(
                   alignment: Alignment.center,
