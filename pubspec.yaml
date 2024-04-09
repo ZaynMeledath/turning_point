@@ -58,7 +58,7 @@ dependencies:
   pinput: ^4.0.0
   scratcher: ^2.5.0
   shared_preferences: ^2.2.2
-  # share_plus: ^8.0.3
+  share_plus: ^7.2.2
   shimmer: ^3.0.0
   smooth_page_indicator: ^1.1.0
   stacked_card_carousel: ^0.0.4
@@ -67,6 +67,7 @@ dependencies:
   video_player: ^2.8.3
   wakelock_plus: ^1.1.4
   workmanager: ^0.5.2
+  
    
 
 dev_dependencies:

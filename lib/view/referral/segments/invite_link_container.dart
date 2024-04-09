@@ -18,7 +18,7 @@ Widget inviteLinkContainer({required String couponCode}) {
         SizedBox(height: screenSize.height * .012),
         GestureDetector(
           onTap: () {
-            // Share.share(message);
+            Share.share('Checkout the new Turning Point App!');
           },
           child: Container(
               width: double.maxFinite,
