@@ -78,92 +78,117 @@ class _WinnersDisplayScreenState extends State<WinnersDisplayScreen>
               return SizedBox(
                 height: screenSize.height,
                 width: screenSize.width,
-                child: Column(
+                child: Stack(
+                  alignment: Alignment.center,
                   children: [
-                    SizedBox(height: screenSize.height * .1),
-                    AnimatedScale(
-                      scale: luckyDrawState.repeatedScaleAnimate == true
-                          ? 1.05
-                          : 1,
-                      duration: const Duration(milliseconds: 800),
-                      child: Image.asset(
-                        'assets/images/congratulations_image.png',
-                        width: screenSize.width * .5,
-                      ),
+                    Image.asset(
+                      'assets/images/winners_display_screen_frame.png',
+                      width: screenSize.width,
+                      height: screenSize.height,
+                      fit: BoxFit.cover,
                     ),
-                    SizedBox(height: screenSize.height * .02),
-                    Text(
-                      'Rank #${luckyDrawState.prizeIndex! + 1}',
-                      style: GoogleFonts.lemon(
-                        fontSize: screenSize.width * .06,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(height: screenSize.height * .025),
-                    AnimatedOpacity(
-                      opacity: luckyDrawState.opacityAnimate == true ? 0 : 1,
-                      duration: const Duration(milliseconds: 800),
-                      child: AnimatedScale(
-                        scale: luckyDrawState.scaleAnimate == true ? 1 : 0,
-                        duration: const Duration(milliseconds: 1000),
-                        child: Image.network(
-                          rewardsModel
-                              .contestPrizes![luckyDrawState.prizeIndex!].image
-                              .toString(),
-                          width: screenSize.width * .3,
+                    Column(
+                      children: [
+                        SizedBox(height: screenSize.height * .1),
+                        AnimatedScale(
+                          scale: luckyDrawState.repeatedScaleAnimate == true
+                              ? 1.05
+                              : 1,
+                          duration: const Duration(milliseconds: 800),
+                          child: Image.asset(
+                            'assets/images/congratulations_image.png',
+                            width: screenSize.width * .5,
+                          ),
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: realScreenSize.width,
-                      height: screenSize.width * .5,
-                      child: Stack(
-                        alignment: Alignment.topCenter,
-                        children: [
-                          Positioned(
-                            top: -screenSize.width * .18,
-                            child: Lottie.asset(
-                              'assets/lottie/celebration_animation.json',
-                              width: screenSize.width,
-                              controller: celebrationLottieController,
-                              repeat: false,
-                              fit: BoxFit.cover,
+                        SizedBox(height: screenSize.height * .025),
+                        AnimatedScale(
+                          scale: luckyDrawState.scaleAnimate == true ? 1 : 0,
+                          duration: const Duration(milliseconds: 1000),
+                          child: Text(
+                            'Rank #${luckyDrawState.prizeIndex! + 1}',
+                            style: GoogleFonts.lemonada(
+                              fontSize: screenSize.width * .06,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white.withOpacity(.9),
                             ),
                           ),
-                          AnimatedOpacity(
-                            opacity:
-                                luckyDrawState.opacityAnimate == true ? 0 : 1,
-                            duration: const Duration(milliseconds: 800),
-                            child: AnimatedScale(
-                              scale:
-                                  luckyDrawState.scaleAnimate == true ? 1 : 0,
-                              duration: const Duration(milliseconds: 1800),
-                              curve: Curves.bounceOut,
-                              child: AnimatedScale(
-                                scale:
-                                    luckyDrawState.repeatedScaleAnimate == true
-                                        ? 1.05
-                                        : 1,
-                                duration: const Duration(milliseconds: 1000),
-                                curve: Curves.linear,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    winnerDetailsSegment(
-                                      rewardsModel: rewardsModel,
-                                      prizeIndex: luckyDrawState.prizeIndex!,
-                                    ),
-                                  ],
+                        ),
+                        SizedBox(height: screenSize.height * .025),
+                        AnimatedOpacity(
+                          opacity:
+                              luckyDrawState.opacityAnimate == true ? 0 : 1,
+                          duration: const Duration(milliseconds: 800),
+                          child: AnimatedScale(
+                            scale: luckyDrawState.scaleAnimate == true ? 1 : 0,
+                            duration: const Duration(milliseconds: 1000),
+                            child: Image.network(
+                              rewardsModel
+                                  .contestPrizes![luckyDrawState.prizeIndex!]
+                                  .image
+                                  .toString(),
+                              width: screenSize.width * .3,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: realScreenSize.width,
+                          height: screenSize.width * .5,
+                          child: Stack(
+                            alignment: Alignment.topCenter,
+                            children: [
+                              Positioned(
+                                top: -screenSize.width * .18,
+                                child: Lottie.asset(
+                                  'assets/lottie/celebration_animation.json',
+                                  width: screenSize.width,
+                                  controller: celebrationLottieController,
+                                  repeat: false,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                            ),
+                              Positioned(
+                                top: screenSize.width * .05,
+                                child: AnimatedOpacity(
+                                  opacity: luckyDrawState.opacityAnimate == true
+                                      ? 0
+                                      : 1,
+                                  duration: const Duration(milliseconds: 800),
+                                  child: AnimatedScale(
+                                    scale: luckyDrawState.scaleAnimate == true
+                                        ? 1
+                                        : 0,
+                                    duration:
+                                        const Duration(milliseconds: 1800),
+                                    curve: Curves.bounceOut,
+                                    child: AnimatedScale(
+                                      scale:
+                                          luckyDrawState.repeatedScaleAnimate ==
+                                                  true
+                                              ? 1.05
+                                              : 1,
+                                      duration:
+                                          const Duration(milliseconds: 1000),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          winnerDetailsSegment(
+                                            rewardsModel: rewardsModel,
+                                            prizeIndex:
+                                                luckyDrawState.prizeIndex!,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                        winnersDisplayCountDown(),
+                      ],
                     ),
-                    SizedBox(height: screenSize.height * .03),
-                    winnersDisplayCountDown(),
                   ],
                 ),
               );

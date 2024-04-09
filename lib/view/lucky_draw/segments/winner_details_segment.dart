@@ -14,13 +14,13 @@ Widget winnerDetailsSegment({
             children: [
               Image.asset(
                 'assets/icons/golden_crown_icon.png',
-                width: screenSize.width * .11,
+                width: screenSize.width * .1,
               ),
               SizedBox(height: screenSize.height * .005),
               Container(
-                width: screenSize.height * .07,
-                height: screenSize.height * .07,
-                padding: EdgeInsets.all(screenSize.height * .012),
+                width: screenSize.height * .06,
+                height: screenSize.height * .06,
+                padding: EdgeInsets.all(screenSize.height * .005),
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: LinearGradient(

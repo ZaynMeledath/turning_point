@@ -3,7 +3,7 @@ part of '../winners_display_screen.dart';
 Widget winnersDisplayCountDown() {
   return BlocBuilder<LuckyDrawBloc, LuckyDrawState>(
     builder: (context, state) {
-      if (state.secondsLeft != null && state.secondsLeft! > 29) {
+      if (state.secondsLeft != null) {
         String seconds =
             ((state.secondsLeft! % LUCKY_DRAW_WINNER_DISPLAY_DELAY) + 1)
                 .toString()
@@ -55,7 +55,7 @@ Widget winnersDisplayCountDown() {
                     color: Colors.transparent,
                     child: Center(
                       child: Text(
-                        seconds,
+                        state.secondsLeft! < 30 ? '00' : seconds,
                         style: GoogleFonts.inter(
                           fontSize: screenSize.width * .06,
                           fontWeight: FontWeight.w700,
