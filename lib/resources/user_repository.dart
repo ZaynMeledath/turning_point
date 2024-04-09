@@ -78,6 +78,7 @@ class UserRepository {
     String? token,
     String? fcmToken,
     Position? location,
+    String? refCode,
   }) async {
     try {
       final authService = AuthService.firebase();
@@ -96,6 +97,7 @@ class UserRepository {
             },
           "idToken": token,
           "fcmToken": fcmToken,
+          "refCode": refCode,
           if (location != null)
             "address": {
               "coordinates": [location.latitude, location.longitude]

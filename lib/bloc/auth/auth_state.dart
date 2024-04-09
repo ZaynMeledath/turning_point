@@ -5,11 +5,13 @@ sealed class AuthState {
   final String? phone;
   final String? businessName;
   final ContractorModel? contractor;
+  final String? refCode;
 
   const AuthState({
     this.phone,
     this.businessName,
     this.contractor,
+    this.refCode,
   });
 }
 
@@ -33,6 +35,7 @@ class OtpVerificationNeededState extends AuthState {
     required super.phone,
     required super.businessName,
     required super.contractor,
+    required super.refCode,
     this.exception,
   });
 }

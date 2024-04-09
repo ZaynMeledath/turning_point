@@ -43,6 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   late final TextEditingController businessController;
   late final TextEditingController searchController;
   late final TextEditingController otpController;
+  late final TextEditingController referralController;
   final GlobalKey<FormState> _formKey = GlobalKey();
   Position? location;
 
@@ -54,6 +55,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     businessController = TextEditingController();
     searchController = TextEditingController();
     otpController = TextEditingController();
+    referralController = TextEditingController();
     getLocation();
 
     super.initState();
@@ -68,6 +70,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     phoneController.dispose();
     businessController.dispose();
     searchController.dispose();
+    referralController.dispose();
     super.dispose();
   }
 
@@ -133,18 +136,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         key: _formKey,
                         child: Column(
                           children: [
-                            SizedBox(height: screenSize.height * .14),
+                            SizedBox(height: screenSize.height * .082),
 
                             //====================Furnipart Logo====================//
                             Hero(
-                              tag: 'furnipart_logo',
+                              tag: 'turning_point_logo',
                               child: Image.asset(
-                                'assets/images/furnipart_logo.png',
-                                width: screenSize.width * .32,
-                                height: screenSize.height * .086,
+                                'assets/icons/turning_point_logo_icon.png',
+                                width: screenSize.width * .24,
                               ),
                             ),
-                            SizedBox(height: screenSize.height * .045),
+                            SizedBox(height: screenSize.height * .04),
 
                             //====================Title====================//
                             Align(
@@ -189,6 +191,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   )
                                 : contractorDropDownContainer(
                                     searchController: searchController),
+                            SizedBox(height: screenSize.height * .03),
+
+                            signUpTextField(
+                              controller: referralController,
+                              title: 'Referral Code (Optional)',
+                              icon: Icons.connect_without_contact_rounded,
+                            ),
                             Visibility(
                               visible: !isContractor,
                               child: Column(
@@ -259,10 +268,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           phone: phoneController.text.trim(),
                                           otpController: otpController,
                                           location: location,
+                                          refCode:
+                                              referralController.text.trim(),
                                         ),
                                       );
-                                      return;
                                     }
+                                    return;
                                   }
                                   if (widget.isContractor) {
                                     authBloc.add(
@@ -272,6 +283,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         businessName:
                                             businessController.text.trim(),
                                         otpController: otpController,
+                                        refCode: referralController.text.trim(),
                                       ),
                                     );
                                   } else {
@@ -288,6 +300,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             : DEFAULT_CONTRACTOR,
                                         businessName: null,
                                         otpController: otpController,
+                                        refCode: referralController.text.trim(),
                                       ),
                                     );
                                   }

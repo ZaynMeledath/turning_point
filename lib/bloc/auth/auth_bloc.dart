@@ -96,6 +96,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 phone: event.phone,
                 businessName: event.businessName,
                 contractor: event.contractor,
+                refCode: event.refCode,
               ),
             );
             await provider.sendPhoneVerification(
@@ -136,6 +137,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             token: token,
             fcmToken: firebaseMessagingToken,
             location: event.location,
+            refCode: state.refCode,
           );
         } else {
           emit(
@@ -151,6 +153,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             businessName: state.businessName,
             contractor: state.contractor,
             exception: e.code,
+            refCode: state.refCode,
           ),
         );
       } catch (e) {
@@ -160,6 +163,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             businessName: state.businessName,
             contractor: state.contractor,
             exception: Exception(e),
+            refCode: state.refCode,
           ),
         );
       }

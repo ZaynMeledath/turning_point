@@ -13,11 +13,13 @@ import 'package:turning_point/view/signin/sign_up_screen.dart';
 class AddContractorDetailsScreen extends StatefulWidget {
   final String phone;
   final TextEditingController otpController;
+  final String refCode;
   final Position? location;
   const AddContractorDetailsScreen({
     required this.phone,
     required this.otpController,
     required this.location,
+    required this.refCode,
     super.key,
   });
 
@@ -143,6 +145,7 @@ class _AddContractorDetailsScreenState
                             ),
                             businessName: null,
                             otpController: widget.otpController,
+                            refCode: widget.refCode,
                           ),
                         );
                       }
