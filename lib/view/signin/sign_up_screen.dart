@@ -197,6 +197,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               controller: referralController,
                               title: 'Referral Code (Optional)',
                               icon: Icons.connect_without_contact_rounded,
+                              isNull: true,
                             ),
                             Visibility(
                               visible: !isContractor,

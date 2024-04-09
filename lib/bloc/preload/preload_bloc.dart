@@ -15,19 +15,16 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
       if (state.isReelsVisible) {
         if (event.currentIndex == 0) {
           if (state.controllers.isEmpty || event.isReloading == true) {
-            if (state.focusedIndex == 0) {
-              _initializeControllerAtIndex(0)
-                  .then((value) => _playControllerAtIndex(0));
-            } else {
-              _playControllerAtIndex(0);
-              emit(
-                PreloadState(
-                  controllers: state.controllers,
-                  focusedIndex: event.currentIndex,
-                  isReelsVisible: state.isReelsVisible,
-                ),
-              );
-            }
+            _initializeControllerAtIndex(0)
+                .then((value) => _playControllerAtIndex(0));
+            emit(
+              PreloadState(
+                controllers: state.controllers,
+                focusedIndex: event.currentIndex,
+                isReelsVisible: state.isReelsVisible,
+              ),
+            );
+
             await _initializeControllerAtIndex(1);
             emit(
               PreloadState(
