@@ -217,7 +217,7 @@ class UserRepository {
       rethrow;
     } catch (e) {
       log('EXCEPTION IN UPDATE USER PROFILE : $e');
-      throw CouldNotUpdateUserException();
+      throw CouldNotUpdateUserException(message: e.toString());
     }
   }
 

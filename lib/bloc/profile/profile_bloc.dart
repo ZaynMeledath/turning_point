@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart' show TextEditingController, immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/reels/reels_bloc.dart';
@@ -143,18 +142,41 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           ),
         );
         await provider.signOut();
-        await GoogleSignIn().signOut();
+
         final token = await provider.signIn();
 
         log('TOKEN : $token');
 
         userModelResponse.data!.email = provider.currentUser!.email;
-        UserRepository.updateUserProfile(userModel: userModelResponse.data!);
+        userModelResponse.data!.uid = provider.currentUser!.uid;
+        await UserRepository.updateUserProfile(
+            userModel: userModelResponse.data!);
         return emit(ProfileInactiveState());
       } on ProfileInactiveException {
         return emit(ProfileInactiveState());
+      } on CouldNotUpdateUserException catch (e) {
+        final userModelResponse = UserRepository.getUserFromPreference()!;
+        return emit(
+          ProfileLoadedState(
+            isLoading: false,
+            userModel: userModelResponse.data,
+            isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
+            isContractorTemp: userModelResponse.data!.role == Role.CONTRACTOR,
+            exception: e.message,
+          ),
+        );
       } catch (e) {
-        throw Exception(e);
+        final userModelResponse = UserRepository.getUserFromPreference()!;
+        log('Exception in Email update bloc');
+        return emit(
+          ProfileLoadedState(
+            isLoading: false,
+            userModel: userModelResponse.data,
+            isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
+            isContractorTemp: userModelResponse.data!.role == Role.CONTRACTOR,
+            exception: e,
+          ),
+        );
       }
     });
 

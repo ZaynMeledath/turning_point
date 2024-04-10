@@ -1,47 +1,71 @@
 class ApiExceptions implements Exception {
-  final dynamic _message;
-  final dynamic _prefix;
+  final dynamic message;
+  final dynamic prefix;
 
-  ApiExceptions([
-    this._message,
-    this._prefix,
-  ]);
+  ApiExceptions({
+    required this.message,
+    required this.prefix,
+  });
   @override
   String toString() {
-    return '$_prefix$_message';
+    return '$message';
   }
 }
 
 class ProfileInactiveException extends ApiExceptions {
   ProfileInactiveException([String? message])
-      : super(message, 'Profile is Inactive');
+      : super(
+          message: message.toString(),
+          prefix: 'Profile is Inactive',
+        );
 }
 
 class FetechDataException extends ApiExceptions {
   FetechDataException([String? message])
-      : super(message, 'Error During Communication');
+      : super(
+          message: message.toString(),
+          prefix: 'Error During Communication',
+        );
 }
 
 class BadRequestException extends ApiExceptions {
-  BadRequestException([String? message]) : super(message, 'Invalid Request');
+  BadRequestException([dynamic message])
+      : super(
+          message: message['message'],
+          prefix: 'Invalid Request',
+        );
 }
 
 class NoContentException extends ApiExceptions {
-  NoContentException([String? message]) : super(message, 'No Content ');
+  NoContentException([String? message])
+      : super(
+          message: message.toString(),
+          prefix: 'No Content ',
+        );
 }
 
 class UnauthorisedException extends ApiExceptions {
   UnauthorisedException([String? message])
-      : super(message, 'Unauthorized Request');
+      : super(
+          message: message.toString(),
+          prefix: 'Unauthorized Request',
+        );
 }
 
 class UnauthenticatedException extends ApiExceptions {
   UnauthenticatedException([String? message])
-      : super(message, 'Unauthenticated');
+      : super(
+          message: message.toString(),
+          prefix: 'Unauthenticated',
+        );
 }
 
 class InvalidInputException extends ApiExceptions {
-  InvalidInputException([String? message]) : super(message, 'Invalid Input');
+  InvalidInputException([String? message])
+      : super(
+          message: message.toString(),
+          prefix: 'Invalid Input',
+        );
 }
 
 class FetchDataException implements Exception {

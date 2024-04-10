@@ -12,12 +12,14 @@ class ProfileLoadedState extends ProfileState {
   final bool isContractor;
   final bool isContractorTemp;
   final bool? verifyOtp;
+  final dynamic exception;
 
   ProfileLoadedState({
     required this.isLoading,
     required super.userModel,
     required this.isContractor,
     required this.isContractorTemp,
+    this.exception,
     this.verifyOtp,
   });
 }
