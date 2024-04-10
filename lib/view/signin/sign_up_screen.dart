@@ -136,8 +136,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         key: _formKey,
                         child: Column(
                           children: [
-                            SizedBox(height: screenSize.height * .082),
-
+                            // SizedBox(height: screenSize.height * .082),
+                            SizedBox(height: screenSize.height * .11),
                             //====================Furnipart Logo====================//
                             Hero(
                               tag: 'turning_point_logo',
@@ -191,14 +191,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   )
                                 : contractorDropDownContainer(
                                     searchController: searchController),
-                            SizedBox(height: screenSize.height * .03),
+                            // SizedBox(height: screenSize.height * .03),
 
-                            signUpTextField(
-                              controller: referralController,
-                              title: 'Referral Code (Optional)',
-                              icon: Icons.connect_without_contact_rounded,
-                              isNull: true,
-                            ),
+                            // signUpTextField(
+                            //   controller: referralController,
+                            //   title: 'Referral Code (Optional)',
+                            //   icon: Icons.connect_without_contact_rounded,
+                            //   isNull: true,
+                            // ),
                             Visibility(
                               visible: !isContractor,
                               child: Column(

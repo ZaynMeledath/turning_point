@@ -157,7 +157,7 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
                       child: Center(
                         child: Column(
                           children: [
-                            SizedBox(height: screenSize.height * .25),
+                            SizedBox(height: screenSize.height * .26),
                             Lottie.asset(
                               'assets/lottie/no_data_animation.json',
                               width: screenSize.width * .5,
