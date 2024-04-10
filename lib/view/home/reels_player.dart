@@ -73,45 +73,46 @@ class _ReelsPlayerState extends State<ReelsPlayer>
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-        valueListenable: widget.videoController,
-        builder: (context, value, child) {
-          if (!preloadBloc.manuallyPaused) {
-            animationController.reverse();
-          }
-          return Stack(
-            alignment: Alignment.center,
-            children: [
-              Center(
-                child: value.isInitialized
-                    ? GestureDetector(
-                        onTapDown: (details) {
-                          onScreenTap();
-                        },
-                        child: VideoPlayer(
-                          widget.videoController,
-                        ),
-                      )
-                    : circleLoading(),
-              ),
-              ScaleTransition(
-                scale: animation,
-                child: GestureDetector(
-                  onTap: () => onScreenTap(),
-                  child: Icon(
-                    Icons.play_circle_fill_rounded,
-                    size: screenSize.width * .13,
-                    color: Colors.white.withOpacity(.8),
-                    shadows: [
-                      Shadow(
-                        blurRadius: 1,
-                        color: Colors.grey.withOpacity(.3),
+      valueListenable: widget.videoController,
+      builder: (context, value, child) {
+        if (!preloadBloc.manuallyPaused) {
+          animationController.reverse();
+        }
+        return Stack(
+          alignment: Alignment.center,
+          children: [
+            Center(
+              child: value.isInitialized
+                  ? GestureDetector(
+                      onTapDown: (details) {
+                        onScreenTap();
+                      },
+                      child: VideoPlayer(
+                        widget.videoController,
                       ),
-                    ],
-                  ),
+                    )
+                  : circleLoading(),
+            ),
+            ScaleTransition(
+              scale: animation,
+              child: GestureDetector(
+                onTap: () => onScreenTap(),
+                child: Icon(
+                  Icons.play_circle_fill_rounded,
+                  size: screenSize.width * .13,
+                  color: Colors.white.withOpacity(.8),
+                  shadows: [
+                    Shadow(
+                      blurRadius: 1,
+                      color: Colors.grey.withOpacity(.3),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          );
-        });
+            ),
+          ],
+        );
+      },
+    );
   }
 }

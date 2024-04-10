@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/resources/reels_repository.dart';
+import 'package:turning_point/view/home/reels_page_viewer.dart';
 import 'package:video_player/video_player.dart';
 part 'preload_event.dart';
 part 'preload_state.dart';
@@ -55,6 +56,16 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
             }
           }
         } else {
+          if (state.controllers.isEmpty) {
+            ReelsRepository.urlList.clear();
+            ReelsPageViewerState.pageController.jumpToPage(0);
+            await ReelsRepository.getReels(page: 1);
+            preloadBloc.add(
+              PreloadEvent(
+                currentIndex: 0,
+              ),
+            );
+          }
           //To ensure that video is not played whenever the profile load event is called
 
           if (event.currentIndex < state.focusedIndex) {
