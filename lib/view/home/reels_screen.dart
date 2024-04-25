@@ -36,9 +36,6 @@ class ReelsScreenState extends State<ReelsScreen>
 
   @override
   void initState() {
-    preloadBloc.state.isReelsVisible = true;
-    locationServiceBloc.add(LocationServiceStartEvent());
-
     log('${AppPreferences.getValueShared('auth_token')}');
 
     likeAnimationController = AnimationController(
@@ -54,15 +51,32 @@ class ReelsScreenState extends State<ReelsScreen>
         likeAnimationController.reverse();
       }
     });
-    if (preloadBloc.state.controllers.isNotEmpty) {
-      preloadBloc.playCurrentController();
-    }
-    enableWakelock();
+
     super.initState();
   }
 
+  @override
+  void didChangeDependencies() {
+    setState(() {
+      WakelockPlus.enable();
+    });
+    locationServiceBloc.add(LocationServiceStartEvent());
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: true));
+
+    if (!preloadBloc.manuallyPaused) {
+      Future.delayed(Duration.zero, () {
+        preloadBloc.add(
+          PreloadEvent(
+            currentIndex: preloadBloc.state.focusedIndex,
+          ),
+        );
+      });
+    }
+    enableWakelock();
+    super.didChangeDependencies();
+  }
+
   void enableWakelock() async {
-    await WakelockPlus.enable();
     final token = await FirebaseMessaging.instance.getToken();
     log('FCM Token : ${token.toString()}');
   }
@@ -70,11 +84,10 @@ class ReelsScreenState extends State<ReelsScreen>
   @override
   void dispose() {
     super.dispose();
-    preloadBloc.state.isReelsVisible = false;
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }
-    WakelockPlus.disable();
   }
 
   Future<void> handleRefresh() async {
@@ -119,12 +132,12 @@ class ReelsScreenState extends State<ReelsScreen>
                 ),
               );
             case ProfileLoadedState():
-              preloadBloc.state.isReelsVisible = true;
               return LiquidPullToRefresh(
                 onRefresh: () => handleRefresh(),
                 animSpeedFactor: 1.5,
+                height: 80,
                 showChildOpacityTransition: false,
-                color: const Color.fromRGBO(255, 215, 0, 1),
+                color: Colors.teal,
                 backgroundColor: Colors.white,
                 child: Stack(
                   alignment: Alignment.center,
@@ -182,11 +195,20 @@ class ReelsScreenState extends State<ReelsScreen>
                                           BlocBuilder<PointsBloc, PointsState>(
                                             builder: (context, pointsState) {
                                               return Text(
-                                                pointsState.points.toString(),
+                                                pointsState.points == null
+                                                    ? 'Loading...'
+                                                    : pointsState.points
+                                                        .toString(),
                                                 style: GoogleFonts.inter(
-                                                  fontSize:
-                                                      screenSize.width * .04,
-                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: pointsState
+                                                              .points ==
+                                                          null
+                                                      ? screenSize.width * .031
+                                                      : screenSize.width * .04,
+                                                  fontWeight:
+                                                      pointsState.points == null
+                                                          ? FontWeight.w500
+                                                          : FontWeight.w700,
                                                   color: const Color.fromRGBO(
                                                       27, 27, 27, 1),
                                                 ),

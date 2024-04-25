@@ -7,9 +7,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
+import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/dialog/show_animated_otp_dialog.dart';
 import 'package:turning_point/dialog/show_edit_profile_dialog.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/helper/widget/my_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
 import 'package:turning_point/view/edit_profile/segments/edit_profile_picture_segment.dart';
@@ -98,9 +99,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     contractorBloc.add(ContractorLoadEvent(isSignUp: false));
 
     return Scaffold(
+      appBar: myAppBar(
+        context: context,
+        title: 'Edit Profile',
+      ),
       body: BlocConsumer<ProfileBloc, ProfileState>(
         listener: (context, state) {
-          if (state is ProfileLoadedState && state.verifyOtp == true) {
+          if (state is ProfileLoadedState &&
+              state.verifyOtp == true &&
+              state.exception == null) {
             showAnimatedOtpDialog(
               context: context,
               phone: _phoneController.text,
@@ -114,6 +121,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 duration: const Duration(milliseconds: 1),
               ),
               (_) => false,
+            );
+          } else if (state is ProfileLoadedState && state.exception != null) {
+            showAnimatedGenericDialog(
+              context: context,
+              iconPath: 'assets/lottie/gear_error_animation.json',
+              title: 'Error',
+              content: state.exception.toString(),
+              buttonTitle: 'Dismiss',
             );
           }
         },
@@ -155,10 +170,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       key: _formKey,
                       child: Column(
                         children: [
-                          customAppBar(
-                            context: context,
-                            title: 'Edit Profile',
-                          ),
                           //====================Body Segment====================//
                           editProfilePictureSegment(
                             context: context,

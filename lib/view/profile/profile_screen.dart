@@ -25,20 +25,34 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
-    preloadBloc.state.isReelsVisible = false;
-    if (preloadBloc.state.controllers.isNotEmpty) {
-      preloadBloc.pauseCurrentController();
-    }
-    WakelockPlus.disable();
     super.initState();
   }
 
   @override
+  void didChangeDependencies() {
+    if (preloadBloc.state.controllers.isNotEmpty) {
+      preloadBloc.pauseCurrentController();
+    }
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
+    super.didChangeDependencies();
+  }
+
+  void disableWakeLock() {
+    setState(() {
+      WakelockPlus.disable();
+    });
+  }
+
+  @override
   void dispose() {
-    preloadBloc.state.isReelsVisible = true;
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: true));
     if (preloadBloc.state.controllers.isNotEmpty &&
         !preloadBloc.manuallyPaused) {
-      preloadBloc.playCurrentController();
+      Future.delayed(Duration.zero, () {
+        preloadBloc.add(PreloadEvent(
+          currentIndex: preloadBloc.state.focusedIndex,
+        ));
+      });
     }
 
     super.dispose();
@@ -46,12 +60,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (preloadBloc.state.controllers.isNotEmpty) {
+      preloadBloc.pauseCurrentController();
+    }
+
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
+    disableWakeLock();
+
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
 //====================Header segment with Back button, Profile Picture Stack and Name====================//
-            SizedBox(height: screenSize.height * .007),
+            SizedBox(height: screenSize.height * .006),
             Stack(
               alignment: Alignment.topCenter,
               children: [
@@ -65,7 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         size: screenSize.width * .061,
                       ),
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Navigator.pop(context);
                       },
                     ),
                   ),
@@ -149,9 +170,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             SizedBox(height: screenSize.height * .023),
             profileOptionsSegment(context: context),
-            SizedBox(height: screenSize.height * .012),
+            // SizedBox(height: screenSize.height * .012),
             // referAndEarnContainer(context: context),
-            // SizedBox(height: screenSize.height * .03),
+            SizedBox(height: screenSize.height * .03),
           ],
         ),
       ),

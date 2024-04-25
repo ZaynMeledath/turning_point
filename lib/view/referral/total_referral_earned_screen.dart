@@ -50,13 +50,14 @@ class _TotalReferralEarnedScreenState extends State<TotalReferralEarnedScreen>
                         context: context,
                         title: '',
                         foregroundColor: Colors.white,
+                        backgroundColor: const Color(0xff0054b4),
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: screenSize.width * .05),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: screenSize.height * .015),
+                            SizedBox(height: screenSize.height * .011),
                             Text(
                               'Total Referrals Earned',
                               style: GoogleFonts.roboto(
@@ -139,10 +140,10 @@ class _TotalReferralEarnedScreenState extends State<TotalReferralEarnedScreen>
           //---------------Rewards and My Referrals Container---------------//
           SizedBox(height: screenSize.height * .02),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: screenSize.width * .05),
+            padding: EdgeInsets.symmetric(horizontal: screenSize.width * .06),
             child: Container(
               width: double.infinity,
-              height: screenSize.height * .05,
+              height: screenSize.height * .046,
               padding: EdgeInsets.symmetric(
                 horizontal: screenSize.width * .006,
                 vertical: screenSize.height * .003,
@@ -173,14 +174,14 @@ class _TotalReferralEarnedScreenState extends State<TotalReferralEarnedScreen>
                   Text(
                     'Rewards',
                     style: GoogleFonts.roboto(
-                      fontSize: screenSize.width * .036,
+                      fontSize: screenSize.width * .034,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   Text(
                     'My Referrals',
                     style: GoogleFonts.roboto(
-                      fontSize: screenSize.width * .036,
+                      fontSize: screenSize.width * .034,
                       fontWeight: FontWeight.w500,
                     ),
                   ),

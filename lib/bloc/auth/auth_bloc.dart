@@ -4,11 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart' show TextEditingController, immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/model/contractor_model.dart';
-import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/Exception/api_exception.dart';
 import 'package:turning_point/service/auth/auth_exceptions.dart';
@@ -25,26 +23,32 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         emit(const AuthLoadingState());
         await provider.initialize();
-        if (provider.currentUser == null) {
-          AppPreferences.clearSharedPreferences();
-          return emit(InitialState());
+        final userFromPreference = UserRepository.getUserFromPreference();
+        if (provider.currentUser == null && userFromPreference != null) {
+          // AppPreferences.clearSharedPreferences();
+          // return emit(InitialState());
+          await provider.signIn();
         }
         final user =
             await UserRepository.getUserById(avoidGettingFromPreference: true);
         if (user == null) {
-          if (provider.currentUser != null) provider.signOut();
-
-          AppPreferences.clearSharedPreferences();
-          return emit(InitialState());
-        } else {
-          profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
-          pointsBloc.add(PointsLoadEvent(avoidGettingUserFromPreference: true));
-          return emit(SignedInState());
+          // if (provider.currentUser != null) provider.signOut();
+          final token = await provider.signIn();
+          final fcmToken = await provider.getFcmToken();
+          await UserRepository.userSignIn(
+            token: token,
+            fcmToken: fcmToken!,
+          );
         }
+        // AppPreferences.clearSharedPreferences();
+        // return emit(InitialState());
+        profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
+        pointsBloc.add(PointsLoadEvent(avoidGettingUserFromPreference: true));
+        return emit(SignedInState());
       } on ProfileInactiveException {
         return emit(ProfileInactiveState());
       } catch (e) {
-        throw Exception(e);
+        return emit(InitialState());
       }
     });
 
@@ -96,6 +100,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 phone: event.phone,
                 businessName: event.businessName,
                 contractor: event.contractor,
+                refCode: event.refCode,
               ),
             );
             await provider.sendPhoneVerification(
@@ -136,6 +141,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             token: token,
             fcmToken: firebaseMessagingToken,
             location: event.location,
+            refCode: state.refCode,
           );
         } else {
           emit(
@@ -151,6 +157,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             businessName: state.businessName,
             contractor: state.contractor,
             exception: e.code,
+            refCode: state.refCode,
           ),
         );
       } catch (e) {
@@ -160,6 +167,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             businessName: state.businessName,
             contractor: state.contractor,
             exception: Exception(e),
+            refCode: state.refCode,
           ),
         );
       }
@@ -181,7 +189,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignOutEvent>((event, emit) async {
       try {
         await provider.signOut();
-        await GoogleSignIn().signOut();
       } catch (e) {
         log('EXCEPTION IN RESEND OTP EVENT : $e');
       }

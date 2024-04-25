@@ -2,11 +2,11 @@ part of 'preload_bloc.dart';
 
 class PreloadEvent {
   final int currentIndex;
-  final bool isInitial;
-  final bool? isReloading;
+  bool? isInitial;
+  bool? isReloading;
   PreloadEvent({
     required this.currentIndex,
-    required this.isInitial,
+    this.isInitial,
     this.isReloading,
   });
 }
@@ -15,6 +15,14 @@ class PreloadResetEvent extends PreloadEvent {
   PreloadResetEvent()
       : super(
           currentIndex: 0,
-          isInitial: true,
+        );
+}
+
+class ReelsScreenToggleEvent extends PreloadEvent {
+  final bool isReelsVisible;
+  ReelsScreenToggleEvent({
+    required this.isReelsVisible,
+  }) : super(
+          currentIndex: preloadBloc.state.focusedIndex,
         );
 }

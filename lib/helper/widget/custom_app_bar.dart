@@ -12,7 +12,7 @@ Widget customAppBar({
 }) {
   return Column(
     children: [
-      SizedBox(height: realScreenSize.height * .007),
+      SizedBox(height: realScreenSize.height * .006),
       Row(
         children: [
           Visibility(
@@ -49,7 +49,7 @@ Widget customAppBar({
             ),
           ),
         ],
-      )
+      ),
     ],
   );
 }

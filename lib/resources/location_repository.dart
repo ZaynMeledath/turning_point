@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:geolocator/geolocator.dart';
+import 'package:turning_point/service/Exception/scanner_exceptions.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
 import 'package:turning_point/service/api/api_service.dart';
 import 'package:workmanager/workmanager.dart';
@@ -34,20 +35,25 @@ class LocationRepository {
         desiredAccuracy: LocationAccuracy.high);
   }
 
-  static Future<void> sendLocationToServer() async {
-    final locationData = await getCurrentLocation();
-    log('LOCATION: ${locationData.latitude}, ${locationData.longitude}');
-    await ApiService().sendRequest(
-      url: ApiEndpoints.monitorLocation,
-      requestMethod: RequestMethod.PATCH,
-      data: {
-        'coordinates': [
-          locationData.latitude,
-          locationData.longitude,
-        ]
-      },
-      isTokenRequired: true,
-    );
+  static Future<Position> sendLocationToServer() async {
+    try {
+      final locationData = await getCurrentLocation();
+      log('LOCATION: ${locationData.latitude}, ${locationData.longitude}');
+      await ApiService().sendRequest(
+        url: ApiEndpoints.monitorLocation,
+        requestMethod: RequestMethod.PATCH,
+        data: {
+          'coordinates': [
+            locationData.latitude,
+            locationData.longitude,
+          ],
+        },
+        isTokenRequired: true,
+      );
+      return locationData;
+    } catch (_) {
+      throw LocationServiceException();
+    }
   }
 
   static Future<Position?> getLocationInBackground() async {

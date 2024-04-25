@@ -3,6 +3,7 @@ import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:video_player/video_player.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class ReelsPlayer extends StatefulWidget {
   final VideoPlayerController videoController;
@@ -22,7 +23,6 @@ class _ReelsPlayerState extends State<ReelsPlayer>
 
   @override
   void initState() {
-    preloadBloc.state.isReelsVisible = true;
     animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 150));
 
@@ -45,6 +45,13 @@ class _ReelsPlayerState extends State<ReelsPlayer>
     }
   }
 
+  @override
+  void dispose() {
+    animationController.reverse();
+    animationController.dispose();
+    super.dispose();
+  }
+
   // void showIconOverlay() {
   //   final overlayEntry = OverlayEntry(builder: (context) {
   //     return Icon(
@@ -65,41 +72,48 @@ class _ReelsPlayerState extends State<ReelsPlayer>
 
   @override
   Widget build(BuildContext context) {
+    WakelockPlus.enable();
     return ValueListenableBuilder(
-        valueListenable: widget.videoController,
-        builder: (context, value, child) {
-          return Stack(
-            alignment: Alignment.center,
-            children: [
-              Center(
-                child: value.isInitialized
-                    ? GestureDetector(
-                        onTap: () {
-                          onScreenTap();
-                        },
-                        child: VideoPlayer(widget.videoController),
-                      )
-                    : circleLoading(),
-              ),
-              ScaleTransition(
-                scale: animation,
-                child: GestureDetector(
-                  onTap: () => onScreenTap(),
-                  child: Icon(
-                    Icons.play_circle_fill_rounded,
-                    size: screenSize.width * .13,
-                    color: Colors.white.withOpacity(.8),
-                    shadows: [
-                      Shadow(
-                        blurRadius: 1,
-                        color: Colors.grey.withOpacity(.3),
+      valueListenable: widget.videoController,
+      builder: (context, value, child) {
+        if (!preloadBloc.manuallyPaused) {
+          animationController.reverse();
+        }
+        return Stack(
+          alignment: Alignment.center,
+          children: [
+            Center(
+              child: value.isInitialized
+                  ? GestureDetector(
+                      onTapDown: (details) {
+                        onScreenTap();
+                      },
+                      child: VideoPlayer(
+                        widget.videoController,
                       ),
-                    ],
-                  ),
+                    )
+                  : circleLoading(),
+            ),
+            ScaleTransition(
+              scale: animation,
+              child: GestureDetector(
+                onTap: () => onScreenTap(),
+                child: Icon(
+                  Icons.play_circle_fill_rounded,
+                  size: screenSize.width * .13,
+                  color: Colors.white.withOpacity(.8),
+                  shadows: [
+                    Shadow(
+                      blurRadius: 1,
+                      color: Colors.grey.withOpacity(.3),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          );
-        });
+            ),
+          ],
+        );
+      },
+    );
   }
 }

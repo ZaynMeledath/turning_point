@@ -14,7 +14,7 @@ import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/dialog/show_coupon_generate_dialog.dart';
 import 'package:turning_point/dialog/show_loading_dialog.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/helper/widget/my_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/resources/contest_repository.dart';
@@ -65,6 +65,11 @@ class _RedeemScreenState extends State<RedeemScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: myAppBar(
+        context: context,
+        title: 'Redeem',
+        backgroundColor: Colors.yellow,
+      ),
 //====================Header Segment with back button and title====================//
       body: Column(
         children: [
@@ -81,10 +86,6 @@ class _RedeemScreenState extends State<RedeemScreen> {
             ),
             child: Column(
               children: [
-                SafeArea(
-                  child: customAppBar(context: context, title: 'Redeem'),
-                ),
-
                 //====================Available Points Segment====================//
                 availablePointsContainer(),
               ],
@@ -219,7 +220,6 @@ class _RedeemScreenState extends State<RedeemScreen> {
               }
             },
           ),
-          SizedBox(height: screenSize.height * .02),
         ],
       ),
     );

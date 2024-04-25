@@ -1,13 +1,22 @@
 part of 'points_history_bloc.dart';
 
 @immutable
-sealed class PointsHistoryState {}
+sealed class PointsHistoryState {
+  final int? page;
+  final List<PointsHistoryModel>? pointsHistoryModel;
+  const PointsHistoryState({
+    this.page,
+    this.pointsHistoryModel,
+  });
+}
 
 class PointsHistoryLoadingState extends PointsHistoryState {}
 
 class PointsHistoryLoadedState extends PointsHistoryState {
-  final List<PointsHistoryModel>? pointsHistoryModel;
-  PointsHistoryLoadedState(this.pointsHistoryModel);
+  const PointsHistoryLoadedState({
+    super.pointsHistoryModel,
+    super.page,
+  });
 }
 
 class NoPointsHistoryState extends PointsHistoryState {}

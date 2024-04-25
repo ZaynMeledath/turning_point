@@ -94,7 +94,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               shape: BoxShape.circle,
                               gradient: LinearGradient(
                                 colors: [
-                                  Color.fromRGBO(141, 193, 255, 1),
+                                  Color.fromRGBO(110, 193, 255, 1),
                                   Color.fromRGBO(89, 165, 255, 1),
                                 ],
                                 begin: Alignment.topRight,

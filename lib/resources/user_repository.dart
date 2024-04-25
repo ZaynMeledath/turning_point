@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:turning_point/constants/constants.dart';
@@ -76,6 +78,7 @@ class UserRepository {
     String? token,
     String? fcmToken,
     Position? location,
+    String? refCode,
   }) async {
     try {
       final authService = AuthService.firebase();
@@ -94,6 +97,7 @@ class UserRepository {
             },
           "idToken": token,
           "fcmToken": fcmToken,
+          "refCode": refCode,
           if (location != null)
             "address": {
               "coordinates": [location.latitude, location.longitude]
@@ -165,7 +169,7 @@ class UserRepository {
   }
 
 //====================Update User Online Status====================//
-  static Future<void> updateUserOnlineStatus({required bool isOnline}) async {
+  static void updateUserOnlineStatus({required bool isOnline}) async {
     try {
       await ApiService().sendRequest(
         url: ApiEndpoints.updateUserOnlineStatus,
@@ -174,6 +178,7 @@ class UserRepository {
         isTokenRequired: true,
       );
     } catch (e) {
+      log('Exception in UpdateUserOnlineStatus');
       throw Exception(e);
     }
   }
@@ -213,7 +218,7 @@ class UserRepository {
       rethrow;
     } catch (e) {
       log('EXCEPTION IN UPDATE USER PROFILE : $e');
-      throw CouldNotUpdateUserException();
+      throw CouldNotUpdateUserException(message: e.toString());
     }
   }
 
@@ -240,8 +245,10 @@ class UserRepository {
   }
 
 //====================Get User Profile Image from Storage====================//
-  static Future<Map<String, File>?> fetchAndConvertImageToBase64(
-      {bool? isSelfie}) async {
+  static Future<Map<String, File>?> fetchAndConvertImageToBase64({
+    bool? isSelfie,
+    bool? isId,
+  }) async {
     final ImagePicker picker = ImagePicker();
     try {
       final XFile? image = await picker.pickImage(
@@ -250,16 +257,43 @@ class UserRepository {
       );
 
       if (image != null) {
-        final imageFile = File(image.path);
-        final base64Image = base64Encode(await image.readAsBytes());
-        final result =
-            'furnipart/${image.path.split('/').last};base64,$base64Image';
+        CroppedFile? croppedImage = await ImageCropper().cropImage(
+          sourcePath: image.path,
+          aspectRatioPresets: [
+            isId == true || isSelfie == true
+                ? CropAspectRatioPreset.original
+                : CropAspectRatioPreset.square,
+          ],
+          cropStyle: isId == true || isSelfie == true
+              ? CropStyle.rectangle
+              : CropStyle.circle,
+          uiSettings: [
+            AndroidUiSettings(
+              toolbarTitle: 'Cropper',
+              toolbarColor: Colors.black,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: isId == true || isSelfie == true
+                  ? CropAspectRatioPreset.original
+                  : CropAspectRatioPreset.square,
+              lockAspectRatio: false,
+              activeControlsWidgetColor: Colors.blue,
+            ),
+            IOSUiSettings(
+              title: 'Cropper',
+            ),
+          ],
+        );
+        if (croppedImage != null) {
+          final imageFile = File(croppedImage.path);
+          final base64Image = base64Encode(await croppedImage.readAsBytes());
+          final result =
+              'furnipart/${image.path.split('/').last};base64,$base64Image';
 
-        //Image Map is used for KYC Bloc
-        return {result: imageFile};
-      } else {
-        return null;
+          //Image Map is used for KYC Bloc
+          return {result: imageFile};
+        }
       }
+      return null;
     } catch (_) {
       throw CouldNotFetchImageFromStorageException();
     }

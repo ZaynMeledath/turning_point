@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/dialog/show_logout_dialog.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/helper/widget/my_app_bar.dart';
 
 part 'segments/settings_option.dart';
 
@@ -23,13 +23,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: myAppBar(
+        context: context,
+        title: 'Settings',
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            customAppBar(
-              context: context,
-              title: 'Settings',
-            ),
             SizedBox(height: screenSize.height * .02),
             Padding(
               padding:
@@ -46,21 +46,60 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   SizedBox(height: screenSize.height * .015),
                   GestureDetector(
-                    onTap: () async {},
+                    onTap: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          content: const Text(
+                              'Notification cannot be turned off at the moment'),
+                        ),
+                      );
+                    },
                     child: settingsOption(
                       iconPath: 'assets/icons/notifications_icon.png',
                       title: 'Notification',
                       isEnabled: true,
                     ),
                   ),
-                  settingsOption(
-                    iconPath: 'assets/icons/biometrics_icon.png',
-                    title: 'Enable Biometrics',
-                    isEnabled: false,
+                  GestureDetector(
+                    onTap: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          content: const Text(
+                              'Biometrics cannot be turned on at the moment'),
+                        ),
+                      );
+                    },
+                    child: settingsOption(
+                      iconPath: 'assets/icons/biometrics_icon.png',
+                      title: 'Enable Biometrics',
+                      isEnabled: false,
+                    ),
                   ),
-                  settingsOption(
-                    iconPath: 'assets/icons/deactivate_account_icon.png',
-                    title: 'Deactivate Account',
+                  GestureDetector(
+                    onTap: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          content: const Text(
+                              'Account deactivation cannot be done at the moment'),
+                        ),
+                      );
+                    },
+                    child: settingsOption(
+                      iconPath: 'assets/icons/deactivate_account_icon.png',
+                      title: 'Deactivate Account',
+                    ),
                   ),
                   SizedBox(height: screenSize.height * .025),
                   Text(

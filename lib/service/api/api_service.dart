@@ -108,6 +108,8 @@ class ApiService {
       rethrow;
     } on ProfileInactiveException {
       rethrow;
+    } on BadRequestException {
+      rethrow;
     } catch (e) {
       throw Exception(e);
     }
@@ -126,7 +128,7 @@ class ApiService {
       case 204:
         throw NoContentException(responseJson.toString());
       case 400:
-        throw BadRequestException(responseJson.toString());
+        throw BadRequestException(responseJson);
       case 401:
         throw UnauthenticatedException(responseJson.toString());
       case 403:

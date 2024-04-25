@@ -10,6 +10,7 @@ Future<Object?> showAnimatedGenericDialog({
   required String content,
   required String buttonTitle,
   double? iconWidth,
+  void Function()? buttonFunction,
   // Size? containerSize,
 }) async {
   return showGeneralDialog(
@@ -29,6 +30,7 @@ Future<Object?> showAnimatedGenericDialog({
           content: content,
           buttonTitle: buttonTitle,
           iconWidth: iconWidth,
+          buttonFunction: buttonFunction,
         ),
       );
     },
@@ -42,6 +44,7 @@ Widget dialog({
   required String content,
   required String buttonTitle,
   double? iconWidth,
+  void Function()? buttonFunction,
 }) {
   final isLottie = iconPath.split('.').last == 'json';
   return Column(
@@ -80,7 +83,7 @@ Widget dialog({
             ),
             DefaultTextStyle(
               style: GoogleFonts.roboto(
-                fontSize: screenSize.width * .051,
+                fontSize: screenSize.width * .046,
                 fontWeight: FontWeight.w500,
                 color: Colors.black,
               ),
@@ -104,7 +107,7 @@ Widget dialog({
             ),
             SizedBox(height: screenSize.height * .028),
             GestureDetector(
-              onTap: () => Navigator.pop(context),
+              onTap: buttonFunction ?? () => Navigator.pop(context),
               child: Container(
                 width: screenSize.width * .25,
                 height: screenSize.width * .085,
@@ -121,6 +124,7 @@ Widget dialog({
                   child: Center(
                     child: Text(
                       buttonTitle,
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),

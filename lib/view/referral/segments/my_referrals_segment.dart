@@ -4,7 +4,7 @@ import 'package:turning_point/helper/screen_size.dart';
 
 Widget myReferralsSegment() {
   return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 20),
+    padding: EdgeInsets.symmetric(horizontal: screenSize.width * .051),
     child: Column(
       children: [
         const SizedBox(height: 24),
@@ -44,7 +44,7 @@ Widget myReferralsSegment() {
                   alignment: Alignment.centerRight,
                   child: Padding(
                     padding: EdgeInsets.only(right: screenSize.width * .09),
-                    child: Text('48',
+                    child: Text('8',
                         style: GoogleFonts.roboto(
                           fontSize: screenSize.width * .05,
                           fontWeight: FontWeight.w500,

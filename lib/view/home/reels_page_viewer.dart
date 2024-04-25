@@ -1,7 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -65,9 +63,6 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
 
   @override
   Widget build(BuildContext context) {
-    preloadBloc.add(PreloadEvent(
-        currentIndex: preloadBloc.state.focusedIndex, isInitial: true));
-
     return BlocBuilder<PreloadBloc, PreloadState>(
       builder: (context, preloadState) {
         return BlocConsumer<ReelsBloc, ReelsState>(
@@ -94,10 +89,8 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
               itemCount: preloadState.urls.length,
               onPageChanged: (index) async {
                 likeButtonActiveStatus = false;
-                reelsBloc.add(ReelLoadEvent(reelIndex: index));
-                context
-                    .read<PreloadBloc>()
-                    .add(PreloadEvent(currentIndex: index, isInitial: false));
+                preloadBloc.manuallyPaused = false;
+                preloadBloc.add(PreloadEvent(currentIndex: index));
                 if (index >= pageIndex * ReelsRepository.reelsPageSize - 2) {
                   pageIndex++;
                   await ReelsRepository.getReels(page: pageIndex);
@@ -111,7 +104,6 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                     (index == preloadState.focusedIndex ||
                         index == preloadState.focusedIndex + 1 ||
                         index == preloadState.focusedIndex - 1)) {
-                  log('INDEX : $index');
                   return Stack(
                     children: [
                       ReelsPlayer(
@@ -219,7 +211,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                               visible: controllerValue.isInitialized,
                               child: Padding(
                                 padding: EdgeInsets.only(
-                                  top: screenSize.height * .922,
+                                  top: screenSize.height * .921,
                                 ),
                                 child: SizedBox(
                                   width: double.maxFinite,
@@ -235,10 +227,8 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                         ? Colors.red
                                         : Colors.transparent,
                                     percent: (controllerValue
-                                            .position.inMilliseconds /
-                                        (controllerValue
-                                                .duration.inMilliseconds +
-                                            10)),
+                                            .position.inSeconds /
+                                        (controllerValue.duration.inSeconds)),
                                     barRadius: const Radius.circular(6),
                                     lineHeight: 3,
                                   ),

@@ -26,29 +26,17 @@ class ReelsRepository {
         isTokenRequired: true,
       );
 
-      // final response = await ApiService().sendRequest(
-      //   url: ApiEndpoints.getReels,
-      //   requestMethod: FetchMethod.GET,
-      //   data: null,
-      //   isTokenRequired: false,
-      // );
-
       final data = response['data'];
 
       reelsPageSize = data.length;
 
-      urlList.addAll(data.map((e) => e['fileUrl']).toList());
-      // final videoNames = data.map((e) => e['fileUrl']).toList();
-      // urlList = videoNames
-      //     .map((videoName) => '${ApiEndpoints.uploads}/$videoName')
-      //     .toList();
-
-      final tempReelsModelResponse = ReelsModelResponse.fromJson(response);
-
-      if (reelsModelResponse.data != null) {
-        reelsModelResponse.data!.addAll(tempReelsModelResponse.data!);
-      } else {
+      if (page == 1) {
+        urlList = data.map((e) => e['fileUrl']).toList();
         reelsModelResponse = ReelsModelResponse.fromJson(response);
+      } else {
+        urlList.addAll(data.map((e) => e['fileUrl']).toList());
+        final tempReelsModelResponse = ReelsModelResponse.fromJson(response);
+        reelsModelResponse.data!.addAll(tempReelsModelResponse.data!);
       }
 
       return reelsModelResponse;

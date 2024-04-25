@@ -178,7 +178,7 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
           timeMap.clear();
           state.timeMap = null;
           state.secondsLeft = null;
-          await Future.delayed(const Duration(seconds: 1));
+          await Future.delayed(const Duration(seconds: 2));
           add(LuckyDrawLoadEvent());
           if (homeBloc.state.currentIndex == 3) {
             return homeBloc.add(TriggerEvent(1));

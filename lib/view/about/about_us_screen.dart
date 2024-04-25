@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/helper/widget/my_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 part 'segments/about_company_container.dart';
@@ -32,10 +32,10 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: myAppBar(context: context, title: 'About Us'),
       body: SafeArea(
         child: Column(
           children: [
-            customAppBar(context: context, title: 'About Us'),
             SizedBox(height: screenSize.height * .03),
 //====================About App Segment====================//
             Image.asset(
@@ -84,7 +84,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                   'At Claart, we believe in turning living spaces into sanctuaries. Established with a passion for craftsmanship and an unwavering commitment to quality, we curate furniture that resonates with both elegance and functionality.',
               imagePath: 'assets/images/claart_logo_with_bg.png',
             ),
-            SizedBox(height: screenSize.height * .06),
+            SizedBox(height: screenSize.height * .08),
             followUsSegment(),
           ],
         ),

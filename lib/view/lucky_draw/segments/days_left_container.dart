@@ -1,6 +1,6 @@
 part of '../lucky_draw_screen.dart';
 
-Widget daysLeftContainer({required BuildContext context}) {
+Widget joinLuckyDraw({required BuildContext context}) {
   return InkWell(
     borderRadius: BorderRadius.circular(25),
     hoverColor: Colors.red,

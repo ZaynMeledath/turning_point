@@ -60,7 +60,7 @@ class _FirstBoardingScreenState extends State<FirstBoardingScreen> {
           Positioned(
             bottom: screenSize.height * .475,
             child: Hero(
-              tag: 'furnipart_logo',
+              tag: 'turning_point_logo',
               child: Image.asset(
                 'assets/images/logo_group_horizontal.png',
                 width: screenSize.width * .82,
