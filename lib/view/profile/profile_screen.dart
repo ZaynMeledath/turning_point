@@ -86,7 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         size: screenSize.width * .061,
                       ),
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Navigator.pop(context);
                       },
                     ),
                   ),

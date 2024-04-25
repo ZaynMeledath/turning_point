@@ -21,7 +21,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 //====================Initialize====================//
     on<AuthInitializeEvent>((event, emit) async {
       try {
-        bool status = false;
         emit(const AuthLoadingState());
         await provider.initialize();
         final userFromPreference = UserRepository.getUserFromPreference();
@@ -36,20 +35,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           // if (provider.currentUser != null) provider.signOut();
           final token = await provider.signIn();
           final fcmToken = await provider.getFcmToken();
-          status = await UserRepository.userSignIn(
+          await UserRepository.userSignIn(
             token: token,
             fcmToken: fcmToken!,
           );
         }
         // AppPreferences.clearSharedPreferences();
         // return emit(InitialState());
-        if (status) {
-          profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
-          pointsBloc.add(PointsLoadEvent(avoidGettingUserFromPreference: true));
-          return emit(SignedInState());
-        } else {
-          return emit(InitialState());
-        }
+        profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
+        pointsBloc.add(PointsLoadEvent(avoidGettingUserFromPreference: true));
+        return emit(SignedInState());
       } on ProfileInactiveException {
         return emit(ProfileInactiveState());
       } catch (e) {

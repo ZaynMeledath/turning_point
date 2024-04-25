@@ -96,38 +96,6 @@ void main() async {
   ]).then((value) => runApp(const MyApp()));
 }
 
-//--------------------Show toast according to the internet connection--------------------//
-// Future<void> executeInternetChecker(
-//   InternetConnectionChecker internetConnectionChecker,
-// ) async {
-//   internetConnectionChecker.onStatusChange.listen(
-//     (InternetConnectionStatus status) {
-//       switch (status) {
-//         case InternetConnectionStatus.connected:
-//           // Fluttertoast.showToast(
-//           //   msg: "Back Online",
-//           //   toastLength: Toast.LENGTH_SHORT,
-//           //   gravity: ToastGravity.CENTER,
-//           //   backgroundColor: Colors.black54,
-//           //   textColor: Colors.white,
-//           //   fontSize: screenSize.width * .036,
-//           // );
-//           break;
-//         case InternetConnectionStatus.disconnected:
-//           Fluttertoast.showToast(
-//             msg: "No Internet Connection",
-//             toastLength: Toast.LENGTH_LONG,
-//             gravity: ToastGravity.CENTER,
-//             backgroundColor: Colors.black54,
-//             textColor: Colors.white,
-//             fontSize: screenSize.width * .036,
-//           );
-//           break;
-//       }
-//     },
-//   );
-// }
-
 Future<void> _firebasePushHandler(RemoteMessage message) async {
   log('Notificatication');
   log('MESSAGE ID : ${message.messageId}');

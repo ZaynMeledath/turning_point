@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +8,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:turning_point/bloc/home/home_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/scanner/scanner_bloc.dart';
+import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/dialog/show_scanner_coupon_dialog.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'dart:math' as math;
@@ -238,7 +241,24 @@ class _ScannerScreenState extends State<ScannerScreen> {
                   ),
                   SizedBox(height: screenSize.height * .07),
                   GestureDetector(
-                    onTap: () {
+                    onTap: () async {
+                      // await Permission.location.request();
+                      if (await Permission.location.isDenied) {
+                        await showAnimatedGenericDialog(
+                          context: context,
+                          iconPath: 'assets/lottie/location_animation.json',
+                          title: 'Permission Needed',
+                          content:
+                              'Enable location permission to redeem coupon',
+                          buttonTitle: 'Enable',
+                          buttonFunction: () {
+                            openAppSettings();
+                            Navigator.pop(context);
+                          },
+                        );
+                        return;
+                      }
+
                       if (shouldScan) {
                         scannerBloc.scanCoupon();
                       } else {
@@ -251,7 +271,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                     },
                     child: Container(
                       width: screenSize.width * .35,
-                      height: screenSize.height * .055,
+                      height: screenSize.height * .052,
                       margin: EdgeInsets.only(bottom: screenSize.height * .03),
                       decoration: BoxDecoration(
                         color: const Color.fromRGBO(0, 99, 255, 1),
