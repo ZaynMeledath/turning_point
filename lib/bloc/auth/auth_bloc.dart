@@ -7,7 +7,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/model/contractor_model.dart';
-import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/Exception/api_exception.dart';
 import 'package:turning_point/service/auth/auth_exceptions.dart';
@@ -22,28 +21,39 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 //====================Initialize====================//
     on<AuthInitializeEvent>((event, emit) async {
       try {
+        bool status = false;
         emit(const AuthLoadingState());
         await provider.initialize();
-        if (provider.currentUser == null) {
-          AppPreferences.clearSharedPreferences();
-          return emit(InitialState());
+        final userFromPreference = UserRepository.getUserFromPreference();
+        if (provider.currentUser == null && userFromPreference != null) {
+          // AppPreferences.clearSharedPreferences();
+          // return emit(InitialState());
+          await provider.signIn();
         }
         final user =
             await UserRepository.getUserById(avoidGettingFromPreference: true);
         if (user == null) {
-          if (provider.currentUser != null) provider.signOut();
-
-          AppPreferences.clearSharedPreferences();
-          return emit(InitialState());
-        } else {
+          // if (provider.currentUser != null) provider.signOut();
+          final token = await provider.signIn();
+          final fcmToken = await provider.getFcmToken();
+          status = await UserRepository.userSignIn(
+            token: token,
+            fcmToken: fcmToken!,
+          );
+        }
+        // AppPreferences.clearSharedPreferences();
+        // return emit(InitialState());
+        if (status) {
           profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
           pointsBloc.add(PointsLoadEvent(avoidGettingUserFromPreference: true));
           return emit(SignedInState());
+        } else {
+          return emit(InitialState());
         }
       } on ProfileInactiveException {
         return emit(ProfileInactiveState());
       } catch (e) {
-        throw Exception(e);
+        return emit(InitialState());
       }
     });
 

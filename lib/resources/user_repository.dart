@@ -259,7 +259,9 @@ class UserRepository {
         CroppedFile? croppedImage = await ImageCropper().cropImage(
           sourcePath: image.path,
           aspectRatioPresets: [
-            CropAspectRatioPreset.square,
+            isId == true || isSelfie == true
+                ? CropAspectRatioPreset.original
+                : CropAspectRatioPreset.square,
           ],
           cropStyle: isId == true || isSelfie == true
               ? CropStyle.rectangle
@@ -269,7 +271,9 @@ class UserRepository {
               toolbarTitle: 'Cropper',
               toolbarColor: Colors.black,
               toolbarWidgetColor: Colors.white,
-              initAspectRatio: CropAspectRatioPreset.square,
+              initAspectRatio: isId == true || isSelfie == true
+                  ? CropAspectRatioPreset.original
+                  : CropAspectRatioPreset.square,
               lockAspectRatio: false,
               activeControlsWidgetColor: Colors.blue,
             ),

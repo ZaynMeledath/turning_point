@@ -34,11 +34,11 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
 
   @override
   void didChangeDependencies() {
+    disableWakeLock();
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
-    disableWakeLock();
     super.didChangeDependencies();
   }
 

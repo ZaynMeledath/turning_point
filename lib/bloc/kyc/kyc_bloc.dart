@@ -172,7 +172,8 @@ class KycBloc extends Bloc<KycEvent, KycState> {
           userModel: userModelResponse.data!,
         );
         profileBloc.add(ProfileLoadEvent());
-        emit(const KycSubmittedState());
+
+        return emit(const KycSubmittedState());
       } catch (_) {}
     });
 

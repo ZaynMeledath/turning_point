@@ -34,7 +34,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       preloadBloc.pauseCurrentController();
     }
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
-    disableWakeLock();
     super.didChangeDependencies();
   }
 
@@ -64,7 +63,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }
+
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
+    disableWakeLock();
+
     return Scaffold(
       body: SafeArea(
         child: Column(

@@ -93,6 +93,7 @@ class _KycScreenState extends State<KycScreen>
 
           //====================Loaded State====================//
           case KycSubmittedState():
+            Navigator.pop(context);
             return const KycSubmittedScreen();
 
           //====================Loaded State====================//

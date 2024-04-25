@@ -41,7 +41,6 @@ class _PointsScreenState extends State<PointsScreen> {
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }
-    disableWakeLock();
     super.didChangeDependencies();
   }
 
@@ -79,6 +78,7 @@ class _PointsScreenState extends State<PointsScreen> {
       preloadBloc.pauseCurrentController();
     }
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
+    disableWakeLock();
     pointsHistoryBloc.add(PointsHistoryLoadEvent());
     return Scaffold(
       appBar: myAppBar(
