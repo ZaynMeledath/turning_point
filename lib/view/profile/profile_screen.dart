@@ -38,8 +38,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.didChangeDependencies();
   }
 
-  void disableWakeLock() async {
-    await WakelockPlus.disable();
+  void disableWakeLock() {
+    setState(() {
+      WakelockPlus.disable();
+    });
   }
 
   @override

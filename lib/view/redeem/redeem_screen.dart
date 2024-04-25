@@ -220,7 +220,6 @@ class _RedeemScreenState extends State<RedeemScreen> {
               }
             },
           ),
-          SizedBox(height: screenSize.height * .02),
         ],
       ),
     );

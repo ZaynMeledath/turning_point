@@ -3,7 +3,6 @@
 import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/dialog/show_logout_dialog.dart';
 import 'package:turning_point/helper/screen_size.dart';

@@ -31,6 +31,7 @@ class _PointsScreenState extends State<PointsScreen> {
         pointsHistoryBloc.add(PointsHistoryLoadEvent());
       }
     });
+
     super.initState();
   }
 
@@ -44,8 +45,10 @@ class _PointsScreenState extends State<PointsScreen> {
     super.didChangeDependencies();
   }
 
-  void disableWakeLock() async {
-    await WakelockPlus.disable();
+  void disableWakeLock() {
+    setState(() {
+      WakelockPlus.disable();
+    });
   }
 
   @override

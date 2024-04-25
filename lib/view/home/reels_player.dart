@@ -3,6 +3,7 @@ import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:video_player/video_player.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class ReelsPlayer extends StatefulWidget {
   final VideoPlayerController videoController;
@@ -29,7 +30,6 @@ class _ReelsPlayerState extends State<ReelsPlayer>
       begin: 0,
       end: 1.4,
     ).animate(animationController);
-
     super.initState();
   }
 
@@ -72,6 +72,7 @@ class _ReelsPlayerState extends State<ReelsPlayer>
 
   @override
   Widget build(BuildContext context) {
+    WakelockPlus.enable();
     return ValueListenableBuilder(
       valueListenable: widget.videoController,
       builder: (context, value, child) {

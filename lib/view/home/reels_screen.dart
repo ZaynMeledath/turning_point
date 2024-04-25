@@ -57,6 +57,9 @@ class ReelsScreenState extends State<ReelsScreen>
 
   @override
   void didChangeDependencies() {
+    setState(() {
+      WakelockPlus.enable();
+    });
     locationServiceBloc.add(LocationServiceStartEvent());
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: true));
 
@@ -74,7 +77,6 @@ class ReelsScreenState extends State<ReelsScreen>
   }
 
   void enableWakelock() async {
-    await WakelockPlus.enable();
     final token = await FirebaseMessaging.instance.getToken();
     log('FCM Token : ${token.toString()}');
   }
@@ -86,7 +88,6 @@ class ReelsScreenState extends State<ReelsScreen>
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }
-    WakelockPlus.disable();
   }
 
   Future<void> handleRefresh() async {

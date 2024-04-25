@@ -51,7 +51,8 @@ class KycBloc extends Bloc<KycEvent, KycState> {
 //====================KYC ID Update Event====================//
     on<KycIdUpdateEvent>((event, emit) async {
       try {
-        final imageMap = await UserRepository.fetchAndConvertImageToBase64();
+        final imageMap =
+            await UserRepository.fetchAndConvertImageToBase64(isId: true);
         if (imageMap != null) {
           emit(
             KycLoadedState(

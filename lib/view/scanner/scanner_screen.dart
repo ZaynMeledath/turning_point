@@ -44,8 +44,10 @@ class _ScannerScreenState extends State<ScannerScreen> {
     super.didChangeDependencies();
   }
 
-  void disableWakeLock() async {
-    await WakelockPlus.disable();
+  void disableWakeLock() {
+    setState(() {
+      WakelockPlus.disable();
+    });
   }
 
   void getLocation() async {

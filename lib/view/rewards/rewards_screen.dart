@@ -67,7 +67,9 @@ class _RewardsScreenState extends State<RewardsScreen>
   }
 
   void disableWakeLock() async {
-    await WakelockPlus.disable();
+    setState(() {
+      WakelockPlus.disable();
+    });
   }
 
   @override

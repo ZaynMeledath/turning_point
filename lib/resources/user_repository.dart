@@ -244,8 +244,10 @@ class UserRepository {
   }
 
 //====================Get User Profile Image from Storage====================//
-  static Future<Map<String, File>?> fetchAndConvertImageToBase64(
-      {bool? isSelfie}) async {
+  static Future<Map<String, File>?> fetchAndConvertImageToBase64({
+    bool? isSelfie,
+    bool? isId,
+  }) async {
     final ImagePicker picker = ImagePicker();
     try {
       final XFile? image = await picker.pickImage(
@@ -259,7 +261,9 @@ class UserRepository {
           aspectRatioPresets: [
             CropAspectRatioPreset.square,
           ],
-          cropStyle: CropStyle.circle,
+          cropStyle: isId == true || isSelfie == true
+              ? CropStyle.rectangle
+              : CropStyle.circle,
           uiSettings: [
             AndroidUiSettings(
               toolbarTitle: 'Cropper',

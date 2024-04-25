@@ -42,8 +42,10 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
     super.didChangeDependencies();
   }
 
-  void disableWakeLock() async {
-    await WakelockPlus.disable();
+  void disableWakeLock() {
+    setState(() {
+      WakelockPlus.disable();
+    });
   }
 
   @override
