@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/home/home_bloc.dart';
-import 'package:turning_point/bloc/location_service/location_service_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/dialog/show_connect_dialog.dart';
 import 'package:turning_point/helper/screen_size.dart';
@@ -24,26 +23,18 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
+    UserRepository.updateUserOnlineStatus(isOnline: true);
     super.initState();
   }
 
-  // void updateUserOnlineStatus({required bool isOnline}) async {
-  //   await UserRepository.updateUserOnlineStatus(isOnline: isOnline);
-  // }
-
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) async {
-    locationServiceBloc.add(LocationServiceStartEvent());
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // locationServiceBloc.add(LocationServiceStartEvent());
     if (state == AppLifecycleState.resumed) {
       UserRepository.updateUserOnlineStatus(isOnline: true);
     } else {
       UserRepository.updateUserOnlineStatus(isOnline: false);
     }
-  }
-
-  @override
-  void dispose() async {
-    super.dispose();
   }
 
   @override
