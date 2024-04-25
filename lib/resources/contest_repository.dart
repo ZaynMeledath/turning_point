@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/model/contest_model.dart';
 import 'package:turning_point/model/rewards_model.dart';
 import 'package:turning_point/service/Exception/api_exception.dart';
@@ -12,7 +13,7 @@ class ContestRepository {
   static Future<ContestModelResponse> getContests() async {
     try {
       final response = await ApiService().sendRequest(
-        url: ApiEndpoints.getContests,
+        url: ApiEndpoints.getContestCoupons,
         requestMethod: RequestMethod.GET,
         data: null,
         isTokenRequired: true,
@@ -25,12 +26,17 @@ class ContestRepository {
   }
 
 //====================Join Contest====================//
-  static Future<void> joinContest(String id) async {
+  static Future<void> joinContest({
+    required String id,
+    required int entryCount,
+  }) async {
     try {
       await ApiService().sendRequest(
         url: '${ApiEndpoints.joinContest}/$id',
-        requestMethod: RequestMethod.GET,
-        data: null,
+        requestMethod: RequestMethod.POST,
+        data: {
+          'count': entryCount,
+        },
         isTokenRequired: true,
       );
     } catch (e) {
@@ -105,7 +111,10 @@ class ContestRepository {
       final secondsLeft =
           (endDateToSecondsSinceEpoch - currentDateToSecondsSinceEpoch).toInt();
 
-      secondsLeftList.add(secondsLeft);
+      final prizeCount = contestModelList[i].prizeArr!.length;
+
+      secondsLeftList
+          .add(secondsLeft - (prizeCount * LUCKY_DRAW_WINNER_DISPLAY_DELAY));
     }
 
     return secondsLeftList;
@@ -115,6 +124,7 @@ class ContestRepository {
   static int getLuckyDrawSecondsLeft({required ContestModel contestModel}) {
     final String endDateString = contestModel.combinedEndDateTime!;
     final DateTime endDate = DateTime.parse(endDateString);
+
     final currentDateToSecondsSinceEpoch =
         DateTime.now().millisecondsSinceEpoch / 1000;
     final endDateToSecondsSinceEpoch = endDate.millisecondsSinceEpoch / 1000;
@@ -122,6 +132,9 @@ class ContestRepository {
     final secondsLeft =
         (endDateToSecondsSinceEpoch - currentDateToSecondsSinceEpoch).toInt();
 
+    // final prizeCount = contestModel.prizeArr!.length;
+
+    // return secondsLeft - (prizeCount * 30);
     return secondsLeft;
   }
 }

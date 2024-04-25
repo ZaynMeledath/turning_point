@@ -26,17 +26,18 @@ class UserModelResponse {
 
 class UserModel {
   String? id;
+  String? uid;
   String? email;
   String? phone;
   String? name;
   String? businessName;
   String? pincode;
-  String? address;
+  String? actualAddress;
   int? points;
   bool? isActive;
   String? role;
   ContractorModel? contractor;
-  bool? kycStatus;
+  String? kycStatus;
   List<BankDetails>? bankDetails;
   List? shopImageArr;
   String? createdAt;
@@ -44,44 +45,53 @@ class UserModel {
   String? image;
   String? idBackImage;
   String? idFrontImage;
+  String? selfie;
+  List<CouponModel>? coupons;
   int? contestParticipationCount;
   int? contestsParticipatedInCount;
   int? contestWonCount;
   int? contestUniqueWonCount;
+  // List<dynamic>? address;
 
-  UserModel(
-      {this.id,
-      this.email,
-      this.phone,
-      this.name,
-      this.businessName,
-      this.points,
-      this.pincode,
-      this.address,
-      this.isActive,
-      this.role,
-      this.contractor,
-      this.bankDetails,
-      this.shopImageArr,
-      this.createdAt,
-      this.updatedAt,
-      this.image,
-      this.idBackImage,
-      this.idFrontImage,
-      this.kycStatus,
-      this.contestParticipationCount,
-      this.contestsParticipatedInCount,
-      this.contestWonCount,
-      this.contestUniqueWonCount});
+  UserModel({
+    this.id,
+    this.uid,
+    this.email,
+    this.phone,
+    this.name,
+    this.businessName,
+    this.points,
+    this.pincode,
+    this.actualAddress,
+    this.isActive,
+    this.role,
+    this.contractor,
+    this.bankDetails,
+    this.shopImageArr,
+    this.createdAt,
+    this.updatedAt,
+    this.image,
+    this.idBackImage,
+    this.idFrontImage,
+    this.selfie,
+    this.kycStatus,
+    this.coupons,
+    this.contestParticipationCount,
+    this.contestsParticipatedInCount,
+    this.contestWonCount,
+    this.contestUniqueWonCount,
+    // this.address,
+  });
 
   UserModel.fromJson(Map<String, dynamic> json) {
     id = json['_id'];
+    uid = json['uid'];
     email = json['email'];
     phone = json['phone'];
     name = json['name'];
     businessName = json['businessName'];
     pincode = json['pincode'];
-    address = json['address'];
+    actualAddress = json['actualAddress'];
     points = json['points'];
     isActive = json['isActive'];
     role = json['role'];
@@ -102,27 +112,34 @@ class UserModel {
     image = json['image'];
     idBackImage = json['idBackImage'];
     idFrontImage = json['idFrontImage'];
+    selfie = json['selfie'];
+    coupons = json['coupons'];
     contestParticipationCount = json['contestParticipationCount'];
     contestsParticipatedInCount = json['contestsParticipatedInCount'];
     contestWonCount = json['contestWonCount'];
     contestUniqueWonCount = json['contestUniqueWonCount'];
+    // address = json['address']['coordinates'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['_id'] = id;
+    data['uid'] = uid;
     data['email'] = email;
     data['phone'] = phone;
     data['name'] = name;
     data['businessName'] = businessName;
     data['pincode'] = pincode;
-    data['address'] = address;
+    data['actualAddress'] = actualAddress;
     data['points'] = points;
     data['isActive'] = isActive;
     data['role'] = role;
-    data['contractor'] = ContractorModel().toJson();
+    if (contractor != null) {
+      data['contractor'] = contractor!.toJson();
+    }
+
     if (bankDetails != null) {
-      data['bankDetails'] = bankDetails!.map((v) => v.toJson()).toList();
+      data['bankDetails'] = bankDetails!.map((item) => item.toJson()).toList();
     }
 
     data['createdAt'] = createdAt;
@@ -131,10 +148,13 @@ class UserModel {
     data['kycStatus'] = kycStatus;
     data['idBackImage'] = idBackImage;
     data['idFrontImage'] = idFrontImage;
+    data['selfie'] = selfie;
+    data['coupons'] = coupons;
     data['contestParticipationCount'] = contestParticipationCount;
     data['contestsParticipatedInCount'] = contestsParticipatedInCount;
     data['contestWonCount'] = contestWonCount;
     data['contestUniqueWonCount'] = contestUniqueWonCount;
+    // data['address']['coordinates'] = address?.map((e) => double.parse(e));
     return data;
   }
 }
@@ -176,6 +196,28 @@ class BankDetails {
     data['bank'] = bank;
     data['isActive'] = isActive;
     data['_id'] = sId;
+    return data;
+  }
+}
+
+class CouponModel {
+  String? couponName;
+  int? count;
+
+  CouponModel(
+    this.couponName,
+    this.count,
+  );
+
+  CouponModel.fromJson(Map<String, dynamic> json) {
+    couponName = json['couponName'];
+    count = json['count'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['couponName'] = couponName;
+    data['count'] = count;
     return data;
   }
 }

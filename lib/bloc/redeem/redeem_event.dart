@@ -22,3 +22,5 @@ class RedeemButtonPressedEvent extends RedeemEvent {
 
   RedeemButtonPressedEvent({this.upiId});
 }
+
+class ResetStateEvent extends RedeemEvent {}

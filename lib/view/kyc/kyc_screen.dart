@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/kyc/kyc_bloc.dart';
+import 'package:turning_point/dialog/show_kyc_update_dialog.dart';
 import 'package:turning_point/dialog/show_loading_dialog.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/helper/widget/my_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/kyc/kyc_submitted_screen.dart';
 import 'package:turning_point/view/kyc/segments/kyc_bank_details.dart';
@@ -64,276 +65,267 @@ class _KycScreenState extends State<KycScreen>
   @override
   Widget build(BuildContext context) {
     kycBloc.add(KycLoadEvent(tabIndex: 0));
-    return Scaffold(
-      body: SafeArea(
-        child: BlocConsumer<KycBloc, KycState>(
-          listener: (context, state) {
-            if (state is KycLoadedState) {
-              if (state.isLoading && closeDialogHandle == null) {
-                closeDialogHandle = showLoadingDialog(context: context);
-              }
-            } else if (state is KycSubmittedState &&
-                closeDialogHandle != null) {
-              Navigator.pop(context);
-              closeDialogHandle = null;
-            }
-          },
-          builder: (context, state) {
-            switch (state) {
-//====================Loading State====================//
-              case KycLoadingState():
-                return const Center(
-                  child: CircularProgressIndicator.adaptive(
-                    strokeWidth: 5,
-                  ),
-                );
+    return BlocConsumer<KycBloc, KycState>(
+      listener: (context, state) {
+        if (state is KycLoadedState) {
+          if (state.isLoading && closeDialogHandle == null) {
+            closeDialogHandle = showLoadingDialog(context: context);
+          }
+        } else if (state is KycLoadedState &&
+            !state.isLoading &&
+            closeDialogHandle != null) {
+          Navigator.pop(context);
+          closeDialogHandle = null;
+        } else if (state is! KycSubmittedState) {
+          Navigator.pop(context);
+          closeDialogHandle = null;
+        }
+      },
+      builder: (context, state) {
+        switch (state) {
+          //====================Loading State====================//
+          case KycLoadingState():
+            return const Center(
+              child: CircularProgressIndicator.adaptive(
+                strokeWidth: 5,
+              ),
+            );
 
-//====================Loaded State====================//
-              case KycSubmittedState():
-                return const KycSubmittedScreen();
+          //====================Loaded State====================//
+          case KycSubmittedState():
+            Navigator.pop(context);
+            return const KycSubmittedScreen();
 
-//====================Loaded State====================//
-              case KycLoadedState():
-                nameController.text = state.name!;
-                phoneController.text = state.phone!;
-                emailController.text = state.email!;
-                pinController.text = state.pincode!;
+          //====================Loaded State====================//
+          case KycLoadedState():
+            nameController.text = state.name!;
+            phoneController.text = state.phone!;
+            emailController.text = state.email!;
+            pinController.text = state.pincode!;
 
-                // accNameController.text = state.
+            return Scaffold(
+              appBar: myAppBar(
+                context: context,
+                title: 'KYC',
+              ),
+              body: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                reverse: true,
+                child: Column(
+                  children: [
+                    Column(
+                      children: [
+                        //====================Header Segment with Back Button, Title and Doodle ====================//
 
-                return SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  reverse: true,
-                  child: Column(
-                    children: [
-                      Column(
-                        children: [
-//====================Header Segment with Back Button, Title and Doodle ====================//
-                          customAppBar(
-                            context: context,
-                            title: 'KYC',
-                          ),
-                          SizedBox(height: screenSize.height * .01),
-                          Image.asset(
-                            'assets/images/kyc_doodle.png',
-                            width: screenSize.width * .45,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: screenSize.height * .02),
-
-//===================================Body Container===================================//
-                      Container(
-                        margin: EdgeInsets.symmetric(
-                            horizontal: screenSize.width * .031),
-                        padding: EdgeInsets.symmetric(
-                            vertical: screenSize.height * .019),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(13),
-                          border: Border.all(
-                            color: const Color.fromRGBO(226, 226, 226, 1),
-                          ),
+                        SizedBox(height: screenSize.height * .01),
+                        Image.asset(
+                          'assets/images/kyc_doodle.png',
+                          width: screenSize.width * .45,
                         ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: screenSize.width * .051),
-                              child: Stack(
+                      ],
+                    ),
+                    SizedBox(height: screenSize.height * .02),
+
+                    //===================================Body Container===================================//
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                          horizontal: realScreenSize.width * .031),
+                      padding: EdgeInsets.only(
+                        top: realScreenSize.height * .019,
+                        bottom: realScreenSize.height * .015,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(13),
+                        border: Border.all(
+                          color: const Color.fromRGBO(226, 226, 226, 1),
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: realScreenSize.width * .051),
+                            child: Stack(
+                              children: [
+                                TabBar(
+                                  controller: _tabController,
+                                  indicator: const BoxDecoration(),
+                                  isScrollable: false,
+                                  labelColor: Colors.black,
+                                  dividerColor: Colors.transparent,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  onTap: (index) {
+                                    if (index > state.tabIndex) {
+                                      _tabController.index = state.tabIndex;
+                                    } else {
+                                      context
+                                          .read<KycBloc>()
+                                          .add(KycLoadEvent(tabIndex: index));
+                                    }
+                                  },
+                                  overlayColor: const MaterialStatePropertyAll(
+                                      Colors.transparent),
+                                  tabs: [
+                                    kycPageTitle(
+                                        title: 'Personal Details',
+                                        titleNumber: '1',
+                                        isDoneOrActive: true),
+                                    kycPageTitle(
+                                      title: 'ID Proof',
+                                      titleNumber: '2',
+                                      isDoneOrActive:
+                                          state.tabIndex > 0 ? true : false,
+                                    ),
+                                    kycPageTitle(
+                                      title: 'Bank Details',
+                                      titleNumber: '3',
+                                      isDoneOrActive:
+                                          state.tabIndex > 1 ? true : false,
+                                    ),
+                                  ],
+                                ),
+                                Positioned(
+                                  left: realScreenSize.width * .18,
+                                  top: realScreenSize.width * .019,
+                                  child: Container(
+                                      width: realScreenSize.width * .18,
+                                      height: 1,
+                                      color: const Color.fromRGBO(
+                                          199, 199, 199, 1)),
+                                ),
+                                Positioned(
+                                  left: realScreenSize.width * .45,
+                                  top: realScreenSize.width * .019,
+                                  child: Container(
+                                      width: realScreenSize.width * .18,
+                                      height: 1,
+                                      color: const Color.fromRGBO(
+                                          199, 199, 199, 1)),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          SizedBox(height: realScreenSize.height * .03),
+
+                          //====================TabBarView Segment====================//
+                          Form(
+                            key: _formKey,
+                            child: SizedBox(
+                              width: double.infinity,
+                              height: screenSize.height * .385,
+                              child: TabBarView(
+                                physics: const NeverScrollableScrollPhysics(),
+                                controller: _tabController,
                                 children: [
-                                  TabBar(
-                                    controller: _tabController,
-                                    indicator: const BoxDecoration(),
-                                    isScrollable: false,
-                                    labelColor: Colors.black,
-                                    dividerColor: Colors.transparent,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    onTap: (index) {
-                                      if (index > state.tabIndex) {
-                                        _tabController.index = state.tabIndex;
-                                      } else {
-                                        context
-                                            .read<KycBloc>()
-                                            .add(KycLoadEvent(tabIndex: index));
-                                      }
-                                    },
-                                    overlayColor:
-                                        const MaterialStatePropertyAll(
-                                            Colors.transparent),
-                                    tabs: [
-                                      kycPageTitle(
-                                          screenSize: screenSize,
-                                          title: 'Personal Details',
-                                          titleNumber: '1',
-                                          isDoneOrActive: true),
-                                      kycPageTitle(
-                                        screenSize: screenSize,
-                                        title: 'ID Proof',
-                                        titleNumber: '2',
-                                        isDoneOrActive:
-                                            state.tabIndex > 0 ? true : false,
-                                      ),
-                                      kycPageTitle(
-                                        screenSize: screenSize,
-                                        title: 'Bank Details',
-                                        titleNumber: '3',
-                                        isDoneOrActive:
-                                            state.tabIndex > 1 ? true : false,
-                                      ),
-                                    ],
+                                  kycPersonalDetails(
+                                    screenSize: screenSize,
+                                    nameController: nameController,
+                                    mobileController: phoneController,
+                                    emailController: emailController,
+                                    pinController: pinController,
                                   ),
-                                  Positioned(
-                                    left: screenSize.width * .18,
-                                    top: screenSize.width * .019,
-                                    child: Container(
-                                        width: screenSize.width * .18,
-                                        height: 1,
-                                        color: const Color.fromRGBO(
-                                            199, 199, 199, 1)),
-                                  ),
-                                  Positioned(
-                                    left: screenSize.width * .45,
-                                    top: screenSize.width * .019,
-                                    child: Container(
-                                        width: screenSize.width * .18,
-                                        height: 1,
-                                        color: const Color.fromRGBO(
-                                            199, 199, 199, 1)),
-                                  ),
+                                  kycIdProof(),
+                                  kycBankDetails(
+                                    screenSize: screenSize,
+                                    accNameController: accNameController,
+                                    accNumController: accNumController,
+                                    confirmAccNumController:
+                                        confirmAccNumController,
+                                    ifscController: ifscController,
+                                  )
                                 ],
                               ),
                             ),
-
-                            SizedBox(height: screenSize.height * .03),
-
-                            //====================TabBarView Segment====================//
-                            Form(
-                              key: _formKey,
-                              child: SizedBox(
-                                width: double.infinity,
-                                height: screenSize.height * .385,
-                                child: TabBarView(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  controller: _tabController,
-                                  children: [
-                                    kycPersonalDetails(
-                                      screenSize: screenSize,
-                                      nameController: nameController,
-                                      mobileController: phoneController,
-                                      emailController: emailController,
-                                      pinController: pinController,
-                                    ),
-                                    kycIdProof(screenSize: screenSize),
-                                    kycBankDetails(
-                                      screenSize: screenSize,
-                                      accNameController: accNameController,
-                                      accNumController: accNumController,
-                                      confirmAccNumController:
-                                          confirmAccNumController,
-                                      ifscController: ifscController,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      SizedBox(height: screenSize.height * .02),
-                      GestureDetector(
-                        onTap: () {
-                          if (_tabController.index == 1 &&
-                              (state.idFrontImage == null ||
-                                  state.idBackImage == null)) {
-                            return;
-                          }
-                          if (_formKey.currentState!.validate()) {
-                            if (_tabController.index < 2) {
-                              _tabController.animateTo(
-                                state.tabIndex + 1,
-                                curve: Curves.bounceInOut,
-                                duration: const Duration(milliseconds: 200),
-                              );
+                    ),
+                    SizedBox(height: screenSize.height * .02),
+                    GestureDetector(
+                      onTap: () async {
+                        if (_tabController.index == 1 &&
+                            (state.idFrontImage == null ||
+                                state.idBackImage == null)) {
+                          return;
+                        }
+                        if (_formKey.currentState!.validate()) {
+                          if (_tabController.index < 2) {
+                            _tabController.animateTo(
+                              state.tabIndex + 1,
+                              curve: Curves.bounceInOut,
+                              duration: const Duration(milliseconds: 200),
+                            );
+                            kycBloc.add(
+                              KycLoadEvent(
+                                tabIndex: _tabController.index,
+                                name: nameController.text,
+                                email: emailController.text,
+                                pincode: pinController.text,
+                              ),
+                            );
+                          } else {
+                            final shouldUpdate =
+                                await showKycUpdateDialog(context: context);
+                            if (shouldUpdate == true) {
                               kycBloc.add(
-                                KycLoadEvent(
-                                  tabIndex: _tabController.index,
+                                KycUpdateEvent(
                                   name: nameController.text,
+                                  phone: phoneController.text,
                                   email: emailController.text,
                                   pincode: pinController.text,
+                                  isSavings: state.isSavings,
+                                  accName: accNameController.text,
+                                  accNum: accNumController.text,
+                                  ifsc: ifscController.text,
                                 ),
                               );
                             }
-                            // else {
-                            //   kycBloc.add(
-                            //     KycUpdateEvent(
-                            //       name: nameController.text,
-                            //       phone: phoneController.text,
-                            //       email: emailController.text,
-                            //       pincode: pinController.text,
-                            //       isSavings: state.isSavings,
-                            //       accName: accNameController.text,
-                            //       accNum: accNumController.text,
-                            //       ifsc: ifscController.text,
-                            //     ),
-                            //   );
-                            // }
                           }
-                        },
-                        child: Container(
-                          width: screenSize.width * .38,
-                          height: screenSize.width * .102,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6),
-                            color: const Color.fromRGBO(0, 99, 255, 1),
-                          ),
-                          child: Center(
-                            child: Text(
-                              _tabController.index == 2 ? 'Submit' : 'Next',
-                              style: GoogleFonts.roboto(
-                                color: Colors.white,
-                                fontSize: screenSize.width * .036,
-                                fontWeight: FontWeight.w500,
-                              ),
+                        }
+                      },
+                      child: Container(
+                        width: screenSize.width * .38,
+                        height: screenSize.width * .102,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          color: const Color.fromRGBO(0, 99, 255, 1),
+                        ),
+                        child: Center(
+                          child: Text(
+                            _tabController.index == 2 ? 'Submit' : 'Next',
+                            style: GoogleFonts.roboto(
+                              color: Colors.white,
+                              fontSize: screenSize.width * .036,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(height: screenSize.height * .018)
-                    ],
-                  ),
-                );
-
-              default:
-                return Center(
-                  child: Text(
-                    'Something Went Wrong',
-                    style: GoogleFonts.poppins(
-                      fontSize: screenSize.width * .05,
-                      fontWeight: FontWeight.bold,
                     ),
-                  ),
-                );
-            }
-          },
-        ),
-      ),
+                    SizedBox(height: screenSize.height * .018)
+                  ],
+                ),
+              ),
+            );
+        }
+      },
     );
   }
 
-  bool validate() {
-    if (nameController.text.isNotEmpty &&
-        phoneController.text.isNotEmpty &&
-        emailController.text.isNotEmpty &&
-        pinController.text.isNotEmpty &&
-        accNameController.text.isNotEmpty &&
-        accNumController.text.isNotEmpty &&
-        ifscController.text.isNotEmpty &&
-        confirmAccNumController.text.isNotEmpty) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // bool validate() {
+  //   if (nameController.text.isNotEmpty &&
+  //       phoneController.text.isNotEmpty &&
+  //       emailController.text.isNotEmpty &&
+  //       pinController.text.isNotEmpty &&
+  //       accNameController.text.isNotEmpty &&
+  //       accNumController.text.isNotEmpty &&
+  //       ifscController.text.isNotEmpty &&
+  //       confirmAccNumController.text.isNotEmpty) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 }

@@ -2,6 +2,7 @@ part of '../redeem_screen.dart';
 
 Widget redeemUpiTextField(TextEditingController upiController) {
   return Container(
+    margin: EdgeInsets.symmetric(horizontal: screenSize.width * .01),
     decoration: BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.circular(8),

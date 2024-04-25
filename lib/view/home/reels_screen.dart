@@ -1,8 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:developer';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:turning_point/bloc/location_service/location_service_bloc.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
@@ -10,10 +15,12 @@ import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
+import 'package:turning_point/resources/reels_repository.dart';
 import 'package:turning_point/view/home/profile_inactive_screen.dart';
 import 'package:turning_point/view/home/reels_page_viewer.dart';
 import 'package:turning_point/view/points/points_screen.dart';
 import 'package:turning_point/view/profile/profile_screen.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class ReelsScreen extends StatefulWidget {
   const ReelsScreen({super.key});
@@ -24,35 +31,73 @@ class ReelsScreen extends StatefulWidget {
 
 class ReelsScreenState extends State<ReelsScreen>
     with SingleTickerProviderStateMixin {
-  static late AnimationController animationController;
-  static late Animation<double> animation;
+  static late AnimationController likeAnimationController;
+  static late Animation<double> likeAnimation;
 
   @override
   void initState() {
-    super.initState();
     log('${AppPreferences.getValueShared('auth_token')}');
 
-    animationController = AnimationController(
+    likeAnimationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 200));
 
-    animation = Tween<double>(
+    likeAnimation = Tween<double>(
       begin: 1,
       end: 1.4,
-    ).animate(animationController);
+    ).animate(likeAnimationController);
 
-    animationController.addStatusListener((status) {
+    likeAnimationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        animationController.reverse();
+        likeAnimationController.reverse();
       }
     });
+
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    setState(() {
+      WakelockPlus.enable();
+    });
+    locationServiceBloc.add(LocationServiceStartEvent());
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: true));
+
+    if (!preloadBloc.manuallyPaused) {
+      Future.delayed(Duration.zero, () {
+        preloadBloc.add(
+          PreloadEvent(
+            currentIndex: preloadBloc.state.focusedIndex,
+          ),
+        );
+      });
+    }
+    enableWakelock();
+    super.didChangeDependencies();
+  }
+
+  void enableWakelock() async {
+    final token = await FirebaseMessaging.instance.getToken();
+    log('FCM Token : ${token.toString()}');
   }
 
   @override
   void dispose() {
     super.dispose();
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }
+  }
+
+  Future<void> handleRefresh() async {
+    ReelsRepository.urlList.clear();
+    await ReelsRepository.getReels(page: 1);
+    preloadBloc.add(PreloadEvent(
+      currentIndex: 0,
+      isInitial: true,
+      isReloading: true,
+    ));
   }
 
   @override
@@ -66,7 +111,7 @@ class ReelsScreenState extends State<ReelsScreen>
               return spinningLinesLoading();
 
             case ProfileInactiveState():
-              return const ProfileInactiveScreen();
+              return ProfileInactiveScreen();
 
             case ProfileLoadErrorState():
               return Scaffold(
@@ -87,110 +132,126 @@ class ReelsScreenState extends State<ReelsScreen>
                 ),
               );
             case ProfileLoadedState():
-              log('PROFILE LOADED STATE');
-              return Stack(
-                alignment: Alignment.center,
-                children: [
-                  //====================Reels Player====================//
+              return LiquidPullToRefresh(
+                onRefresh: () => handleRefresh(),
+                animSpeedFactor: 1.5,
+                height: 80,
+                showChildOpacityTransition: false,
+                color: Colors.teal,
+                backgroundColor: Colors.white,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    //====================Reels Player====================//
 
-                  ReelsPageViewer(
-                    user: state.userModel!,
-                  ),
+                    const ReelsPageViewer(),
 
-                  //====================Points Container====================//
-                  Positioned(
-                    top: screenSize.height * .071,
-                    left: screenSize.width * .035,
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            ScaleTransition(
-                              scale: animation,
-                              child: GestureDetector(
-                                onTap: () {
-                                  preloadBloc.pauseCurrentController();
-                                  CustomNavigator.push(
-                                    context: context,
-                                    child: const PointsScreen(),
-                                  );
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.only(
-                                    left: screenSize.width * .026,
-                                    right: screenSize.width * .04,
-                                    top: screenSize.width * .013,
-                                    bottom: screenSize.width * .013,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16),
-                                    gradient: const LinearGradient(
-                                      colors: [
-                                        Color.fromRGBO(255, 215, 0, 1),
-                                        Color.fromRGBO(255, 238, 141, 1),
-                                      ],
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
+                    //====================Points Container====================//
+                    Positioned(
+                      top: screenSize.height * .071,
+                      left: screenSize.width * .035,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              ScaleTransition(
+                                scale: likeAnimation,
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    preloadBloc.pauseCurrentController();
+                                    CustomNavigator.push(
+                                      context: context,
+                                      child: const PointsScreen(
+                                        directEntry: true,
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.only(
+                                      left: screenSize.width * .026,
+                                      right: screenSize.width * .04,
+                                      top: screenSize.width * .013,
+                                      bottom: screenSize.width * .013,
                                     ),
-                                  ),
-                                  child: Center(
-                                    child: Row(
-                                      children: [
-                                        Image.asset(
-                                          'assets/icons/coin_icon.png',
-                                          width: screenSize.width * .06,
-                                        ),
-                                        const SizedBox(width: 1),
-                                        BlocBuilder<PointsBloc, PointsState>(
-                                          builder: (context, pointsState) {
-                                            return Text(
-                                              pointsState.points.toString(),
-                                              style: GoogleFonts.inter(
-                                                fontSize:
-                                                    screenSize.width * .04,
-                                                fontWeight: FontWeight.w700,
-                                                color: const Color.fromRGBO(
-                                                    27, 27, 27, 1),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ],
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16),
+                                      gradient: const LinearGradient(
+                                        colors: [
+                                          Color.fromRGBO(255, 215, 0, 1),
+                                          Color.fromRGBO(255, 238, 141, 1),
+                                        ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Row(
+                                        children: [
+                                          Image.asset(
+                                            'assets/icons/coin_icon.png',
+                                            width: screenSize.width * .06,
+                                          ),
+                                          const SizedBox(width: 1),
+                                          BlocBuilder<PointsBloc, PointsState>(
+                                            builder: (context, pointsState) {
+                                              return Text(
+                                                pointsState.points == null
+                                                    ? 'Loading...'
+                                                    : pointsState.points
+                                                        .toString(),
+                                                style: GoogleFonts.inter(
+                                                  fontSize: pointsState
+                                                              .points ==
+                                                          null
+                                                      ? screenSize.width * .031
+                                                      : screenSize.width * .04,
+                                                  fontWeight:
+                                                      pointsState.points == null
+                                                          ? FontWeight.w500
+                                                          : FontWeight.w700,
+                                                  color: const Color.fromRGBO(
+                                                      27, 27, 27, 1),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
 
-                  //====================Avatar Icon====================//
-                  Positioned(
-                    right: screenSize.width * .03,
-                    top: screenSize.height * .07,
-                    child: GestureDetector(
-                      onTap: () {
-                        preloadBloc.pauseCurrentController();
-                        CustomNavigator.push(
-                          context: context,
-                          child: const ProfileScreen(),
-                        );
-                      },
-                      child: CircleAvatar(
-                        backgroundColor:
-                            const Color.fromRGBO(225, 225, 225, .6),
-                        radius: 22,
+                    //====================Avatar Icon====================//
+                    Positioned(
+                      right: screenSize.width * .03,
+                      top: screenSize.height * .065,
+                      child: GestureDetector(
+                        onTap: () async {
+                          preloadBloc.pauseCurrentController();
+                          CustomNavigator.push(
+                            context: context,
+                            child: const ProfileScreen(),
+                          );
+                        },
                         child: CircleAvatar(
-                          foregroundImage:
-                              NetworkImage(state.userModel!.image!),
+                          backgroundColor:
+                              const Color.fromRGBO(225, 225, 225, .6),
+                          radius: screenSize.width * .056,
+                          child: CircleAvatar(
+                            foregroundImage:
+                                NetworkImage(state.userModel!.image!),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               );
           }
         },

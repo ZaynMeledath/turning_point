@@ -10,7 +10,11 @@ class UserNotLoggedInAuthException implements Exception {}
 
 class CouldNotSignUpUserAuthException implements Exception {}
 
-class CouldNotSignInUserAuthException implements Exception {}
+class CouldNotSignInUserAuthException implements Exception {
+  final String errorMessage;
+
+  CouldNotSignInUserAuthException({required this.errorMessage});
+}
 
 class CouldNotFetchIdTokenAuthException implements Exception {}
 

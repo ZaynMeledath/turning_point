@@ -5,6 +5,7 @@ Widget signUpTextField({
   required String title,
   required IconData icon,
   bool? isNumber,
+  bool? isNull,
 }) {
   return TextFormField(
     style: GoogleFonts.roboto(
@@ -55,11 +56,16 @@ Widget signUpTextField({
       ),
     ),
     validator: (value) {
+      if (isNull == true) {
+        return null;
+      }
       if (value!.isEmpty) {
         return 'TextFields cannot be blank';
       } else if (isNumber == true) {
         if (value.length != 10) {
           return 'Mobile number should be 10 digits';
+        } else if (int.tryParse(value) == null) {
+          return 'Enter a valid phone number';
         } else {
           return null;
         }

@@ -19,7 +19,7 @@ Widget boardingScreenContent({
           : CrossAxisAlignment.start,
       children: [
         SizedBox(height: imageSpacing ?? 0),
-        SizedBox(height: screenSize.height * .16),
+        SizedBox(height: screenSize.height * .15),
 
 //====================Illustration====================//
         Center(

@@ -3,17 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
+import 'package:turning_point/helper/screen_size.dart';
 
-Widget availablePointsContainer({required Size screenSize}) {
+Widget availablePointsContainer() {
   return BlocBuilder<PointsBloc, PointsState>(
     builder: (context, pointsState) {
       final points = pointsState.points;
       return Container(
         width: double.infinity,
-        height: screenSize.width * .33,
+        // height: screenSize.width * .35,
         margin: EdgeInsets.only(
-          left: screenSize.width * .07,
-          right: screenSize.width * .07,
+          left: realScreenSize.width * .07,
+          right: realScreenSize.width * .07,
           top: screenSize.height * .02,
         ),
         padding: EdgeInsets.all(screenSize.width * .025),
@@ -56,7 +57,7 @@ Widget availablePointsContainer({required Size screenSize}) {
               '$points',
               style: GoogleFonts.roboto(
                 fontSize: screenSize.width * .092,
-                color: Colors.black,
+                color: const Color.fromRGBO(255, 176, 53, 1),
                 fontWeight: FontWeight.w500,
               ),
             ),

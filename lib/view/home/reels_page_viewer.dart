@@ -2,21 +2,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/dialog/show_loading_dialog.dart';
-import 'package:turning_point/dialog/show_points_received_dialog.dart';
+import 'package:turning_point/dialog/show_points_received_toast.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
-import 'package:turning_point/model/user_model.dart';
+import 'package:turning_point/resources/reels_repository.dart';
 import 'package:turning_point/view/home/reels_player.dart';
 import 'package:turning_point/view/home/reels_screen.dart';
 import 'package:vibration/vibration.dart';
 
 class ReelsPageViewer extends StatefulWidget {
-  final UserModel user;
   const ReelsPageViewer({
-    required this.user,
     super.key,
   });
 
@@ -26,15 +25,17 @@ class ReelsPageViewer extends StatefulWidget {
 
 class ReelsPageViewerState extends State<ReelsPageViewer>
     with SingleTickerProviderStateMixin {
-  late final PageController _pageController;
+  static late PageController pageController;
   late final AnimationController _animationController;
   late final Animation<double> _animation;
   final reelsScreenState = ReelsScreenState();
+  bool likeButtonActiveStatus = false;
   dynamic closeDialogHandle;
+  int pageIndex = 1; // Reels Paginated (1 page contains 10 reels)
 
   @override
   void initState() {
-    _pageController =
+    pageController =
         PageController(initialPage: preloadBloc.state.focusedIndex);
 
     _animationController = AnimationController(
@@ -55,24 +56,23 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
 
   @override
   void dispose() {
-    _pageController.dispose();
+    pageController.dispose();
     _animationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    preloadBloc.add(PreloadEvent(
-        currentIndex: preloadBloc.state.focusedIndex, isInitial: true));
-    reelsBloc.add(ReelLoadEvent(reelIndex: preloadBloc.state.focusedIndex));
     return BlocBuilder<PreloadBloc, PreloadState>(
       builder: (context, preloadState) {
-        final user = widget.user;
         return BlocConsumer<ReelsBloc, ReelsState>(
           listener: (context, state) {
             if (state is ReelsLoadedState) {
               if (state.isLoading == true && closeDialogHandle == null) {
-                closeDialogHandle = showLoadingDialog(context: context);
+                closeDialogHandle = showLoadingDialog(
+                  context: context,
+                  loadingText: 'Downloading...',
+                );
               } else if (state.isLoading != true && closeDialogHandle != null) {
                 Navigator.pop(context);
                 closeDialogHandle = null;
@@ -87,8 +87,23 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
           builder: (context, reelsState) {
             return PageView.builder(
               itemCount: preloadState.urls.length,
+              onPageChanged: (index) async {
+                likeButtonActiveStatus = false;
+                preloadBloc.manuallyPaused = false;
+                preloadBloc.add(PreloadEvent(currentIndex: index));
+                if (index >= pageIndex * ReelsRepository.reelsPageSize - 2) {
+                  pageIndex++;
+                  await ReelsRepository.getReels(page: pageIndex);
+                }
+              },
+              scrollDirection: Axis.vertical,
+              controller: pageController,
+              physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
-                if (preloadState.controllers.isNotEmpty) {
+                if (preloadState.controllers.isNotEmpty &&
+                    (index == preloadState.focusedIndex ||
+                        index == preloadState.focusedIndex + 1 ||
+                        index == preloadState.focusedIndex - 1)) {
                   return Stack(
                     children: [
                       ReelsPlayer(
@@ -103,62 +118,67 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                             children: [
                               ScaleTransition(
                                 scale: _animation,
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    if (reelsState.reelsModelList![index]
-                                        .isLikeButtonActive) {
-                                      _animationController.forward();
-                                      if (reelsState
-                                              .reelsModelList![index].isLiked !=
-                                          true) {
-                                        ReelsScreenState.animationController
-                                            .forward();
-                                        reelsBloc.add(
-                                            ReelLikeEvent(reelIndex: index));
-
-                                        if (await Vibration.hasVibrator() ==
-                                            true) {
-                                          Vibration.vibrate(
-                                            duration: 100,
-                                          );
-                                        }
-
-                                        // AudioPlayer().play(
-                                        //   volume: 100,
-                                        //   AssetSource(
-                                        //       'sounds/success_sound.mp3'),
-                                        // );
+                                child: ValueListenableBuilder(
+                                    valueListenable:
+                                        preloadState.controllers[index]!,
+                                    builder: (context, controllerValue, child) {
+                                      //Determining Like button active status
+                                      if (controllerValue.isCompleted) {
+                                        reelsBloc.add(ReelLikeButtonEnableEvent(
+                                            reelIndex: index));
+                                        Future.delayed(Duration.zero, () {
+                                          preloadState.controllers[index]!
+                                              .play();
+                                        });
                                       }
 
-                                      if (user.points == 0) {
-                                        showPointsReceivedDialog(
-                                          context: context,
-                                          points: reelsState
-                                              .reelsModelList![index].points!,
-                                        );
-                                      }
-                                    }
+                                      return GestureDetector(
+                                        onTap: () async {
+                                          if (reelsState.isLikeButtonActive) {
+                                            _animationController.forward();
+                                            if (reelsState
+                                                    .reelsModelList![index]
+                                                    .isLiked !=
+                                                true) {
+                                              ReelsScreenState
+                                                  .likeAnimationController
+                                                  .forward();
+                                              reelsBloc.add(ReelLikeEvent(
+                                                  reelIndex: index));
 
-                                    // if (state.reelsModelList![index].isLiked ==
-                                    //     true) {
-                                    //   _animationController.forward();
-                                    // }
-                                  },
-                                  child: Image.asset(
-                                    'assets/icons/rupee_icon.png',
-                                    width: screenSize.width * .105,
-                                    height: screenSize.width * .105,
-                                    color: reelsState.reelsModelList![index]
-                                            .isLikeButtonActive
-                                        ? reelsState.reelsModelList![index]
-                                                    .isLiked ==
-                                                true
-                                            ? const Color.fromRGBO(
-                                                255, 215, 0, 1)
-                                            : Colors.white
-                                        : Colors.grey,
-                                  ),
-                                ),
+                                              if (await Vibration
+                                                      .hasVibrator() ==
+                                                  true) {
+                                                Vibration.vibrate(
+                                                  duration: 100,
+                                                );
+                                              }
+                                              showPointsReceivedToast(
+                                                context: context,
+                                                points: reelsState
+                                                    .reelsModelList![index]
+                                                    .points!,
+                                              );
+                                            }
+                                          }
+                                        },
+                                        child: Image.asset(
+                                          'assets/icons/rupee_icon.png',
+                                          width: screenSize.width * .105,
+                                          height: screenSize.width * .105,
+                                          color: reelsState.isLikeButtonActive
+                                              ? reelsState
+                                                          .reelsModelList![
+                                                              index]
+                                                          .isLiked ==
+                                                      true
+                                                  ? const Color.fromRGBO(
+                                                      255, 215, 0, 1)
+                                                  : Colors.white
+                                              : Colors.grey,
+                                        ),
+                                      );
+                                    }),
                               ),
 
                               SizedBox(height: screenSize.height * .02),
@@ -184,21 +204,44 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                           ),
                         ),
                       ),
+                      ValueListenableBuilder(
+                          valueListenable: preloadState.controllers[index]!,
+                          builder: (context, controllerValue, child) {
+                            return Visibility(
+                              visible: controllerValue.isInitialized,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  top: screenSize.height * .921,
+                                ),
+                                child: SizedBox(
+                                  width: double.maxFinite,
+                                  child: LinearPercentIndicator(
+                                    padding: EdgeInsets.zero,
+                                    animation: true,
+                                    animateFromLastPercent: true,
+                                    animationDuration: 500,
+                                    backgroundColor: Colors.transparent,
+                                    progressColor: controllerValue
+                                                .position.inMilliseconds >
+                                            100
+                                        ? Colors.red
+                                        : Colors.transparent,
+                                    percent: (controllerValue
+                                            .position.inSeconds /
+                                        (controllerValue.duration.inSeconds)),
+                                    barRadius: const Radius.circular(6),
+                                    lineHeight: 3,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
                     ],
                   );
                 } else {
-                  return spinningLinesLoading();
+                  return circleLoading();
                 }
               },
-              onPageChanged: (index) {
-                reelsBloc.add(ReelLoadEvent(reelIndex: index));
-                context
-                    .read<PreloadBloc>()
-                    .add(PreloadEvent(currentIndex: index, isInitial: false));
-              },
-              scrollDirection: Axis.vertical,
-              controller: _pageController,
-              physics: const BouncingScrollPhysics(),
             );
           },
         );

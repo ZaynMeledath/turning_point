@@ -14,11 +14,13 @@ class SignUpEvent extends AuthEvent {
   final String phone;
   final ContractorModel? contractor;
   final String? businessName;
+  final String? refCode;
   final TextEditingController otpController;
   SignUpEvent({
     required this.phone,
     this.contractor,
     this.businessName,
+    required this.refCode,
     required this.otpController,
   });
 }
@@ -31,7 +33,21 @@ class UpdateContractor extends AuthEvent {
 
 class VerifyOtpEvent extends AuthEvent {
   final String otp;
-  VerifyOtpEvent(this.otp);
+  final Position? location;
+  VerifyOtpEvent({
+    required this.otp,
+    required this.location,
+  });
+}
+
+class ResendOtpEvent extends AuthEvent {
+  final String phone;
+  final TextEditingController otpController;
+
+  ResendOtpEvent({
+    required this.phone,
+    required this.otpController,
+  });
 }
 
 class SignOutEvent extends AuthEvent {}

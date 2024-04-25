@@ -17,22 +17,10 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
 
 //====================Reel Load Event====================//
     on<ReelLoadEvent>((event, emit) async {
-      final reelData =
-          ReelsRepository.reelsModelResponse.data![event.reelIndex];
-
-      reelData.isLikeButtonActive = false;
-
       emit(
         ReelsLoadedState(
           reelsModelList: ReelsRepository.reelsModelResponse.data,
-        ),
-      );
-      await Future.delayed(Duration(seconds: reelData.displayLikeAfter ?? 10));
-      ReelsRepository
-          .reelsModelResponse.data![event.reelIndex].isLikeButtonActive = true;
-      return emit(
-        ReelsLoadedState(
-          reelsModelList: ReelsRepository.reelsModelResponse.data,
+          isLikeButtonActive: false,
         ),
       );
     });
@@ -52,30 +40,46 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
         UserRepository.addUserToPreference(userModelResponse);
 
         pointsBloc.add(PointsLoadEvent());
+
         emit(
           ReelsLoadedState(
             reelsModelList: ReelsRepository.reelsModelResponse.data,
+            isLikeButtonActive: true,
           ),
         );
         await ReelsRepository.likeReel(event.reelIndex);
+        pointsBloc.add(PointsLoadEvent(avoidGettingUserFromPreference: true));
       }
     });
 
-//====================Reel Like Event====================//
+//====================Reel Download Event====================//
     on<ReelDownloadEvent>((event, emit) async {
-      emit(ReelsLoadedState(
-        reelsModelList: state.reelsModelList,
-        isLoading: true,
-      ));
+      try {
+        emit(ReelsLoadedState(
+          reelsModelList: state.reelsModelList,
+          isLoading: true,
+          isLikeButtonActive: state.isLikeButtonActive,
+        ));
 
-      await ReelsRepository.downloadAndSaveVideo(
-          state.reelsModelList![event.reelIndex].fileUrl!);
+        await ReelsRepository.downloadAndSaveVideo(
+            state.reelsModelList![event.reelIndex].fileUrl!);
 
-      emit(ReelsLoadedState(
-        reelsModelList: state.reelsModelList,
-        isLoading: false,
-      ));
+        emit(ReelsLoadedState(
+          reelsModelList: state.reelsModelList,
+          isLoading: false,
+          isLikeButtonActive: state.isLikeButtonActive,
+        ));
+      } catch (e) {
+        log('Exception : $e');
+      }
     });
+
+    on<ReelLikeButtonEnableEvent>(((event, emit) {
+      emit(ReelsLoadedState(
+        reelsModelList: state.reelsModelList,
+        isLikeButtonActive: true,
+      ));
+    }));
   }
 
 //====================State Change Logger====================//

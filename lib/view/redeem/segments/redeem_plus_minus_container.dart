@@ -7,11 +7,15 @@ Widget redeemPlusMinusContainer({required bool isPlus}) {
       return Container(
         width: screenSize.width * .11,
         height: screenSize.width * .11,
+        // margin: EdgeInsets.symmetric(horizontal: screenSize.width * .01),
         decoration: BoxDecoration(
           color: Colors.white,
+          // borderRadius: BorderRadius.circular(100),
           borderRadius: BorderRadius.horizontal(
-            right: isPlus ? const Radius.circular(8) : const Radius.circular(0),
-            left: !isPlus ? const Radius.circular(8) : const Radius.circular(0),
+            right:
+                isPlus ? const Radius.circular(16) : const Radius.circular(0),
+            left:
+                !isPlus ? const Radius.circular(16) : const Radius.circular(0),
           ),
         ),
 

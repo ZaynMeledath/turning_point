@@ -1,7 +1,10 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
+import 'package:turning_point/bloc/lucky_draw/lucky_draw_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/rewards/rewards_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
@@ -9,6 +12,7 @@ import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/view/rewards/segments/rank_list_segment.dart';
 import 'package:turning_point/view/rewards/segments/rewards_body_segment.dart';
 import 'package:turning_point/view/rewards/segments/rewards_tab_bar.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 part 'single_contest_rewards_screen.dart';
 part 'segments/single_contest_rewards_tab_bar.dart';
@@ -24,10 +28,16 @@ class _RewardsScreenState extends State<RewardsScreen>
     with SingleTickerProviderStateMixin {
   late final TabController tabController;
   late final ScrollController scrollController;
+  bool audioPlayed = false;
+  final audioPlayer = AudioPlayer();
 
   @override
   void initState() {
-    preloadBloc.pauseCurrentController();
+    if (luckyDrawBloc.state.secondsLeft == null ||
+        luckyDrawBloc.state.secondsLeft! == 0) {
+      rewardsBloc.add(RewardsLoadEvent());
+    }
+
     tabController = TabController(length: 2, vsync: this);
     scrollController = ScrollController();
     scrollController.addListener(() {
@@ -42,17 +52,29 @@ class _RewardsScreenState extends State<RewardsScreen>
         RewardsTabSwitchedEvent(tabController.index),
       );
     });
+
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
-    rewardsBloc.add(RewardsLoadEvent());
+    if (preloadBloc.state.controllers.isNotEmpty) {
+      preloadBloc.pauseCurrentController();
+    }
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
+    disableWakeLock();
     super.didChangeDependencies();
+  }
+
+  void disableWakeLock() async {
+    setState(() {
+      WakelockPlus.disable();
+    });
   }
 
   @override
   void dispose() {
+    audioPlayer.dispose();
     tabController.dispose();
     scrollController.dispose();
     super.dispose();
@@ -60,6 +82,10 @@ class _RewardsScreenState extends State<RewardsScreen>
 
   @override
   Widget build(BuildContext context) {
+    if (preloadBloc.state.controllers.isNotEmpty) {
+      preloadBloc.pauseCurrentController();
+    }
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
     return Scaffold(
       body: BlocBuilder<RewardsBloc, RewardsState>(
         builder: (context, rewardsState) {
@@ -70,6 +96,13 @@ class _RewardsScreenState extends State<RewardsScreen>
             case RewardsLoadedState():
               if (rewardsState.currentRewardsModel != null &&
                   rewardsState.previousRewardsModel != null) {
+                if (!audioPlayed) {
+                  audioPlayed = true;
+                  AudioPlayer().play(
+                    mode: PlayerMode.lowLatency,
+                    AssetSource('sounds/ding_sparkle_sound.mp3'),
+                  );
+                }
                 final activeRewardsModel = rewardsState.tabIndex == 0
                     ? rewardsState.currentRewardsModel!
                     : rewardsState.previousRewardsModel!;
@@ -148,19 +181,51 @@ class _RewardsScreenState extends State<RewardsScreen>
                 );
               } else if (rewardsState.currentRewardsModel != null &&
                   rewardsState.previousRewardsModel == null) {
+                if (!audioPlayed) {
+                  audioPlayed = true;
+                  audioPlayer.play(
+                    mode: PlayerMode.lowLatency,
+                    AssetSource('sounds/ding_sparkle_sound.mp3'),
+                  );
+                }
                 return const SingleContestRewardsScreen();
               } else {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // SizedBox(height: screenSize.height * .25),
-                      Lottie.asset(
-                        'assets/lottie/no_data_animation.json',
-                        width: screenSize.width * .5,
+                return SafeArea(
+                  child: LiquidPullToRefresh(
+                    onRefresh: () async {
+                      if (luckyDrawBloc.state.secondsLeft == null ||
+                          luckyDrawBloc.state.secondsLeft! == 0) {
+                        rewardsBloc.add(RewardsLoadEvent());
+                      }
+                    },
+                    height: 80,
+                    animSpeedFactor: 1.5,
+                    showChildOpacityTransition: false,
+                    color: const Color.fromRGBO(89, 165, 255, 1),
+                    backgroundColor: Colors.white,
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            SizedBox(height: screenSize.height * .25),
+                            Lottie.asset(
+                              'assets/lottie/no_data_animation.json',
+                              width: screenSize.width * .65,
+                            ),
+                            Text(
+                              'No Data Available at the moment',
+                              style: GoogleFonts.inter(
+                                fontSize: screenSize.width * .041,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black.withOpacity(.75),
+                                height: .1,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      // Text('No ')
-                    ],
+                    ),
                   ),
                 );
               }

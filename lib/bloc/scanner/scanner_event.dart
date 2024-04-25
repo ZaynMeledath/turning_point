@@ -4,8 +4,8 @@ part of 'scanner_bloc.dart';
 sealed class ScannerEvent {}
 
 class ScannerCodeDetectEvent extends ScannerEvent {
-  final BarcodeCapture capture;
-  ScannerCodeDetectEvent({required this.capture});
+  final String couponId;
+  ScannerCodeDetectEvent({required this.couponId});
 }
 
 class ScannerInitialStateTriggerEvent extends ScannerEvent {}

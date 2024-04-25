@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/helper/widget/my_app_bar.dart';
 
 class KycPendingScreen extends StatelessWidget {
   const KycPendingScreen({super.key});
@@ -9,10 +9,10 @@ class KycPendingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: myAppBar(context: context, title: 'KYC'),
       body: SafeArea(
         child: Column(
           children: [
-            customAppBar(context: context, title: 'KYC'),
             SizedBox(height: screenSize.height * .2),
             Image.asset(
               'assets/icons/kyc_pending_icon.png',

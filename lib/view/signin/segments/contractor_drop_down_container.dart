@@ -7,12 +7,12 @@ Widget contractorDropDownContainer({
   return BlocBuilder<ContractorBloc, ContractorState>(
     builder: (context, contractorState) {
       return Align(
-        alignment: Alignment.centerLeft,
+        alignment: Alignment.center,
         child: AbsorbPointer(
           absorbing: contractorState.contractorNotListed == true ||
               contractorState.haveNoContractor == true,
           child: Container(
-            width: screenSize.width,
+            width: realScreenSize.width,
             height: screenSize.height * .052,
             decoration: BoxDecoration(
               color: Colors.white,

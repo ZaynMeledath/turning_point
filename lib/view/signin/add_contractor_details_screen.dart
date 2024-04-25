@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
-import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/dialog/show_custom_loading_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
@@ -13,9 +13,13 @@ import 'package:turning_point/view/signin/sign_up_screen.dart';
 class AddContractorDetailsScreen extends StatefulWidget {
   final String phone;
   final TextEditingController otpController;
+  final String refCode;
+  final Position? location;
   const AddContractorDetailsScreen({
     required this.phone,
     required this.otpController,
+    required this.location,
+    required this.refCode,
     super.key,
   });
 
@@ -32,7 +36,6 @@ class _AddContractorDetailsScreenState
 
   @override
   void initState() {
-    contractorBloc.add(ContractorLoadEvent());
     contractorPhoneController = TextEditingController();
     contractorNameController = TextEditingController();
     super.initState();
@@ -57,6 +60,7 @@ class _AddContractorDetailsScreenState
             context: context,
             child: OtpVerificationScreen(
               otpController: widget.otpController,
+              location: widget.location,
             ),
           );
         }
@@ -141,6 +145,7 @@ class _AddContractorDetailsScreenState
                             ),
                             businessName: null,
                             otpController: widget.otpController,
+                            refCode: widget.refCode,
                           ),
                         );
                       }

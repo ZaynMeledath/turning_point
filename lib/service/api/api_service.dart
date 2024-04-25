@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart';
@@ -62,12 +63,29 @@ class ApiService {
           );
           break;
         case RequestMethod.PATCH:
-          final requestBody = data is String ? data : json.encode(data);
-          response = await http.patch(
-            Uri.parse(url),
-            headers: headers,
-            body: requestBody,
-          );
+          if (data is File) {
+            final multiPartRequest = http.MultipartRequest(
+              'PATCH',
+              Uri.parse(url),
+            );
+
+            multiPartRequest.files
+                .add(await MultipartFile.fromPath('image', data.path));
+            multiPartRequest.headers.addAll(headers);
+
+            final streamedResponse = await multiPartRequest.send();
+
+            response = await Response.fromStream(streamedResponse);
+          } else {
+            final requestBody = data is String ? data : json.encode(data);
+
+            response = await http.patch(
+              Uri.parse(url),
+              headers: headers,
+              body: requestBody,
+            );
+          }
+
           break;
         case RequestMethod.DELETE:
           response = await http.delete(Uri.parse(url), headers: headers);
@@ -88,6 +106,10 @@ class ApiService {
       rethrow;
     } on NotFoundException {
       rethrow;
+    } on ProfileInactiveException {
+      rethrow;
+    } on BadRequestException {
+      rethrow;
     } catch (e) {
       throw Exception(e);
     }
@@ -106,7 +128,7 @@ class ApiService {
       case 204:
         throw NoContentException(responseJson.toString());
       case 400:
-        throw BadRequestException(responseJson.toString());
+        throw BadRequestException(responseJson);
       case 401:
         throw UnauthenticatedException(responseJson.toString());
       case 403:

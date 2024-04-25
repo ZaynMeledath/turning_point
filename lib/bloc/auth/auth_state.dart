@@ -5,11 +5,13 @@ sealed class AuthState {
   final String? phone;
   final String? businessName;
   final ContractorModel? contractor;
+  final String? refCode;
 
   const AuthState({
     this.phone,
     this.businessName,
     this.contractor,
+    this.refCode,
   });
 }
 
@@ -28,10 +30,13 @@ class SignInState extends AuthState {}
 class WhoIsSigningState extends AuthState {}
 
 class OtpVerificationNeededState extends AuthState {
+  final dynamic exception;
   const OtpVerificationNeededState({
     required super.phone,
     required super.businessName,
     required super.contractor,
+    required super.refCode,
+    this.exception,
   });
 }
 
@@ -39,7 +44,17 @@ class OtpVerifiedState extends AuthState {}
 
 class SignedInState extends AuthState {}
 
+class SignUpState extends AuthState {
+  final Exception? exception;
+
+  const SignUpState({
+    this.exception,
+  });
+}
+
 class PhoneNumberExistsState extends AuthState {}
+
+class ProfileInactiveState extends AuthState {}
 
 class AuthErrorState extends AuthState {
   final String message;

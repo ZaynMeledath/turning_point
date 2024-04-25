@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
+import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/about/about_us_screen.dart';
 import 'package:turning_point/view/contest/contest_screen.dart';
+import 'package:turning_point/view/kyc/kyc_rejected_screen.dart';
 import 'package:turning_point/view/kyc/kyc_screen.dart';
 import 'package:turning_point/view/kyc/kyc_submitted_screen.dart';
 import 'package:turning_point/view/kyc/kyc_verified_screen.dart';
@@ -58,20 +60,26 @@ Widget profileOptionsSegment({
         builder: (context, state) {
           return GestureDetector(
             onTap: () {
-              if (state.userModel!.kycStatus == null) {
+              if (state.userModel!.kycStatus == null ||
+                  state.userModel!.kycStatus == KycStatus.PENDING) {
                 CustomNavigator.push(
                   context: context,
                   child: const KycScreen(),
                 );
-              } else if (state.userModel!.kycStatus == false) {
+              } else if (state.userModel!.kycStatus == KycStatus.SUBMITTED) {
                 CustomNavigator.push(
                   context: context,
                   child: const KycSubmittedScreen(),
                 );
-              } else {
+              } else if (state.userModel!.kycStatus == KycStatus.APPROVED) {
                 CustomNavigator.push(
                   context: context,
                   child: const KycVerifiedScreen(),
+                );
+              } else if (state.userModel!.kycStatus == KycStatus.REJECTED) {
+                CustomNavigator.push(
+                  context: context,
+                  child: const KycRejectedScreen(),
                 );
               }
             },

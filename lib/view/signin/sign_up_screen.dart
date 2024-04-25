@@ -1,15 +1,21 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/dialog/show_custom_loading_dialog.dart';
+import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
+import 'package:turning_point/resources/location_repository.dart';
+import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/view/signin/add_contractor_details_screen.dart';
 import 'package:turning_point/view/signin/otp_verification_screen.dart';
 
@@ -37,17 +43,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
   late final TextEditingController businessController;
   late final TextEditingController searchController;
   late final TextEditingController otpController;
+  late final TextEditingController referralController;
   final GlobalKey<FormState> _formKey = GlobalKey();
+  Position? location;
 
   @override
   void initState() {
     isContractor = widget.isContractor;
-    contractorBloc.add(ContractorLoadEvent());
+    contractorBloc.add(ContractorLoadEvent(isSignUp: true));
     phoneController = TextEditingController();
     businessController = TextEditingController();
     searchController = TextEditingController();
     otpController = TextEditingController();
+    referralController = TextEditingController();
+    getLocation();
+
     super.initState();
+  }
+
+  void getLocation() async {
+    location = await LocationRepository.getCurrentLocation();
   }
 
   @override
@@ -55,6 +70,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     phoneController.dispose();
     businessController.dispose();
     searchController.dispose();
+    referralController.dispose();
     super.dispose();
   }
 
@@ -64,6 +80,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
       listener: (context, state) {
         if (state is AuthLoadingState) {
           showCustomLoadingDialog(context);
+        } else if (state is SignUpState && state.exception != null) {
+          Navigator.pop(context);
+          showAnimatedGenericDialog(
+            context: context,
+            iconPath: 'assets/lottie/gear_error_animation.json',
+            title: 'Something Went Wrong',
+            content:
+                'Something went wrong while accessing\nthe server. Please try after sometime',
+            buttonTitle: 'OK',
+            iconWidth: screenSize.width * .2,
+          );
         } else if (state is PhoneNumberExistsState) {
           Navigator.pop(context);
           showAnimatedGenericDialog(
@@ -77,7 +104,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
           Navigator.pop(context);
           CustomNavigator.push(
             context: context,
-            child: OtpVerificationScreen(otpController: otpController),
+            child: OtpVerificationScreen(
+              otpController: otpController,
+              location: location,
+            ),
           );
         }
       },
@@ -94,6 +124,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   );
 
                 case ContractorLoadedState():
+                  // phoneController.text = authBloc.state.phone ?? '';
+                  // businessController.text = authBloc.state.businessName ?? '';
+
                   return SingleChildScrollView(
                     reverse: true,
                     child: Padding(
@@ -103,18 +136,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         key: _formKey,
                         child: Column(
                           children: [
-                            SizedBox(height: screenSize.height * .13),
-
+                            // SizedBox(height: screenSize.height * .082),
+                            SizedBox(height: screenSize.height * .11),
                             //====================Furnipart Logo====================//
                             Hero(
-                              tag: 'furnipart_logo',
+                              tag: 'turning_point_logo',
                               child: Image.asset(
-                                'assets/images/furnipart_logo.png',
-                                width: screenSize.width * .32,
-                                height: screenSize.height * .086,
+                                'assets/icons/turning_point_logo_icon.png',
+                                width: screenSize.width * .24,
                               ),
                             ),
-                            SizedBox(height: screenSize.height * .045),
+                            SizedBox(height: screenSize.height * .04),
 
                             //====================Title====================//
                             Align(
@@ -159,6 +191,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   )
                                 : contractorDropDownContainer(
                                     searchController: searchController),
+                            // SizedBox(height: screenSize.height * .03),
+
+                            // signUpTextField(
+                            //   controller: referralController,
+                            //   title: 'Referral Code (Optional)',
+                            //   icon: Icons.connect_without_contact_rounded,
+                            //   isNull: true,
+                            // ),
                             Visibility(
                               visible: !isContractor,
                               child: Column(
@@ -200,19 +240,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             //====================Sign Up Button====================//
 
                             GestureDetector(
-                              onTap: () {
+                              onTap: () async {
                                 final status =
                                     _formKey.currentState!.validate();
                                 if (status) {
                                   if (contractorState.contractorNotListed ==
                                       true) {
-                                    CustomNavigator.push(
-                                      context: context,
-                                      child: AddContractorDetailsScreen(
-                                        phone: phoneController.text.trim(),
-                                        otpController: otpController,
-                                      ),
-                                    );
+                                    showLoadingDialog(context: context);
+                                    final phoneExists =
+                                        await UserRepository.checkPhoneNumber(
+                                            phoneController.text.trim());
+                                    if (phoneExists) {
+                                      Navigator.pop(context);
+                                      showAnimatedGenericDialog(
+                                        context: context,
+                                        iconPath:
+                                            'assets/icons/kyc_declined_icon.png',
+                                        title: 'Phone Already Exists',
+                                        content:
+                                            'The number you are trying to register already exists.',
+                                        buttonTitle: 'OK',
+                                      );
+                                    } else {
+                                      Navigator.pop(context);
+                                      CustomNavigator.push(
+                                        context: context,
+                                        child: AddContractorDetailsScreen(
+                                          phone: phoneController.text.trim(),
+                                          otpController: otpController,
+                                          location: location,
+                                          refCode:
+                                              referralController.text.trim(),
+                                        ),
+                                      );
+                                    }
                                     return;
                                   }
                                   if (widget.isContractor) {
@@ -223,6 +284,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         businessName:
                                             businessController.text.trim(),
                                         otpController: otpController,
+                                        refCode: referralController.text.trim(),
                                       ),
                                     );
                                   } else {
@@ -239,6 +301,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             : DEFAULT_CONTRACTOR,
                                         businessName: null,
                                         otpController: otpController,
+                                        refCode: referralController.text.trim(),
                                       ),
                                     );
                                   }

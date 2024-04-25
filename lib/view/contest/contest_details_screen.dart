@@ -1,10 +1,8 @@
 part of 'contest_screen.dart';
 
 class ContestDetailsScreen extends StatelessWidget {
-  final ContestModel contestModel;
   final int index;
   const ContestDetailsScreen({
-    required this.contestModel,
     required this.index,
     super.key,
   });
@@ -12,12 +10,13 @@ class ContestDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: myAppBar(context: context, title: 'Contest Details'),
       body: SafeArea(
         child: BlocBuilder<ContestBloc, ContestState>(
           builder: (context, state) {
+            final contestModel = state.contestModelList![index];
             return Column(
               children: [
-                customAppBar(context: context, title: 'Contest Details'),
                 SizedBox(height: screenSize.height * .01),
 
                 Padding(
@@ -148,7 +147,7 @@ class ContestDetailsScreen extends StatelessWidget {
                             color: const Color.fromRGBO(0, 29, 75, 1),
                           ),
                         ),
-                        SizedBox(height: screenSize.height * .01),
+                        SizedBox(height: screenSize.height * .015),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
@@ -170,7 +169,7 @@ class ContestDetailsScreen extends StatelessWidget {
                             children: [
                               Text(
                                 '⦿  ${contestModel.rulesArr![i]}',
-                                textAlign: TextAlign.center,
+                                // textAlign: TextAlign.center,
                                 style: GoogleFonts.roboto(
                                   height: 2,
                                   fontSize: screenSize.width * .03,
@@ -220,35 +219,29 @@ class ContestDetailsScreen extends StatelessWidget {
                   ],
                 ),
 
-                SizedBox(height: screenSize.height * .028),
+                SizedBox(height: screenSize.height * .026),
 
                 //====================Enter Contest Button====================//
                 GestureDetector(
                   onTap: () {
-                    if (state.contestModelList![index].userJoinStatus != true) {
-                      joinContestBloc.add(
-                        JoinContestEvent(
-                          contestModel: state.contestModelList![index],
-                          contestIndex: index,
-                        ),
-                      );
-                    }
+                    joinContestBloc.add(
+                      JoinContestEvent(
+                        contestModel: state.contestModelList![index],
+                        contestIndex: index,
+                        entryCount: 1,
+                      ),
+                    );
                   },
                   child: Container(
                     width: screenSize.width * .28,
                     height: screenSize.width * .092,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
-                      color:
-                          state.contestModelList![index].userJoinStatus == true
-                              ? Colors.grey
-                              : const Color.fromRGBO(0, 99, 255, 1),
+                      color: const Color.fromRGBO(0, 99, 255, 1),
                     ),
                     child: Center(
                       child: Text(
-                        state.contestModelList![index].userJoinStatus == true
-                            ? 'Joined'
-                            : 'Enter Contest',
+                        'Enter Contest',
                         style: GoogleFonts.roboto(
                           fontSize: screenSize.width * .032,
                           fontWeight: FontWeight.w500,
@@ -256,6 +249,15 @@ class ContestDetailsScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                  ),
+                ),
+                SizedBox(height: screenSize.height * .003),
+                Text(
+                  'You have ${contestModel.userJoinedCount ?? 0} Entries',
+                  style: GoogleFonts.inter(
+                    fontSize: screenSize.width * .026,
+                    fontWeight: FontWeight.w500,
+                    color: const Color.fromRGBO(86, 86, 86, 1),
                   ),
                 ),
                 SizedBox(height: screenSize.height * .025),

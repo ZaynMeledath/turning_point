@@ -2,23 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/kyc/kyc_bloc.dart';
+import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/kyc/segments/kyc_id_capture_container.dart';
 
-Widget kycIdProof({required Size screenSize}) {
+Widget kycIdProof() {
   return BlocBuilder<KycBloc, KycState>(
     builder: (context, state) {
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: screenSize.width * .041),
-        child: Column(
+        child: ListView(
           children: [
             Text(
-              'Take a Photo of the Front & Back of your Aadhar Card',
+              'Upload your Identity Document and click a Selfie',
               style: GoogleFonts.roboto(
-                fontSize: screenSize.width * .028,
+                fontSize: screenSize.width * .03,
                 fontWeight: FontWeight.w300,
               ),
             ),
-            SizedBox(height: screenSize.height * .035),
+            SizedBox(height: screenSize.height * .02),
             SizedBox(
               width: screenSize.width * .641 + 2,
               height: screenSize.width * .421 + 2,
@@ -82,7 +83,29 @@ Widget kycIdProof({required Size screenSize}) {
                 ],
               ),
             ),
-            SizedBox(height: screenSize.height * .045),
+            SizedBox(height: screenSize.height * .01),
+            Padding(
+              padding: EdgeInsets.only(right: realScreenSize.width * .12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  InkWell(
+                    borderRadius: BorderRadius.circular(8),
+                    focusColor: Colors.blue.shade100,
+                    enableFeedback: true,
+                    onTap: () => kycBloc.add(KycIdResetEvent()),
+                    child: Text(
+                      'Reset',
+                      style: GoogleFonts.roboto(
+                        fontSize: screenSize.width * .031,
+                        color: const Color.fromRGBO(0, 99, 255, 1),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: screenSize.height * .013),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Row(
@@ -95,7 +118,6 @@ Widget kycIdProof({required Size screenSize}) {
                       }
                     },
                     child: kycIdCaptureContainer(
-                      screenSize: screenSize,
                       title: 'Front',
                       isActive: state.idFrontImage == null,
                     ),
@@ -108,7 +130,6 @@ Widget kycIdProof({required Size screenSize}) {
                       }
                     },
                     child: kycIdCaptureContainer(
-                      screenSize: screenSize,
                       title: 'Back',
                       isActive: state.idFrontImage != null &&
                           state.idBackImage == null,
@@ -116,6 +137,28 @@ Widget kycIdProof({required Size screenSize}) {
                   )
                 ],
               ),
+            ),
+            SizedBox(height: screenSize.height * .013),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    if (state.idFrontImage != null &&
+                        state.idBackImage != null &&
+                        state.selfie == null) {
+                      kycBloc.add(KycSelfieUpdateEvent());
+                    }
+                  },
+                  child: kycIdCaptureContainer(
+                    title: 'Selfie',
+                    isSelfie: true,
+                    isActive: state.idFrontImage != null &&
+                        state.idBackImage != null &&
+                        state.selfie == null,
+                  ),
+                ),
+              ],
             ),
           ],
         ),

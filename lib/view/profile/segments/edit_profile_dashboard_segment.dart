@@ -13,7 +13,9 @@ Widget editProfileDashboardSegment({required BuildContext context}) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: screenSize.width * .046),
     child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: screenSize.width >= 550
+          ? MainAxisAlignment.spaceAround
+          : MainAxisAlignment.spaceBetween,
       children: [
 //====================Edit Profile Container====================//
         GestureDetector(

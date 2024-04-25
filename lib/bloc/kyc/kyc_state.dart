@@ -10,6 +10,8 @@ sealed class KycState {
   final File? idDisplayImage;
   final String? idFrontImage;
   final String? idBackImage;
+  final String? selfie;
+
   // final User
 
   const KycState({
@@ -21,6 +23,7 @@ sealed class KycState {
     this.idDisplayImage,
     required this.idFrontImage,
     required this.idBackImage,
+    required this.selfie,
   });
 }
 
@@ -34,6 +37,7 @@ final class KycLoadingState extends KycState {
           isSavings: true,
           idFrontImage: null,
           idBackImage: null,
+          selfie: null,
         );
 }
 
@@ -52,6 +56,7 @@ class KycLoadedState extends KycState {
     super.idDisplayImage,
     required super.idFrontImage,
     required super.idBackImage,
+    required super.selfie,
   });
 }
 
@@ -65,5 +70,6 @@ class KycSubmittedState extends KycState {
           isSavings: true,
           idFrontImage: null,
           idBackImage: null,
+          selfie: null,
         );
 }

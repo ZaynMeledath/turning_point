@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
@@ -10,37 +11,39 @@ import 'package:turning_point/service/api/api_service.dart';
 
 class ReelsRepository {
   static List<dynamic> urlList = [];
-  // static List<Map<String, dynamic>> reelsMap = [];
+  static int reelsPageSize = 0;
   static ReelsModelResponse reelsModelResponse = ReelsModelResponse();
-  // static StreamController<Map<String, dynamic>> reelsStreamController =
-  //     StreamController<Map<String, dynamic>>();
+
+  static int reelDownloadProgress = 0;
 
 //====================Get Reels Method====================//
-  static Future<ReelsModelResponse> getReels() async {
-    final response = await ApiService().sendRequest(
-      url: ApiEndpoints.getReelsPaginated,
-      requestMethod: RequestMethod.GET,
-      data: null,
-      isTokenRequired: true,
-    );
+  static Future<ReelsModelResponse> getReels({required int page}) async {
+    try {
+      final response = await ApiService().sendRequest(
+        url: '${ApiEndpoints.getReelsPaginated}?page=$page',
+        requestMethod: RequestMethod.GET,
+        data: null,
+        isTokenRequired: true,
+      );
 
-    // final response = await ApiService().sendRequest(
-    //   url: ApiEndpoints.getReels,
-    //   requestMethod: FetchMethod.GET,
-    //   data: null,
-    //   isTokenRequired: false,
-    // );
+      final data = response['data'];
 
-    final data = response['data'];
+      reelsPageSize = data.length;
 
-    final videoNames = data.map((e) => e['fileUrl']).toList();
-    urlList = videoNames
-        .map((videoName) => '${ApiEndpoints.uploads}/$videoName')
-        .toList();
+      if (page == 1) {
+        urlList = data.map((e) => e['fileUrl']).toList();
+        reelsModelResponse = ReelsModelResponse.fromJson(response);
+      } else {
+        urlList.addAll(data.map((e) => e['fileUrl']).toList());
+        final tempReelsModelResponse = ReelsModelResponse.fromJson(response);
+        reelsModelResponse.data!.addAll(tempReelsModelResponse.data!);
+      }
 
-    reelsModelResponse = ReelsModelResponse.fromJson(response);
-
-    return reelsModelResponse;
+      return reelsModelResponse;
+    } catch (e) {
+      log('EXCEPTION IN GET REELS : $e');
+      throw Exception(e);
+    }
   }
 
 //====================Like Reel Method====================//
@@ -61,26 +64,56 @@ class ReelsRepository {
     return response['success'];
   }
 
-  static Future<void> downloadAndSaveVideo(String reel) async {
+  static Future<void> downloadAndSaveVideo(String reelUrl) async {
     try {
       var status = await Permission.storage.status;
       if (!status.isGranted) {
         await Permission.storage.request();
       }
-      Directory appDocDir = Directory('');
       // Get the local directory for storing the downloaded video
+      Directory appDocDir = Directory('');
       if (Platform.isAndroid) {
         appDocDir = Directory("/storage/emulated/0/Download");
       } else {
         appDocDir = await getApplicationDocumentsDirectory();
       }
 
-      String savePath = '${appDocDir.path}/$reel';
+      String savePath =
+          '${appDocDir.path}/${DateTime.now().millisecondsSinceEpoch}.mp4';
 
       // Download the video using Dio
-      await Dio().download('${ApiEndpoints.uploads}/$reel', savePath);
+      await Dio().download(
+        reelUrl,
+        savePath,
+        onReceiveProgress: (count, total) {
+          reelDownloadProgress = (count / total * 100).toInt();
+        },
+      );
     } catch (e) {
       throw Exception(e);
     }
   }
+
+  // static Future<String> createFolderInAppDocDir(String folderName) async {
+  //   //Get this App Document Directory
+  //   Directory appDocDir = Directory('');
+  //   if (Platform.isAndroid) {
+  //     appDocDir = Directory("/storage/emulated/0/Download");
+  //   } else {
+  //     appDocDir = await getApplicationDocumentsDirectory();
+  //   }
+  //   //App Document Directory + folder name
+  //   final Directory appDocDirFolder =
+  //       Directory('${appDocDir.path}/$folderName/');
+
+  //   if (await appDocDirFolder.exists()) {
+  //     //if folder already exists return path
+  //     return appDocDirFolder.path;
+  //   } else {
+  //     //if folder not exists create folder and then return its path
+  //     final Directory appDocDirNewFolder =
+  //         await appDocDirFolder.create(recursive: true);
+  //     return appDocDirNewFolder.path;
+  //   }
+  // }
 }

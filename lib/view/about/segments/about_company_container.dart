@@ -4,28 +4,37 @@ Widget aboutCompanyContainer({
   required String title,
   required String content,
   required String imagePath,
+  double? imageWidth,
 }) {
   return Padding(
-    padding: EdgeInsets.symmetric(horizontal: screenSize.width * .041),
+    padding: EdgeInsets.symmetric(horizontal: screenSize.width * .031),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Image.asset(
-              imagePath,
-              width: screenSize.width * .21,
-            ),
-            SizedBox(height: screenSize.height * .005),
-            Text(
-              title,
-              style: GoogleFonts.roboto(
-                fontSize: screenSize.width * .034,
-                fontWeight: FontWeight.w500,
+        SizedBox(
+          // color: Colors.amber,
+          width: screenSize.width * .23,
+          height: screenSize.height * .1,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Image.asset(
+                  imagePath,
+                  width: screenSize.width * .2,
+                  height: screenSize.height * .06,
+                ),
               ),
-            ),
-          ],
+              SizedBox(height: screenSize.height * .005),
+              Text(
+                title,
+                style: GoogleFonts.roboto(
+                  fontSize: screenSize.width * .034,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
         ),
         SizedBox(width: screenSize.width * .03),
         Expanded(

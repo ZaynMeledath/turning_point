@@ -4,16 +4,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
+import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/redeem/redeem_screen.dart';
 
 Widget availablePointsSegment({
-  required Size screenSize,
   required BuildContext context,
 }) {
   return BlocBuilder<PointsBloc, PointsState>(
     builder: (context, state) {
       final points = state.points ?? 0;
-      final rewardPoints = points % 100;
+      final rewardPoints = points % 500;
       return Column(
         children: [
           //====================Available Points Segment====================//
@@ -82,7 +82,8 @@ Widget availablePointsSegment({
 
           //====================Reward Points Segment====================//
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: screenSize.width * .051),
+            padding:
+                EdgeInsets.symmetric(horizontal: realScreenSize.width * .051),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -124,12 +125,12 @@ Widget availablePointsSegment({
                     LinearPercentIndicator(
                       backgroundColor: const Color.fromRGBO(254, 241, 218, 1),
                       progressColor: const Color.fromRGBO(252, 190, 74, 1),
-                      percent: rewardPoints / 100,
+                      percent: rewardPoints / 500,
                       width: screenSize.width * .49,
                       lineHeight: 10,
                       barRadius: const Radius.circular(8.5),
                       trailing: Text(
-                        '$rewardPoints/100',
+                        '$rewardPoints/500',
                         style: GoogleFonts.roboto(
                           fontSize: screenSize.width * .031,
                           fontWeight: FontWeight.w400,

@@ -18,8 +18,10 @@ class _FirstBoardingScreenState extends State<FirstBoardingScreen> {
   @override
   void initState() {
     Future.delayed(const Duration(milliseconds: 300), () {
-      setState(() {
-        isLoaded = true;
+      Future.delayed(Duration.zero, () {
+        setState(() {
+          isLoaded = true;
+        });
       });
     });
     super.initState();
@@ -58,7 +60,7 @@ class _FirstBoardingScreenState extends State<FirstBoardingScreen> {
           Positioned(
             bottom: screenSize.height * .475,
             child: Hero(
-              tag: 'furnipart_logo',
+              tag: 'turning_point_logo',
               child: Image.asset(
                 'assets/images/logo_group_horizontal.png',
                 width: screenSize.width * .82,

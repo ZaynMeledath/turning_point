@@ -4,12 +4,13 @@ sealed class ContestState {
   List<ContestModel>? contestModelList;
   List<Map<String, String>>? timeList;
   List<int>? secondsLeftList;
+  List<int> entryCount = [];
 
-  ContestState({
-    required this.contestModelList,
-    required this.timeList,
-    required this.secondsLeftList,
-  });
+  ContestState(
+      {required this.contestModelList,
+      required this.timeList,
+      required this.secondsLeftList,
+      required this.entryCount});
 }
 
 class ContestLoadingState extends ContestState {
@@ -18,6 +19,7 @@ class ContestLoadingState extends ContestState {
           contestModelList: null,
           timeList: null,
           secondsLeftList: null,
+          entryCount: [],
         );
 }
 
@@ -26,5 +28,6 @@ class ContestLoadedState extends ContestState {
     required super.contestModelList,
     required super.timeList,
     required super.secondsLeftList,
+    required super.entryCount,
   });
 }

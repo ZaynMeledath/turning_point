@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart' show TextEditingController, immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
+import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/exceptions/user_exceptions.dart';
@@ -21,18 +22,21 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 //====================Profile Load Event====================//
     on<ProfileLoadEvent>((event, emit) async {
       try {
-        final userModelResponse =
-            await UserRepository.getUserById(avoidGettingFromPreference: false);
+        final userModelResponse = await UserRepository.getUserById(
+            avoidGettingFromPreference:
+                event.avoidGettingFromPreference ?? false);
 
         if (userModelResponse != null && userModelResponse.data != null) {
           final isContractor = userModelResponse.data!.role == Role.CONTRACTOR;
-          final reelsModelResponse = await ReelsRepository.getReels();
+          final reelsModelResponse = await ReelsRepository.getReels(page: 1);
           reelsBloc.state.reelsModelList = reelsModelResponse.data;
+          preloadBloc.add(PreloadEvent(currentIndex: 0, isInitial: true));
 
           return emit(ProfileLoadedState(
             isLoading: false,
             userModel: userModelResponse.data!,
             isContractor: isContractor,
+            isContractorTemp: isContractor,
           ));
         } else {
           return emit(ProfileLoadErrorState());
@@ -53,7 +57,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         userModelResponse.data!.contractor = event.contractor;
         userModelResponse.data!.phone = event.phone;
         userModelResponse.data!.businessName = event.businessName;
-        userModelResponse.data!.address = event.address;
+        userModelResponse.data!.actualAddress = event.address;
         userModelResponse.data!.email = event.email;
         userModelResponse.data!.role =
             event.isContractor ? Role.CONTRACTOR : Role.CARPENTER;
@@ -66,18 +70,17 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(ProfileLoadedState(
           isLoading: true,
           userModel: userModelResponse.data!,
+          isContractorTemp: event.isContractor,
           isContractor: event.isContractor,
         ));
+        preloadBloc.add(PreloadResetEvent());
+        contractorBloc.add(ContractorLoadEvent(isSignUp: false));
 
         userModelResponse = await UserRepository.updateUserProfile(
           userModel: userModelResponse.data!,
         );
-        contractorBloc.add(ContractorLoadEvent());
-        emit(ProfileLoadedState(
-          isLoading: false,
-          userModel: userModelResponse.data!,
-          isContractor: event.isContractor,
-        ));
+      } on ProfileInactiveException {
+        return emit(ProfileInactiveState());
       } catch (_) {}
     });
 
@@ -88,7 +91,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(ProfileLoadedState(
         isLoading: false,
         userModel: userModelResponse!.data!,
-        isContractor: event.isContractor,
+        isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
+        isContractorTemp: event.isContractor,
       ));
     });
 
@@ -102,20 +106,21 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             isLoading: true,
             userModel: userModelResponse!.data!,
             isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
+            isContractorTemp: userModelResponse.data!.role == Role.CONTRACTOR,
           ),
         );
-        final imageMap = await UserRepository.fetchImageFromStorage();
+        final imageMap = await UserRepository.fetchAndConvertImageToBase64();
 
         if (imageMap != null) {
-          userModelResponse = await UserRepository.updateProfileImage(
-            imageMap.keys.first,
-          );
+          userModelResponse =
+              await UserRepository.updateProfileImage(imageMap.keys.first);
         }
         emit(
           ProfileLoadedState(
             isLoading: false,
             userModel: userModelResponse.data!,
             isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
+            isContractorTemp: userModelResponse.data!.role == Role.CONTRACTOR,
           ),
         );
       } catch (_) {
@@ -133,25 +138,45 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             isLoading: true,
             isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
             userModel: userModelResponse.data!,
+            isContractorTemp: userModelResponse.data!.role == Role.CONTRACTOR,
           ),
         );
-        // await provider.signOut();
+        await provider.signOut();
+
         final token = await provider.signIn();
 
         log('TOKEN : $token');
 
         userModelResponse.data!.email = provider.currentUser!.email;
-        UserRepository.updateUserProfile(userModel: userModelResponse.data!);
-
-        emit(
+        userModelResponse.data!.uid = provider.currentUser!.uid;
+        await UserRepository.updateUserProfile(
+            userModel: userModelResponse.data!);
+        return emit(ProfileInactiveState());
+      } on ProfileInactiveException {
+        return emit(ProfileInactiveState());
+      } on CouldNotUpdateUserException catch (e) {
+        final userModelResponse = UserRepository.getUserFromPreference()!;
+        return emit(
           ProfileLoadedState(
             isLoading: false,
+            userModel: userModelResponse.data,
             isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
-            userModel: userModelResponse.data!,
+            isContractorTemp: userModelResponse.data!.role == Role.CONTRACTOR,
+            exception: e.message,
           ),
         );
       } catch (e) {
-        throw Exception(e);
+        final userModelResponse = UserRepository.getUserFromPreference()!;
+        log('Exception in Email update bloc');
+        return emit(
+          ProfileLoadedState(
+            isLoading: false,
+            userModel: userModelResponse.data,
+            isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
+            isContractorTemp: userModelResponse.data!.role == Role.CONTRACTOR,
+            exception: e,
+          ),
+        );
       }
     });
 
@@ -164,6 +189,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             isLoading: true,
             isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
             userModel: userModelResponse.data!,
+            isContractorTemp: userModelResponse.data!.role == Role.CONTRACTOR,
           ),
         );
         await provider.signIn();
@@ -173,10 +199,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         );
         emit(
           ProfileLoadedState(
-            isLoading: false,
+            isLoading: true,
             isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
             userModel: userModelResponse.data!,
             verifyOtp: true,
+            isContractorTemp: userModelResponse.data!.role == Role.CONTRACTOR,
           ),
         );
       } catch (e) {
@@ -184,21 +211,25 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       }
     });
 
-//====================Profile Phone Update Event====================//
+//====================Profile Verify OTP Event====================//
     on<ProfileVerifyOtpEvent>((event, emit) async {
       await provider.verifyOtp(
         verificationId: FirebaseAuthProvider.verifyId,
         otp: event.otp,
       );
-      final userModelResponse = UserRepository.getUserFromPreference()!;
+      UserModelResponse userModelResponse =
+          UserRepository.getUserFromPreference()!;
       userModelResponse.data!.phone = event.phone;
       UserRepository.addUserToPreference(userModelResponse);
-      UserRepository.updateUserProfile(userModel: userModelResponse.data!);
+      userModelResponse = UserRepository.getUserFromPreference()!;
+      await UserRepository.updateUserProfile(
+          userModel: userModelResponse.data!);
       emit(
         ProfileLoadedState(
           isLoading: false,
           userModel: userModelResponse.data!,
           isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
+          isContractorTemp: userModelResponse.data!.role == Role.CONTRACTOR,
         ),
       );
     });

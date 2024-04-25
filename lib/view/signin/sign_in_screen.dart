@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
+import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/dialog/show_custom_loading_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/flight_shuttle.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/home/home_screen.dart';
+import 'package:turning_point/view/home/profile_inactive_screen.dart';
 import 'package:turning_point/view/signin/who_is_signing_screen.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -33,7 +35,6 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   void dispose() async {
     super.dispose();
-   
   }
 
   @override
@@ -56,6 +57,25 @@ class _SignInScreenState extends State<SignInScreen> {
               duration: const Duration(milliseconds: 750),
             ),
             (_) => false,
+          );
+        } else if (state is ProfileInactiveState) {
+          Navigator.of(context).pushAndRemoveUntil(
+            PageTransition(
+              child: ProfileInactiveScreen(),
+              type: PageTransitionType.fade,
+              duration: const Duration(milliseconds: 750),
+            ),
+            (_) => false,
+          );
+        } else if (state is AuthErrorState) {
+          Navigator.pop(context);
+          showAnimatedGenericDialog(
+            context: context,
+            iconPath: 'assets/lottie/gear_error_animation.json',
+            title: 'Error Signing in',
+            content: state.message,
+            buttonTitle: 'OK',
+            iconWidth: screenSize.width * .2,
           );
         }
       },
@@ -91,7 +111,7 @@ class _SignInScreenState extends State<SignInScreen> {
               Positioned(
                 bottom: screenSize.height * .475,
                 child: Hero(
-                  tag: 'furnipart_logo',
+                  tag: 'turning_point_logo',
                   child: Image.asset(
                     'assets/images/logo_group_horizontal.png',
                     width: screenSize.width * .82,

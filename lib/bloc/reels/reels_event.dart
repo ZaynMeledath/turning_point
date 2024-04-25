@@ -16,5 +16,8 @@ class ReelLikeEvent extends ReelsEvent {
 
 class ReelDownloadEvent extends ReelsEvent {
   const ReelDownloadEvent({required super.reelIndex});
+}
 
+class ReelLikeButtonEnableEvent extends ReelsEvent {
+  const ReelLikeButtonEnableEvent({required super.reelIndex});
 }

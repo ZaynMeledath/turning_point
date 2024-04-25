@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/helper/widget/my_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/title_content_text.dart';
 
@@ -16,14 +16,15 @@ class PrivacyPolicyScreen extends StatelessWidget {
     const text =
         "The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.";
     return Scaffold(
+      appBar: myAppBar(
+        context: context,
+        title: 'Privacy & Policy',
+      ),
       body: SafeArea(
         child: Column(
           children: [
 //====================AppBar====================//
-            customAppBar(
-              context: context,
-              title: 'Privacy & Policy',
-            ),
+
             SizedBox(height: screenSize.height * .01),
 
 //====================Illustration====================//
@@ -64,7 +65,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                 padding:
                     EdgeInsets.symmetric(horizontal: screenSize.width * .051),
                 child: ListView(
-                  physics: const BouncingScrollPhysics(),
+                  // physics: const BouncingScrollPhysics(),
                   children: [
                     titleContentText(isTitle: true, text: text),
                     titleContentText(isTitle: false, text: text),
@@ -76,6 +77,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                     titleContentText(isTitle: true, text: text),
                     titleContentText(isTitle: false, text: text),
                     titleContentText(isTitle: false, text: text),
+                    SizedBox(height: screenSize.height * .02),
                   ],
                 ),
               ),

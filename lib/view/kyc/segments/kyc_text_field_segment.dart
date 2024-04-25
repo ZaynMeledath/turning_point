@@ -91,7 +91,7 @@ Widget kycTextFieldSegment({
             }
             return !regEx.hasMatch(value) ? 'Enter a valid value' : null;
           } else if (isNum == false) {
-            final regEx = RegExp(r'[A-Z][a-z]');
+            final regEx = RegExp(r'[A-Za-z]');
             return !regEx.hasMatch(value) ? 'Enter a valid name' : null;
           } else {
             return null;

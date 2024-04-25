@@ -25,8 +25,8 @@ Widget dashboardAvailableBalanceContainer({
       vertical: screenSize.width * .034,
     ),
     margin: EdgeInsets.only(
-      left: screenSize.width * .05,
-      right: screenSize.width * .05,
+      left: realScreenSize.width * .05,
+      right: realScreenSize.width * .05,
       top: screenSize.width * .66,
     ),
     decoration: BoxDecoration(

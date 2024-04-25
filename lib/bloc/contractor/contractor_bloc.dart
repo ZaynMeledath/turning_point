@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/model/contractor_model.dart';
+import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/resources/user_repository.dart';
 
 part 'contractor_event.dart';
@@ -13,8 +14,12 @@ class ContractorBloc extends Bloc<ContractorEvent, ContractorState> {
 //====================Contractor Load Event====================//
     on<ContractorLoadEvent>((event, emit) async {
       final contractorModelResponse = await UserRepository.getContractors();
-      final userModelResponse = UserRepository.getUserFromPreference();
-      final contractor = userModelResponse?.data?.contractor;
+      UserModelResponse? userModelResponse;
+      ContractorModel? contractor;
+      if (!event.isSignUp) {
+        userModelResponse = UserRepository.getUserFromPreference();
+        contractor = userModelResponse!.data!.contractor;
+      }
 
       emit(
         ContractorLoadedState(

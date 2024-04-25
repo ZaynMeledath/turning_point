@@ -6,7 +6,10 @@ import 'package:turning_point/bloc/points_history/points_history_bloc.dart';
 import 'package:turning_point/view/points/segments/point_container.dart';
 
 //====================Points History Segment====================//
-Widget pointsHistorySegment({required Size screenSize}) {
+Widget pointsHistorySegment({
+  required Size screenSize,
+  required ScrollController scrollController,
+}) {
   return BlocBuilder<PointsHistoryBloc, PointsHistoryState>(
     builder: (context, state) {
       switch (state) {
@@ -51,8 +54,8 @@ Widget pointsHistorySegment({required Size screenSize}) {
                   ),
                 ),
                 child: ListView.builder(
+                  controller: scrollController,
                   itemCount: state.pointsHistoryModel!.length,
-                  physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     return pointContainer(
                       pointsHistoryModel: state.pointsHistoryModel![index],

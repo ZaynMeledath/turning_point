@@ -9,7 +9,7 @@ Widget redeemPointsFieldSegment() {
           Text(
             'Enter the Points you want to Redeem',
             style: GoogleFonts.roboto(
-              fontSize: screenSize.width * .04,
+              fontSize: screenSize.width * .031,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -21,19 +21,7 @@ Widget redeemPointsFieldSegment() {
             height: screenSize.width * .11,
             decoration: BoxDecoration(
               color: const Color.fromRGBO(246, 246, 246, 1),
-              borderRadius: BorderRadius.circular(8),
-              // boxShadow: const [
-              //   BoxShadow(
-              //     offset: Offset(-1, 1.5),
-              //     blurRadius: 1,
-              //     color: Color.fromRGBO(16, 16, 16, .25),
-              //   ),
-              //   BoxShadow(
-              //     offset: Offset(1, -1),
-              //     blurRadius: 1,
-              //     color: Color.fromRGBO(16, 16, 16, .25),
-              //   ),
-              // ],
+              borderRadius: BorderRadius.circular(16),
               border: Border.all(
                 color: Colors.black12,
               ),
@@ -87,7 +75,7 @@ Widget redeemPointsFieldSegment() {
                 ),
               ),
               Text(
-                'Five points is equal to one rupee',
+                'One point is equal to one rupee',
                 style: GoogleFonts.roboto(
                   fontSize: screenSize.width * .028,
                   fontWeight: FontWeight.w400,

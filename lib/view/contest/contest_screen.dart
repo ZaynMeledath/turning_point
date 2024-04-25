@@ -2,16 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:stacked_card_carousel/stacked_card_carousel.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
 import 'package:turning_point/bloc/contest/join_contest_bloc.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/helper/widget/my_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
-import 'package:turning_point/model/contest_model.dart';
+import 'package:turning_point/resources/contest_repository.dart';
 import 'package:turning_point/service/Exception/user_exceptions.dart';
 import 'package:turning_point/view/contest/segments/banner_segment.dart';
 
@@ -35,6 +36,11 @@ class _ContestScreenState extends State<ContestScreen> {
     contestBloc.add(ContestTimerDisposeEvent());
   }
 
+  Future<void> _handleRefresh() async {
+    await ContestRepository.getContests();
+    contestBloc.add(ContestLoadEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     contestBloc.add(ContestLoadEvent());
@@ -44,19 +50,33 @@ class _ContestScreenState extends State<ContestScreen> {
           switch (state.exception) {
             case InsufficientBalanceToJoinContestException():
               showAnimatedGenericDialog(
-                  context: context,
-                  iconPath: 'assets/icons/kyc_declined_icon.png',
-                  title: 'Oops',
-                  content: 'Insufficient Balance to join the contest',
-                  buttonTitle: 'Dismiss');
+                context: context,
+                iconPath: 'assets/lottie/insufficient_balance_animation.json',
+                title: 'Oops',
+                content: 'Insufficient Balance to join the\ncontest',
+                buttonTitle: 'Dismiss',
+                iconWidth: screenSize.width * .25,
+              );
+              break;
+            case VerificationRequiredToJoinContestException():
+              showAnimatedGenericDialog(
+                context: context,
+                iconPath: 'assets/lottie/kyc_verification_animation.json',
+                title: 'Not Verified',
+                content: 'KYC should be verified to join the\ncontest',
+                buttonTitle: 'Dismiss',
+                iconWidth: screenSize.width * .2,
+              );
               break;
             default:
               showAnimatedGenericDialog(
-                  context: context,
-                  iconPath: 'assets/icons/kyc_declined_icon.png',
-                  title: 'Error',
-                  content: 'Something Went Wrong',
-                  buttonTitle: 'Dismiss');
+                context: context,
+                iconPath: 'assets/lottie/something_went_wrong_animation.json',
+                title: 'Error',
+                content: 'Something Went Wrong',
+                buttonTitle: 'Dismiss',
+                iconWidth: screenSize.width * .2,
+              );
           }
         } else if (state is ContestJoinedState) {
           showAnimatedGenericDialog(
@@ -69,10 +89,10 @@ class _ContestScreenState extends State<ContestScreen> {
         }
       },
       child: Scaffold(
+        appBar: myAppBar(context: context, title: 'Contest'),
         body: SafeArea(
           child: Column(
             children: [
-              customAppBar(context: context, title: 'Contest'),
               bannerSegment(),
               SizedBox(height: screenSize.height * .005),
               Container(
@@ -116,22 +136,34 @@ class _ContestScreenState extends State<ContestScreen> {
                           ),
                         );
                       } else {
-                        return Expanded(
-                          child: Column(
-                            children: [
-                              Lottie.asset(
-                                'assets/lottie/no_data_animation.json',
-                                width: screenSize.width * .6,
+                        return LiquidPullToRefresh(
+                          height: 70,
+                          animSpeedFactor: 1.5,
+                          showChildOpacityTransition: false,
+                          color: const Color.fromRGBO(89, 165, 255, 1),
+                          backgroundColor: Colors.white,
+                          onRefresh: () => _handleRefresh(),
+                          child: SingleChildScrollView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  SizedBox(height: screenSize.height * .03),
+                                  Lottie.asset(
+                                    'assets/lottie/no_data_animation.json',
+                                    width: screenSize.width * .5,
+                                  ),
+                                  Text(
+                                    'No Contest Available at the moment',
+                                    style: GoogleFonts.inter(
+                                      fontSize: screenSize.width * .038,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black.withOpacity(.75),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                'No Contest Available at the moment',
-                                style: GoogleFonts.inter(
-                                  fontSize: screenSize.width * .041,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black.withOpacity(.75),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         );
                       }

@@ -11,6 +11,7 @@ import 'package:turning_point/firebase_options.dart';
 
 class FirebaseAuthProvider implements CustomAuthProvider {
   static String verifyId = '';
+  static int? forceResendToken;
   GoogleSignInAccount? googleUser;
   @override
   Future<void> initialize() async {
@@ -70,6 +71,7 @@ class FirebaseAuthProvider implements CustomAuthProvider {
   Future<void> signOut() async {
     if (currentUser != null) {
       await FirebaseAuth.instance.signOut();
+      await GoogleSignIn().signOut();
     } else {
       throw UserNotLoggedInAuthException();
     }
@@ -84,8 +86,10 @@ class FirebaseAuthProvider implements CustomAuthProvider {
       if (currentUser != null) {
         await FirebaseAuth.instance.verifyPhoneNumber(
           phoneNumber: '+91$phone',
+          forceResendingToken: forceResendToken,
           codeSent: (verificationId, forceResendingToken) {
             verifyId = verificationId;
+            forceResendToken = forceResendingToken;
           },
           verificationCompleted: (phoneAuthCredential) {
             otpController.text = phoneAuthCredential.smsCode ?? '';
@@ -150,6 +154,8 @@ class FirebaseAuthProvider implements CustomAuthProvider {
         log('COULD NOT FETCH ID TOKEN AUTH EXCEPTION');
         throw CouldNotFetchIdTokenAuthException();
       }
+    } on FirebaseAuthException {
+      rethrow;
     } catch (e) {
       log('EXCEPTION IN VERIFY OTP FUNCTION: $e');
       throw Exception(e);

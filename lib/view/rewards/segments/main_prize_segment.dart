@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:turning_point/bloc/rewards/rewards_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
@@ -33,15 +34,15 @@ Widget mainPrizeSegment() {
                     ),
                     SizedBox(height: screenSize.height * .01),
                     roundPrizeContainer(
-                      imagePath:
-                          '${ApiEndpoints.uploads}/${rewardsModel!.contestPrizes![0].image}',
+                      imagePath: '${rewardsModel!.contestPrizes![0].image}',
+                      medalPath: 'assets/icons/gold_medal.png',
                       backgroundColor: const Color.fromRGBO(255, 219, 73, 1),
                       shadowColor: const Color.fromRGBO(206, 166, 4, 1),
                     ),
-                    SizedBox(height: screenSize.height * .01),
+                    SizedBox(height: screenSize.height * .005),
                     rewardsModel.contestPrizes![0].winnerDetails != null
                         ? CircleAvatar(
-                            radius: screenSize.width * .044,
+                            radius: screenSize.width * .054,
                             backgroundImage: NetworkImage(
                               rewardsModel
                                       .contestPrizes![0].winnerDetails!.image!
@@ -68,8 +69,8 @@ Widget mainPrizeSegment() {
 
               //====================Second Prize Segment====================//
               Positioned(
-                top: screenSize.height * .34,
-                left: screenSize.width * .051,
+                top: screenSize.height * .32,
+                left: screenSize.width * .065,
                 child: Column(
                   children: [
                     Text(
@@ -81,15 +82,15 @@ Widget mainPrizeSegment() {
                     ),
                     SizedBox(height: screenSize.height * .01),
                     roundPrizeContainer(
-                      imagePath:
-                          '${ApiEndpoints.uploads}/${rewardsModel.contestPrizes![1].image}',
+                      imagePath: '${rewardsModel.contestPrizes![1].image}',
+                      medalPath: 'assets/icons/silver_medal.png',
                       backgroundColor: const Color.fromRGBO(255, 50, 56, 1),
                       shadowColor: const Color.fromRGBO(173, 0, 2, 1),
                     ),
-                    SizedBox(height: screenSize.height * .01),
+                    SizedBox(height: screenSize.height * .005),
                     rewardsModel.contestPrizes![1].winnerDetails != null
                         ? CircleAvatar(
-                            radius: screenSize.width * .044,
+                            radius: screenSize.width * .054,
                             backgroundImage: NetworkImage(
                               rewardsModel
                                       .contestPrizes![1].winnerDetails!.image!
@@ -125,8 +126,8 @@ Widget mainPrizeSegment() {
 
               //====================Third Prize Segment====================//
               Positioned(
-                top: screenSize.height * .34,
-                right: screenSize.width * .051,
+                top: screenSize.height * .32,
+                right: screenSize.width * .065,
                 child: Column(
                   children: [
                     Text(
@@ -138,15 +139,15 @@ Widget mainPrizeSegment() {
                     ),
                     SizedBox(height: screenSize.height * .01),
                     roundPrizeContainer(
-                      imagePath:
-                          '${ApiEndpoints.uploads}/${rewardsModel.contestPrizes![2].image}',
+                      imagePath: '${rewardsModel.contestPrizes![2].image}',
+                      medalPath: 'assets/icons/bronze_medal.png',
                       backgroundColor: const Color.fromRGBO(23, 195, 196, 1),
                       shadowColor: const Color.fromRGBO(0, 151, 152, 1),
                     ),
-                    SizedBox(height: screenSize.height * .01),
+                    SizedBox(height: screenSize.height * .005),
                     rewardsModel.contestPrizes![2].winnerDetails != null
                         ? CircleAvatar(
-                            radius: screenSize.width * .044,
+                            radius: screenSize.width * .054,
                             backgroundImage: NetworkImage(
                               rewardsModel
                                       .contestPrizes![2].winnerDetails!.image!
@@ -172,14 +173,24 @@ Widget mainPrizeSegment() {
                 ),
               ),
               Positioned(
-                top: screenSize.height * .58,
+                top: screenSize.width == 550
+                    ? screenSize.height * .56
+                    : screenSize.height * .59,
                 child: Text(
                   rewardsModel.contestName.toString(),
                   textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.poppins(
-                    fontSize: screenSize.width * .05,
-                    fontWeight: FontWeight.bold,
+                    fontSize: screenSize.width * .041,
+                    fontWeight: FontWeight.w600,
                   ),
+                ),
+              ),
+              Positioned(
+                top: screenSize.height * .3,
+                child: Lottie.asset(
+                  'assets/lottie/celebration_animation.json',
+                  repeat: false,
                 ),
               ),
             ],

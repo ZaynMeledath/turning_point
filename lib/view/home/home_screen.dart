@@ -2,9 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/home/home_bloc.dart';
-import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/dialog/show_connect_dialog.dart';
+import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/helper/widget/custom_loading.dart';
+import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/view/home/reels_screen.dart';
 import 'package:turning_point/view/lucky_draw/lucky_draw_screen.dart';
 import 'package:turning_point/view/rewards/rewards_screen.dart';
@@ -17,136 +19,153 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  final pages = [
-    const ReelsScreen(),
-    const RewardsScreen(),
-    const ScannerScreen(),
-    const LuckyDrawScreen(),
-  ];
-
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    UserRepository.updateUserOnlineStatus(isOnline: true);
     super.initState();
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  // }
-
   @override
-  void dispose() async {
-    super.dispose();
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // locationServiceBloc.add(LocationServiceStartEvent());
+    if (state == AppLifecycleState.resumed) {
+      UserRepository.updateUserOnlineStatus(isOnline: true);
+    } else {
+      UserRepository.updateUserOnlineStatus(isOnline: false);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    pointsBloc.add(PointsLoadEvent());
-    profileBloc.add(ProfileLoadEvent());
     return BlocConsumer<HomeBloc, HomeState>(
       listener: (context, state) async {
         if (state is ConnectState) {
-          final isClosed = await showConnectDialog(context: context) as bool;
-          if (isClosed) {
-            homeBloc.add(TriggerEvent(state.currentIndex));
-          }
+          await showConnectDialog(
+            context: context,
+            isDark: homeBloc.state.currentIndex == 0 ? true : false,
+          ) as bool?;
+          homeBloc.add(TriggerEvent(state.currentIndex));
         }
       },
-      builder: (context, state) {
-        return Scaffold(
-          body: pages[state.currentIndex],
-          //===============Bottom Navigation Bar===============//
-          bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            currentIndex: state.currentIndex,
-            onTap: (index) async {
-              homeBloc.add(TriggerEvent(index));
-              // if (index == 0) {
-              //   preloadBloc.playCurrentController();
-              // }
-            },
-            backgroundColor: state.currentIndex == 0 || state.currentIndex == 2
-                ? const Color(0xff0c1313)
-                : Colors.white,
-            unselectedItemColor:
-                state.currentIndex == 0 || state.currentIndex == 2
-                    ? Colors.white
-                    : Colors.black,
-            enableFeedback: true,
-            selectedItemColor:
-                state.currentIndex == 0 || state.currentIndex == 2
-                    ? Colors.white
-                    : Colors.black,
-            showUnselectedLabels: true,
-            items: [
-              BottomNavigationBarItem(
-                backgroundColor: Colors.black,
-                label: 'Home',
-                icon: Image.asset(
-                  state.currentIndex == 0 && state is! ConnectState
-                      ? 'assets/icons/home_icon_purple.png'
-                      : state.currentIndex == 2 || state.currentIndex == 0
-                          ? 'assets/icons/home_icon_dark.png'
-                          : 'assets/icons/home_icon_light.png',
-                  width: 23,
-                  height: 23,
+      builder: (context, homeState) {
+        return BlocBuilder<ProfileBloc, ProfileState>(
+          builder: (context, profileState) {
+            if (profileState is ProfileLoadedState) {
+              final pages = [
+                const ReelsScreen(),
+                const RewardsScreen(),
+                if (!profileState.isContractor) const ScannerScreen(),
+                const LuckyDrawScreen(),
+              ];
+              return Scaffold(
+                body: pages[homeState.currentIndex],
+                //===============Bottom Navigation Bar===============//
+                bottomNavigationBar: SizedBox(
+                  height: screenSize.height * .076,
+                  child: BottomNavigationBar(
+                    selectedFontSize: screenSize.width * .031,
+                    unselectedFontSize: screenSize.width * .029,
+                    elevation: 5,
+                    type: BottomNavigationBarType.fixed,
+                    currentIndex: homeState.currentIndex,
+                    onTap: (index) async {
+                      homeBloc.add(TriggerEvent(index));
+                    },
+                    backgroundColor: homeState.currentIndex == 0
+                        // || state.currentIndex == 2
+                        ? const Color(0xff0c1313)
+                        : Colors.white,
+                    unselectedItemColor: homeState.currentIndex == 0
+                        // || state.currentIndex == 2
+                        ? Colors.white
+                        : Colors.black,
+                    enableFeedback: true,
+                    selectedItemColor: homeState.currentIndex == 0
+                        // || state.currentIndex == 2
+                        ? Colors.white
+                        : Colors.black,
+                    showUnselectedLabels: true,
+                    items: [
+                      BottomNavigationBarItem(
+                        backgroundColor: Colors.black,
+                        label: 'Home',
+                        icon: Image.asset(
+                          homeState.currentIndex == 0 &&
+                                  homeState is! ConnectState
+                              ? 'assets/icons/home_icon_purple.png'
+                              : homeState.currentIndex == 0
+                                  // || state.currentIndex == 2
+                                  ? 'assets/icons/home_icon_dark.png'
+                                  : 'assets/icons/home_icon_light.png',
+                          width: screenSize.height * .025,
+                        ),
+                      ),
+                      BottomNavigationBarItem(
+                        backgroundColor: Colors.white,
+                        label: 'Rewards',
+                        icon: Image.asset(
+                          homeState.currentIndex == 1 &&
+                                  homeState is! ConnectState
+                              ? 'assets/icons/rewards_icon_purple.png'
+                              : homeState.currentIndex == 0
+                                  // || state.currentIndex == 2
+                                  ? 'assets/icons/rewards_icon_dark.png'
+                                  : 'assets/icons/rewards_icon_light.png',
+                          width: screenSize.height * .025,
+                        ),
+                      ),
+                      if (!profileState.isContractor)
+                        BottomNavigationBarItem(
+                          backgroundColor: Colors.black,
+                          label: 'Scan',
+                          icon: Image.asset(
+                            homeState.currentIndex == 2 &&
+                                    homeState is! ConnectState
+                                ? 'assets/icons/scanner_icon_purple.png'
+                                : homeState.currentIndex == 0
+                                    // || state.currentIndex == 2
+                                    ? 'assets/icons/scanner_icon_dark.png'
+                                    : 'assets/icons/scanner_icon_light.png',
+                            width: screenSize.height * .035,
+                          ),
+                        ),
+                      BottomNavigationBarItem(
+                        backgroundColor: Colors.white,
+                        label: 'Lucky Draw',
+                        icon: Image.asset(
+                          homeState.currentIndex == 3 &&
+                                  homeState is! ConnectState
+                              ? 'assets/icons/lucky_draw_icon_purple.png'
+                              : homeState.currentIndex == 0
+                                  // || state.currentIndex == 2
+                                  ? 'assets/icons/lucky_draw_icon_dark.png'
+                                  : 'assets/icons/lucky_draw_icon_light.png',
+                          width: screenSize.height * .025,
+                        ),
+                      ),
+                      BottomNavigationBarItem(
+                        backgroundColor: Colors.white,
+                        label: 'Connect',
+                        icon: Image.asset(
+                          homeState is ConnectState
+                              ? 'assets/icons/connect_icon_purple.png'
+                              : homeState.currentIndex == 0
+                                  // || state.currentIndex == 2
+                                  ? 'assets/icons/connect_icon_dark.png'
+                                  : 'assets/icons/connect_icon_light.png',
+                          width: screenSize.height * .025,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              BottomNavigationBarItem(
-                backgroundColor: Colors.white,
-                label: 'Rewards',
-                icon: Image.asset(
-                  state.currentIndex == 1 && state is! ConnectState
-                      ? 'assets/icons/rewards_icon_purple.png'
-                      : state.currentIndex == 0 || state.currentIndex == 2
-                          ? 'assets/icons/rewards_icon_dark.png'
-                          : 'assets/icons/rewards_icon_light.png',
-                  width: 23,
-                  height: 23,
-                ),
-              ),
-              BottomNavigationBarItem(
-                backgroundColor: Colors.black,
-                label: 'Scan',
-                icon: Image.asset(
-                  state.currentIndex == 2 && state is! ConnectState
-                      ? 'assets/icons/scanner_icon_purple.png'
-                      : state.currentIndex == 0 || state.currentIndex == 2
-                          ? 'assets/icons/scanner_icon_dark.png'
-                          : 'assets/icons/scanner_icon_light.png',
-                  width: 35,
-                  height: 35,
-                ),
-              ),
-              BottomNavigationBarItem(
-                backgroundColor: Colors.white,
-                label: 'Lucky Draw',
-                icon: Image.asset(
-                  state.currentIndex == 3 && state is! ConnectState
-                      ? 'assets/icons/lucky_draw_icon_purple.png'
-                      : state.currentIndex == 0 || state.currentIndex == 2
-                          ? 'assets/icons/lucky_draw_icon_dark.png'
-                          : 'assets/icons/lucky_draw_icon_light.png',
-                  width: 23,
-                  height: 23,
-                ),
-              ),
-              BottomNavigationBarItem(
-                backgroundColor: Colors.white,
-                label: 'Connect',
-                icon: Image.asset(
-                  state is ConnectState
-                      ? 'assets/icons/connect_icon_purple.png'
-                      : state.currentIndex == 0 || state.currentIndex == 2
-                          ? 'assets/icons/connect_icon_dark.png'
-                          : 'assets/icons/connect_icon_light.png',
-                  width: 23,
-                  height: 23,
-                ),
-              ),
-            ],
-          ),
+              );
+            } else {
+              return rippleLoading();
+            }
+          },
         );
       },
     );

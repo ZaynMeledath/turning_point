@@ -12,10 +12,9 @@ Widget singleContestRewardsTabBar(TabController tabController) {
     ),
     child: Container(
       width: screenSize.width * .8,
-      height: screenSize.width * .09,
+      height: screenSize.width * .07,
       padding: EdgeInsets.symmetric(
         horizontal: screenSize.width * .003,
-        vertical: screenSize.width * .005,
       ),
       margin: EdgeInsets.symmetric(
         horizontal: screenSize.width * .1,

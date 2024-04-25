@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/bloc/connect/connect_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'dart:math' as math show pi;
+import 'package:url_launcher/url_launcher.dart';
 
-Future<Object?> showConnectDialog({
-  required BuildContext context,
-}) async {
+Future<Object?> showConnectDialog(
+    {required BuildContext context, required bool isDark}) async {
+  // return showModalBottomSheet(
+
+  //     context: context,
+  //     builder: (context) {
+  //       return dialog(context);
+  //     });
+
   return showGeneralDialog(
     context: context,
+    barrierColor: Colors.transparent,
     pageBuilder: (context, a1, a2) {
       return Container();
     },
@@ -17,169 +25,195 @@ Future<Object?> showConnectDialog({
       return Transform.scale(
         alignment: Alignment.bottomRight,
         scale: curve,
-        child: dialog(context),
+        child: dialog(
+          context: context,
+          isDark: isDark,
+        ),
       );
     },
   );
 }
 
-Widget dialog(BuildContext context) {
+Widget dialog({
+  required BuildContext context,
+  required bool isDark,
+}) {
   return Stack(
     children: [
       GestureDetector(
-        onTap: () => Navigator.of(context).pop(true),
+        onTap: () => Navigator.of(context).pop(),
         child: Container(
           color: Colors.transparent,
         ),
       ),
-      Container(
-        margin: EdgeInsets.only(
-          left: screenSize.width * .071,
-          right: screenSize.width * .071,
-          top: screenSize.height * .72,
-          bottom: screenSize.height * .1,
-        ),
-        padding: EdgeInsets.only(
-          left: screenSize.width * .041,
-          right: screenSize.width * .031,
-          top: screenSize.height * .01,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          // borderRadius: BorderRadius.only(
-          //   topLeft: Radius.circular(16),
-          //   topRight: Radius.circular(16),
-          //   bottomLeft: Radius.circular(16),
-          // ),
-          borderRadius: BorderRadius.circular(14),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                DefaultTextStyle(
-                  style: GoogleFonts.roboto(
-                    fontSize: screenSize.width * .031,
-                    fontWeight: FontWeight.w500,
-                    color: const Color.fromRGBO(184, 184, 184, 1),
-                  ),
-                  child: const Text('Customer Support'),
+      Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Container(
+            margin: EdgeInsets.only(
+              left: screenSize.width * .051,
+              right: screenSize.width * .051,
+              bottom: screenSize.height * .075,
+            ),
+            padding: EdgeInsets.only(
+              top: screenSize.height * .02,
+              bottom: screenSize.height * .015,
+            ),
+            decoration: BoxDecoration(
+              color: isDark ? const Color(0xff0c1313) : Colors.white,
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(14),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  offset: const Offset(1, 0),
+                  color: Colors.black.withOpacity(.1),
+                  blurRadius: 4,
+                  blurStyle: BlurStyle.solid,
                 ),
-                GestureDetector(
-                  onTap: () => Navigator.of(context).pop(true),
-                  child: Container(
-                    width: screenSize.width * .061,
-                    height: screenSize.width * .061,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color.fromRGBO(199, 199, 199, 1),
-                    ),
-                    child: Center(
-                      child: Image.asset(
-                        'assets/icons/connect_close_icon.png',
-                        width: screenSize.width * .024,
+                BoxShadow(
+                  offset: const Offset(-1, -1),
+                  color: Colors.black.withOpacity(.1),
+                  blurRadius: 4,
+                  blurStyle: BlurStyle.solid,
+                ),
+              ],
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: Column(
+                children: [
+                  //====================Turning Point Logo and Name====================//
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/icons/turning_point_logo_icon.png',
+                        width: screenSize.width * .07,
+                      ),
+                      SizedBox(width: screenSize.width * .02),
+                      DefaultTextStyle(
+                        style: GoogleFonts.poppins(
+                          fontSize: screenSize.width * .041,
+                          color: isDark ? Colors.white : Colors.black87,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        child: const Text('Turning Point'),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: screenSize.height * .02),
+                  Container(
+                    width: double.maxFinite,
+                    height: 1,
+                    color: isDark
+                        ? Colors.white.withOpacity(.2)
+                        : Colors.black.withOpacity(.1),
+                  ),
+                  SizedBox(height: screenSize.height * .024),
+
+                  //====================Phone and WhatsApp Row====================//
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        highlightColor: Colors.blue[100],
+                        splashColor: Colors.blue[50]!.withOpacity(.3),
+                        borderRadius: BorderRadius.circular(6),
+                        onTap: () => connectBloc.add(PhoneConnectEvent()),
+                        child: Column(
+                          children: [
+                            Image.asset(
+                              'assets/icons/phone_icon.png',
+                              width: screenSize.width * .1,
+                            ),
+                            SizedBox(height: screenSize.height * .01),
+                            DefaultTextStyle(
+                              style: GoogleFonts.inter(
+                                fontSize: screenSize.width * .031,
+                                color: isDark ? Colors.white : Colors.black87,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              child: const Text('Phone'),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: screenSize.width * .15),
+                      InkWell(
+                        highlightColor: Colors.green[300],
+                        splashColor: Colors.green[50]!.withOpacity(.3),
+                        borderRadius: BorderRadius.circular(6),
+                        onTap: () => connectBloc.add(WhatsAppConnectEvent()),
+                        child: Column(
+                          children: [
+                            Image.asset(
+                              'assets/icons/whatsapp_icon.png',
+                              width: screenSize.width * .1,
+                            ),
+                            SizedBox(height: screenSize.height * .01),
+                            DefaultTextStyle(
+                              style: GoogleFonts.inter(
+                                fontSize: screenSize.width * .031,
+                                color: isDark ? Colors.white : Colors.black87,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              child: const Text('WhatsApp'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: screenSize.height * .022),
+                  Container(
+                    width: double.maxFinite,
+                    height: 1,
+                    color: isDark
+                        ? Colors.white.withOpacity(.2)
+                        : Colors.black.withOpacity(.1),
+                  ),
+                  SizedBox(height: screenSize.height * .015),
+
+                  //====================Follow Us Row====================//
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: screenSize.width * .04),
+                    child: InkWell(
+                      highlightColor: Colors.pink[100],
+                      splashColor: Colors.pink[50]!.withOpacity(.3),
+                      borderRadius: BorderRadius.circular(6),
+                      onTap: () => launchUrl(
+                        Uri.parse(
+                            'https://www.instagram.com/turningpointvapi?igsh=Y2M5aWJ5ZTNiMTBv'),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          DefaultTextStyle(
+                            style: GoogleFonts.inter(
+                              fontSize: screenSize.width * .031,
+                              color: isDark ? Colors.white : Colors.black87,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            child: const Text('Follow Us On'),
+                          ),
+                          SizedBox(width: screenSize.width * .01),
+                          Image.asset(
+                            'assets/icons/instagram_icon.png',
+                            width: screenSize.width * .04,
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: screenSize.height * .01),
-            Row(
-              children: [
-                Container(
-                  width: screenSize.width * .089,
-                  height: screenSize.width * .089,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color.fromRGBO(236, 236, 236, 1),
-                  ),
-                  child: Center(
-                    child: Image.asset(
-                      'assets/icons/phone_icon.png',
-                      width: screenSize.width * .061,
-                    ),
-                  ),
-                ),
-                SizedBox(width: screenSize.width * .051),
-                DefaultTextStyle(
-                  style: GoogleFonts.roboto(
-                    fontSize: screenSize.width * .031,
-                    fontWeight: FontWeight.w500,
-                    color: const Color.fromRGBO(87, 87, 87, 1),
-                  ),
-                  child: const Text('Phone'),
-                ),
-              ],
-            ),
-            SizedBox(height: screenSize.height * .012),
-            Row(
-              children: [
-                Container(
-                  width: screenSize.width * .089,
-                  height: screenSize.width * .089,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color.fromRGBO(236, 236, 236, 1),
-                  ),
-                  child: Center(
-                    child: Image.asset(
-                      'assets/icons/whatsapp_icon.png',
-                      width: screenSize.width * .069,
-                    ),
-                  ),
-                ),
-                SizedBox(width: screenSize.width * .051),
-                DefaultTextStyle(
-                  style: GoogleFonts.roboto(
-                    fontSize: screenSize.width * .031,
-                    fontWeight: FontWeight.w500,
-                    color: const Color.fromRGBO(87, 87, 87, 1),
-                  ),
-                  child: const Text('WhatsApp'),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-      Positioned(
-        bottom: screenSize.height * .096,
-        right: screenSize.width * .072,
-        child: Transform.rotate(
-          angle: math.pi / 50,
-          child: ClipPath(
-            clipper: ConnectClipperWidget(),
-            child: Container(
-              width: screenSize.width * .036,
-              height: screenSize.width * .036,
-              color: Colors.white,
+                ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     ],
   );
-}
-
-//====================Clipper Widget====================//
-
-class ConnectClipperWidget extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    final path = Path();
-
-    path.lineTo(size.width, 0);
-    path.lineTo(size.width * .5, size.height);
-    path.close();
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
-    return false;
-  }
 }

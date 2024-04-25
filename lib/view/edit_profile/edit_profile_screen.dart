@@ -4,10 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
+import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/dialog/show_animated_otp_dialog.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/dialog/show_edit_profile_dialog.dart';
+import 'package:turning_point/helper/widget/my_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
 import 'package:turning_point/view/edit_profile/segments/edit_profile_picture_segment.dart';
@@ -93,66 +96,86 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     profileBloc.add(ProfileLoadEvent());
-    contractorBloc.add(ContractorLoadEvent());
+    contractorBloc.add(ContractorLoadEvent(isSignUp: false));
 
     return Scaffold(
-      body: SafeArea(
-        child: BlocConsumer<ProfileBloc, ProfileState>(
-          listener: (context, state) {
-            if (state is ProfileLoadedState && state.verifyOtp == true) {
-              showAnimatedOtpDialog(
-                context: context,
-                phone: _phoneController.text,
-                otpController: otpController,
+      appBar: myAppBar(
+        context: context,
+        title: 'Edit Profile',
+      ),
+      body: BlocConsumer<ProfileBloc, ProfileState>(
+        listener: (context, state) {
+          if (state is ProfileLoadedState &&
+              state.verifyOtp == true &&
+              state.exception == null) {
+            showAnimatedOtpDialog(
+              context: context,
+              phone: _phoneController.text,
+              otpController: otpController,
+            );
+          } else if (state is ProfileInactiveState) {
+            Navigator.of(context).pushAndRemoveUntil(
+              PageTransition(
+                child: ProfileInactiveScreen(),
+                type: PageTransitionType.fade,
+                duration: const Duration(milliseconds: 1),
+              ),
+              (_) => false,
+            );
+          } else if (state is ProfileLoadedState && state.exception != null) {
+            showAnimatedGenericDialog(
+              context: context,
+              iconPath: 'assets/lottie/gear_error_animation.json',
+              title: 'Error',
+              content: state.exception.toString(),
+              buttonTitle: 'Dismiss',
+            );
+          }
+        },
+        builder: (context, profileState) {
+          switch (profileState) {
+            case ProfileLoadingState():
+              return const Center(
+                child: CircularProgressIndicator.adaptive(),
               );
-            }
-          },
-          builder: (context, state) {
-            switch (state) {
-              case ProfileLoadingState():
-                return const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                );
 
-              case ProfileInactiveState():
-                return const ProfileInactiveScreen();
+            case ProfileInactiveState():
+              return ProfileInactiveScreen();
 
-              case ProfileLoadErrorState():
-                return Center(
-                  child: Text(
-                    'Something Went Wrong',
-                    style: GoogleFonts.poppins(
-                      fontSize: screenSize.width * .05,
-                      fontWeight: FontWeight.bold,
-                    ),
+            case ProfileLoadErrorState():
+              return Center(
+                child: Text(
+                  'Something Went Wrong',
+                  style: GoogleFonts.poppins(
+                    fontSize: screenSize.width * .05,
+                    fontWeight: FontWeight.bold,
                   ),
-                );
+                ),
+              );
 
-              case ProfileLoadedState():
-                if (!state.isLoading) {
-                  _addressController.text = state.userModel!.address ?? '';
-                  _businessController.text =
-                      state.userModel!.businessName ?? '';
-                  _nameController.text = state.userModel!.name!;
-                  _phoneController.text = state.userModel!.phone!;
-                }
+            case ProfileLoadedState():
+              if (!profileState.isLoading) {
+                _addressController.text =
+                    profileState.userModel!.actualAddress ?? '';
+                _businessController.text =
+                    profileState.userModel!.businessName ?? '';
+                _nameController.text = profileState.userModel!.name!;
+                _phoneController.text = profileState.userModel!.phone!;
+              }
 
-                return SingleChildScrollView(
+              return SafeArea(
+                child: SingleChildScrollView(
                   child: Center(
                     child: Form(
                       key: _formKey,
                       child: Column(
                         children: [
-                          customAppBar(
-                            context: context,
-                            title: 'Edit Profile',
-                          ),
                           //====================Body Segment====================//
                           editProfilePictureSegment(
                             context: context,
-                            userModel: state.userModel!,
+                            userModel: profileState.userModel!,
                           ),
-                          state.isLoading
+                          profileState.isLoading
                               ? Container(
                                   height: screenSize.height * .042,
                                   color: Colors.transparent,
@@ -172,15 +195,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  profileBloc.add(ProfileRadioTriggerEvent(
-                                      isContractor: true));
+                                  profileBloc.add(
+                                    ProfileRadioTriggerEvent(
+                                        isContractor: true),
+                                  );
                                 },
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     customRadioButton(
-                                      isActive:
-                                          state.isContractor ? true : false,
+                                      isActive: profileState.isContractorTemp,
                                     ),
                                     SizedBox(width: screenSize.width * .01),
                                     Text(
@@ -203,8 +227,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     customRadioButton(
-                                      isActive:
-                                          state.isContractor ? false : true,
+                                      isActive: !profileState.isContractorTemp,
                                     ),
                                     SizedBox(width: screenSize.width * .01),
                                     Text(
@@ -241,7 +264,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           ),
 
                           SizedBox(height: screenSize.height * .037),
-                          state.isContractor
+                          profileState.isContractorTemp
                               ? textFieldSegment(
                                   screenSize: screenSize,
                                   controller: _businessController,
@@ -266,35 +289,41 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ),
                           SizedBox(height: screenSize.height * .037),
                           editProfileEmailContainer(
-                              email: state.userModel!.email!),
+                              email: profileState.userModel!.email!),
 
                           SizedBox(height: screenSize.height * .051),
                           GestureDetector(
-                            onTap: () {
+                            onTap: () async {
                               if (_formKey.currentState!.validate()) {
-                                profileBloc.add(
-                                  ProfileUpdateEvent(
-                                    isContractor: state.isContractor,
-                                    name: _nameController.text.trim(),
-                                    phone: _phoneController.text.trim(),
-                                    address: _addressController.text.trim(),
-                                    businessName: state.isContractor
-                                        ? _businessController.text.trim()
-                                        : null,
-                                    email: state.userModel!.email!,
-                                    contractor: !state.isContractor
-                                        ? contractorBloc.state.contractor
-                                        : null,
-                                  ),
-                                );
-                                if (_phoneController.text.trim() !=
-                                    state.userModel!.phone) {
+                                final shouldUpdate =
+                                    await showEditProfileDialog(
+                                        context: context);
+                                if (shouldUpdate == true) {
                                   profileBloc.add(
-                                    ProfilePhoneUpdateEvent(
+                                    ProfileUpdateEvent(
+                                      isContractor:
+                                          profileState.isContractorTemp,
+                                      name: _nameController.text.trim(),
                                       phone: _phoneController.text.trim(),
-                                      otpController: otpController,
+                                      address: _addressController.text.trim(),
+                                      businessName: profileState.isContractor
+                                          ? _businessController.text.trim()
+                                          : null,
+                                      email: profileState.userModel!.email!,
+                                      contractor: !profileState.isContractor
+                                          ? contractorBloc.state.contractor
+                                          : null,
                                     ),
                                   );
+                                  if (_phoneController.text.trim() !=
+                                      profileState.userModel!.phone) {
+                                    profileBloc.add(
+                                      ProfilePhoneUpdateEvent(
+                                        phone: _phoneController.text.trim(),
+                                        otpController: otpController,
+                                      ),
+                                    );
+                                  }
                                 }
                               }
                             },
@@ -322,10 +351,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                   ),
-                );
-            }
-          },
-        ),
+                ),
+              );
+          }
+        },
       ),
     );
   }

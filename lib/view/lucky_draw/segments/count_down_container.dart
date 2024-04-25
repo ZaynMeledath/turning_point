@@ -9,7 +9,7 @@ Widget countDownContainer({
     height: screenSize.width * .22,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(8),
-      color: const Color.fromRGBO(255, 255, 255, .5),
+      color: const Color.fromRGBO(255, 255, 255, .9),
     ),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.end,

@@ -12,7 +12,7 @@ class CustomNavigator {
         child: child,
         type: PageTransitionType.rightToLeft,
         duration: const Duration(milliseconds: 350),
-        reverseDuration: const Duration(milliseconds: 350),
+        reverseDuration: const Duration(milliseconds: 300),
       ),
     );
   }
@@ -27,7 +27,6 @@ class CustomNavigator {
         child: child,
         type: PageTransitionType.rightToLeft,
         duration: const Duration(milliseconds: 350),
-        reverseDuration: const Duration(milliseconds: 350),
       ),
       (_) => false,
     );
@@ -38,12 +37,12 @@ class CustomNavigator {
     required BuildContext context,
     required Widget child,
   }) {
-    return Navigator.of(context).push(
+    return Navigator.of(context).pushReplacement(
       PageTransition(
         child: child,
         type: PageTransitionType.rightToLeft,
         duration: const Duration(milliseconds: 350),
-        reverseDuration: const Duration(milliseconds: 350),
+        reverseDuration: const Duration(milliseconds: 300),
       ),
     );
   }
