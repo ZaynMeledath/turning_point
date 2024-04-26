@@ -25,14 +25,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await provider.initialize();
         final userFromPreference = UserRepository.getUserFromPreference();
         if (provider.currentUser == null && userFromPreference != null) {
-          // AppPreferences.clearSharedPreferences();
-          // return emit(InitialState());
           await provider.signIn();
         }
         final user =
             await UserRepository.getUserById(avoidGettingFromPreference: true);
         if (user == null) {
-          // if (provider.currentUser != null) provider.signOut();
           final token = await provider.signIn();
           final fcmToken = await provider.getFcmToken();
           await UserRepository.userSignIn(
@@ -40,8 +37,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             fcmToken: fcmToken!,
           );
         }
-        // AppPreferences.clearSharedPreferences();
-        // return emit(InitialState());
+
         profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
         pointsBloc.add(PointsLoadEvent(avoidGettingUserFromPreference: true));
         return emit(SignedInState());
@@ -74,10 +70,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           }
         } on ProfileInactiveException {
           return emit(ProfileInactiveState());
-        } on CouldNotSignInUserAuthException catch (e) {
-          return emit(AuthErrorState(message: e.errorMessage));
+        } on CouldNotSignInUserAuthException {
+          return emit(const AuthErrorState(
+              message: 'Something went wrong while connecting to the server.'));
         } catch (e) {
-          throw Exception(e);
+          return emit(
+            const AuthErrorState(
+              message: 'Something went wrong while connecting to the server',
+            ),
+          );
         }
       },
     );

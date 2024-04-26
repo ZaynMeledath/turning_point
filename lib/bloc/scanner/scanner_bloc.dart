@@ -21,8 +21,12 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
 //====================Scanner Code Detect Event====================//
     on<ScannerCodeDetectEvent>((event, emit) async {
       try {
-        await LocationRepository.sendLocationToServer();
-        final couponModel = await scannerRepo.applyCoupon(event.couponId);
+        // await LocationRepository.sendLocationToServer();
+        final location = await LocationRepository.getCurrentLocation();
+        final couponModel = await scannerRepo.applyCoupon(
+          couponId: event.couponId,
+          location: location,
+        );
 
         final userModelResponse = UserRepository.getUserFromPreference()!;
         userModelResponse.data!.points =

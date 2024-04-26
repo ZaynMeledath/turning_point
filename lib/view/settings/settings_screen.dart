@@ -64,25 +64,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       isEnabled: true,
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          content: const Text(
-                              'Biometrics cannot be turned on at the moment'),
-                        ),
-                      );
-                    },
-                    child: settingsOption(
-                      iconPath: 'assets/icons/biometrics_icon.png',
-                      title: 'Enable Biometrics',
-                      isEnabled: false,
-                    ),
-                  ),
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     ScaffoldMessenger.of(context).showSnackBar(
+                  //       SnackBar(
+                  //         behavior: SnackBarBehavior.floating,
+                  //         shape: RoundedRectangleBorder(
+                  //           borderRadius: BorderRadius.circular(12),
+                  //         ),
+                  //         content: const Text(
+                  //             'Biometrics cannot be turned on at the moment'),
+                  //       ),
+                  //     );
+                  //   },
+                  //   child: settingsOption(
+                  //     iconPath: 'assets/icons/biometrics_icon.png',
+                  //     title: 'Enable Biometrics',
+                  //     isEnabled: false,
+                  //   ),
+                  // ),
                   GestureDetector(
                     onTap: () {
                       ScaffoldMessenger.of(context).showSnackBar(
