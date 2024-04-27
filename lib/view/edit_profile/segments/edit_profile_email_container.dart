@@ -6,7 +6,7 @@ Widget editProfileEmailContainer({required String email}) {
     child: Center(
       child: GestureDetector(
         onTap: () {
-          profileBloc.add(ProfileEmailUpdateEvent());
+          // profileBloc.add(ProfileEmailUpdateEvent());
         },
         child: SizedBox(
           height: screenSize.height * .058 + (screenSize.height * .019) / 2,

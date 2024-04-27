@@ -52,35 +52,12 @@ class _ReelsPlayerState extends State<ReelsPlayer>
     super.dispose();
   }
 
-  // void showIconOverlay() {
-  //   final overlayEntry = OverlayEntry(builder: (context) {
-  //     return Icon(
-  //       isMute ? Icons.volume_off : Icons.volume_up,
-  //       size: 70.0,
-  //       color: Colors.white.withOpacity(.8),
-  //     );
-  //   });
-
-  //   Overlay.of(context).insert(overlayEntry);
-
-  //   // Set a timer to remove the overlay
-  //   Timer(const Duration(milliseconds: 750), () {
-  //     overlayEntry.remove();
-  //     overlayEntry.dispose();
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     WakelockPlus.enable();
     return ValueListenableBuilder(
       valueListenable: widget.videoController,
       builder: (context, value, child) {
-        if (value.isInitialized &&
-            !value.isPlaying &&
-            !preloadBloc.manuallyPaused) {
-          preloadBloc.playCurrentController();
-        }
         if (!preloadBloc.manuallyPaused) {
           animationController.reverse();
         }

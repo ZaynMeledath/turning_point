@@ -67,13 +67,17 @@ void main() async {
     ],
   );
 
+//====================Requesting Permissions====================//
   if (!await AwesomeNotifications().isNotificationAllowed()) {
     AwesomeNotifications().requestPermissionToSendNotifications();
   }
 
   if (!await Permission.location.isGranted) {
-    await Permission.location.request();
-    await Permission.locationAlways.request();
+    Permission.location.request();
+  }
+
+  if (!await Permission.locationAlways.isGranted) {
+    Permission.locationAlways.request();
   }
 
   AwesomeNotifications().setListeners(

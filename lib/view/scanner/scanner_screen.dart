@@ -1,9 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -14,9 +12,7 @@ import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/dialog/show_scanner_coupon_dialog.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/resources/location_repository.dart';
-import 'package:turning_point/service/api/api_endpoints.dart';
-import 'package:turning_point/service/api/api_service.dart';
+
 import 'dart:math' as math;
 
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -49,7 +45,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
         });
       }
     });
-    getLocation();
+    // getLocation();
     super.initState();
   }
 
@@ -69,25 +65,25 @@ class _ScannerScreenState extends State<ScannerScreen> {
     });
   }
 
-  void getLocation() async {
-    Timer.periodic(const Duration(seconds: 10), (timer) async {
-      Position? locationData =
-          await LocationRepository.getLocationInBackground();
-      if (locationData != null) {
-        await ApiService().sendRequest(
-          url: ApiEndpoints.monitorLocation,
-          requestMethod: RequestMethod.PATCH,
-          data: {
-            "coordinates": [
-              locationData.latitude,
-              locationData.longitude,
-            ],
-          },
-          isTokenRequired: true,
-        );
-      }
-    });
-  }
+  // void getLocation() async {
+  //   Timer.periodic(const Duration(seconds: 10), (timer) async {
+  //     Position? locationData =
+  //         await LocationRepository.getLocationInBackground();
+  //     if (locationData != null) {
+  //       await ApiService().sendRequest(
+  //         url: ApiEndpoints.monitorLocation,
+  //         requestMethod: RequestMethod.PATCH,
+  //         data: {
+  //           "coordinates": [
+  //             locationData.latitude,
+  //             locationData.longitude,
+  //           ],
+  //         },
+  //         isTokenRequired: true,
+  //       );
+  //     }
+  //   });
+  // }
 
   @override
   void dispose() {

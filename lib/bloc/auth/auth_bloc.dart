@@ -40,7 +40,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
         pointsBloc.add(PointsLoadEvent(avoidGettingUserFromPreference: true));
-        return emit(SignedInState());
+        return emit(DirectSignedInState());
       } on ProfileInactiveException {
         return emit(ProfileInactiveState());
       } catch (e) {

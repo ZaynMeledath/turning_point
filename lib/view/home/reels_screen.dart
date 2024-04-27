@@ -60,7 +60,7 @@ class ReelsScreenState extends State<ReelsScreen>
     setState(() {
       WakelockPlus.enable();
     });
-    locationServiceBloc.add(LocationServiceStartEvent());
+    // locationServiceBloc.add(LocationServiceStartEvent());
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: true));
 
     if (!preloadBloc.manuallyPaused) {
@@ -72,11 +72,11 @@ class ReelsScreenState extends State<ReelsScreen>
         );
       });
     }
-    enableWakelock();
+    getFcmToken();
     super.didChangeDependencies();
   }
 
-  void enableWakelock() async {
+  void getFcmToken() async {
     final token = await FirebaseMessaging.instance.getToken();
     log('FCM Token : ${token.toString()}');
   }

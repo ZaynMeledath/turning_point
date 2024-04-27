@@ -39,14 +39,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   late final TextEditingController otpController;
   final GlobalKey<FormState> _formKey = GlobalKey();
 
-  // CloseDialog? _closeDialogHandle;
-
-  // late final FocusNode _nameNode;
-  // late final FocusNode _mobileNode;
-  // late final FocusNode _addressNode;
-  // late final FocusNode _businessNode;
-  // late final FocusNode _emailNode;
-
   @override
   void initState() {
     super.initState();
@@ -56,12 +48,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _businessController = TextEditingController();
     _searchController = TextEditingController();
     otpController = TextEditingController();
-
-    // _nameNode = FocusNode();
-    // _mobileNode = FocusNode();
-    // _addressNode = FocusNode();
-    // _businessNode = FocusNode();
-    // _emailNode = FocusNode();
   }
 
   @override
@@ -73,25 +59,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _businessController.dispose();
     _searchController.dispose();
     otpController.dispose();
-    // loadingOverlay.dispose();
-
-    // _nameNode.dispose();
-    // _mobileNode.dispose();
-    // _addressNode.dispose();
-    // _businessNode.dispose();
-    // _emailNode.dispose();
   }
-
-  // final loadingOverlay = OverlayEntry(builder: (_) {
-  //   return Positioned(
-  //     left: screenSize.width * .5 - 7,
-  //     top: screenSize.height * .25,
-  //     child: const CupertinoActivityIndicator(
-  //       radius: 12,
-  //       color: Color.fromRGBO(0, 99, 255, 1),
-  //     ),
-  //   );
-  // });
 
   @override
   Widget build(BuildContext context) {
@@ -299,30 +267,34 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     await showEditProfileDialog(
                                         context: context);
                                 if (shouldUpdate == true) {
-                                  profileBloc.add(
-                                    ProfileUpdateEvent(
+                                  if (hasChanges(
                                       isContractor:
-                                          profileState.isContractorTemp,
-                                      name: _nameController.text.trim(),
-                                      phone: _phoneController.text.trim(),
-                                      address: _addressController.text.trim(),
-                                      businessName: profileState.isContractor
-                                          ? _businessController.text.trim()
-                                          : null,
-                                      email: profileState.userModel!.email!,
-                                      contractor: !profileState.isContractor
-                                          ? contractorBloc.state.contractor
-                                          : null,
-                                    ),
-                                  );
-                                  if (_phoneController.text.trim() !=
-                                      profileState.userModel!.phone) {
+                                          profileState.isContractorTemp)) {
                                     profileBloc.add(
-                                      ProfilePhoneUpdateEvent(
+                                      ProfileUpdateEvent(
+                                        isContractor:
+                                            profileState.isContractorTemp,
+                                        name: _nameController.text.trim(),
                                         phone: _phoneController.text.trim(),
-                                        otpController: otpController,
+                                        address: _addressController.text.trim(),
+                                        businessName: profileState.isContractor
+                                            ? _businessController.text.trim()
+                                            : null,
+                                        email: profileState.userModel!.email!,
+                                        contractor: !profileState.isContractor
+                                            ? contractorBloc.state.contractor
+                                            : null,
                                       ),
                                     );
+                                    if (_phoneController.text.trim() !=
+                                        profileState.userModel!.phone) {
+                                      profileBloc.add(
+                                        ProfilePhoneUpdateEvent(
+                                          phone: _phoneController.text.trim(),
+                                          otpController: otpController,
+                                        ),
+                                      );
+                                    }
                                   }
                                 }
                               }
@@ -359,32 +331,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  // void updateProfile({
-  //   required BuildContext context,
-  //   required bool isContractor,
-  //   required String? businessName,
-  //   required String email,
-  //   required ContractorModel? contractor,
-  //   required UserModel userModel,
-  // }) {
-  //   if (_formKey.currentState!.validate()) {
-  //     profileBloc.add(
-  //       ProfileUpdateEvent(
-  //         isContractor: isContractor,
-  //         name: _nameController.text.trim(),
-  //         phone: _phoneController.text.trim(),
-  //         address: _addressController.text.trim(),
-  //         businessName: businessName,
-  //         email: email,
-  //         contractor: contractor,
-  //       ),
-  //     );
-  //     if (_phoneController.text.trim() != userModel.phone) {
-  //       profileBloc.add(ProfilePhoneUpdateEvent(
-  //         phone: _phoneController.text.trim(),
-  //         otpController: otpController,
-  //       ));
-  //     }
-  //   }
-  // }
+  bool hasChanges({required bool isContractor}) {
+    final userModel = profileBloc.state.userModel!;
+    if (_nameController.text.trim() != userModel.name ||
+            _phoneController.text.trim() != userModel.phone ||
+            _addressController.text.trim() != userModel.actualAddress ||
+            isContractor
+        ? _businessController.text.trim() != userModel.businessName
+        : (contractorBloc.state.contractor!.name !=
+                userModel.contractor!.name ||
+            contractorBloc.state.contractor!.businessName !=
+                userModel.contractor!.businessName)) {
+      return true;
+    }
+    return false;
+  }
 }
