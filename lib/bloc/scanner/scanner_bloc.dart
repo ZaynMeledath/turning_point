@@ -20,8 +20,8 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
   ScannerBloc() : super(ScannerInitialState()) {
 //====================Scanner Code Detect Event====================//
     on<ScannerCodeDetectEvent>((event, emit) async {
+      emit(ScannerCodeDetectingState());
       try {
-        // await LocationRepository.sendLocationToServer();
         final location = await LocationRepository.getCurrentLocation();
         final couponModel = await scannerRepo.applyCoupon(
           couponId: event.couponId,

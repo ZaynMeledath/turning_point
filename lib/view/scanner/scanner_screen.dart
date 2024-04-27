@@ -11,6 +11,7 @@ import 'package:turning_point/bloc/home/home_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/scanner/scanner_bloc.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
+import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/dialog/show_scanner_coupon_dialog.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/resources/location_repository.dart';
@@ -103,8 +104,11 @@ class _ScannerScreenState extends State<ScannerScreen> {
     return Scaffold(
       body: BlocConsumer<ScannerBloc, ScannerState>(
         listener: (context, state) {
-          if (state is ScannerCodeDetectedState) {
+          if (state is ScannerCodeDetectingState) {
+            showLoadingDialog(context: context);
+          } else if (state is ScannerCodeDetectedState) {
             couponController.clear();
+            Navigator.pop(context);
             switch (state.couponModel!.message) {
               case 'Coupon Applied':
                 showScannerCouponDialog(
