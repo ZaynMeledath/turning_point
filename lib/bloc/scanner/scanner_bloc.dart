@@ -63,6 +63,7 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
           ),
         );
       } catch (e) {
+        log('EXCEPTION IN SCANNER BLOC : $e');
         return emit(
           ScannerCodeDetectedState(
             couponModel: CouponModel(
@@ -89,7 +90,9 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
       scanMode: ScanMode.QR,
     );
 
-    scannerBloc.add(ScannerCodeDetectEvent(couponId: barcodeScanResult));
+    if (barcodeScanResult.isNotEmpty && barcodeScanResult != '-1') {
+      scannerBloc.add(ScannerCodeDetectEvent(couponId: barcodeScanResult));
+    }
   }
 
 //====================State Change Logger====================//

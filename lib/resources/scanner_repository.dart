@@ -21,14 +21,10 @@ class ScannerRepository {
         isTokenRequired: true,
       );
       return CouponModel.fromJson(response);
-    } on CustomException catch (e) {
-      if (e.message == 'Coupon has already been applied') {
-        throw CouponAlreadyAppliedException();
-      } else if (e.message == 'Coupon not found') {
-        throw CouponNotFoundException();
-      } else {
-        throw Exception(e);
-      }
+    } on BadRequestException {
+      throw CouponAlreadyAppliedException();
+    } on NotFoundException {
+      throw CouponNotFoundException();
     } catch (e) {
       throw Exception(e);
     }

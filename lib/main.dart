@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:turning_point/bloc/connect/connect_bloc.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
 import 'package:turning_point/bloc/contest/join_contest_bloc.dart';
@@ -68,6 +69,11 @@ void main() async {
 
   if (!await AwesomeNotifications().isNotificationAllowed()) {
     AwesomeNotifications().requestPermissionToSendNotifications();
+  }
+
+  if (!await Permission.location.isGranted) {
+    await Permission.location.request();
+    await Permission.locationAlways.request();
   }
 
   AwesomeNotifications().setListeners(

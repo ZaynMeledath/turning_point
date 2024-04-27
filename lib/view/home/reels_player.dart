@@ -76,6 +76,11 @@ class _ReelsPlayerState extends State<ReelsPlayer>
     return ValueListenableBuilder(
       valueListenable: widget.videoController,
       builder: (context, value, child) {
+        if (value.isInitialized &&
+            !value.isPlaying &&
+            !preloadBloc.manuallyPaused) {
+          preloadBloc.playCurrentController();
+        }
         if (!preloadBloc.manuallyPaused) {
           animationController.reverse();
         }
