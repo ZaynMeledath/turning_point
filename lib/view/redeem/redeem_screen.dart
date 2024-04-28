@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -50,7 +52,14 @@ class _RedeemScreenState extends State<RedeemScreen> {
   void initState() {
     super.initState();
     upiController = TextEditingController();
+  }
+
+  @override
+  void didChangeDependencies() {
+    profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
     contestBloc.add(ContestLoadEvent());
+
+    super.didChangeDependencies();
   }
 
   @override
@@ -94,7 +103,7 @@ class _RedeemScreenState extends State<RedeemScreen> {
           SizedBox(height: screenSize.height * .04),
 
           //====================Redeem Options Segment====================//
-          redeemOptionsSegment(context: context, screenSize: screenSize),
+          redeemOptionsSegment(context: context),
           SizedBox(height: screenSize.height * .015),
 
           //====================Redeem Options Body Segment====================//
@@ -224,4 +233,8 @@ class _RedeemScreenState extends State<RedeemScreen> {
       ),
     );
   }
+}
+
+Future<void> handleRefresh() async {
+  profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
 }

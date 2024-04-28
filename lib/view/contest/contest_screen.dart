@@ -137,7 +137,7 @@ class _ContestScreenState extends State<ContestScreen> {
                         );
                       } else {
                         return LiquidPullToRefresh(
-                          height: 70,
+                          height: 60,
                           animSpeedFactor: 1.5,
                           showChildOpacityTransition: false,
                           color: const Color.fromRGBO(89, 165, 255, 1),
