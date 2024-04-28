@@ -42,7 +42,7 @@ Widget availablePointsContainer() {
             ),
 
             //====================Title====================//
-            SizedBox(height: screenSize.height * .005),
+            SizedBox(height: screenSize.height * .01),
             Text(
               'Available Points to Redeem',
               style: GoogleFonts.roboto(
@@ -52,6 +52,8 @@ Widget availablePointsContainer() {
               ),
             ),
 
+            SizedBox(height: screenSize.height * .01),
+
             //====================Available Points====================//
             Text(
               '$points',
@@ -59,6 +61,7 @@ Widget availablePointsContainer() {
                 fontSize: screenSize.width * .092,
                 color: const Color.fromRGBO(255, 176, 53, 1),
                 fontWeight: FontWeight.w500,
+                height: 1,
               ),
             ),
           ],
