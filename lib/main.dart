@@ -1,13 +1,10 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:turning_point/bloc/connect/connect_bloc.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
@@ -90,16 +87,6 @@ void main() async {
         NotificationController.onDismissActionReceivedMethod,
   );
 
-//--------------------Internet Check--------------------//
-  // final InternetConnectionChecker customInstance =
-  //     InternetConnectionChecker.createInstance(
-  //   checkTimeout: const Duration(seconds: 1),
-  //   checkInterval: const Duration(seconds: 1),
-  // );
-
-  // // Check internet connection with created instance
-  // await executeInternetChecker(customInstance);
-
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -107,8 +94,6 @@ void main() async {
 }
 
 Future<void> _firebasePushHandler(RemoteMessage message) async {
-  log('Notificatication');
-  log('MESSAGE ID : ${message.messageId}');
   await AwesomeNotifications().createNotification(
     content: NotificationContent(
       id: DateTime.now().millisecondsSinceEpoch.remainder(1000),
@@ -180,7 +165,6 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        builder: FToastBuilder(),
         debugShowCheckedModeBanner: false,
         title: 'Turning Point',
         theme: ThemeData(

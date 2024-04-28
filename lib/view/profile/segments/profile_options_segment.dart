@@ -60,6 +60,8 @@ Widget profileOptionsSegment({
         builder: (context, state) {
           return GestureDetector(
             onTap: () {
+              profileBloc
+                  .add(ProfileLoadEvent(avoidGettingFromPreference: true));
               if (state.userModel!.kycStatus == null ||
                   state.userModel!.kycStatus == KycStatus.PENDING) {
                 CustomNavigator.push(

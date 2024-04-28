@@ -34,6 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       preloadBloc.pauseCurrentController();
     }
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
+    profileBloc.add(ProfileLoadEvent());
     super.didChangeDependencies();
   }
 
