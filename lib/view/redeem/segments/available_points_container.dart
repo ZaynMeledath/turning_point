@@ -36,6 +36,7 @@ Widget availablePointsContainer() {
             BlocBuilder<ProfileBloc, ProfileState>(
               builder: (context, profileState) {
                 return CircleAvatar(
+                  radius: screenSize.width * .051,
                   foregroundImage: NetworkImage(profileState.userModel!.image!),
                 );
               },

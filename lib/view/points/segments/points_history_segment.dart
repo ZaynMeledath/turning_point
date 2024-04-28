@@ -52,6 +52,12 @@ Widget pointsHistorySegment({
                     topLeft: Radius.circular(24),
                     topRight: Radius.circular(24),
                   ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurStyle: BlurStyle.outer,
+                    ),
+                  ],
                 ),
                 child: ListView.builder(
                   padding: EdgeInsets.only(top: screenSize.height * .021),
