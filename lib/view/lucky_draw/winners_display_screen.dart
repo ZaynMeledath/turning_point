@@ -93,6 +93,45 @@ class _WinnersDisplayScreenState extends State<WinnersDisplayScreen>
                       height: screenSize.height,
                       fit: BoxFit.cover,
                     ),
+                    Positioned(
+                      top: -realScreenSize.width * .5,
+                      child: Container(
+                        width: realScreenSize.width,
+                        height: realScreenSize.width,
+                        decoration: const BoxDecoration(
+                          color: Color.fromRGBO(247, 247, 247, .15),
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color.fromRGBO(177, 177, 177, 0.04),
+                              offset: Offset(41, 4),
+                              blurRadius: 4,
+                              blurStyle: BlurStyle.outer,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: screenSize.height * .6,
+                      right: -screenSize.width * .38,
+                      child: Container(
+                        width: screenSize.width * .74,
+                        height: screenSize.width * .74,
+                        decoration: const BoxDecoration(
+                          color: Color.fromRGBO(247, 247, 247, .15),
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color.fromRGBO(177, 177, 177, 0.04),
+                              offset: Offset(41, 4),
+                              blurRadius: 4,
+                              blurStyle: BlurStyle.outer,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     Column(
                       children: [
                         SizedBox(height: screenSize.height * .1),
