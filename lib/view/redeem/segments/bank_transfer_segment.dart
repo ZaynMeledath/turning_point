@@ -7,7 +7,7 @@ Widget bankTransferSegment({required BuildContext context}) {
       //     state.userModel!.bankDetails!.isNotEmpty;
       return LiquidPullToRefresh(
         onRefresh: () => handleRefresh(),
-        animSpeedFactor: 1.5,
+        animSpeedFactor: 2,
         height: 50,
         showChildOpacityTransition: false,
         color: const Color.fromRGBO(255, 215, 0, 1),

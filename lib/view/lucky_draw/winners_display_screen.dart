@@ -32,10 +32,16 @@ class _WinnersDisplayScreenState extends State<WinnersDisplayScreen>
   void initState() {
     celebrationLottieController =
         AnimationController(vsync: this, duration: const Duration(seconds: 4));
+
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
     Future.delayed(const Duration(seconds: 1), () {
       rewardsBloc.add(RewardsLoadEvent());
     });
-    super.initState();
+    super.didChangeDependencies();
   }
 
   @override

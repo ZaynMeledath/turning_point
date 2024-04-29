@@ -4,17 +4,19 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:turning_point/bloc/rewards/rewards_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/model/rewards_model.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
 import 'package:turning_point/view/rewards/segments/round_prize_container.dart';
 
-Widget mainPrizeSegment() {
+Widget mainPrizeSegment({RewardsModel? rewards}) {
   return BlocBuilder<RewardsBloc, RewardsState>(
     builder: (context, state) {
       return BlocBuilder<RewardsBloc, RewardsState>(
         builder: (context, state) {
-          final rewardsModel = state.tabIndex == 0
-              ? state.currentRewardsModel
-              : state.previousRewardsModel;
+          final rewardsModel = rewards ??
+              (state.tabIndex == 0
+                  ? state.currentRewardsModel
+                  : state.previousRewardsModel);
 
           return Stack(
             alignment: Alignment.topCenter,

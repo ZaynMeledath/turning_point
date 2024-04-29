@@ -163,7 +163,7 @@ Widget dashboardCouponSegment({required BuildContext context}) {
       } else {
         return LiquidPullToRefresh(
           height: 50,
-          animSpeedFactor: 1.5,
+          animSpeedFactor: 2,
           showChildOpacityTransition: false,
           color: const Color.fromRGBO(89, 165, 255, 1),
           backgroundColor: Colors.white,

@@ -147,7 +147,7 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
                 return SafeArea(
                   child: LiquidPullToRefresh(
                     height: 80,
-                    animSpeedFactor: 1.5,
+                    animSpeedFactor: 2,
                     showChildOpacityTransition: false,
                     color: const Color.fromRGBO(31, 51, 170, .2),
                     backgroundColor: Colors.white,

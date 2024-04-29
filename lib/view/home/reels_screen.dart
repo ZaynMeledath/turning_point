@@ -134,8 +134,8 @@ class ReelsScreenState extends State<ReelsScreen>
             case ProfileLoadedState():
               return LiquidPullToRefresh(
                 onRefresh: () => handleRefresh(),
-                animSpeedFactor: 1.5,
-                height: 80,
+                animSpeedFactor: 1.7,
+                height: 70,
                 showChildOpacityTransition: false,
                 color: Colors.teal,
                 backgroundColor: Colors.white,

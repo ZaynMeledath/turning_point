@@ -9,6 +9,7 @@ import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/rewards/rewards_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
+import 'package:turning_point/model/rewards_model.dart';
 import 'package:turning_point/view/rewards/segments/rank_list_segment.dart';
 import 'package:turning_point/view/rewards/segments/rewards_body_segment.dart';
 import 'package:turning_point/view/rewards/segments/rewards_tab_bar.dart';
@@ -33,11 +34,6 @@ class _RewardsScreenState extends State<RewardsScreen>
 
   @override
   void initState() {
-    if (luckyDrawBloc.state.secondsLeft == null ||
-        luckyDrawBloc.state.secondsLeft! == 0) {
-      rewardsBloc.add(RewardsLoadEvent());
-    }
-
     tabController = TabController(length: 2, vsync: this);
     scrollController = ScrollController();
     scrollController.addListener(() {
@@ -62,6 +58,14 @@ class _RewardsScreenState extends State<RewardsScreen>
       preloadBloc.pauseCurrentController();
     }
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
+    luckyDrawBloc.add(LuckyDrawLoadEvent());
+
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (luckyDrawBloc.state.secondsLeft == null ||
+          luckyDrawBloc.state.secondsLeft! == 0) {
+        rewardsBloc.add(RewardsLoadEvent());
+      }
+    });
     disableWakeLock();
     super.didChangeDependencies();
   }
@@ -96,6 +100,18 @@ class _RewardsScreenState extends State<RewardsScreen>
             case RewardsLoadedState():
               if (rewardsState.currentRewardsModel != null &&
                   rewardsState.previousRewardsModel != null) {
+                if (luckyDrawBloc.isWinnerDisplayEventActive) {
+                  if (!audioPlayed) {
+                    audioPlayed = true;
+                    audioPlayer.play(
+                      mode: PlayerMode.lowLatency,
+                      AssetSource('sounds/ding_sparkle_sound.mp3'),
+                    );
+                  }
+                  return SingleContestRewardsScreen(
+                    rewardsModel: rewardsState.previousRewardsModel,
+                  );
+                }
                 if (!audioPlayed) {
                   audioPlayed = true;
                   AudioPlayer().play(
@@ -180,7 +196,8 @@ class _RewardsScreenState extends State<RewardsScreen>
                       : Container(),
                 );
               } else if (rewardsState.currentRewardsModel != null &&
-                  rewardsState.previousRewardsModel == null) {
+                  rewardsState.previousRewardsModel == null &&
+                  !luckyDrawBloc.isWinnerDisplayEventActive) {
                 if (!audioPlayed) {
                   audioPlayed = true;
                   audioPlayer.play(
@@ -199,7 +216,7 @@ class _RewardsScreenState extends State<RewardsScreen>
                       }
                     },
                     height: 80,
-                    animSpeedFactor: 1.5,
+                    animSpeedFactor: 2,
                     showChildOpacityTransition: false,
                     color: const Color.fromRGBO(89, 165, 255, 1),
                     backgroundColor: Colors.white,
