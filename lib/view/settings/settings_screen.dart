@@ -62,6 +62,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       iconPath: 'assets/icons/notifications_icon.png',
                       title: 'Notification',
                       isEnabled: true,
+                      onSwitched: (value) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            content: const Text(
+                                'Notification cannot be turned off at the moment'),
+                          ),
+                        );
+                      },
                     ),
                   ),
                   // GestureDetector(
