@@ -1,5 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/flight_shuttle.dart';
 import 'package:turning_point/helper/screen_size.dart';
@@ -24,8 +30,27 @@ class _FirstBoardingScreenState extends State<FirstBoardingScreen> {
         });
       });
     });
-
+    checkNetworkConnection();
     super.initState();
+  }
+
+  void checkNetworkConnection() async {
+    dynamic result;
+    Timer.run(() async {
+      result = await InternetAddress.lookup('google.com');
+    });
+    Future.delayed(const Duration(milliseconds: 600), () {
+      if (result == null) {
+        showAnimatedGenericDialog(
+          context: context,
+          iconPath: 'assets/lottie/no_internet_animation.json',
+          title: 'No Internet Connection',
+          content: 'Check your connectivity status and try again',
+          buttonTitle: 'OK',
+          iconWidth: screenSize.width * .25,
+        );
+      }
+    });
   }
 
   @override
