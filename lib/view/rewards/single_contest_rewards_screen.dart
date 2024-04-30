@@ -1,7 +1,11 @@
 part of 'rewards_screen.dart';
 
 class SingleContestRewardsScreen extends StatefulWidget {
-  const SingleContestRewardsScreen({super.key});
+  final RewardsModel? rewardsModel;
+  const SingleContestRewardsScreen({
+    this.rewardsModel,
+    super.key,
+  });
 
   @override
   State<SingleContestRewardsScreen> createState() =>
@@ -64,7 +68,8 @@ class _SingleContestRewardsScreenState extends State<SingleContestRewardsScreen>
                 leadingWidth: double.infinity,
                 toolbarHeight: screenSize.height * .069,
                 automaticallyImplyLeading: false,
-                flexibleSpace: rewardsBodySegment(),
+                flexibleSpace:
+                    rewardsBodySegment(rewardsModel: widget.rewardsModel),
               ),
               SliverAppBar(
                 backgroundColor: Colors.white,
@@ -88,7 +93,8 @@ class _SingleContestRewardsScreenState extends State<SingleContestRewardsScreen>
                   itemBuilder: (context, index) {
                     return rankListSegment(
                       index: index,
-                      rewardsModel: state.currentRewardsModel!,
+                      rewardsModel:
+                          widget.rewardsModel ?? state.currentRewardsModel!,
                     );
                   },
                 )

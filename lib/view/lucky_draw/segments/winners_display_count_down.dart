@@ -8,7 +8,7 @@ Widget winnersDisplayCountDown() {
             ((state.secondsLeft! % LUCKY_DRAW_WINNER_DISPLAY_DELAY) + 1)
                 .toString()
                 .padLeft(2, '0');
-        String minutes = '00';
+        // String minutes = '00';
         return Column(
           children: [
             Text(
@@ -24,27 +24,27 @@ Widget winnersDisplayCountDown() {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                DottedBorder(
-                  color: Colors.white,
-                  borderType: BorderType.RRect,
-                  radius: const Radius.circular(100),
-                  child: Container(
-                    width: screenSize.width * .15,
-                    height: screenSize.width * .15,
-                    color: Colors.transparent,
-                    child: Center(
-                      child: Text(
-                        minutes,
-                        style: GoogleFonts.inter(
-                          fontSize: screenSize.width * .06,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: screenSize.width * .04),
+                // DottedBorder(
+                //   color: Colors.white,
+                //   borderType: BorderType.RRect,
+                //   radius: const Radius.circular(100),
+                //   child: Container(
+                //     width: screenSize.width * .15,
+                //     height: screenSize.width * .15,
+                //     color: Colors.transparent,
+                //     child: Center(
+                //       child: Text(
+                //         minutes,
+                //         style: GoogleFonts.inter(
+                //           fontSize: screenSize.width * .06,
+                //           fontWeight: FontWeight.w700,
+                //           color: Colors.white,
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                // SizedBox(width: screenSize.width * .04),
                 DottedBorder(
                   color: Colors.white,
                   borderType: BorderType.RRect,

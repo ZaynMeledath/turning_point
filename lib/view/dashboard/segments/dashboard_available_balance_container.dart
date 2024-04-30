@@ -19,7 +19,7 @@ Widget dashboardAvailableBalanceContainer({
 
   return Container(
     width: double.infinity,
-    height: screenSize.height * .15,
+    height: screenSize.width * .32,
     padding: EdgeInsets.symmetric(
       horizontal: screenSize.width * .04,
       vertical: screenSize.width * .034,

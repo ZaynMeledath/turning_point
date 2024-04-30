@@ -31,7 +31,7 @@ class KycSubmittedScreen extends StatelessWidget {
             body: SafeArea(
               child: LiquidPullToRefresh(
                 height: 80,
-                animSpeedFactor: 1.5,
+                animSpeedFactor: 2,
                 showChildOpacityTransition: false,
                 color: const Color.fromRGBO(89, 165, 255, 1),
                 backgroundColor: Colors.white,

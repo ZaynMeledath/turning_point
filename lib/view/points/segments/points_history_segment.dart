@@ -42,7 +42,7 @@ Widget pointsHistorySegment({
             return Expanded(
               child: Container(
                 padding: EdgeInsets.only(
-                  top: screenSize.height * .025,
+                  // top: screenSize.height * .025,
                   left: screenSize.width * .038,
                   right: screenSize.width * .038,
                 ),
@@ -52,8 +52,15 @@ Widget pointsHistorySegment({
                     topLeft: Radius.circular(24),
                     topRight: Radius.circular(24),
                   ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurStyle: BlurStyle.outer,
+                    ),
+                  ],
                 ),
                 child: ListView.builder(
+                  padding: EdgeInsets.only(top: screenSize.height * .021),
                   controller: scrollController,
                   itemCount: state.pointsHistoryModel!.length,
                   itemBuilder: (context, index) {

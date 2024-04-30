@@ -69,11 +69,13 @@ class FirebaseAuthProvider implements CustomAuthProvider {
 
   @override
   Future<void> signOut() async {
-    if (currentUser != null) {
-      await FirebaseAuth.instance.signOut();
-      await GoogleSignIn().signOut();
-    } else {
-      throw UserNotLoggedInAuthException();
+    try {
+      if (currentUser != null) {
+        await FirebaseAuth.instance.signOut();
+        await GoogleSignIn().signOut();
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 

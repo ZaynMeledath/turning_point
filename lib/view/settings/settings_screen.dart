@@ -62,27 +62,39 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       iconPath: 'assets/icons/notifications_icon.png',
                       title: 'Notification',
                       isEnabled: true,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                      onSwitched: (value) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            content: const Text(
+                                'Notification cannot be turned off at the moment'),
                           ),
-                          content: const Text(
-                              'Biometrics cannot be turned on at the moment'),
-                        ),
-                      );
-                    },
-                    child: settingsOption(
-                      iconPath: 'assets/icons/biometrics_icon.png',
-                      title: 'Enable Biometrics',
-                      isEnabled: false,
+                        );
+                      },
                     ),
                   ),
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     ScaffoldMessenger.of(context).showSnackBar(
+                  //       SnackBar(
+                  //         behavior: SnackBarBehavior.floating,
+                  //         shape: RoundedRectangleBorder(
+                  //           borderRadius: BorderRadius.circular(12),
+                  //         ),
+                  //         content: const Text(
+                  //             'Biometrics cannot be turned on at the moment'),
+                  //       ),
+                  //     );
+                  //   },
+                  //   child: settingsOption(
+                  //     iconPath: 'assets/icons/biometrics_icon.png',
+                  //     title: 'Enable Biometrics',
+                  //     isEnabled: false,
+                  //   ),
+                  // ),
                   GestureDetector(
                     onTap: () {
                       ScaffoldMessenger.of(context).showSnackBar(

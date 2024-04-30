@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/kyc/kyc_bloc.dart';
+import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/dialog/show_kyc_update_dialog.dart';
 import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/helper/widget/my_app_bar.dart';
@@ -102,6 +103,14 @@ class _KycScreenState extends State<KycScreen>
             phoneController.text = state.phone!;
             emailController.text = state.email!;
             pinController.text = state.pincode!;
+            if (profileBloc.state.userModel!.bankDetails != null &&
+                profileBloc.state.userModel!.bankDetails!.isNotEmpty &&
+                _tabController.index < 2) {
+              final bankDetails = profileBloc.state.userModel!.bankDetails![0];
+              accNameController.text = bankDetails.accountName!;
+              accNumController.text = bankDetails.accountNo!;
+              ifscController.text = bankDetails.ifsc!;
+            }
 
             return Scaffold(
               appBar: myAppBar(

@@ -60,7 +60,7 @@ class ReelsScreenState extends State<ReelsScreen>
     setState(() {
       WakelockPlus.enable();
     });
-    locationServiceBloc.add(LocationServiceStartEvent());
+    // locationServiceBloc.add(LocationServiceStartEvent());
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: true));
 
     if (!preloadBloc.manuallyPaused) {
@@ -72,11 +72,11 @@ class ReelsScreenState extends State<ReelsScreen>
         );
       });
     }
-    enableWakelock();
+    getFcmToken();
     super.didChangeDependencies();
   }
 
-  void enableWakelock() async {
+  void getFcmToken() async {
     final token = await FirebaseMessaging.instance.getToken();
     log('FCM Token : ${token.toString()}');
   }
@@ -134,8 +134,8 @@ class ReelsScreenState extends State<ReelsScreen>
             case ProfileLoadedState():
               return LiquidPullToRefresh(
                 onRefresh: () => handleRefresh(),
-                animSpeedFactor: 1.5,
-                height: 80,
+                animSpeedFactor: 1.7,
+                height: 70,
                 showChildOpacityTransition: false,
                 color: Colors.teal,
                 backgroundColor: Colors.white,

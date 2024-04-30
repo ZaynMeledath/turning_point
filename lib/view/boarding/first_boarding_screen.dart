@@ -24,6 +24,7 @@ class _FirstBoardingScreenState extends State<FirstBoardingScreen> {
         });
       });
     });
+
     super.initState();
   }
 

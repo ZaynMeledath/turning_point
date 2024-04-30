@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
         duration: const Duration(milliseconds: 1000),
         child: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
-            if (state is SignedInState) {
+            if (state is DirectSignedInState) {
               return const HomeScreen();
             } else {
               return const FirstBoardingScreen();
