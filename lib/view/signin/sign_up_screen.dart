@@ -1,7 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -38,6 +40,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   late bool isContractor;
   int activeRadioNumber = 1;
   String? selectedValue;
+  bool isReferralExpanded = false;
 
   late final TextEditingController phoneController;
   late final TextEditingController businessController;
@@ -191,19 +194,67 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   )
                                 : contractorDropDownContainer(
                                     searchController: searchController),
-                            // SizedBox(height: screenSize.height * .03),
+                            SizedBox(height: screenSize.height * .02),
 
-                            // signUpTextField(
-                            //   controller: referralController,
-                            //   title: 'Referral Code (Optional)',
-                            //   icon: Icons.connect_without_contact_rounded,
-                            //   isNull: true,
-                            // ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isReferralExpanded = !isReferralExpanded;
+                                });
+                              },
+                              child: ExpansionPanelList(
+                                expandedHeaderPadding: EdgeInsets.zero,
+                                elevation: 0,
+                                expansionCallback: (panelIndex, isExpanded) {
+                                  setState(() {
+                                    isReferralExpanded = isExpanded;
+                                  });
+                                },
+                                children: [
+                                  ExpansionPanel(
+                                    isExpanded: isReferralExpanded,
+                                    backgroundColor: Colors.white,
+                                    headerBuilder: (context, isExpanded) {
+                                      return Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              left: screenSize.width * .015),
+                                          child: const Text(
+                                              'Referral Code (Optional)'),
+                                        ),
+                                      );
+                                    },
+                                    body: Column(
+                                      children: [
+                                        const SizedBox(height: 5),
+                                        signUpTextField(
+                                          controller: referralController,
+                                          title: 'Referral Code',
+                                          icon: Icons
+                                              .connect_without_contact_rounded,
+                                          isNull: true,
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Visibility(
+                              visible: !isReferralExpanded,
+                              child: Container(
+                                height: 1,
+                                color: Colors.black.withOpacity(.2),
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: screenSize.width * .01),
+                              ),
+                            ),
                             Visibility(
                               visible: !isContractor,
                               child: Column(
                                 children: [
-                                  SizedBox(height: screenSize.height * .035),
+                                  SizedBox(height: screenSize.height * .028),
 
                                   //====================Radio Button====================//
                                   GestureDetector(

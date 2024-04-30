@@ -25,7 +25,7 @@ class InitializeScreen extends StatelessWidget {
       builder: (context, state) {
         if (state is ProfileInactiveState) {
           return ProfileInactiveScreen();
-        } else if (state is SignedInState) {
+        } else if (state is DirectSignedInState) {
           profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
           pointsBloc.add(PointsLoadEvent(avoidGettingUserFromPreference: true));
           return const HomeScreen();
