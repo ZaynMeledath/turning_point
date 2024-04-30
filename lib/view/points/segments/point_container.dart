@@ -8,7 +8,7 @@ Widget pointContainer({
 }) {
   final isCredited = pointsHistoryModel.type == 'CREDIT';
   return Container(
-    margin: const EdgeInsets.only(bottom: 15, top: 5),
+    margin: EdgeInsets.only(bottom: screenSize.height * .018),
     padding: EdgeInsets.symmetric(horizontal: screenSize.width * .026),
     height: screenSize.height * .067,
     decoration: BoxDecoration(
@@ -84,8 +84,8 @@ Widget pointContainer({
             padding: const EdgeInsets.only(
               left: 2,
               right: 6,
-              top: 2,
-              bottom: 2,
+              top: 3,
+              bottom: 3,
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
@@ -110,6 +110,7 @@ Widget pointContainer({
                   style: GoogleFonts.inter(
                     fontSize: screenSize.width * .031,
                     fontWeight: FontWeight.w800,
+                    height: 1,
                   ),
                 )
               ],

@@ -35,8 +35,8 @@ Widget buyCouponsSegment({
           );
         } else {
           return LiquidPullToRefresh(
-            height: 60,
-            animSpeedFactor: 1.5,
+            height: 50,
+            animSpeedFactor: 2,
             showChildOpacityTransition: false,
             color: const Color.fromRGBO(255, 215, 0, 1),
             backgroundColor: Colors.white,

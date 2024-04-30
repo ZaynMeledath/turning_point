@@ -4,6 +4,7 @@ Widget settingsOption({
   required String iconPath,
   required String title,
   bool? isEnabled,
+  void Function(bool value)? onSwitched,
 }) {
   return SizedBox(
     height: screenSize.height * .06,
@@ -32,7 +33,7 @@ Widget settingsOption({
             scale: .8,
             child: Switch.adaptive(
               value: isEnabled ?? false,
-              onChanged: (value) {},
+              onChanged: onSwitched,
             ),
           ),
         )

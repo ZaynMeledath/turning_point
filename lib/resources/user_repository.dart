@@ -163,7 +163,6 @@ class UserRepository {
       final userModelResponse = UserModelResponse.fromJson(response);
       return userModelResponse;
     } catch (e) {
-      log('EXCEPTION IN GET USER BY ID : $e');
       rethrow;
     }
   }

@@ -11,3 +11,5 @@ final class ScannerInitialState extends ScannerState {}
 class ScannerCodeDetectedState extends ScannerState {
   const ScannerCodeDetectedState({required super.couponModel});
 }
+
+class ScannerCodeDetectingState extends ScannerState {}

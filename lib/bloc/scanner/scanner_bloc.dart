@@ -20,9 +20,13 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
   ScannerBloc() : super(ScannerInitialState()) {
 //====================Scanner Code Detect Event====================//
     on<ScannerCodeDetectEvent>((event, emit) async {
+      emit(ScannerCodeDetectingState());
       try {
-        await LocationRepository.sendLocationToServer();
-        final couponModel = await scannerRepo.applyCoupon(event.couponId);
+        final location = await LocationRepository.getCurrentLocation();
+        final couponModel = await scannerRepo.applyCoupon(
+          couponId: event.couponId,
+          location: location,
+        );
 
         final userModelResponse = UserRepository.getUserFromPreference()!;
         userModelResponse.data!.points =
@@ -59,6 +63,7 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
           ),
         );
       } catch (e) {
+        log('EXCEPTION IN SCANNER BLOC : $e');
         return emit(
           ScannerCodeDetectedState(
             couponModel: CouponModel(
@@ -85,7 +90,9 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
       scanMode: ScanMode.QR,
     );
 
-    scannerBloc.add(ScannerCodeDetectEvent(couponId: barcodeScanResult));
+    if (barcodeScanResult.isNotEmpty && barcodeScanResult != '-1') {
+      scannerBloc.add(ScannerCodeDetectEvent(couponId: barcodeScanResult));
+    }
   }
 
 //====================State Change Logger====================//

@@ -9,11 +9,12 @@ import 'package:turning_point/bloc/home/home_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/scanner/scanner_bloc.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
+import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/dialog/show_scanner_coupon_dialog.dart';
 import 'package:turning_point/helper/screen_size.dart';
+
 import 'dart:math' as math;
 
-import 'package:turning_point/resources/location_repository.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 part 'segments/scanner_overlay.dart';
@@ -33,7 +34,18 @@ class _ScannerScreenState extends State<ScannerScreen> {
   @override
   void initState() {
     couponController = TextEditingController();
-    getLocation();
+    couponController.addListener(() {
+      if (couponController.text.isNotEmpty) {
+        setState(() {
+          shouldScan = false;
+        });
+      } else {
+        setState(() {
+          shouldScan = true;
+        });
+      }
+    });
+    // getLocation();
     super.initState();
   }
 
@@ -53,9 +65,25 @@ class _ScannerScreenState extends State<ScannerScreen> {
     });
   }
 
-  void getLocation() async {
-    await LocationRepository.sendLocationToServer();
-  }
+  // void getLocation() async {
+  //   Timer.periodic(const Duration(seconds: 10), (timer) async {
+  //     Position? locationData =
+  //         await LocationRepository.getLocationInBackground();
+  //     if (locationData != null) {
+  //       await ApiService().sendRequest(
+  //         url: ApiEndpoints.monitorLocation,
+  //         requestMethod: RequestMethod.PATCH,
+  //         data: {
+  //           "coordinates": [
+  //             locationData.latitude,
+  //             locationData.longitude,
+  //           ],
+  //         },
+  //         isTokenRequired: true,
+  //       );
+  //     }
+  //   });
+  // }
 
   @override
   void dispose() {
@@ -72,8 +100,11 @@ class _ScannerScreenState extends State<ScannerScreen> {
     return Scaffold(
       body: BlocConsumer<ScannerBloc, ScannerState>(
         listener: (context, state) {
-          if (state is ScannerCodeDetectedState) {
+          if (state is ScannerCodeDetectingState) {
+            showLoadingDialog(context: context);
+          } else if (state is ScannerCodeDetectedState) {
             couponController.clear();
+            Navigator.pop(context);
             switch (state.couponModel!.message) {
               case 'Coupon Applied':
                 showScannerCouponDialog(
@@ -201,13 +232,6 @@ class _ScannerScreenState extends State<ScannerScreen> {
                         horizontal: screenSize.width * .08),
                     child: TextFormField(
                       controller: couponController,
-                      onChanged: (value) {
-                        if (value.isNotEmpty) {
-                          setState(() {
-                            shouldScan = false;
-                          });
-                        }
-                      },
                       style: GoogleFonts.roboto(
                         fontSize: screenSize.width * .031,
                       ),
@@ -260,7 +284,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                       }
 
                       if (shouldScan) {
-                        scannerBloc.scanCoupon();
+                        await scannerBloc.scanCoupon();
                       } else {
                         scannerBloc.add(
                           ScannerCodeDetectEvent(

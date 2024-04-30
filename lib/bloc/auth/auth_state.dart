@@ -44,6 +44,8 @@ class OtpVerifiedState extends AuthState {}
 
 class SignedInState extends AuthState {}
 
+class DirectSignedInState extends AuthState {}
+
 class SignUpState extends AuthState {
   final Exception? exception;
 

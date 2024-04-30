@@ -53,9 +53,13 @@ Widget dialog({
         //   vertical: screenSize.height * .352,
         // ),
         width: screenSize.width * .65,
-        height: screenSize.width * .61,
+        // height: screenSize.width * .61,
 
-        padding: EdgeInsets.symmetric(horizontal: screenSize.width * .03),
+        padding: EdgeInsets.only(
+          left: screenSize.width * .03,
+          right: screenSize.width * .03,
+          bottom: screenSize.width * .04,
+        ),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(15),

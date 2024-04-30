@@ -88,8 +88,7 @@ class _ReferralScreenState extends State<ReferralScreen> {
 
                   SizedBox(height: screenSize.height * .01),
 
-                  //Total referrals earned container
-
+                  //--------Total referrals earned container--------//
                   Center(
                     child: GestureDetector(
                       onTap: () => CustomNavigator.push(
@@ -195,15 +194,4 @@ class _ReferralScreenState extends State<ReferralScreen> {
       ),
     );
   }
-
-  // String extractReferralCode(String url) {
-  //   RegExp regExp = RegExp(r'/([^/]+)$');
-  //   Match? match = regExp.firstMatch(url);
-
-  //   if (match != null && match.groupCount >= 1) {
-  //     return match.group(1)!;
-  //   } else {
-  //     return ''; // Return an empty string if no referral code is found
-  //   }
-  // }
 }

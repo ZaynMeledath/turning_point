@@ -31,7 +31,6 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
   final reelsScreenState = ReelsScreenState();
   bool likeButtonActiveStatus = false;
   dynamic closeDialogHandle;
-  int pageIndex = 1; // Reels Paginated (1 page contains 10 reels)
 
   @override
   void initState() {
@@ -51,6 +50,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
         _animationController.reverse();
       }
     });
+
     super.initState();
   }
 
@@ -91,9 +91,10 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                 likeButtonActiveStatus = false;
                 preloadBloc.manuallyPaused = false;
                 preloadBloc.add(PreloadEvent(currentIndex: index));
-                if (index >= pageIndex * ReelsRepository.reelsPageSize - 2) {
-                  pageIndex++;
-                  await ReelsRepository.getReels(page: pageIndex);
+                if (index >=
+                    preloadBloc.pageIndex * ReelsRepository.reelsPageSize - 2) {
+                  preloadBloc.pageIndex++;
+                  await ReelsRepository.getReels(page: preloadBloc.pageIndex);
                 }
               },
               scrollDirection: Axis.vertical,
@@ -227,8 +228,9 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                         ? Colors.red
                                         : Colors.transparent,
                                     percent: (controllerValue
-                                            .position.inSeconds /
-                                        (controllerValue.duration.inSeconds)),
+                                            .position.inMilliseconds /
+                                        (controllerValue
+                                            .duration.inMilliseconds)),
                                     barRadius: const Radius.circular(6),
                                     lineHeight: 3,
                                   ),

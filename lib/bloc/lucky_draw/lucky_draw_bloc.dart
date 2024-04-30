@@ -12,6 +12,7 @@ part 'lucky_draw_event.dart';
 part 'lucky_draw_state.dart';
 
 class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
+  bool isWinnerDisplayEventActive = false;
   LuckyDrawBloc() : super(LuckyDrawLoadingState()) {
 //====================Lucky Draw Load Event====================//
     on<LuckyDrawLoadEvent>((event, emit) async {
@@ -25,12 +26,14 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
             int secondsLeft = ContestRepository.getLuckyDrawSecondsLeft(
                 contestModel: contestModelResponse.data![0]);
 
-            if (secondsLeft <= 300) {
+            final prizeCount = contestModelResponse.data![0].prizeArr!.length;
+
+            if (secondsLeft <= LUCKY_DRAW_WINNER_DISPLAY_DELAY * prizeCount) {
               return add(
                   LuckyDrawWinnersDisplayEvent(secondsLeft: secondsLeft));
             }
-            final prizeCount = contestModelResponse.data![0].prizeArr!.length;
-            secondsLeft = secondsLeft - (prizeCount * 30);
+            secondsLeft =
+                secondsLeft - (prizeCount * LUCKY_DRAW_WINNER_DISPLAY_DELAY);
 
             int timeInSeconds = (secondsLeft % 60);
             int timeInMinutes = (secondsLeft ~/ 60) % 60;
@@ -107,13 +110,6 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
           );
         }
 
-        // if (timeMap.isEmpty) {
-        //   // add(LuckyDrawLoadEvent());
-        //   // return homeBloc.add(TriggerEvent(1));
-
-        //   return add(LuckyDrawWinnersDisplayEvent());
-        // }
-
         if (timeMap.isNotEmpty && state is LuckyDrawLoadedState) {
           emit(
             LuckyDrawLoadedState(
@@ -132,6 +128,7 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
 
 //====================Lucky Draw Winners Display Event====================//
     on<LuckyDrawWinnersDisplayEvent>((event, emit) {
+      isWinnerDisplayEventActive = true;
       rewardsBloc.add(RewardsLoadEvent());
       final secondsLeft = event.secondsLeft - 1;
 
@@ -179,12 +176,15 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
           state.timeMap = null;
           state.secondsLeft = null;
           await Future.delayed(const Duration(seconds: 2));
-          add(LuckyDrawLoadEvent());
-          if (homeBloc.state.currentIndex == 3) {
-            return homeBloc.add(TriggerEvent(1));
-          } else {
-            return;
-          }
+          isWinnerDisplayEventActive = false;
+          Future.delayed(const Duration(milliseconds: 100), () {
+            add(LuckyDrawLoadEvent());
+            if (homeBloc.state.currentIndex == 3) {
+              return homeBloc.add(TriggerEvent(1));
+            } else {
+              return;
+            }
+          });
         }
 
         if (timeMap.isNotEmpty && state is LuckyDrawWinnersDisplayState) {
@@ -239,23 +239,6 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
         }
       }
     });
-
-//====================Contest Load Again Event ====================//
-    // on<LuckyDrawLoadAgainEvent>((event, emit) async {
-    //   final contestModelResponse = await ContestRepository.getCurrentContest();
-    //   emit(
-    //     LuckyDrawLoadedState(
-    //       contestModel: contestModelResponse.data![0],
-    //       secondsLeft: null,
-    //       timeMap: null,
-    //     ),
-    //   );
-    // });
-
-//====================Winners Display Event====================//
-    // on<LuckyDrawWinnersDisplayEvent>((event, emit) {
-    //   emit(Lucky);
-    // });
 
 //====================Timer Dispose Event====================//
     on<LuckyDrawTimerDisposeEvent>((event, emit) {

@@ -81,6 +81,7 @@ class _PointsScreenState extends State<PointsScreen> {
     disableWakeLock();
     pointsHistoryBloc.add(PointsHistoryLoadEvent());
     return Scaffold(
+//====================App Bar====================//
       appBar: myAppBar(
         context: context,
         title: 'Points',
@@ -89,8 +90,6 @@ class _PointsScreenState extends State<PointsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-//====================Header Segment with Back Button and Title====================//
-
 //====================Body Segment====================//
             SizedBox(height: screenSize.height * .015),
             availablePointsSegment(context: context),
