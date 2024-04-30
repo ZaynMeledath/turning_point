@@ -26,7 +26,7 @@ class ProfileInactiveScreen extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthLoadingState && closeDialogHandle == null) {
-        } else if (state is SignedInState) {
+        } else if (state is DirectSignedInState) {
           if (closeDialogHandle != null) Navigator.pop(context);
           closeDialogHandle = null;
           Navigator.of(context).pushAndRemoveUntil(

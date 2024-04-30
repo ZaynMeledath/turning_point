@@ -4,7 +4,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/boarding/segments/boarding_screen_content.dart';
-import 'package:turning_point/view/home/initialize_screen.dart';
+import 'package:turning_point/view/home/profile_inactive_screen.dart';
 
 class BoardingScreen extends StatefulWidget {
   const BoardingScreen({super.key});
@@ -153,7 +153,7 @@ class _BoardingScreenState extends State<BoardingScreen> {
                       onTap: () {
                         Navigator.of(context).pushAndRemoveUntil(
                           PageTransition(
-                            child: const InitializeScreen(),
+                            child: ProfileInactiveScreen(),
                             type: PageTransitionType.fade,
                             duration: const Duration(milliseconds: 750),
                           ),
@@ -180,7 +180,7 @@ class _BoardingScreenState extends State<BoardingScreen> {
                         } else {
                           Navigator.of(context).pushAndRemoveUntil(
                             PageTransition(
-                              child: const InitializeScreen(),
+                              child: ProfileInactiveScreen(),
                               type: PageTransitionType.fade,
                               duration: const Duration(milliseconds: 750),
                             ),
