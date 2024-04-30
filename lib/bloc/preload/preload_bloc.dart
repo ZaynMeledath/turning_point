@@ -104,8 +104,10 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
     });
 
     on<PreloadResetEvent>((event, emit) {
+      pageIndex = 1;
+      ReelsRepository.urlList.clear();
       disposeAllControllers();
-      emit(PreloadState.initial());
+      return emit(PreloadState.initial());
     });
 
     on<ReelsScreenToggleEvent>((event, emit) {
@@ -224,9 +226,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
         value.dispose();
       }
     });
-    state.controllers.removeWhere(
-      (key, value) => key != 0,
-    );
+    state.controllers.clear();
   }
 
 //====================State Change Logger====================//
