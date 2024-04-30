@@ -103,6 +103,7 @@ Widget dialog({required BuildContext context}) {
                     onTap: () {
                       AppPreferences.clearSharedPreferences();
                       authBloc.add(SignOutEvent());
+                      preloadBloc.add(PreloadResetEvent());
                       Navigator.of(context).pushAndRemoveUntil(
                         PageTransition(
                           child: const SignInScreen(),
@@ -112,7 +113,6 @@ Widget dialog({required BuildContext context}) {
                         ),
                         (_) => false,
                       );
-                      preloadBloc.add(PreloadResetEvent());
                     },
                     child: DefaultTextStyle(
                       style: GoogleFonts.roboto(

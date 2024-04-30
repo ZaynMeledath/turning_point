@@ -83,9 +83,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
               context: context,
               iconPath: 'assets/lottie/gear_error_animation.json',
               title: 'Error',
-              content: state.exception is String
-                  ? 'Error Code: ${state.exception}'
-                  : 'Check your OTP or try again after sometime',
+              content: 'Something went wrong while connecting to the server',
               buttonTitle: 'OK',
               iconWidth: screenSize.width * .2,
             );
