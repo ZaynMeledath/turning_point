@@ -117,7 +117,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                             ),
                             SizedBox(width: screenSize.width * .031),
                             Text(
-                              'I agree with the Terms and Conditions',
+                              'I agree to the Terms and Conditions',
                               style: GoogleFonts.roboto(
                                 fontSize: screenSize.width * .03,
                                 fontWeight: FontWeight.w400,
