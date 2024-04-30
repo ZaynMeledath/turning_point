@@ -104,66 +104,68 @@ Widget kycSubmittedDetailsSegment({required BuildContext context}) {
               ),
 
               //====================Details Row====================//
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    userModel.name.toString(),
-                    style: GoogleFonts.roboto(
-                      fontSize: screenSize.width * .031,
-                      color: const Color.fromRGBO(109, 109, 109, 1),
-                    ),
-                  ),
-                  SizedBox(height: screenSize.height * .025),
-                  Text(
-                    userModel.phone.toString(),
-                    style: GoogleFonts.roboto(
-                      fontSize: screenSize.width * .031,
-                      color: const Color.fromRGBO(109, 109, 109, 1),
-                    ),
-                  ),
-                  SizedBox(height: screenSize.height * .025),
-                  Text(
-                    userModel.email.toString(),
-                    style: GoogleFonts.roboto(
-                      fontSize: screenSize.width * .031,
-                      color: const Color.fromRGBO(109, 109, 109, 1),
-                    ),
-                  ),
-                  SizedBox(height: screenSize.height * .025),
-                  Text(
-                    userModel.pincode.toString(),
-                    style: GoogleFonts.roboto(
-                      fontSize: screenSize.width * .031,
-                      color: const Color.fromRGBO(109, 109, 109, 1),
-                    ),
-                  ),
-                  SizedBox(height: screenSize.height * .025),
-                  Text(
-                    userModel.bankDetails![0].accountName.toString(),
-                    style: GoogleFonts.roboto(
-                      fontSize: screenSize.width * .031,
-                      color: const Color.fromRGBO(109, 109, 109, 1),
-                    ),
-                  ),
-                  SizedBox(height: screenSize.height * .025),
-                  Text(
-                    userModel.bankDetails![0].accountNo.toString(),
-                    style: GoogleFonts.roboto(
-                      fontSize: screenSize.width * .031,
-                      color: const Color.fromRGBO(109, 109, 109, 1),
-                    ),
-                  ),
-                  SizedBox(height: screenSize.height * .025),
-                  Text(
-                    userModel.bankDetails![0].ifsc.toString(),
-                    style: GoogleFonts.roboto(
-                      fontSize: screenSize.width * .031,
-                      color: const Color.fromRGBO(109, 109, 109, 1),
-                    ),
-                  ),
-                ],
-              ),
+              userModel.bankDetails != null && userModel.bankDetails!.isNotEmpty
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          userModel.name.toString(),
+                          style: GoogleFonts.roboto(
+                            fontSize: screenSize.width * .031,
+                            color: const Color.fromRGBO(109, 109, 109, 1),
+                          ),
+                        ),
+                        SizedBox(height: screenSize.height * .025),
+                        Text(
+                          userModel.phone.toString(),
+                          style: GoogleFonts.roboto(
+                            fontSize: screenSize.width * .031,
+                            color: const Color.fromRGBO(109, 109, 109, 1),
+                          ),
+                        ),
+                        SizedBox(height: screenSize.height * .025),
+                        Text(
+                          userModel.email.toString(),
+                          style: GoogleFonts.roboto(
+                            fontSize: screenSize.width * .031,
+                            color: const Color.fromRGBO(109, 109, 109, 1),
+                          ),
+                        ),
+                        SizedBox(height: screenSize.height * .025),
+                        Text(
+                          userModel.pincode.toString(),
+                          style: GoogleFonts.roboto(
+                            fontSize: screenSize.width * .031,
+                            color: const Color.fromRGBO(109, 109, 109, 1),
+                          ),
+                        ),
+                        SizedBox(height: screenSize.height * .025),
+                        Text(
+                          userModel.bankDetails![0].accountName.toString(),
+                          style: GoogleFonts.roboto(
+                            fontSize: screenSize.width * .031,
+                            color: const Color.fromRGBO(109, 109, 109, 1),
+                          ),
+                        ),
+                        SizedBox(height: screenSize.height * .025),
+                        Text(
+                          userModel.bankDetails![0].accountNo.toString(),
+                          style: GoogleFonts.roboto(
+                            fontSize: screenSize.width * .031,
+                            color: const Color.fromRGBO(109, 109, 109, 1),
+                          ),
+                        ),
+                        SizedBox(height: screenSize.height * .025),
+                        Text(
+                          userModel.bankDetails![0].ifsc.toString(),
+                          style: GoogleFonts.roboto(
+                            fontSize: screenSize.width * .031,
+                            color: const Color.fromRGBO(109, 109, 109, 1),
+                          ),
+                        ),
+                      ],
+                    )
+                  : const SizedBox(),
             ],
           ),
         ),

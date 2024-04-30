@@ -4,8 +4,18 @@ Widget referralInstructionContainer() {
   return Container(
       width: screenSize.width,
       height: screenSize.height * .24,
-      color: const Color(0xfff7f5ff),
       padding: EdgeInsets.only(top: screenSize.height * .028),
+      decoration: const BoxDecoration(
+        color: Color(0xfff7f5ff),
+        boxShadow: [
+          BoxShadow(
+            offset: Offset(0, 1),
+            blurRadius: 4,
+            blurStyle: BlurStyle.outer,
+            color: Color.fromRGBO(0, 0, 0, .1),
+          ),
+        ],
+      ),
       child: Column(
         children: [
           Text('How Does it work',
