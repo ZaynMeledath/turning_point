@@ -194,62 +194,62 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   )
                                 : contractorDropDownContainer(
                                     searchController: searchController),
-                            SizedBox(height: screenSize.height * .02),
+                            // SizedBox(height: screenSize.height * .02),
 
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  isReferralExpanded = !isReferralExpanded;
-                                });
-                              },
-                              child: ExpansionPanelList(
-                                expandedHeaderPadding: EdgeInsets.zero,
-                                elevation: 0,
-                                expansionCallback: (panelIndex, isExpanded) {
-                                  setState(() {
-                                    isReferralExpanded = isExpanded;
-                                  });
-                                },
-                                children: [
-                                  ExpansionPanel(
-                                    isExpanded: isReferralExpanded,
-                                    backgroundColor: Colors.white,
-                                    headerBuilder: (context, isExpanded) {
-                                      return Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Padding(
-                                          padding: EdgeInsets.only(
-                                              left: screenSize.width * .015),
-                                          child: const Text(
-                                              'Referral Code (Optional)'),
-                                        ),
-                                      );
-                                    },
-                                    body: Column(
-                                      children: [
-                                        const SizedBox(height: 5),
-                                        signUpTextField(
-                                          controller: referralController,
-                                          title: 'Referral Code',
-                                          icon: Icons
-                                              .connect_without_contact_rounded,
-                                          isNull: true,
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Visibility(
-                              visible: !isReferralExpanded,
-                              child: Container(
-                                height: 1,
-                                color: Colors.black.withOpacity(.2),
-                                margin: EdgeInsets.symmetric(
-                                    horizontal: screenSize.width * .01),
-                              ),
-                            ),
+                            // GestureDetector(
+                            //   onTap: () {
+                            //     setState(() {
+                            //       isReferralExpanded = !isReferralExpanded;
+                            //     });
+                            //   },
+                            //   child: ExpansionPanelList(
+                            //     expandedHeaderPadding: EdgeInsets.zero,
+                            //     elevation: 0,
+                            //     expansionCallback: (panelIndex, isExpanded) {
+                            //       setState(() {
+                            //         isReferralExpanded = isExpanded;
+                            //       });
+                            //     },
+                            //     children: [
+                            //       ExpansionPanel(
+                            //         isExpanded: isReferralExpanded,
+                            //         backgroundColor: Colors.white,
+                            //         headerBuilder: (context, isExpanded) {
+                            //           return Align(
+                            //             alignment: Alignment.centerLeft,
+                            //             child: Padding(
+                            //               padding: EdgeInsets.only(
+                            //                   left: screenSize.width * .015),
+                            //               child: const Text(
+                            //                   'Referral Code (Optional)'),
+                            //             ),
+                            //           );
+                            //         },
+                            //         body: Column(
+                            //           children: [
+                            //             const SizedBox(height: 5),
+                            //             signUpTextField(
+                            //               controller: referralController,
+                            //               title: 'Referral Code',
+                            //               icon: Icons
+                            //                   .connect_without_contact_rounded,
+                            //               isNull: true,
+                            //             ),
+                            //           ],
+                            //         ),
+                            //       )
+                            //     ],
+                            //   ),
+                            // ),
+                            // Visibility(
+                            //   visible: !isReferralExpanded,
+                            //   child: Container(
+                            //     height: 1,
+                            //     color: Colors.black.withOpacity(.2),
+                            //     margin: EdgeInsets.symmetric(
+                            //         horizontal: screenSize.width * .01),
+                            //   ),
+                            // ),
                             Visibility(
                               visible: !isContractor,
                               child: Column(
