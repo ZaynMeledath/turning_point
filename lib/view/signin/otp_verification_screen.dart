@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
-import 'package:turning_point/dialog/show_custom_loading_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/main.dart';
@@ -62,11 +61,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is AuthLoadingState) {
-          showCustomLoadingDialog(context);
-        } else if (state is OtpVerificationNeededState &&
-            state.exception != null) {
-          Navigator.pop(context);
+        if (state is OtpVerificationNeededState && state.exception != null) {
           Navigator.pop(context);
           if (state.exception == 'invalid-verification-code') {
             Future.delayed(Duration.zero, () {
@@ -83,7 +78,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
               context: context,
               iconPath: 'assets/lottie/gear_error_animation.json',
               title: 'Error',
-              content: 'Something went wrong while connecting to the server',
+              content: state.exception ?? '',
               buttonTitle: 'OK',
               iconWidth: screenSize.width * .2,
             );
@@ -292,7 +287,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                                         'assets/icons/kyc_declined_icon.png',
                                     context: context,
                                     title: 'OTP Incorrect',
-                                    content: 'Please enter all the 6 digits',
+                                    content: 'OTP should be 6 digits',
                                     buttonTitle: 'OK');
                               }
                             },

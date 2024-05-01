@@ -14,7 +14,7 @@ import 'package:turning_point/view/home/home_screen.dart';
 class ProfileInactiveScreen extends StatelessWidget {
   ProfileInactiveScreen({super.key});
 
-  Future<void> handleRefresh() async {
+  Future<void> _handleRefresh() async {
     await UserRepository.getUserById(avoidGettingFromPreference: true);
     authBloc.add(AuthInitializeEvent());
   }
@@ -65,7 +65,7 @@ class ProfileInactiveScreen extends StatelessWidget {
           showChildOpacityTransition: false,
           color: const Color.fromRGBO(89, 165, 255, 1),
           backgroundColor: Colors.white,
-          onRefresh: () => handleRefresh(),
+          onRefresh: () => _handleRefresh(),
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             child: Center(

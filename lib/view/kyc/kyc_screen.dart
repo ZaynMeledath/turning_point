@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:turning_point/bloc/kyc/kyc_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/dialog/show_kyc_update_dialog.dart';
@@ -67,54 +68,64 @@ class _KycScreenState extends State<KycScreen>
   @override
   Widget build(BuildContext context) {
     kycBloc.add(KycLoadEvent(tabIndex: 0));
-    return BlocConsumer<KycBloc, KycState>(
-      listener: (context, state) {
-        if (state is KycLoadedState) {
-          if (state.isLoading && closeDialogHandle == null) {
-            closeDialogHandle = showLoadingDialog(context: context);
-          }
-        } else if (state is KycLoadedState &&
-            !state.isLoading &&
-            closeDialogHandle != null) {
-          Navigator.pop(context);
-          closeDialogHandle = null;
-        } else if (state is! KycSubmittedState) {
-          Navigator.pop(context);
-          closeDialogHandle = null;
-        }
-      },
-      builder: (context, state) {
-        switch (state) {
-          //====================Loading State====================//
-          case KycLoadingState():
-            return spinningLinesLoading();
-
-          //====================Loaded State====================//
-          case KycSubmittedState():
-            Navigator.pop(context);
-            return const KycSubmittedScreen();
-
-          //====================Loaded State====================//
-          case KycLoadedState():
-            nameController.text = state.name!;
-            phoneController.text = state.phone!;
-            emailController.text = state.email!;
-            pinController.text = state.pincode!;
-            if (profileBloc.state.userModel!.bankDetails != null &&
-                profileBloc.state.userModel!.bankDetails!.isNotEmpty &&
-                _tabController.index < 2) {
-              final bankDetails = profileBloc.state.userModel!.bankDetails![0];
-              accNameController.text = bankDetails.accountName!;
-              accNumController.text = bankDetails.accountNo!;
-              ifscController.text = bankDetails.ifsc!;
+    return Scaffold(
+      appBar: myAppBar(
+        context: context,
+        title: 'KYC',
+      ),
+      body: BlocConsumer<KycBloc, KycState>(
+        listener: (context, state) {
+          if (state is KycLoadedState) {
+            if (state.isLoading && closeDialogHandle == null) {
+              closeDialogHandle = showLoadingDialog(context: context);
             }
+          } else if (state is KycLoadedState &&
+              !state.isLoading &&
+              closeDialogHandle != null) {
+            Navigator.pop(context);
+            closeDialogHandle = null;
+          } else if (state is! KycSubmittedState) {
+            Navigator.pop(context);
+            closeDialogHandle = null;
+          }
+        },
+        builder: (context, state) {
+          switch (state) {
+            //====================Loading State====================//
+            case KycLoadingState():
+              return spinningLinesLoading();
 
-            return Scaffold(
-              appBar: myAppBar(
-                context: context,
-                title: 'KYC',
-              ),
-              body: SingleChildScrollView(
+            //====================Error State====================//
+            case KycErrorState():
+              return Center(
+                child: Lottie.asset(
+                  'no_internet_animation.json',
+                  width: screenSize.width * .7,
+                ),
+              );
+
+            //====================Loaded State====================//
+            case KycSubmittedState():
+              Navigator.pop(context);
+              return const KycSubmittedScreen();
+
+            //====================Loaded State====================//
+            case KycLoadedState():
+              nameController.text = state.name!;
+              phoneController.text = state.phone!;
+              emailController.text = state.email!;
+              pinController.text = state.pincode!;
+              if (profileBloc.state.userModel!.bankDetails != null &&
+                  profileBloc.state.userModel!.bankDetails!.isNotEmpty &&
+                  _tabController.index < 2) {
+                final bankDetails =
+                    profileBloc.state.userModel!.bankDetails![0];
+                accNameController.text = bankDetails.accountName!;
+                accNumController.text = bankDetails.accountNo!;
+                ifscController.text = bankDetails.ifsc!;
+              }
+
+              return SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 reverse: true,
                 child: Column(
@@ -313,10 +324,10 @@ class _KycScreenState extends State<KycScreen>
                     SizedBox(height: screenSize.height * .018)
                   ],
                 ),
-              ),
-            );
-        }
-      },
+              );
+          }
+        },
+      ),
     );
   }
 

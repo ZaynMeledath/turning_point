@@ -30,6 +30,9 @@ class _ReelsPlayerState extends State<ReelsPlayer>
       begin: 0,
       end: 1.4,
     ).animate(animationController);
+    if (preloadBloc.manuallyPaused) {
+      animationController.forward();
+    }
     super.initState();
   }
 
@@ -40,8 +43,8 @@ class _ReelsPlayerState extends State<ReelsPlayer>
       preloadBloc.manuallyPaused = true;
     } else {
       widget.videoController.play();
-      animationController.reverse();
-      preloadBloc.manuallyPaused = false;
+      // animationController.reverse();
+      // preloadBloc.manuallyPaused = false;
     }
   }
 
@@ -60,6 +63,10 @@ class _ReelsPlayerState extends State<ReelsPlayer>
       builder: (context, value, child) {
         if (!preloadBloc.manuallyPaused) {
           animationController.reverse();
+        }
+        if (value.isPlaying) {
+          animationController.reverse();
+          preloadBloc.manuallyPaused = false;
         }
         return Stack(
           alignment: Alignment.center,

@@ -39,7 +39,7 @@ class _FirstBoardingScreenState extends State<FirstBoardingScreen> {
     Timer.run(() async {
       result = await InternetAddress.lookup('google.com');
     });
-    Future.delayed(const Duration(milliseconds: 600), () {
+    Future.delayed(const Duration(milliseconds: 800), () {
       if (result == null) {
         showAnimatedGenericDialog(
           context: context,

@@ -20,6 +20,7 @@ class AuthLoadingState extends AuthState {
     super.phone,
     super.businessName,
     super.contractor,
+    super.refCode,
   });
 }
 
@@ -30,7 +31,7 @@ class SignInState extends AuthState {}
 class WhoIsSigningState extends AuthState {}
 
 class OtpVerificationNeededState extends AuthState {
-  final dynamic exception;
+  final String? exception;
   const OtpVerificationNeededState({
     required super.phone,
     required super.businessName,

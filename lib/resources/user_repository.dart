@@ -124,7 +124,7 @@ class UserRepository {
       }
     } catch (e) {
       log('EXCEPTION IN USER SIGNUP: $e');
-      throw CouldNotSignUpUserAuthException;
+      rethrow;
     }
   }
 

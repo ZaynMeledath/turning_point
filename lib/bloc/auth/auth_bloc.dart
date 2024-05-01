@@ -125,6 +125,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           phone: state.phone,
           businessName: state.businessName,
           contractor: state.contractor,
+          refCode: state.refCode,
         ),
       );
       try {
@@ -162,13 +163,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             refCode: state.refCode,
           ),
         );
+      } on BadRequestException {
+        return emit(
+          OtpVerificationNeededState(
+            phone: state.phone,
+            businessName: state.businessName,
+            contractor: state.contractor,
+            exception: 'Invalid Referral Code',
+            refCode: state.refCode,
+          ),
+        );
       } catch (e) {
         return emit(
           OtpVerificationNeededState(
             phone: state.phone,
             businessName: state.businessName,
             contractor: state.contractor,
-            exception: Exception(e),
+            exception: 'Something went wrong while connecting to the server',
             refCode: state.refCode,
           ),
         );

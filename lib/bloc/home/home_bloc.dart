@@ -31,6 +31,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             ),
           );
         }
+
         return emit(TriggeredState(event.index));
       }
     });

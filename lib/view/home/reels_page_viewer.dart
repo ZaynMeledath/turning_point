@@ -165,8 +165,8 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                           }
                                         },
                                         child: Container(
-                                          width: screenSize.width * .088,
-                                          height: screenSize.width * .088,
+                                          width: screenSize.width * .086,
+                                          height: screenSize.width * .086,
                                           decoration: BoxDecoration(
                                             shape: BoxShape.circle,
                                             color: Colors.transparent,
@@ -194,8 +194,8 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                           ),
                                           child: Center(
                                             child: Container(
-                                              width: screenSize.width * .061,
-                                              height: screenSize.width * .061,
+                                              width: screenSize.width * .06,
+                                              height: screenSize.width * .06,
                                               decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 color: Colors.transparent,
@@ -234,7 +234,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                                           ? yellowShade
                                                           : Colors.white
                                                       : Colors.grey,
-                                                  size: screenSize.width * .045,
+                                                  size: screenSize.width * .044,
                                                   shadows: [
                                                     Shadow(
                                                       color: Colors.black
