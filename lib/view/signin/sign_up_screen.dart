@@ -15,6 +15,7 @@ import 'package:turning_point/dialog/show_custom_loading_dialog.dart';
 import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
 import 'package:turning_point/resources/location_repository.dart';
 import 'package:turning_point/resources/user_repository.dart';
@@ -120,11 +121,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             builder: (context, contractorState) {
               switch (contractorState) {
                 case ContractorLoadingState():
-                  return const Center(
-                    child: CircularProgressIndicator.adaptive(
-                      strokeWidth: 5,
-                    ),
-                  );
+                  return spinningLinesLoading();
 
                 case ContractorLoadedState():
                   // phoneController.text = authBloc.state.phone ?? '';

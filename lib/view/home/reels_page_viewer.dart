@@ -186,7 +186,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                             boxShadow: [
                                               BoxShadow(
                                                 color: Colors.black
-                                                    .withOpacity(.5),
+                                                    .withOpacity(.4),
                                                 blurRadius: 1,
                                                 blurStyle: BlurStyle.outer,
                                               )
@@ -215,7 +215,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                                 boxShadow: [
                                                   BoxShadow(
                                                     color: Colors.black
-                                                        .withOpacity(.5),
+                                                        .withOpacity(.4),
                                                     blurRadius: 1,
                                                     blurStyle: BlurStyle.outer,
                                                   )

@@ -6,6 +6,7 @@ import 'package:turning_point/bloc/contest/contest_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/view/dashboard/segments/dashboard_available_balance_container.dart';
 import 'package:turning_point/view/dashboard/segments/dashboard_activity_container.dart';
 import 'package:turning_point/view/dashboard/segments/dashboard_coupon_segment.dart';
@@ -57,13 +58,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         builder: (context, state) {
           switch (state) {
             case ProfileLoadingState():
-              return const Center(
-                child: CircularProgressIndicator.adaptive(
-                  strokeWidth: 5,
-                  backgroundColor: Colors.white,
-                  valueColor: AlwaysStoppedAnimation(Colors.amber),
-                ),
-              );
+              return spinningLinesLoading();
 
             case ProfileInactiveState():
               return ProfileInactiveScreen();

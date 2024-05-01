@@ -169,13 +169,7 @@ class _ContestScreenState extends State<ContestScreen> {
                       }
 
                     default:
-                      return const Center(
-                        child: CircularProgressIndicator.adaptive(
-                          strokeWidth: 5,
-                          backgroundColor: Colors.white,
-                          valueColor: AlwaysStoppedAnimation(Colors.amber),
-                        ),
-                      );
+                      return spinningLinesLoading();
                   }
                 },
               )

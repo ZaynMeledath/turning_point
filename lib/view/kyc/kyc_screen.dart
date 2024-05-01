@@ -5,6 +5,7 @@ import 'package:turning_point/bloc/kyc/kyc_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/dialog/show_kyc_update_dialog.dart';
 import 'package:turning_point/dialog/show_loading_dialog.dart';
+import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/helper/widget/my_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/view/kyc/kyc_submitted_screen.dart';
@@ -86,11 +87,7 @@ class _KycScreenState extends State<KycScreen>
         switch (state) {
           //====================Loading State====================//
           case KycLoadingState():
-            return const Center(
-              child: CircularProgressIndicator.adaptive(
-                strokeWidth: 5,
-              ),
-            );
+            return spinningLinesLoading();
 
           //====================Loaded State====================//
           case KycSubmittedState():

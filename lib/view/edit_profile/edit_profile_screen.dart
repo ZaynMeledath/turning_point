@@ -10,6 +10,7 @@ import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/dialog/show_animated_otp_dialog.dart';
 import 'package:turning_point/dialog/show_edit_profile_dialog.dart';
+import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/helper/widget/my_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
@@ -102,9 +103,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         builder: (context, profileState) {
           switch (profileState) {
             case ProfileLoadingState():
-              return const Center(
-                child: CircularProgressIndicator.adaptive(),
-              );
+              return spinningLinesLoading();
 
             case ProfileInactiveState():
               return ProfileInactiveScreen();
