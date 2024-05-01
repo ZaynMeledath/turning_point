@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/view/boarding/first_boarding_screen.dart';
 import 'package:turning_point/view/home/home_screen.dart';
 
@@ -41,6 +42,8 @@ class _SplashScreenState extends State<SplashScreen> {
           builder: (context, state) {
             if (state is DirectSignedInState) {
               return const HomeScreen();
+            } else if (state is AuthLoadingState) {
+              return rippleLoading();
             } else {
               return const FirstBoardingScreen();
             }

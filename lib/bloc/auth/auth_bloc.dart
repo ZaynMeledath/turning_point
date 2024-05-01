@@ -25,23 +25,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(const AuthLoadingState());
         await provider.initialize();
         final userFromPreference = UserRepository.getUserFromPreference();
-        if (provider.currentUser == null && userFromPreference != null) {
-          await provider.signIn();
-        }
-        final user =
-            await UserRepository.getUserById(avoidGettingFromPreference: true);
-        if (user == null) {
-          final token = await provider.signIn();
-          final fcmToken = await provider.getFcmToken();
-          await UserRepository.userSignIn(
-            token: token,
-            fcmToken: fcmToken!,
-          );
-        }
 
-        profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
-        pointsBloc.add(PointsLoadEvent(avoidGettingUserFromPreference: true));
-        return emit(DirectSignedInState());
+        if (userFromPreference != null) {
+          await UserRepository.getUserById(avoidGettingFromPreference: true);
+          await provider.signIn();
+          profileBloc.add(ProfileLoadEvent());
+          pointsBloc.add(PointsLoadEvent());
+          return emit(DirectSignedInState());
+        } else {
+          return emit(InitialState());
+        }
       } on ProfileInactiveException {
         return emit(ProfileInactiveState());
       } catch (e) {

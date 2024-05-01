@@ -162,7 +162,7 @@ class UserRepository {
 
       final userModelResponse = UserModelResponse.fromJson(response);
       return userModelResponse;
-    } catch (e) {
+    } catch (_) {
       rethrow;
     }
   }
