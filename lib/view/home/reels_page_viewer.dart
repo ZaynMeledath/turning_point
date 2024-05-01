@@ -31,6 +31,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
   final reelsScreenState = ReelsScreenState();
   bool likeButtonActiveStatus = false;
   dynamic closeDialogHandle;
+  final yellowShade = const Color(0xFFFFD700);
 
   @override
   void initState() {
@@ -163,20 +164,88 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                             }
                                           }
                                         },
-                                        child: Image.asset(
-                                          'assets/icons/rupee_icon.png',
-                                          width: screenSize.width * .105,
-                                          height: screenSize.width * .105,
-                                          color: reelsState.isLikeButtonActive
-                                              ? reelsState
-                                                          .reelsModelList![
-                                                              index]
-                                                          .isLiked ==
-                                                      true
-                                                  ? const Color.fromRGBO(
-                                                      255, 215, 0, 1)
-                                                  : Colors.white
-                                              : Colors.grey,
+                                        child: Container(
+                                          width: screenSize.width * .088,
+                                          height: screenSize.width * .088,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.transparent,
+                                            border: Border.all(
+                                              color: reelsState
+                                                      .isLikeButtonActive
+                                                  ? reelsState
+                                                              .reelsModelList![
+                                                                  index]
+                                                              .isLiked ==
+                                                          true
+                                                      ? yellowShade
+                                                      : Colors.white
+                                                  : Colors.grey,
+                                              width: 2,
+                                            ),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black
+                                                    .withOpacity(.5),
+                                                blurRadius: 1,
+                                                blurStyle: BlurStyle.outer,
+                                              )
+                                            ],
+                                          ),
+                                          child: Center(
+                                            child: Container(
+                                              width: screenSize.width * .061,
+                                              height: screenSize.width * .061,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.transparent,
+                                                border: Border.all(
+                                                  color: reelsState
+                                                          .isLikeButtonActive
+                                                      ? reelsState
+                                                                  .reelsModelList![
+                                                                      index]
+                                                                  .isLiked ==
+                                                              true
+                                                          ? yellowShade
+                                                          : Colors.white
+                                                      : Colors.grey,
+                                                  width: 2,
+                                                ),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.black
+                                                        .withOpacity(.5),
+                                                    blurRadius: 1,
+                                                    blurStyle: BlurStyle.outer,
+                                                  )
+                                                ],
+                                              ),
+                                              child: Center(
+                                                child: Icon(
+                                                  Icons.currency_rupee_rounded,
+                                                  color: reelsState
+                                                          .isLikeButtonActive
+                                                      ? reelsState
+                                                                  .reelsModelList![
+                                                                      index]
+                                                                  .isLiked ==
+                                                              true
+                                                          ? yellowShade
+                                                          : Colors.white
+                                                      : Colors.grey,
+                                                  size: screenSize.width * .045,
+                                                  shadows: [
+                                                    Shadow(
+                                                      color: Colors.black
+                                                          .withOpacity(.8),
+                                                      blurRadius: 1,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       );
                                     }),
@@ -191,7 +260,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                 },
                                 child: Icon(
                                   Icons.file_download_outlined,
-                                  size: screenSize.width * .09,
+                                  size: screenSize.width * .1,
                                   color: Colors.white,
                                   shadows: [
                                     Shadow(

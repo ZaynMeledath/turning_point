@@ -17,6 +17,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
       if (state.isReelsVisible) {
         if (event.currentIndex == 0) {
           if (state.controllers.isEmpty || event.isReloading == true) {
+            pageIndex = 1;
             _initializeControllerAtIndex(0)
                 .then((value) => _playControllerAtIndex(0));
             emit(

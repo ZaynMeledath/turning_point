@@ -51,6 +51,7 @@ class UserModel {
   int? contestsParticipatedInCount;
   int? contestWonCount;
   int? contestUniqueWonCount;
+  UserModel? referredBy;
   // List<dynamic>? address;
 
   UserModel({
@@ -80,6 +81,7 @@ class UserModel {
     this.contestsParticipatedInCount,
     this.contestWonCount,
     this.contestUniqueWonCount,
+    this.referredBy,
     // this.address,
   });
 
@@ -118,6 +120,7 @@ class UserModel {
     contestsParticipatedInCount = json['contestsParticipatedInCount'];
     contestWonCount = json['contestWonCount'];
     contestUniqueWonCount = json['contestUniqueWonCount'];
+    referredBy = json['referedBy'];
     // address = json['address']['coordinates'];
   }
 
@@ -154,6 +157,7 @@ class UserModel {
     data['contestsParticipatedInCount'] = contestsParticipatedInCount;
     data['contestWonCount'] = contestWonCount;
     data['contestUniqueWonCount'] = contestUniqueWonCount;
+    data['referedBy'] = referredBy;
     // data['address']['coordinates'] = address?.map((e) => double.parse(e));
     return data;
   }
