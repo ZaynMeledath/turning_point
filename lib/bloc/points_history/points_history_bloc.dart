@@ -16,7 +16,8 @@ class PointsHistoryBloc extends Bloc<PointsHistoryEvent, PointsHistoryState> {
       final pointsHistoryModelResponse =
           await PointsHistoryRespository.getPointsHistory(page: page);
 
-      if (pointsHistoryModelResponse.data == null) {
+      if (pointsHistoryModelResponse.data == null ||
+          pointsHistoryModelResponse.data!.isEmpty) {
         return emit(NoPointsHistoryState());
       }
 

@@ -10,7 +10,7 @@ Widget bankTransferSegment({required BuildContext context}) {
         animSpeedFactor: 2,
         height: 50,
         showChildOpacityTransition: false,
-        color: const Color.fromRGBO(255, 215, 0, 1),
+        color: const Color(0xFFFFD700),
         backgroundColor: Colors.white,
         child: Expanded(
           child: Padding(

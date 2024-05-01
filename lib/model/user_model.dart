@@ -51,7 +51,7 @@ class UserModel {
   int? contestsParticipatedInCount;
   int? contestWonCount;
   int? contestUniqueWonCount;
-  List<String>? referrals;
+  List<dynamic>? referrals;
   // List<dynamic>? address;
 
   UserModel({
