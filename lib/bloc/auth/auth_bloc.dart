@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/model/contractor_model.dart';
+import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/Exception/api_exception.dart';
 import 'package:turning_point/service/auth/auth_exceptions.dart';
@@ -202,6 +203,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignOutEvent>((event, emit) async {
       try {
         await provider.signOut();
+        UserRepository.updateUserOnlineStatus(isOnline: false);
+        Future.delayed(const Duration(milliseconds: 50), () {
+          AppPreferences.clearSharedPreferences();
+        });
       } catch (e) {
         log('EXCEPTION IN RESEND OTP EVENT : $e');
       }

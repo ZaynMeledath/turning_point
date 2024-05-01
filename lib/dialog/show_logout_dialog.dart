@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/view/settings/settings_screen.dart';
 import 'package:turning_point/view/signin/sign_in_screen.dart';
 
@@ -101,7 +100,6 @@ Widget dialog({required BuildContext context}) {
                   SizedBox(width: screenSize.width * .05),
                   GestureDetector(
                     onTap: () {
-                      AppPreferences.clearSharedPreferences();
                       authBloc.add(SignOutEvent());
                       preloadBloc.add(PreloadResetEvent());
                       Navigator.of(context).pushAndRemoveUntil(
