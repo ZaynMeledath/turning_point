@@ -46,6 +46,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       } on ProfileInactiveException {
         log('EMITTING PROFILE INACTIVE STATE');
         // return emit(ProfileInactiveState());
+      } catch (e) {
+        return emit(ProfileLoadErrorState());
       }
     });
 

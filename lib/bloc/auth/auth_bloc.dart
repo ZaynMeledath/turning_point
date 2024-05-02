@@ -25,7 +25,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(const AuthLoadingState());
         await provider.initialize();
         final userFromPreference = UserRepository.getUserFromPreference();
-
+        await Future.delayed(const Duration(milliseconds: 50));
         if (userFromPreference != null) {
           await UserRepository.getUserById(avoidGettingFromPreference: true);
           await provider.signIn();
