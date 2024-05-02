@@ -40,14 +40,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.didChangeDependencies();
   }
 
-  void disableWakeLock() {
-    setState(() {
-      WakelockPlus.disable();
-    });
-  }
-
   @override
   void dispose() {
+    WakelockPlus.enable();
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: true));
     if (preloadBloc.state.controllers.isNotEmpty &&
         !preloadBloc.manuallyPaused) {
@@ -72,7 +67,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
 
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
-    disableWakeLock();
 
     return Scaffold(
       body: SafeArea(
@@ -109,6 +103,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     BlocBuilder<ProfileBloc, ProfileState>(
                       builder: (context, state) {
+                        WakelockPlus.disable();
                         switch (state) {
                           case ProfileLoadingState():
                             return spinningLinesLoading();

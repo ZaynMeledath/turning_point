@@ -111,7 +111,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
       return emit(PreloadState.initial());
     });
 
-    on<ReelsScreenToggleEvent>((event, emit) {
+    on<ReelsScreenToggleEvent>((event, emit) async {
       emit(
         PreloadState(
           controllers: state.controllers,

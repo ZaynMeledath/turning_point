@@ -41,7 +41,7 @@ dependencies:
   google_fonts: ^6.1.0
   google_sign_in: ^6.2.1
   http: ^1.1.2
-  image_cropper: ^5.0.1
+  image_cropper: ^6.0.0
   image_picker: ^1.0.7
   internet_connection_checker: ^1.0.0+1
   jwt_decoder: ^2.0.1
@@ -49,7 +49,7 @@ dependencies:
   location: ^6.0.1
   liquid_pull_to_refresh: ^3.0.1
   lottie: ^3.1.0
-  package_info_plus: ^7.0.0
+  package_info_plus: 7.0.0
   page_transition: ^2.1.0
   path_provider: ^2.1.2
   permission_handler: ^11.2.0
@@ -65,7 +65,7 @@ dependencies:
   url_launcher: ^6.2.5
   vibration: ^1.8.4
   video_player: ^2.8.3
-  wakelock_plus: ^1.1.4
+  wakelock_plus: ^1.2.4
   workmanager: ^0.5.2
   
    

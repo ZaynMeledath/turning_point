@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/model/points_history_model.dart';
+part of '../points_screen.dart';
 
 Widget pointContainer({
   required PointsHistoryModel pointsHistoryModel,

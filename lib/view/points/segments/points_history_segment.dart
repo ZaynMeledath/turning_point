@@ -1,10 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
-import 'package:turning_point/bloc/points_history/points_history_bloc.dart';
-import 'package:turning_point/helper/widget/custom_loading.dart';
-import 'package:turning_point/view/points/segments/point_container.dart';
+part of '../points_screen.dart';
 
 //====================Points History Segment====================//
 Widget pointsHistorySegment({
