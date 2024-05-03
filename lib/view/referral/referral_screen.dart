@@ -1,7 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:turning_point/bloc/profile/profile_bloc.dart';
+import 'package:turning_point/bloc/referral/referral_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
@@ -22,8 +27,9 @@ class ReferralScreen extends StatefulWidget {
 
 class _ReferralScreenState extends State<ReferralScreen> {
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    referralBloc.add(ReferralLoadEvent());
+    super.didChangeDependencies();
   }
 
   @override
@@ -134,13 +140,38 @@ class _ReferralScreenState extends State<ReferralScreen> {
                                       width: screenSize.width * .065,
                                     ),
                                     SizedBox(width: screenSize.width * .005),
-                                    Text(
-                                      '2450',
-                                      style: GoogleFonts.roboto(
-                                        color: const Color(0xff263238),
-                                        fontSize: screenSize.width * .051,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                    BlocBuilder<ReferralBloc, ReferralState>(
+                                      builder: (context, state) {
+                                        switch (state) {
+                                          case ReferralLoadingState():
+                                            return CupertinoActivityIndicator(
+                                              radius: screenSize.width * .024,
+                                              color: const Color.fromRGBO(
+                                                  0, 99, 255, 1),
+                                            );
+
+                                          case ReferralErrorState():
+                                            return Center(
+                                              child: Lottie.asset(
+                                                'no_internet_animation.json',
+                                                width: screenSize.width * .7,
+                                              ),
+                                            );
+
+                                          case ReferralLoadedState():
+                                            return Text(
+                                              state.referralModel!
+                                                  .totalRewardPointsEarned
+                                                  .toString(),
+                                              style: GoogleFonts.roboto(
+                                                color: const Color(0xff263238),
+                                                fontSize:
+                                                    screenSize.width * .051,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            );
+                                        }
+                                      },
                                     ),
                                   ],
                                 ),
@@ -182,10 +213,7 @@ class _ReferralScreenState extends State<ReferralScreen> {
 
           //---------------White Container---------------//
           SizedBox(height: screenSize.height * .04),
-          referralCodeContainer(
-            context: context,
-            couponCode: 'demo123',
-          ),
+          referralCodeContainer(context: context),
           SizedBox(height: screenSize.height * .03),
           referralInstructionContainer(),
           SizedBox(height: screenSize.height * .04),

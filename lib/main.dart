@@ -17,6 +17,7 @@ import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/points_history/points_history_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/bloc/reels/reels_bloc.dart';
+import 'package:turning_point/bloc/referral/referral_bloc.dart';
 import 'package:turning_point/bloc/rewards/rewards_bloc.dart';
 import 'package:turning_point/bloc/scanner/scanner_bloc.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
@@ -162,6 +163,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => connectBloc,
+        ),
+        BlocProvider(
+          create: (_) => referralBloc,
         ),
       ],
       child: MaterialApp(

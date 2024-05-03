@@ -52,6 +52,7 @@ class UserModel {
   int? contestWonCount;
   int? contestUniqueWonCount;
   List<dynamic>? referrals;
+  String? refCode;
   // List<dynamic>? address;
 
   UserModel({
@@ -82,6 +83,7 @@ class UserModel {
     this.contestWonCount,
     this.contestUniqueWonCount,
     this.referrals,
+    this.refCode,
     // this.address,
   });
 
@@ -121,6 +123,7 @@ class UserModel {
     contestWonCount = json['contestWonCount'];
     contestUniqueWonCount = json['contestUniqueWonCount'];
     referrals = json['referrals'];
+    refCode = json['refCode'];
     // address = json['address']['coordinates'];
   }
 
@@ -158,6 +161,7 @@ class UserModel {
     data['contestWonCount'] = contestWonCount;
     data['contestUniqueWonCount'] = contestUniqueWonCount;
     data['referrals'] = referrals;
+    data['refCode'] = refCode;
     // data['address']['coordinates'] = address?.map((e) => double.parse(e));
     return data;
   }

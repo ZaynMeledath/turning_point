@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/helper/screen_size.dart';
 
-Widget myReferralsSegment() {
+Widget myReferralsSegment({required int totalReferrals}) {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: screenSize.width * .051),
     child: Column(
@@ -44,7 +44,7 @@ Widget myReferralsSegment() {
                   alignment: Alignment.centerRight,
                   child: Padding(
                     padding: EdgeInsets.only(right: screenSize.width * .09),
-                    child: Text('8',
+                    child: Text(totalReferrals.toString(),
                         style: GoogleFonts.roboto(
                           fontSize: screenSize.width * .05,
                           fontWeight: FontWeight.w500,

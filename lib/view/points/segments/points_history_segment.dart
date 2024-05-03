@@ -37,6 +37,7 @@ Widget pointsHistorySegment({
                       color: Colors.black.withOpacity(.75),
                     ),
                   ),
+                  SizedBox(height: screenSize.height * .1),
                 ],
               ),
             ),
