@@ -332,15 +332,12 @@ class UserRepository {
   }
 
 //=====================Apply Referral Reward====================//
-  static Future<ReferralModelResponse?> applyReferralReward(
-      {required String rewardId}) async {
-    final response = await ApiService().sendRequest(
+  static Future<void> applyReferralReward({required String rewardId}) async {
+    await ApiService().sendRequest(
       url: '${ApiEndpoints.applyReferralReward}/$rewardId',
       requestMethod: RequestMethod.GET,
       data: null,
       isTokenRequired: true,
     );
-
-    return ReferralModelResponse.fromJson(response);
   }
 }
