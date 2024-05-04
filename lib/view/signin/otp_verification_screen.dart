@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
+import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/main.dart';
@@ -61,7 +62,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is OtpVerificationNeededState && state.exception != null) {
+        if (state is AuthLoadingState) {
+          showLoadingDialog(context: context);
+        } else if (state is OtpVerificationNeededState &&
+            state.exception != null) {
           Navigator.pop(context);
           if (state.exception == 'invalid-verification-code') {
             Future.delayed(Duration.zero, () {
