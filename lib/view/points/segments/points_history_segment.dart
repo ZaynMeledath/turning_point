@@ -45,11 +45,6 @@ Widget pointsHistorySegment({
         case PointsHistoryLoadedState():
           return Expanded(
             child: Container(
-              padding: EdgeInsets.only(
-                // top: screenSize.height * .025,
-                left: screenSize.width * .038,
-                right: screenSize.width * .038,
-              ),
               decoration: const BoxDecoration(
                 color: Color.fromRGBO(245, 246, 250, 1),
                 borderRadius: BorderRadius.only(
@@ -63,15 +58,30 @@ Widget pointsHistorySegment({
                   ),
                 ],
               ),
-              child: ListView.builder(
-                padding: EdgeInsets.only(top: screenSize.height * .021),
-                controller: scrollController,
-                itemCount: state.pointsHistoryModel!.length,
-                itemBuilder: (context, index) {
-                  return pointContainer(
-                    pointsHistoryModel: state.pointsHistoryModel![index],
-                  );
-                },
+              child: LiquidPullToRefresh(
+                onRefresh: () => handlePointsScreenRefresh(),
+                animSpeedFactor: 2,
+                height: 50,
+                showChildOpacityTransition: false,
+                color: const Color(0xFFFFD700),
+                backgroundColor: Colors.white,
+                child: ListView.builder(
+                  padding: EdgeInsets.only(top: screenSize.height * .021),
+                  controller: scrollController,
+                  itemCount: state.pointsHistoryModel!.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        // top: screenSize.height * .025,
+                        left: screenSize.width * .038,
+                        right: screenSize.width * .038,
+                      ),
+                      child: pointContainer(
+                        pointsHistoryModel: state.pointsHistoryModel![index],
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           );

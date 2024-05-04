@@ -64,6 +64,8 @@ Widget pointContainer({
             child: Center(
               child: Text(
                 pointsHistoryModel.mobileDescription.toString(),
+                textAlign: TextAlign.center,
+                // overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.roboto(
                     fontSize: screenSize.width * .03,
                     fontWeight: FontWeight.w400,

@@ -233,6 +233,6 @@ class _RedeemScreenState extends State<RedeemScreen> {
   }
 }
 
-Future<void> handleRefresh() async {
+Future<void> handleProfileRefresh() async {
   profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
 }

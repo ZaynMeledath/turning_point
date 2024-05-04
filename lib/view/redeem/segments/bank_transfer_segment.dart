@@ -6,7 +6,7 @@ Widget bankTransferSegment({required BuildContext context}) {
       // final bool status = state.userModel!.bankDetails != null &&
       //     state.userModel!.bankDetails!.isNotEmpty;
       return LiquidPullToRefresh(
-        onRefresh: () => handleRefresh(),
+        onRefresh: () => handleProfileRefresh(),
         animSpeedFactor: 2,
         height: 50,
         showChildOpacityTransition: false,

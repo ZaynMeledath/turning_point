@@ -24,7 +24,7 @@ class RewardsHistoryScreen extends StatelessWidget {
       ),
       body: Expanded(
         child: LiquidPullToRefresh(
-          onRefresh: () => handleRefresh(),
+          onRefresh: () => handleProfileRefresh(),
           animSpeedFactor: 2,
           height: 45,
           showChildOpacityTransition: false,
@@ -33,14 +33,14 @@ class RewardsHistoryScreen extends StatelessWidget {
           child: GridView.builder(
             padding: EdgeInsets.only(
               top: screenSize.height * .025,
-              left: screenSize.width * .055,
-              right: screenSize.width * .055,
+              left: screenSize.width * .06,
+              right: screenSize.width * .06,
             ),
             itemCount: referralModel.appliedRewards!.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               mainAxisSpacing: screenSize.width * .05,
-              crossAxisSpacing: screenSize.width * .055,
+              crossAxisSpacing: screenSize.width * .06,
               mainAxisExtent: screenSize.width * .5,
             ),
             itemBuilder: (context, index) {
@@ -59,13 +59,13 @@ class RewardsHistoryScreen extends StatelessWidget {
                       Colors.blue.shade900,
                       Colors.blue.shade400,
                     ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 6,
-                        color: Colors.blue.shade200,
-                        blurStyle: BlurStyle.outer,
-                      ),
-                    ],
+                    // boxShadow: [
+                    //   BoxShadow(
+                    //     blurRadius: 6,
+                    //     color: Colors.blue.shade200,
+                    //     blurStyle: BlurStyle.outer,
+                    //   ),
+                    // ],
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -75,14 +75,14 @@ class RewardsHistoryScreen extends StatelessWidget {
                       ),
                       SizedBox(height: screenSize.height * .017),
                       Text(
-                        'You have Won\n$rewardPoint points',
+                        '$rewardPoint points',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(
                           fontSize: screenSize.width * .036,
                           fontWeight: FontWeight.w500,
                           color: Colors.white.withOpacity(.9),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
