@@ -11,6 +11,7 @@ part 'redeem_event.dart';
 part 'redeem_state.dart';
 
 class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
+  bool status = false;
   RedeemBloc()
       : super(BuyCouponsState(
           selectedOptionNumber: 3,

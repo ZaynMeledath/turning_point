@@ -3,18 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
+import 'package:scratcher/scratcher.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/bloc/referral/referral_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
-import 'package:turning_point/view/referral/total_referral_earned_screen.dart';
+import 'package:turning_point/helper/widget/custom_loading.dart';
+import 'package:turning_point/model/referral_model.dart';
+import 'package:turning_point/view/redeem/redeem_screen.dart';
 
 part 'segments/coupon_code_container.dart';
 part 'segments/referral_instruction_container.dart';
 part 'segments/invite_link_container.dart';
+part 'segments/rewards_history_modal_sheet.dart';
+part 'total_referral_earned_screen.dart';
+part 'segments/scratch_card_pop_up.dart';
+part 'segments/referral_rewards_segment.dart';
+part 'segments/my_referrals_segment.dart';
 
 class ReferralScreen extends StatefulWidget {
   const ReferralScreen({

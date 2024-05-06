@@ -1,14 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:lottie/lottie.dart';
-import 'package:turning_point/bloc/referral/referral_bloc.dart';
-import 'package:turning_point/helper/custom_navigator.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/model/referral_model.dart';
-import 'package:turning_point/view/referral/rewards_history_screen.dart';
-import 'package:turning_point/view/referral/segments/scratch_card_pop_up.dart';
+part of '../referral_screen.dart';
 
 Future<void> handleRefresh() async {
   referralBloc.add(ReferralLoadEvent());
@@ -86,11 +76,9 @@ Widget referralRewardsSegment({
             alignment: Alignment.bottomCenter,
             child: GestureDetector(
               onTap: () {
-                CustomNavigator.push(
+                rewardsHistoryModalSheet(
                   context: context,
-                  child: RewardsHistoryScreen(
-                    referralModel: referralModel,
-                  ),
+                  referralModel: referralModel,
                 );
               },
               child: Container(
@@ -135,7 +123,7 @@ Widget referralRewardsSegment({
                           padding:
                               EdgeInsets.only(right: screenSize.width * .036),
                           child: const Icon(
-                            Icons.keyboard_arrow_right,
+                            Icons.keyboard_arrow_up_rounded,
                             color: Color(0xff263238),
                           ),
                         ),

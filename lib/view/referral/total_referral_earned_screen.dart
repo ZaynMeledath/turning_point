@@ -1,17 +1,6 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
-import 'package:turning_point/bloc/referral/referral_bloc.dart';
-import 'package:turning_point/helper/custom_navigator.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
-import 'package:turning_point/helper/widget/custom_loading.dart';
-import 'package:turning_point/view/redeem/redeem_screen.dart';
-import 'package:turning_point/view/referral/segments/my_referrals_segment.dart';
-import 'package:turning_point/view/referral/segments/referral_rewards_segment.dart';
+part of 'referral_screen.dart';
 
 class TotalReferralEarnedScreen extends StatefulWidget {
   const TotalReferralEarnedScreen({

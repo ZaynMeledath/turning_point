@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:scratcher/scratcher.dart';
-import 'package:turning_point/bloc/referral/referral_bloc.dart';
-import 'package:turning_point/helper/screen_size.dart';
+part of '../referral_screen.dart';
 
 Future<void> scratchCardPopUp({
   required BuildContext context,

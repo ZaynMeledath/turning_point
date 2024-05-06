@@ -48,7 +48,22 @@ Widget bankTransferSegment({required BuildContext context}) {
                               return GestureDetector(
                                 onTap: () {
                                   if (status) {
-                                    redeemBloc.add(RedeemButtonPressedEvent());
+                                    showAnimatedGenericDialog(
+                                      context: context,
+                                      iconPath:
+                                          'assets/lottie/coin_animation.json',
+                                      title: 'Redeem',
+                                      content:
+                                          'Are you sure you want to redeem ${redeemState.redeemPoints} points?',
+                                      buttons: {
+                                        'Cancel': () => Navigator.pop(context),
+                                        'Redeem': () {
+                                          redeemBloc
+                                              .add(RedeemButtonPressedEvent());
+                                          Navigator.pop(context);
+                                        },
+                                      },
+                                    );
                                   }
                                 },
                                 child: Container(

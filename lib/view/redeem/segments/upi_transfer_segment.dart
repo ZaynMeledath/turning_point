@@ -3,7 +3,7 @@ part of '../redeem_screen.dart';
 Widget upiTransferSegment({required TextEditingController upiController}) {
   return BlocBuilder<ProfileBloc, ProfileState>(
     builder: (context, state) {
-      // final bool status = state.userModel!.bankDetails != null &&
+      // final bool redeemBloc.status = state.userModel!.bankDetails != null &&
       //     state.userModel!.bankDetails!.isNotEmpty;
       return LiquidPullToRefresh(
         onRefresh: () => _handleRefresh(),
@@ -59,20 +59,36 @@ Widget upiTransferSegment({required TextEditingController upiController}) {
                           //====================Submit Button====================//
                           BlocBuilder<RedeemBloc, RedeemState>(
                             builder: (context, redeemState) {
-                              final status = redeemState.isTermsAgreed &&
+                              redeemBloc.status = redeemState.isTermsAgreed &&
                                   redeemState.redeemPoints <=
                                       pointsBloc.state.points! &&
                                   upiController.text.isNotEmpty;
                               return GestureDetector(
                                 onTap: () {
-                                  if (status) {
+                                  if (redeemBloc.status) {
                                     if (profileBloc
                                                 .state.userModel!.bankDetails !=
                                             null &&
                                         profileBloc.state.userModel!
                                             .bankDetails!.isNotEmpty) {
-                                      redeemBloc.add(RedeemButtonPressedEvent(
-                                          upiId: upiController.text));
+                                      showAnimatedGenericDialog(
+                                        context: context,
+                                        iconPath:
+                                            'assets/lottie/coin_animation.json',
+                                        title: 'Redeem',
+                                        content:
+                                            'Are you sure you want to redeem ${redeemState.redeemPoints} points?',
+                                        buttons: {
+                                          'Cancel': () =>
+                                              Navigator.pop(context),
+                                          'Redeem': () {
+                                            redeemBloc.add(
+                                                RedeemButtonPressedEvent(
+                                                    upiId: upiController.text));
+                                            Navigator.pop(context);
+                                          },
+                                        },
+                                      );
                                     } else {
                                       showAnimatedGenericDialog(
                                         context: context,
@@ -93,7 +109,7 @@ Widget upiTransferSegment({required TextEditingController upiController}) {
                                   ),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
-                                    color: status
+                                    color: redeemBloc.status
                                         ? const Color.fromRGBO(0, 99, 255, 1)
                                         : Colors.grey,
                                   ),

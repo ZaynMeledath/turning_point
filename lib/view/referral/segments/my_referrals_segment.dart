@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/helper/screen_size.dart';
+part of '../referral_screen.dart';
 
 Widget myReferralsSegment({required int totalReferrals}) {
   return Container(
