@@ -87,7 +87,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             title: 'Something Went Wrong',
             content:
                 'Something went wrong while accessing\nthe server. Please try after sometime',
-            buttonTitle: 'OK',
+            buttons: {'OK': null},
             iconWidth: screenSize.width * .2,
           );
         } else if (state is PhoneNumberExistsState) {
@@ -97,7 +97,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             iconPath: 'assets/icons/kyc_declined_icon.png',
             title: 'Phone Already Exists',
             content: 'The number you are trying to register already exists.',
-            buttonTitle: 'OK',
+            buttons: {'OK': null},
           );
         } else if (state is OtpVerificationNeededState) {
           Navigator.pop(context);
@@ -310,7 +310,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         title: 'Phone Already Exists',
                                         content:
                                             'The number you are trying to register already exists.',
-                                        buttonTitle: 'OK',
+                                        buttons: {'OK': null},
                                       );
                                     } else {
                                       Navigator.pop(context);

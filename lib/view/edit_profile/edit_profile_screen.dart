@@ -96,7 +96,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               iconPath: 'assets/lottie/gear_error_animation.json',
               title: 'Error',
               content: state.exception.toString(),
-              buttonTitle: 'Dismiss',
+              buttons: {'Dismiss': null},
             );
           }
         },

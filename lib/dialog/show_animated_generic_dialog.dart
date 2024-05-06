@@ -3,14 +3,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:turning_point/helper/screen_size.dart';
 
+typedef ButtonFuction = void Function();
+
 Future<Object?> showAnimatedGenericDialog({
   required BuildContext context,
   required String iconPath,
   required String title,
   required String content,
-  required String buttonTitle,
+  required Map<String, ButtonFuction?> buttons,
   double? iconWidth,
-  void Function()? buttonFunction,
   // Size? containerSize,
 }) async {
   return showGeneralDialog(
@@ -28,9 +29,8 @@ Future<Object?> showAnimatedGenericDialog({
           iconPath: iconPath,
           title: title,
           content: content,
-          buttonTitle: buttonTitle,
           iconWidth: iconWidth,
-          buttonFunction: buttonFunction,
+          buttons: buttons,
         ),
       );
     },
@@ -42,9 +42,8 @@ Widget dialog({
   required String iconPath,
   required String title,
   required String content,
-  required String buttonTitle,
+  required Map<String, ButtonFuction?> buttons,
   double? iconWidth,
-  void Function()? buttonFunction,
 }) {
   final isLottie = iconPath.split('.').last == 'json';
   return Column(
@@ -107,7 +106,7 @@ Widget dialog({
             ),
             SizedBox(height: screenSize.height * .028),
             GestureDetector(
-              onTap: buttonFunction ?? () => Navigator.pop(context),
+              onTap: buttons.values.first ?? () => Navigator.pop(context),
               child: Container(
                 width: screenSize.width * .25,
                 height: screenSize.width * .085,
@@ -123,7 +122,7 @@ Widget dialog({
                   ),
                   child: Center(
                     child: Text(
-                      buttonTitle,
+                      buttons.keys.first,
                       textAlign: TextAlign.center,
                     ),
                   ),

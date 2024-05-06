@@ -54,7 +54,7 @@ class _ContestScreenState extends State<ContestScreen> {
                 iconPath: 'assets/lottie/insufficient_balance_animation.json',
                 title: 'Oops',
                 content: 'Insufficient Balance to join the\ncontest',
-                buttonTitle: 'Dismiss',
+                buttons: {'Dismiss': null},
                 iconWidth: screenSize.width * .25,
               );
               break;
@@ -64,7 +64,7 @@ class _ContestScreenState extends State<ContestScreen> {
                 iconPath: 'assets/lottie/kyc_verification_animation.json',
                 title: 'Not Verified',
                 content: 'KYC should be verified to join the\ncontest',
-                buttonTitle: 'Dismiss',
+                buttons: {'Dismiss': null},
                 iconWidth: screenSize.width * .2,
               );
               break;
@@ -74,7 +74,7 @@ class _ContestScreenState extends State<ContestScreen> {
                 iconPath: 'assets/lottie/something_went_wrong_animation.json',
                 title: 'Error',
                 content: 'Something Went Wrong',
-                buttonTitle: 'Dismiss',
+                buttons: {'Dismiss': null},
                 iconWidth: screenSize.width * .2,
               );
           }
@@ -84,7 +84,7 @@ class _ContestScreenState extends State<ContestScreen> {
             iconPath: 'assets/images/points_received_dialog_image.png',
             title: 'Joined Contest!',
             content: 'You have Successfully joined\n${state.contestModel.name}',
-            buttonTitle: 'Done',
+            buttons: {'Done': null},
           );
         }
       },

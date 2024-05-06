@@ -274,10 +274,11 @@ class _ScannerScreenState extends State<ScannerScreen> {
                           title: 'Permission Needed',
                           content:
                               'Enable location permission to redeem coupon',
-                          buttonTitle: 'Enable',
-                          buttonFunction: () {
-                            openAppSettings();
-                            Navigator.pop(context);
+                          buttons: {
+                            'Dismiss': () {
+                              openAppSettings();
+                              Navigator.pop(context);
+                            },
                           },
                         );
                         return;

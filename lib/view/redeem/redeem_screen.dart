@@ -125,14 +125,13 @@ class _RedeemScreenState extends State<RedeemScreen> {
                     Navigator.pop(context);
                     closeDialogHandle = null;
                     showAnimatedGenericDialog(
-                      context: context,
-                      iconPath:
-                          'assets/images/points_received_dialog_image.png',
-                      title: 'Success',
-                      content:
-                          'Your Request for Point Redemption has been submitted successfully.',
-                      buttonTitle: 'OK',
-                    );
+                        context: context,
+                        iconPath:
+                            'assets/images/points_received_dialog_image.png',
+                        title: 'Success',
+                        content:
+                            'Your Request for Point Redemption has been submitted successfully.',
+                        buttons: {'OK': null});
                   }
                   break;
 
@@ -159,14 +158,12 @@ class _RedeemScreenState extends State<RedeemScreen> {
                         Navigator.pop(context);
                         closeDialogHandle = null;
                         showAnimatedGenericDialog(
-                          context: context,
-                          iconPath:
-                              'assets/images/points_received_dialog_image.png',
-                          title: 'Joined Contest!',
-                          content:
-                              'You have Successfully joined\n${joinContestState.contestModel.name}',
-                          buttonTitle: 'Done',
-                        );
+                            context: context,
+                            iconPath:
+                                'assets/images/points_received_dialog_image.png',
+                            title: 'Joined Contest!',
+                            content: 'You have Successfully joined\n${joinContestState.contestModel.name}',
+                            buttons: {'Done': null});
                       } else if (joinContestState is JoinContestErrorState) {
                         Navigator.pop(context);
                         closeDialogHandle = null;
@@ -179,7 +176,7 @@ class _RedeemScreenState extends State<RedeemScreen> {
                               title: 'Oops',
                               content:
                                   'Insufficient Balance to join the\ncontest',
-                              buttonTitle: 'Dismiss',
+                              buttons: {'Dismiss': null},
                               iconWidth: screenSize.width * .25,
                             );
                             break;
@@ -191,7 +188,7 @@ class _RedeemScreenState extends State<RedeemScreen> {
                               title: 'Not Verified',
                               content:
                                   'KYC should be verified to join the\ncontest',
-                              buttonTitle: 'Dismiss',
+                              buttons: {'Dismiss': null},
                               iconWidth: screenSize.width * .2,
                             );
                             break;
@@ -202,7 +199,7 @@ class _RedeemScreenState extends State<RedeemScreen> {
                                   'assets/lottie/something_went_wrong_animation.json',
                               title: 'Error',
                               content: 'Something Went Wrong',
-                              buttonTitle: 'Dismiss',
+                              buttons: {'Dismiss': null},
                               iconWidth: screenSize.width * .2,
                             );
                         }

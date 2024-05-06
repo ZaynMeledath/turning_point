@@ -74,7 +74,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                 iconPath: 'assets/icons/kyc_declined_icon.png',
                 title: 'Wrong OTP',
                 content: 'Please enter the correct OTP to continue',
-                buttonTitle: 'OK',
+                buttons: {'OK': null},
               );
             });
           } else {
@@ -83,7 +83,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
               iconPath: 'assets/lottie/gear_error_animation.json',
               title: 'Error',
               content: state.exception ?? '',
-              buttonTitle: 'OK',
+              buttons: {'OK': null},
               iconWidth: screenSize.width * .2,
             );
           }
@@ -94,7 +94,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
             iconPath: 'assets/icons/kyc_declined_icon.png',
             title: 'Something went wrong',
             content: state.message,
-            buttonTitle: 'OK',
+            buttons: {'OK': null},
           );
         } else if (state is OtpVerifiedState) {
           Navigator.pop(context);
@@ -287,12 +287,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                                 );
                               } else {
                                 showAnimatedGenericDialog(
-                                    iconPath:
-                                        'assets/icons/kyc_declined_icon.png',
-                                    context: context,
-                                    title: 'OTP Incorrect',
-                                    content: 'OTP should be 6 digits',
-                                    buttonTitle: 'OK');
+                                  iconPath:
+                                      'assets/icons/kyc_declined_icon.png',
+                                  context: context,
+                                  title: 'OTP Incorrect',
+                                  content: 'OTP should be 6 digits',
+                                  buttons: {'OK': null},
+                                );
                               }
                             },
                             child: Container(

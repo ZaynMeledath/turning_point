@@ -81,7 +81,7 @@ Widget upiTransferSegment({required TextEditingController upiController}) {
                                         title: 'KYC Not Updated',
                                         content:
                                             'Please update your KYC to avail the feature',
-                                        buttonTitle: 'OK',
+                                        buttons: {'OK': null},
                                       );
                                     }
                                   }
