@@ -4,5 +4,6 @@ part of 'points_history_bloc.dart';
 sealed class PointsHistoryEvent {}
 
 class PointsHistoryLoadEvent extends PointsHistoryEvent {
-  PointsHistoryLoadEvent();
+  final bool? isReloading;
+  PointsHistoryLoadEvent({this.isReloading});
 }

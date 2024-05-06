@@ -65,7 +65,7 @@ class _RedeemScreenState extends State<RedeemScreen> {
     super.dispose();
     redeemBloc.add(ResetStateEvent());
     contestBloc.add(ContestTimerDisposeEvent());
-    pointsHistoryBloc.add(PointsHistoryLoadEvent());
+    pointsHistoryBloc.add(PointsHistoryLoadEvent(isReloading: true));
     upiController.dispose();
   }
 

@@ -12,7 +12,11 @@ part 'points_history_state.dart';
 class PointsHistoryBloc extends Bloc<PointsHistoryEvent, PointsHistoryState> {
   PointsHistoryBloc() : super(PointsHistoryLoadingState()) {
     on<PointsHistoryLoadEvent>((event, emit) async {
-      final page = state.page == null ? 1 : state.page! + 1;
+      int page = state.page == null ? 1 : state.page! + 1;
+
+      if (event.isReloading == true) {
+        page = 1;
+      }
 
       final pointsHistoryModelResponse =
           await PointsHistoryRespository.getPointsHistory(page: page);
@@ -25,7 +29,8 @@ class PointsHistoryBloc extends Bloc<PointsHistoryEvent, PointsHistoryState> {
       }
 
       if (state.pointsHistoryModel != null &&
-          pointsHistoryModelResponse.data != null) {
+          pointsHistoryModelResponse.data != null &&
+          event.isReloading != true) {
         state.pointsHistoryModel!.addAll(pointsHistoryModelResponse.data!);
         pointsHistoryModelResponse.data = state.pointsHistoryModel;
       }

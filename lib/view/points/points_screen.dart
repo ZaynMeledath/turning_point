@@ -87,7 +87,7 @@ class _PointsScreenState extends State<PointsScreen> {
       preloadBloc.pauseCurrentController();
     }
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
-    pointsHistoryBloc.add(PointsHistoryLoadEvent());
+    pointsHistoryBloc.add(PointsHistoryLoadEvent(isReloading: true));
 
     return Scaffold(
 //====================App Bar====================//
@@ -116,5 +116,5 @@ class _PointsScreenState extends State<PointsScreen> {
 
 Future<void> handlePointsScreenRefresh() async {
   profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
-  pointsHistoryBloc.add(PointsHistoryLoadEvent());
+  pointsHistoryBloc.add(PointsHistoryLoadEvent(isReloading: true));
 }
