@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
@@ -21,6 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
   bool startFadeInAnimation = false;
   @override
   void initState() {
+    emptyCache();
     authBloc.add(AuthInitializeEvent());
     Future.delayed(const Duration(milliseconds: 800), () {
       setState(() {
@@ -54,6 +56,10 @@ class _SplashScreenState extends State<SplashScreen> {
     });
 
     super.initState();
+  }
+
+  void emptyCache() async {
+    await DefaultCacheManager().emptyCache();
   }
 
   @override

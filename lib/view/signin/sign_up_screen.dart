@@ -132,7 +132,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: Column(
                           children: [
                             // SizedBox(height: screenSize.height * .082),
-                            SizedBox(height: screenSize.height * .11),
+                            SizedBox(height: screenSize.height * .09),
                             //====================Furnipart Logo====================//
                             Hero(
                               tag: 'turning_point_logo',

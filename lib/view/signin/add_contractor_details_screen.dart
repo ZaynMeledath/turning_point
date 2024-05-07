@@ -79,11 +79,10 @@ class _AddContractorDetailsScreenState
 
                   //====================Furnipart Logo====================//
                   Hero(
-                    tag: 'furnipart_logo',
+                    tag: 'turning_point_logo',
                     child: Image.asset(
-                      'assets/images/furnipart_logo.png',
-                      width: screenSize.width * .32,
-                      height: screenSize.height * .086,
+                      'assets/icons/turning_point_logo_icon.png',
+                      width: screenSize.width * .24,
                     ),
                   ),
                   SizedBox(height: screenSize.height * .045),

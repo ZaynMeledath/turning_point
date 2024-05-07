@@ -67,6 +67,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
         } else if (state is OtpVerificationNeededState &&
             state.exception != null) {
           Navigator.pop(context);
+          Navigator.pop(context);
           if (state.exception == 'invalid-verification-code') {
             Future.delayed(Duration.zero, () {
               showAnimatedGenericDialog(
