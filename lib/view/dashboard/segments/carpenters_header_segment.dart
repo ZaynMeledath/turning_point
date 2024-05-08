@@ -41,13 +41,27 @@ Widget carpentersHeaderSegment(BuildContext context) {
                           color: Colors.white,
                         ),
                       ),
-                      Text(
-                        '7',
-                        style: GoogleFonts.inter(
-                          fontSize: screenSize.width * .05,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
+                      BlocBuilder<CarpenterBloc, CarpenterState>(
+                        builder: (context, state) {
+                          if (state is CarpenterLoadedState) {
+                            return Text(
+                              state.carpentersListModel.allCarpenters!.length
+                                  .toString(),
+                              style: GoogleFonts.inter(
+                                fontSize: screenSize.width * .05,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            );
+                          } else {
+                            return Center(
+                              child: CupertinoActivityIndicator(
+                                radius: screenSize.width * .031,
+                                color: Colors.white,
+                              ),
+                            );
+                          }
+                        },
                       ),
                     ],
                   ),
@@ -67,13 +81,26 @@ Widget carpentersHeaderSegment(BuildContext context) {
                         'assets/icons/coin_icon.png',
                         width: screenSize.width * .075,
                       ),
-                      Text(
-                        '5320',
-                        style: GoogleFonts.inter(
-                          fontSize: screenSize.width * .06,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
+                      BlocBuilder<CarpenterBloc, CarpenterState>(
+                        builder: (context, state) {
+                          if (state is CarpenterLoadedState) {
+                            return Text(
+                              '5320',
+                              style: GoogleFonts.inter(
+                                fontSize: screenSize.width * .06,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            );
+                          } else {
+                            return Center(
+                              child: CupertinoActivityIndicator(
+                                radius: screenSize.width * .031,
+                                color: Colors.white,
+                              ),
+                            );
+                          }
+                        },
                       ),
                     ],
                   ),

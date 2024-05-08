@@ -21,7 +21,7 @@ class CarpentersListModelResponse {
 class CarpentersListModel {
   String? contractorName;
   String? businessName;
-  List<AllCarpenters>? allCarpenters;
+  List<CarpenterModel>? allCarpenters;
   int? allCarpentersTotal;
 
   CarpentersListModel(
@@ -34,9 +34,9 @@ class CarpentersListModel {
     contractorName = json['name'];
     businessName = json['businessName'];
     if (json['allCarpenters'] != null) {
-      allCarpenters = <AllCarpenters>[];
+      allCarpenters = <CarpenterModel>[];
       json['allCarpenters'].forEach((v) {
-        allCarpenters!.add(AllCarpenters.fromJson(v));
+        allCarpenters!.add(CarpenterModel.fromJson(v));
       });
     }
     allCarpentersTotal = json['allCarpentersTotal'];
@@ -54,14 +54,14 @@ class CarpentersListModel {
   }
 }
 
-class AllCarpenters {
+class CarpenterModel {
   String? name;
   String? image;
   int? points;
 
-  AllCarpenters({this.name, this.image, this.points});
+  CarpenterModel({this.name, this.image, this.points});
 
-  AllCarpenters.fromJson(Map<String, dynamic> json) {
+  CarpenterModel.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     image = json['image'];
     points = json['points'];

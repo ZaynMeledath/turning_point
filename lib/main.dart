@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:turning_point/bloc/carpenter/carpenter_bloc.dart';
 import 'package:turning_point/bloc/connect/connect_bloc.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
 import 'package:turning_point/bloc/contest/join_contest_bloc.dart';
@@ -166,6 +167,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => referralBloc,
+        ),
+        BlocProvider(
+          create: (_) => carpenterBloc,
         ),
       ],
       child: MaterialApp(

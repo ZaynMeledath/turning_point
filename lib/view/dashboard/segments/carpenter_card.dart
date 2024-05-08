@@ -1,6 +1,6 @@
 part of '../carpenters_list_screen.dart';
 
-Widget carpenterCard() {
+Widget carpenterCard({required CarpenterModel carpenterModel}) {
   return Container(
     margin: EdgeInsets.only(bottom: screenSize.height * .018),
     padding: EdgeInsets.symmetric(horizontal: screenSize.width * .026),

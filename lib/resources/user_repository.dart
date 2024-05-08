@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/exceptions/user_exceptions.dart';
+import 'package:turning_point/model/carpenters_list_model.dart';
 import 'package:turning_point/model/contractor_model.dart';
 import 'package:turning_point/model/referral_model.dart';
 import 'package:turning_point/model/user_model.dart';
@@ -344,7 +345,7 @@ class UserRepository {
   }
 
 //=====================Get All Carpenters By Contractor Name====================//
-  static Future<ContractorModelResponse>
+  static Future<CarpentersListModelResponse?>
       getAllCarpentersByContractorName() async {
     final response = await ApiService().sendRequest(
       url: ApiEndpoints.getAllCarpentersByContractorName,
@@ -353,6 +354,6 @@ class UserRepository {
       isTokenRequired: true,
     );
 
-    return ContractorModelResponse.fromJson(response);
+    return CarpentersListModelResponse.fromJson(response);
   }
 }
