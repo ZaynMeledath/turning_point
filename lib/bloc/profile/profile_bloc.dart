@@ -84,7 +84,18 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           userModel: userModelResponse.data!,
         );
       } on ProfileInactiveException {
-        return emit(ProfileInactiveState());
+        emit(ProfileInactiveState());
+        if (provider.currentUser == null) {
+          await provider.signIn();
+        }
+        final token = await provider.currentUser!.getIdToken();
+        final fcmToken = await provider.getFcmToken();
+        if (token != null && fcmToken != null) {
+          await UserRepository.userSignIn(
+            token: token,
+            fcmToken: fcmToken,
+          );
+        }
       } catch (_) {}
     });
 
@@ -157,7 +168,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             userModel: userModelResponse.data!);
         return emit(ProfileInactiveState());
       } on ProfileInactiveException {
-        return emit(ProfileInactiveState());
+        emit(ProfileInactiveState());
+        final token = await provider.currentUser!.getIdToken();
+        final fcmToken = await provider.getFcmToken();
+        if (token != null && fcmToken != null) {
+          await UserRepository.userSignIn(
+            token: token,
+            fcmToken: fcmToken,
+          );
+        }
+        return;
       } on CouldNotUpdateUserException catch (e) {
         final userModelResponse = UserRepository.getUserFromPreference()!;
         return emit(
@@ -217,25 +237,38 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
 //====================Profile Verify OTP Event====================//
     on<ProfileVerifyOtpEvent>((event, emit) async {
-      await provider.verifyOtp(
-        verificationId: FirebaseAuthProvider.verifyId,
-        otp: event.otp,
-      );
-      UserModelResponse userModelResponse =
-          UserRepository.getUserFromPreference()!;
-      userModelResponse.data!.phone = event.phone;
-      UserRepository.addUserToPreference(userModelResponse);
-      userModelResponse = UserRepository.getUserFromPreference()!;
-      await UserRepository.updateUserProfile(
-          userModel: userModelResponse.data!);
-      emit(
-        ProfileLoadedState(
-          isLoading: false,
-          userModel: userModelResponse.data!,
-          isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
-          isContractorTemp: userModelResponse.data!.role == Role.CONTRACTOR,
-        ),
-      );
+      try {
+        await provider.verifyOtp(
+          verificationId: FirebaseAuthProvider.verifyId,
+          otp: event.otp,
+        );
+        UserModelResponse userModelResponse =
+            UserRepository.getUserFromPreference()!;
+        userModelResponse.data!.phone = event.phone;
+        UserRepository.addUserToPreference(userModelResponse);
+        userModelResponse = UserRepository.getUserFromPreference()!;
+        await UserRepository.updateUserProfile(
+            userModel: userModelResponse.data!);
+        emit(
+          ProfileLoadedState(
+            isLoading: false,
+            userModel: userModelResponse.data!,
+            isContractor: userModelResponse.data!.role == Role.CONTRACTOR,
+            isContractorTemp: userModelResponse.data!.role == Role.CONTRACTOR,
+          ),
+        );
+      } on ProfileInactiveException {
+        emit(ProfileInactiveState());
+        final token = await provider.currentUser!.getIdToken();
+        final fcmToken = await provider.getFcmToken();
+        if (token != null && fcmToken != null) {
+          await UserRepository.userSignIn(
+            token: token,
+            fcmToken: fcmToken,
+          );
+        }
+        return;
+      }
     });
   }
 

@@ -175,7 +175,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         padding: EdgeInsets.symmetric(
                             horizontal: screenSize.width * .09),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: state.isContractor
+                              ? MainAxisAlignment.spaceBetween
+                              : MainAxisAlignment.start,
                           children: [
                             Text(
                               'Activity',
@@ -184,43 +186,45 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                CustomNavigator.push(
-                                  context: context,
-                                  child: const CarpentersListScreen(),
-                                );
-                              },
-                              child: Container(
-                                padding: EdgeInsets.only(
-                                  left: screenSize.width * .03,
-                                  right: screenSize.width * .01,
-                                  top: screenSize.width * .01,
-                                  bottom: screenSize.width * .01,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.teal[500],
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      'Carpenters List',
-                                      style: GoogleFonts.roboto(
-                                        fontSize: screenSize.width * .031,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.white,
+                            state.isContractor
+                                ? GestureDetector(
+                                    onTap: () {
+                                      CustomNavigator.push(
+                                        context: context,
+                                        child: const CarpentersListScreen(),
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.only(
+                                        left: screenSize.width * .03,
+                                        right: screenSize.width * .01,
+                                        top: screenSize.width * .01,
+                                        bottom: screenSize.width * .01,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.teal[500],
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            'Carpenters List',
+                                            style: GoogleFonts.roboto(
+                                              fontSize: screenSize.width * .031,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          Icon(
+                                            Icons.arrow_right,
+                                            size: screenSize.width * .05,
+                                            color: Colors.white,
+                                          )
+                                        ],
                                       ),
                                     ),
-                                    Icon(
-                                      Icons.arrow_right,
-                                      size: screenSize.width * .05,
-                                      color: Colors.white,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
+                                  )
+                                : const SizedBox(),
                           ],
                         ),
                       ),

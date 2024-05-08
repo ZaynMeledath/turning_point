@@ -30,7 +30,7 @@ Widget carpenterCard() {
             style: GoogleFonts.inter(
               fontSize: screenSize.width * .036,
               fontWeight: FontWeight.w500,
-              color: const Color(0xff001227),
+              color: const Color(0xff000B18),
             ),
           ),
         ),

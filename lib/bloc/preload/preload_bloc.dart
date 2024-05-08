@@ -251,7 +251,6 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
 //====================Add To Cache====================//
   void addToCache(String url) async {
     await DefaultCacheManager().getSingleFile(url);
-    log('File Downloaded successfully');
   }
 
 //====================State Change Logger====================//

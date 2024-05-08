@@ -31,4 +31,6 @@ class ApiEndpoints {
   static const monitorLocation = '$baseUrl/users/monitor-location';
   static const getReferralReport = '$baseUrl/users/getUserReferralsReportById';
   static const applyReferralReward = '$baseUrl/users/applyReward';
+  static const getAllCarpentersByContractorName =
+      '$baseUrl/user/getAllCarpentersByContractorName';
 }

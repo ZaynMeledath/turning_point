@@ -23,7 +23,7 @@ class _CarpentersListScreenState extends State<CarpentersListScreen> {
           carpentersHeaderSegment(context),
           Expanded(
             child: Container(
-              color: const Color.fromRGBO(20, 94, 180, .08),
+              color: const Color.fromRGBO(20, 94, 180, .05),
               child: Stack(
                 alignment: Alignment.center,
                 children: [

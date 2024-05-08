@@ -25,6 +25,8 @@ class UserRepository {
     final token = AppPreferences.getValueShared('auth_token');
     final Map<String, dynamic> decodedData = JwtDecoder.decode(token);
 
+    log(decodedData.toString());
+
     return decodedData;
   }
 
@@ -339,5 +341,18 @@ class UserRepository {
       data: null,
       isTokenRequired: true,
     );
+  }
+
+//=====================Get All Carpenters By Contractor Name====================//
+  static Future<ContractorModelResponse>
+      getAllCarpentersByContractorName() async {
+    final response = await ApiService().sendRequest(
+      url: ApiEndpoints.getAllCarpentersByContractorName,
+      requestMethod: RequestMethod.GET,
+      data: null,
+      isTokenRequired: true,
+    );
+
+    return ContractorModelResponse.fromJson(response);
   }
 }

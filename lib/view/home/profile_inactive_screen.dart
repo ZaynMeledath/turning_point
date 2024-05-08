@@ -7,6 +7,7 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
+import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/view/home/home_screen.dart';
@@ -25,9 +26,10 @@ class ProfileInactiveScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is AuthLoadingState && closeDialogHandle == null) {
+        if (state is AuthLoadingState) {
+          showLoadingDialog(context: context);
         } else if (state is DirectSignedInState) {
-          if (closeDialogHandle != null) Navigator.pop(context);
+          Navigator.pop(context);
           closeDialogHandle = null;
           Navigator.of(context).pushAndRemoveUntil(
             PageTransition(
@@ -37,9 +39,8 @@ class ProfileInactiveScreen extends StatelessWidget {
             ),
             (_) => false,
           );
-        } else if (state is! AuthLoadingState && closeDialogHandle != null) {
+        } else {
           Navigator.pop(context);
-          closeDialogHandle = null;
         }
       },
       child: Scaffold(
