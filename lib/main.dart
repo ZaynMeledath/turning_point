@@ -25,6 +25,7 @@ import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/bloc/home/home_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/redeem/redeem_bloc.dart';
+import 'package:turning_point/bloc/settings/settings_bloc.dart';
 import 'package:turning_point/firebase_options.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
@@ -96,14 +97,16 @@ void main() async {
 }
 
 Future<void> _firebasePushHandler(RemoteMessage message) async {
-  await AwesomeNotifications().createNotification(
-    content: NotificationContent(
-      id: DateTime.now().millisecondsSinceEpoch.remainder(1000),
-      channelKey: 'basic_channel',
-      title: message.notification!.title,
-      body: message.notification!.body,
-    ),
-  );
+  if (AppPreferences.getValueShared('notification')) {
+    await AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: DateTime.now().millisecondsSinceEpoch.remainder(1000),
+        channelKey: 'basic_channel',
+        title: message.notification!.title,
+        body: message.notification!.body,
+      ),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -170,6 +173,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => carpenterBloc,
+        ),
+        BlocProvider(
+          create: (_) => settingsBloc,
         ),
       ],
       child: MaterialApp(

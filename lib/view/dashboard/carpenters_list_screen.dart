@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
 import 'package:turning_point/bloc/carpenter/carpenter_bloc.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
-import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/model/carpenters_list_model.dart';
 
 part 'segments/carpenters_header_segment.dart';
@@ -22,13 +22,8 @@ class CarpentersListScreen extends StatefulWidget {
 
 class _CarpentersListScreenState extends State<CarpentersListScreen> {
   @override
-  void didChangeDependencies() {
-    carpenterBloc.add(CarpenterLoadEvent());
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    carpenterBloc.add(CarpenterLoadEvent());
     return Scaffold(
       body: Column(
         children: [
@@ -40,7 +35,15 @@ class _CarpentersListScreenState extends State<CarpentersListScreen> {
                   case CarpenterInitialState():
                     return const SizedBox();
                   case CarpenterLoadingState():
-                    return spinningLinesLoading();
+                    return Column(
+                      children: [
+                        SizedBox(height: screenSize.height * .15),
+                        const SpinKitSpinningLines(
+                          color: Colors.amber,
+                          size: 60,
+                        ),
+                      ],
+                    );
                   case CarpenterLoadErrorState():
                     return LiquidPullToRefresh(
                       height: 60,

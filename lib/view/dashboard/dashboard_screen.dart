@@ -49,6 +49,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
   Future<void> _handleRefresh() async {
     profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
+    contestBloc.add(ContestLoadEvent());
   }
 
   @override
