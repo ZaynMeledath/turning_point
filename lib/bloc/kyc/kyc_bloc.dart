@@ -14,37 +14,44 @@ class KycBloc extends Bloc<KycEvent, KycState> {
   KycBloc() : super(const KycLoadingState()) {
 //====================KYC Load Event====================//
     on<KycLoadEvent>((event, emit) async {
-      final userModel = UserRepository.getUserFromPreference()!.data!;
-      if (userModel.bankDetails != null && userModel.bankDetails!.isNotEmpty) {
-        emit(
-          KycLoadedState(
-            isLoading: false,
-            tabIndex: event.tabIndex,
-            isSavings: userModel.bankDetails?[0].banktype == 'savings',
-            name: event.name ?? state.name ?? userModel.name!,
-            phone: userModel.phone!,
-            email: event.email ?? state.email ?? userModel.email!,
-            pincode: event.pincode ?? state.pincode ?? userModel.pincode ?? '',
-            idFrontImage: state.idFrontImage,
-            idBackImage: state.idBackImage,
-            selfie: state.selfie,
-          ),
-        );
-      } else {
-        emit(
-          KycLoadedState(
-            isLoading: false,
-            tabIndex: event.tabIndex,
-            isSavings: true,
-            name: event.name ?? state.name ?? userModel.name!,
-            phone: userModel.phone!,
-            email: event.email ?? state.email ?? userModel.email!,
-            pincode: event.pincode ?? state.pincode ?? userModel.pincode ?? '',
-            idFrontImage: state.idFrontImage,
-            idBackImage: state.idBackImage,
-            selfie: state.selfie,
-          ),
-        );
+      try {
+        final userModel = UserRepository.getUserFromPreference()!.data!;
+        if (userModel.bankDetails != null &&
+            userModel.bankDetails!.isNotEmpty) {
+          emit(
+            KycLoadedState(
+              isLoading: false,
+              tabIndex: event.tabIndex,
+              isSavings: userModel.bankDetails?[0].banktype == 'savings',
+              name: event.name ?? state.name ?? userModel.name!,
+              phone: userModel.phone!,
+              email: event.email ?? state.email ?? userModel.email!,
+              pincode:
+                  event.pincode ?? state.pincode ?? userModel.pincode ?? '',
+              idFrontImage: state.idFrontImage,
+              idBackImage: state.idBackImage,
+              selfie: state.selfie,
+            ),
+          );
+        } else {
+          emit(
+            KycLoadedState(
+              isLoading: false,
+              tabIndex: event.tabIndex,
+              isSavings: true,
+              name: event.name ?? state.name ?? userModel.name!,
+              phone: userModel.phone!,
+              email: event.email ?? state.email ?? userModel.email!,
+              pincode:
+                  event.pincode ?? state.pincode ?? userModel.pincode ?? '',
+              idFrontImage: state.idFrontImage,
+              idBackImage: state.idBackImage,
+              selfie: state.selfie,
+            ),
+          );
+        }
+      } catch (_) {
+        return emit(const KycErrorState());
       }
     });
 

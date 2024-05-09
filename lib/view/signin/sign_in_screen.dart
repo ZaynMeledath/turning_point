@@ -74,7 +74,7 @@ class _SignInScreenState extends State<SignInScreen> {
             iconPath: 'assets/lottie/gear_error_animation.json',
             title: 'Error Signing in',
             content: state.message,
-            buttonTitle: 'OK',
+            buttons: {'OK': null},
             iconWidth: screenSize.width * .2,
           );
         }

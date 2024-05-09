@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
-import 'package:turning_point/dialog/show_custom_loading_dialog.dart';
+import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/main.dart';
@@ -63,7 +63,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthLoadingState) {
-          showCustomLoadingDialog(context);
+          showLoadingDialog(context: context);
         } else if (state is OtpVerificationNeededState &&
             state.exception != null) {
           Navigator.pop(context);
@@ -75,7 +75,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                 iconPath: 'assets/icons/kyc_declined_icon.png',
                 title: 'Wrong OTP',
                 content: 'Please enter the correct OTP to continue',
-                buttonTitle: 'OK',
+                buttons: {'OK': null},
               );
             });
           } else {
@@ -83,8 +83,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
               context: context,
               iconPath: 'assets/lottie/gear_error_animation.json',
               title: 'Error',
-              content: 'Something went wrong while connecting to the server',
-              buttonTitle: 'OK',
+              content: state.exception ?? '',
+              buttons: {'OK': null},
               iconWidth: screenSize.width * .2,
             );
           }
@@ -95,7 +95,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
             iconPath: 'assets/icons/kyc_declined_icon.png',
             title: 'Something went wrong',
             content: state.message,
-            buttonTitle: 'OK',
+            buttons: {'OK': null},
           );
         } else if (state is OtpVerifiedState) {
           Navigator.pop(context);
@@ -288,12 +288,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                                 );
                               } else {
                                 showAnimatedGenericDialog(
-                                    iconPath:
-                                        'assets/icons/kyc_declined_icon.png',
-                                    context: context,
-                                    title: 'OTP Incorrect',
-                                    content: 'Please enter all the 6 digits',
-                                    buttonTitle: 'OK');
+                                  iconPath:
+                                      'assets/icons/kyc_declined_icon.png',
+                                  context: context,
+                                  title: 'OTP Incorrect',
+                                  content: 'OTP should be 6 digits',
+                                  buttons: {'OK': null},
+                                );
                               }
                             },
                             child: Container(

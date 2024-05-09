@@ -6,11 +6,11 @@ Widget bankTransferSegment({required BuildContext context}) {
       // final bool status = state.userModel!.bankDetails != null &&
       //     state.userModel!.bankDetails!.isNotEmpty;
       return LiquidPullToRefresh(
-        onRefresh: () => handleRefresh(),
+        onRefresh: () => handleProfileRefresh(),
         animSpeedFactor: 2,
         height: 50,
         showChildOpacityTransition: false,
-        color: const Color.fromRGBO(255, 215, 0, 1),
+        color: const Color(0xFFFFD700),
         backgroundColor: Colors.white,
         child: Expanded(
           child: Padding(
@@ -48,7 +48,22 @@ Widget bankTransferSegment({required BuildContext context}) {
                               return GestureDetector(
                                 onTap: () {
                                   if (status) {
-                                    redeemBloc.add(RedeemButtonPressedEvent());
+                                    showAnimatedGenericDialog(
+                                      context: context,
+                                      iconPath:
+                                          'assets/lottie/coin_animation.json',
+                                      title: 'Redeem',
+                                      content:
+                                          'Are you sure you want to redeem ${redeemState.redeemPoints} points?',
+                                      buttons: {
+                                        'Cancel': () => Navigator.pop(context),
+                                        'Redeem': () {
+                                          redeemBloc
+                                              .add(RedeemButtonPressedEvent());
+                                          Navigator.pop(context);
+                                        },
+                                      },
+                                    );
                                   }
                                 },
                                 child: Container(

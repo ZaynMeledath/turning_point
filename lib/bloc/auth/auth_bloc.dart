@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/model/contractor_model.dart';
+import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/Exception/api_exception.dart';
 import 'package:turning_point/service/auth/auth_exceptions.dart';
@@ -24,23 +25,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(const AuthLoadingState());
         await provider.initialize();
         final userFromPreference = UserRepository.getUserFromPreference();
-        if (provider.currentUser == null && userFromPreference != null) {
+        await Future.delayed(const Duration(milliseconds: 50));
+        if (userFromPreference != null) {
+          await UserRepository.getUserById(avoidGettingFromPreference: true);
           await provider.signIn();
+          profileBloc.add(ProfileLoadEvent());
+          pointsBloc.add(PointsLoadEvent());
+          return emit(DirectSignedInState());
+        } else {
+          return emit(InitialState());
         }
-        final user =
-            await UserRepository.getUserById(avoidGettingFromPreference: true);
-        if (user == null) {
-          final token = await provider.signIn();
-          final fcmToken = await provider.getFcmToken();
-          await UserRepository.userSignIn(
-            token: token,
-            fcmToken: fcmToken!,
-          );
-        }
-
-        profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
-        pointsBloc.add(PointsLoadEvent(avoidGettingUserFromPreference: true));
-        return emit(DirectSignedInState());
       } on ProfileInactiveException {
         return emit(ProfileInactiveState());
       } catch (e) {
@@ -125,6 +119,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           phone: state.phone,
           businessName: state.businessName,
           contractor: state.contractor,
+          refCode: state.refCode,
         ),
       );
       try {
@@ -162,13 +157,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             refCode: state.refCode,
           ),
         );
+      } on BadRequestException {
+        return emit(
+          OtpVerificationNeededState(
+            phone: state.phone,
+            businessName: state.businessName,
+            contractor: state.contractor,
+            exception: 'Invalid Referral Code',
+            refCode: state.refCode,
+          ),
+        );
       } catch (e) {
         return emit(
           OtpVerificationNeededState(
             phone: state.phone,
             businessName: state.businessName,
             contractor: state.contractor,
-            exception: Exception(e),
+            exception: 'Something went wrong while connecting to the server',
             refCode: state.refCode,
           ),
         );
@@ -191,6 +196,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignOutEvent>((event, emit) async {
       try {
         await provider.signOut();
+        UserRepository.updateUserOnlineStatus(isOnline: false);
+        Future.delayed(const Duration(milliseconds: 50), () {
+          AppPreferences.clearSharedPreferences();
+        });
       } catch (e) {
         log('EXCEPTION IN RESEND OTP EVENT : $e');
       }

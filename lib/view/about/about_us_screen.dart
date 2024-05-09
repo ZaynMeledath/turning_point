@@ -54,7 +54,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
             ),
             Text(
               'Beta v$version',
-              style: GoogleFonts.roboto(
+              style: GoogleFonts.inter(
                 fontSize: screenSize.width * .041,
                 fontWeight: FontWeight.w400,
                 color: Colors.black,

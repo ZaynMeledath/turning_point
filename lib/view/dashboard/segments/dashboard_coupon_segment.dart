@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
@@ -161,34 +160,24 @@ Widget dashboardCouponSegment({required BuildContext context}) {
               }),
         );
       } else {
-        return LiquidPullToRefresh(
-          height: 50,
-          animSpeedFactor: 2,
-          showChildOpacityTransition: false,
-          color: const Color.fromRGBO(89, 165, 255, 1),
-          backgroundColor: Colors.white,
-          onRefresh: () async {
-            contestBloc.add(ContestLoadEvent());
-          },
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Center(
-              child: Column(
-                children: [
-                  Lottie.asset(
-                    'assets/lottie/no_data_animation.json',
-                    width: screenSize.width * .3,
+        return SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: [
+                Lottie.asset(
+                  'assets/lottie/no_data_animation.json',
+                  width: screenSize.width * .3,
+                ),
+                Text(
+                  "No coupons available at the moment",
+                  style: GoogleFonts.inter(
+                    fontSize: screenSize.width * .034,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black.withOpacity(.75),
                   ),
-                  Text(
-                    "No coupons available at the moment",
-                    style: GoogleFonts.inter(
-                      fontSize: screenSize.width * .034,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black.withOpacity(.75),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+                SizedBox(height: screenSize.height * .02),
+              ],
             ),
           ),
         );

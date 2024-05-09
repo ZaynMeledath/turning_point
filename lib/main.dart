@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:turning_point/bloc/carpenter/carpenter_bloc.dart';
 import 'package:turning_point/bloc/connect/connect_bloc.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
 import 'package:turning_point/bloc/contest/join_contest_bloc.dart';
@@ -17,12 +18,14 @@ import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/points_history/points_history_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/bloc/reels/reels_bloc.dart';
+import 'package:turning_point/bloc/referral/referral_bloc.dart';
 import 'package:turning_point/bloc/rewards/rewards_bloc.dart';
 import 'package:turning_point/bloc/scanner/scanner_bloc.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/bloc/home/home_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/redeem/redeem_bloc.dart';
+import 'package:turning_point/bloc/settings/settings_bloc.dart';
 import 'package:turning_point/firebase_options.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
@@ -66,15 +69,15 @@ void main() async {
 
 //====================Requesting Permissions====================//
   if (!await AwesomeNotifications().isNotificationAllowed()) {
-    AwesomeNotifications().requestPermissionToSendNotifications();
+    await AwesomeNotifications().requestPermissionToSendNotifications();
   }
 
   if (!await Permission.location.isGranted) {
-    Permission.location.request();
+    await Permission.location.request();
   }
 
   if (!await Permission.locationAlways.isGranted) {
-    Permission.locationAlways.request();
+    await Permission.locationAlways.request();
   }
 
   AwesomeNotifications().setListeners(
@@ -94,14 +97,16 @@ void main() async {
 }
 
 Future<void> _firebasePushHandler(RemoteMessage message) async {
-  await AwesomeNotifications().createNotification(
-    content: NotificationContent(
-      id: DateTime.now().millisecondsSinceEpoch.remainder(1000),
-      channelKey: 'basic_channel',
-      title: message.notification!.title,
-      body: message.notification!.body,
-    ),
-  );
+  if (AppPreferences.getValueShared('notification')) {
+    await AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: DateTime.now().millisecondsSinceEpoch.remainder(1000),
+        channelKey: 'basic_channel',
+        title: message.notification!.title,
+        body: message.notification!.body,
+      ),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -162,6 +167,15 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => connectBloc,
+        ),
+        BlocProvider(
+          create: (_) => referralBloc,
+        ),
+        BlocProvider(
+          create: (_) => carpenterBloc,
+        ),
+        BlocProvider(
+          create: (_) => settingsBloc,
         ),
       ],
       child: MaterialApp(

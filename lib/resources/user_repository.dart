@@ -8,7 +8,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/exceptions/user_exceptions.dart';
+import 'package:turning_point/model/carpenters_list_model.dart';
 import 'package:turning_point/model/contractor_model.dart';
+import 'package:turning_point/model/referral_model.dart';
 import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/service/Exception/api_exception.dart';
@@ -23,6 +25,8 @@ class UserRepository {
   static dynamic decodeJwt() {
     final token = AppPreferences.getValueShared('auth_token');
     final Map<String, dynamic> decodedData = JwtDecoder.decode(token);
+
+    log(decodedData.toString());
 
     return decodedData;
   }
@@ -124,7 +128,7 @@ class UserRepository {
       }
     } catch (e) {
       log('EXCEPTION IN USER SIGNUP: $e');
-      throw CouldNotSignUpUserAuthException;
+      rethrow;
     }
   }
 
@@ -162,7 +166,7 @@ class UserRepository {
 
       final userModelResponse = UserModelResponse.fromJson(response);
       return userModelResponse;
-    } catch (e) {
+    } catch (_) {
       rethrow;
     }
   }
@@ -177,7 +181,7 @@ class UserRepository {
         isTokenRequired: true,
       );
     } catch (e) {
-      log('Exception in UpdateUserOnlineStatus');
+      log('Exception in UpdateUserOnlineStatus : $e');
       throw Exception(e);
     }
   }
@@ -315,5 +319,41 @@ class UserRepository {
     } else {
       return null;
     }
+  }
+
+//=====================Get Referral Report====================//
+  static Future<ReferralModelResponse?> getReferralReport() async {
+    final id = decodeJwt()['userId'];
+    final response = await ApiService().sendRequest(
+      url: '${ApiEndpoints.getReferralReport}/$id',
+      requestMethod: RequestMethod.GET,
+      data: null,
+      isTokenRequired: true,
+    );
+
+    return ReferralModelResponse.fromJson(response);
+  }
+
+//=====================Apply Referral Reward====================//
+  static Future<void> applyReferralReward({required String rewardId}) async {
+    await ApiService().sendRequest(
+      url: '${ApiEndpoints.applyReferralReward}/$rewardId',
+      requestMethod: RequestMethod.GET,
+      data: null,
+      isTokenRequired: true,
+    );
+  }
+
+//=====================Get All Carpenters By Contractor Name====================//
+  static Future<CarpentersListModelResponse?>
+      getAllCarpentersByContractorName() async {
+    final response = await ApiService().sendRequest(
+      url: ApiEndpoints.getAllCarpentersByContractorName,
+      requestMethod: RequestMethod.GET,
+      data: null,
+      isTokenRequired: true,
+    );
+
+    return CarpentersListModelResponse.fromJson(response);
   }
 }

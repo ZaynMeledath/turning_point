@@ -92,6 +92,7 @@ class ReelsScreenState extends State<ReelsScreen>
 
   Future<void> handleRefresh() async {
     ReelsRepository.urlList.clear();
+    preloadBloc.manuallyPaused = false;
     await ReelsRepository.getReels(page: 1);
     preloadBloc.add(PreloadEvent(
       currentIndex: 0,

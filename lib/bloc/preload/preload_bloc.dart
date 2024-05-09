@@ -5,6 +5,8 @@ import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/resources/reels_repository.dart';
 import 'package:turning_point/view/home/reels_page_viewer.dart';
 import 'package:video_player/video_player.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+
 part 'preload_event.dart';
 part 'preload_state.dart';
 
@@ -17,6 +19,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
       if (state.isReelsVisible) {
         if (event.currentIndex == 0) {
           if (state.controllers.isEmpty || event.isReloading == true) {
+            pageIndex = 1;
             _initializeControllerAtIndex(0)
                 .then((value) => _playControllerAtIndex(0));
             emit(
@@ -110,7 +113,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
       return emit(PreloadState.initial());
     });
 
-    on<ReelsScreenToggleEvent>((event, emit) {
+    on<ReelsScreenToggleEvent>((event, emit) async {
       emit(
         PreloadState(
           controllers: state.controllers,
@@ -146,9 +149,19 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
 //====================Initialize Controller on Given Index====================//
   Future<void> _initializeControllerAtIndex(int index) async {
     if (state.urls.length > index && index >= 0) {
-      /// Create new controller
-      final VideoPlayerController controller =
-          VideoPlayerController.networkUrl(Uri.parse(state.urls[index]));
+      final fileInfo = await checkForCache(state.urls[index]);
+      VideoPlayerController controller;
+      if (fileInfo == null) {
+        /// Create new controller
+        controller =
+            VideoPlayerController.networkUrl(Uri.parse(state.urls[index]));
+
+        ///Add video to cache
+        addToCache(state.urls[index]);
+      } else {
+        ///Create new controller
+        controller = VideoPlayerController.file(fileInfo.file);
+      }
 
       /// Add to [controllers] list
       state.controllers[index] = controller;
@@ -227,6 +240,17 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
       }
     });
     state.controllers.clear();
+  }
+
+//====================Check for Cache====================//
+  Future<FileInfo?> checkForCache(String url) async {
+    final fileInfo = DefaultCacheManager().getFileFromCache(url);
+    return fileInfo;
+  }
+
+//====================Add To Cache====================//
+  void addToCache(String url) async {
+    await DefaultCacheManager().getSingleFile(url);
   }
 
 //====================State Change Logger====================//

@@ -50,6 +50,11 @@ Widget redeemUpiTextField(TextEditingController upiController) {
             ),
           ),
         ),
+        onChanged: (value) {
+          redeemBloc.status = redeemBloc.state.isTermsAgreed &&
+              redeemBloc.state.redeemPoints <= pointsBloc.state.points! &&
+              upiController.text.isNotEmpty;
+        },
       ),
     ),
   );

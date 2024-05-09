@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:lottie/lottie.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/points_history/points_history_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
+import 'package:turning_point/bloc/profile/profile_bloc.dart';
+import 'package:turning_point/helper/custom_navigator.dart';
+import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/helper/widget/my_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/view/points/segments/available_points_segment.dart';
-import 'package:turning_point/view/points/segments/points_history_segment.dart';
+import 'package:turning_point/model/points_history_model.dart';
+import 'package:turning_point/view/redeem/redeem_screen.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
+
+part 'segments/available_points_segment.dart';
+part 'segments/point_container.dart';
+part 'segments/points_history_segment.dart';
 
 class PointsScreen extends StatefulWidget {
   final bool? directEntry;
@@ -25,6 +38,7 @@ class _PointsScreenState extends State<PointsScreen> {
   @override
   void initState() {
     scrollController = ScrollController();
+
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
@@ -44,15 +58,10 @@ class _PointsScreenState extends State<PointsScreen> {
     super.didChangeDependencies();
   }
 
-  void disableWakeLock() {
-    setState(() {
-      WakelockPlus.disable();
-    });
-  }
-
   @override
   void dispose() {
     if (widget.directEntry == true) {
+      WakelockPlus.enable();
       preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: true));
       if (preloadBloc.state.controllers.isNotEmpty &&
           !preloadBloc.manuallyPaused) {
@@ -78,8 +87,8 @@ class _PointsScreenState extends State<PointsScreen> {
       preloadBloc.pauseCurrentController();
     }
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
-    disableWakeLock();
-    pointsHistoryBloc.add(PointsHistoryLoadEvent());
+    pointsHistoryBloc.add(PointsHistoryLoadEvent(isReloading: true));
+
     return Scaffold(
 //====================App Bar====================//
       appBar: myAppBar(
@@ -103,4 +112,9 @@ class _PointsScreenState extends State<PointsScreen> {
       ),
     );
   }
+}
+
+Future<void> handlePointsScreenRefresh() async {
+  profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
+  pointsHistoryBloc.add(PointsHistoryLoadEvent(isReloading: true));
 }
