@@ -39,8 +39,8 @@ Widget inviteLinkContainer({required String referralCode}) {
                     'Invite via share link',
                     style: GoogleFonts.roboto(
                       color: Colors.white,
-                      fontSize: screenSize.width * .034,
-                      fontWeight: FontWeight.w600,
+                      fontSize: screenSize.width * .035,
+                      fontWeight: FontWeight.w500,
                     ),
                   )
                 ],

@@ -85,7 +85,8 @@ Widget carpentersHeaderSegment(BuildContext context) {
                         builder: (context, state) {
                           if (state is CarpenterLoadedState) {
                             return Text(
-                              '5320',
+                              state.carpentersListModel.allCarpentersTotal
+                                  .toString(),
                               style: GoogleFonts.inter(
                                 fontSize: screenSize.width * .06,
                                 fontWeight: FontWeight.bold,

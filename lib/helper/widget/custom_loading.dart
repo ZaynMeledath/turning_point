@@ -32,3 +32,11 @@ Widget circleLoading() {
     ),
   );
 }
+
+Widget cubeGridLoading({Color? color}) {
+  return Center(
+    child: SpinKitCubeGrid(
+      color: color ?? Colors.white,
+    ),
+  );
+}

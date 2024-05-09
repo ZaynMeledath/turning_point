@@ -33,8 +33,8 @@ class CarpentersListModel {
   CarpentersListModel.fromJson(Map<String, dynamic> json) {
     contractorName = json['name'];
     businessName = json['businessName'];
+    allCarpenters = <CarpenterModel>[];
     if (json['allCarpenters'] != null) {
-      allCarpenters = <CarpenterModel>[];
       json['allCarpenters'].forEach((v) {
         allCarpenters!.add(CarpenterModel.fromJson(v));
       });

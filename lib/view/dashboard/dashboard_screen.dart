@@ -203,7 +203,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                         bottom: screenSize.width * .01,
                                       ),
                                       decoration: BoxDecoration(
-                                        color: Colors.teal[500],
+                                        // color: Colors.teal[500],
+                                        color: const Color(0xff4299FF),
                                         borderRadius: BorderRadius.circular(16),
                                       ),
                                       child: Row(
