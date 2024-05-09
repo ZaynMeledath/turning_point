@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -226,7 +228,8 @@ class _ReferralScreenState extends State<ReferralScreen> {
           SizedBox(height: screenSize.height * .03),
           referralInstructionContainer(),
           SizedBox(height: screenSize.height * .04),
-          inviteLinkContainer(couponCode: 'demo123'),
+          inviteLinkContainer(
+              referralCode: profileBloc.state.userModel!.refCode.toString()),
         ],
       ),
     );

@@ -72,19 +72,23 @@ Future<void> rewardsHistoryModalSheet({
                         borderRadius: BorderRadius.circular(10),
                         gradient: LinearGradient(
                           colors: [
-                            Colors.blue.shade900,
                             Colors.blue.shade400,
+                            Colors.blue.shade100,
                           ],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
+                          begin: index % 2 == 0
+                              ? Alignment.topLeft
+                              : Alignment.topRight,
+                          end: index % 2 == 0
+                              ? Alignment.bottomRight
+                              : Alignment.bottomLeft,
                         ),
-                        // boxShadow: [
-                        //   BoxShadow(
-                        //     blurRadius: 6,
-                        //     color: Colors.blue.shade200,
-                        //     blurStyle: BlurStyle.outer,
-                        //   ),
-                        // ],
+                        boxShadow: const [
+                          BoxShadow(
+                            blurRadius: 4,
+                            color: Colors.black26,
+                            blurStyle: BlurStyle.outer,
+                          ),
+                        ],
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -97,9 +101,9 @@ Future<void> rewardsHistoryModalSheet({
                             '$rewardPoint points',
                             textAlign: TextAlign.center,
                             style: GoogleFonts.poppins(
-                              fontSize: screenSize.width * .036,
+                              fontSize: screenSize.width * .038,
                               fontWeight: FontWeight.w500,
-                              color: Colors.white.withOpacity(.9),
+                              color: Colors.white,
                             ),
                           ),
                         ],

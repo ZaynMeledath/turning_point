@@ -181,7 +181,7 @@ class UserRepository {
         isTokenRequired: true,
       );
     } catch (e) {
-      log('Exception in UpdateUserOnlineStatus');
+      log('Exception in UpdateUserOnlineStatus : $e');
       throw Exception(e);
     }
   }

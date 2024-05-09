@@ -1,43 +1,42 @@
 part of '../referral_screen.dart';
 
-Widget inviteLinkContainer({required String couponCode}) {
-  // final message =
-  //     'Join Second Brain using my Referral code and get ₹50 in your wallet: ${generateReferralLink(couponCode)}';
+Widget inviteLinkContainer({required String referralCode}) {
+  final message =
+      'Check out the new Turning Point app and earn ₹100 when you register using this referral code: TP5485397944. Sign up now and unlock exclusive benefits!\n\nReferral Code : $referralCode';
   return Padding(
     padding: EdgeInsets.only(bottom: screenSize.height * .023),
     child: Column(
       children: [
-        GestureDetector(
-          child: Text('Invite via share link',
-              style: GoogleFonts.roboto(
-                color: const Color(0xff263238),
-                fontSize: screenSize.width * .031,
-                fontWeight: FontWeight.w500,
-              )),
-        ),
-        SizedBox(height: screenSize.height * .012),
+        SizedBox(height: screenSize.height * .015),
         GestureDetector(
           onTap: () {
-            Share.share('Checkout the new Turning Point App!');
+            Share.share(message);
           },
           child: Container(
               width: double.maxFinite,
-              height: screenSize.height * .05,
+              height: screenSize.height * .055,
               margin: EdgeInsets.symmetric(horizontal: screenSize.width * .05),
               decoration: BoxDecoration(
-                color: const Color.fromRGBO(23, 230, 104, 1),
+                gradient: const LinearGradient(
+                  colors: [
+                    Color(0xff0062D1),
+                    Color(0xff023A79),
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'assets/icons/whatsapp.png',
-                    width: screenSize.width * .051,
+                    'assets/icons/share_icon.png',
+                    width: screenSize.width * .045,
                   ),
-                  SizedBox(width: screenSize.width * .015),
+                  SizedBox(width: screenSize.width * .025),
                   Text(
-                    'Invite via WhatsApp',
+                    'Invite via share link',
                     style: GoogleFonts.roboto(
                       color: Colors.white,
                       fontSize: screenSize.width * .034,

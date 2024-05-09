@@ -5,6 +5,7 @@ Future<void> scratchCardPopUp({
   required int rewardPoint,
   required int rewardIndex,
 }) {
+  log('RewardIndex : $rewardIndex');
   final scratchKey = GlobalKey<ScratcherState>();
   return showDialog(
     context: context,

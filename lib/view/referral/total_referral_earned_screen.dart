@@ -32,10 +32,35 @@ class _TotalReferralEarnedScreenState extends State<TotalReferralEarnedScreen>
               return spinningLinesLoading();
 
             case ReferralErrorState():
-              return Center(
-                child: Lottie.asset(
-                  'no_internet_animation.json',
-                  width: screenSize.width * .7,
+              return LiquidPullToRefresh(
+                onRefresh: () => handleRefresh(),
+                animSpeedFactor: 2,
+                height: 45,
+                showChildOpacityTransition: false,
+                color: const Color.fromRGBO(89, 165, 255, 1),
+                backgroundColor: Colors.white,
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        SizedBox(height: screenSize.height * .1),
+                        Lottie.asset(
+                          'assets/lottie/no_internet_animation.json',
+                          width: screenSize.width * .4,
+                        ),
+                        Text(
+                          'Something Went Wrong',
+                          style: GoogleFonts.inter(
+                            fontSize: screenSize.width * .04,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black.withOpacity(.75),
+                          ),
+                        ),
+                        SizedBox(height: screenSize.height * .1),
+                      ],
+                    ),
+                  ),
                 ),
               );
 

@@ -27,13 +27,14 @@ class ReferralBloc extends Bloc<ReferralEvent, ReferralState> {
       referralModel!.appliedRewards!
           .insert(0, referralModel.pendingRewards![event.rewardIndex]);
 
+      final rewardTemp = referralModel.pendingRewards![event.rewardIndex];
+
       //Remove the applied Reward from Pending Rewards
       referralModel.pendingRewards!.removeAt(event.rewardIndex);
       emit(ReferralLoadedState(referralModel: referralModel));
 
       //Apply the Reward
-      await UserRepository.applyReferralReward(
-          rewardId: referralModel.pendingRewards![event.rewardIndex].id!);
+      await UserRepository.applyReferralReward(rewardId: rewardTemp.id!);
       final referralModelResponse = await UserRepository.getReferralReport();
 
       if (referralModelResponse != null && referralModelResponse.data != null) {

@@ -56,7 +56,7 @@ Widget referralRewardsSegment({
                           width: screenSize.width * .4,
                         ),
                         Text(
-                          'Earn Points to show the history',
+                          'No Rewards available at the moment',
                           style: GoogleFonts.inter(
                             fontSize: screenSize.width * .04,
                             fontWeight: FontWeight.w600,
