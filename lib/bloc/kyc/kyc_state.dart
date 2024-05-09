@@ -73,3 +73,17 @@ class KycSubmittedState extends KycState {
           selfie: null,
         );
 }
+
+class KycErrorState extends KycState {
+  const KycErrorState()
+      : super(
+          name: null,
+          email: null,
+          phone: null,
+          pincode: null,
+          isSavings: true,
+          idFrontImage: null,
+          idBackImage: null,
+          selfie: null,
+        );
+}

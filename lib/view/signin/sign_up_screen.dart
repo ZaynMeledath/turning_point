@@ -1,9 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,10 +9,10 @@ import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
-import 'package:turning_point/dialog/show_custom_loading_dialog.dart';
 import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
 import 'package:turning_point/resources/location_repository.dart';
 import 'package:turning_point/resources/user_repository.dart';
@@ -81,9 +79,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is AuthLoadingState) {
-          showCustomLoadingDialog(context);
-        } else if (state is SignUpState && state.exception != null) {
+        if (state is SignUpState && state.exception != null) {
           Navigator.pop(context);
           showAnimatedGenericDialog(
             context: context,
@@ -91,7 +87,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             title: 'Something Went Wrong',
             content:
                 'Something went wrong while accessing\nthe server. Please try after sometime',
-            buttonTitle: 'OK',
+            buttons: {'OK': null},
             iconWidth: screenSize.width * .2,
           );
         } else if (state is PhoneNumberExistsState) {
@@ -101,7 +97,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             iconPath: 'assets/icons/kyc_declined_icon.png',
             title: 'Phone Already Exists',
             content: 'The number you are trying to register already exists.',
-            buttonTitle: 'OK',
+            buttons: {'OK': null},
           );
         } else if (state is OtpVerificationNeededState) {
           Navigator.pop(context);
@@ -120,11 +116,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             builder: (context, contractorState) {
               switch (contractorState) {
                 case ContractorLoadingState():
-                  return const Center(
-                    child: CircularProgressIndicator.adaptive(
-                      strokeWidth: 5,
-                    ),
-                  );
+                  return spinningLinesLoading();
 
                 case ContractorLoadedState():
                   // phoneController.text = authBloc.state.phone ?? '';
@@ -140,7 +132,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: Column(
                           children: [
                             // SizedBox(height: screenSize.height * .082),
-                            SizedBox(height: screenSize.height * .11),
+                            SizedBox(height: screenSize.height * .09),
                             //====================Furnipart Logo====================//
                             Hero(
                               tag: 'turning_point_logo',
@@ -202,50 +194,58 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   isReferralExpanded = !isReferralExpanded;
                                 });
                               },
-                              child: ExpansionPanelList(
-                                expandedHeaderPadding: EdgeInsets.zero,
-                                elevation: 0,
-                                expansionCallback: (panelIndex, isExpanded) {
-                                  setState(() {
-                                    isReferralExpanded = isExpanded;
-                                  });
-                                },
-                                children: [
-                                  ExpansionPanel(
-                                    isExpanded: isReferralExpanded,
-                                    backgroundColor: Colors.white,
-                                    headerBuilder: (context, isExpanded) {
-                                      return Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Padding(
-                                          padding: EdgeInsets.only(
-                                              left: screenSize.width * .015),
-                                          child: const Text(
-                                              'Referral Code (Optional)'),
-                                        ),
-                                      );
-                                    },
-                                    body: Column(
-                                      children: [
-                                        const SizedBox(height: 5),
-                                        signUpTextField(
-                                          controller: referralController,
-                                          title: 'Referral Code',
-                                          icon: Icons
-                                              .connect_without_contact_rounded,
-                                          isNull: true,
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: ExpansionPanelList(
+                                  expandedHeaderPadding: EdgeInsets.zero,
+                                  elevation: 1,
+                                  expansionCallback: (panelIndex, isExpanded) {
+                                    setState(() {
+                                      isReferralExpanded = isExpanded;
+                                    });
+                                  },
+                                  children: [
+                                    ExpansionPanel(
+                                      isExpanded: isReferralExpanded,
+                                      backgroundColor: Colors.white,
+                                      headerBuilder: (context, isExpanded) {
+                                        return Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                                left: screenSize.width * .015),
+                                            child: Text(
+                                              'Referral Code (Optional)',
+                                              style: GoogleFonts.roboto(
+                                                fontSize:
+                                                    screenSize.width * .035,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      body: Column(
+                                        children: [
+                                          const SizedBox(height: 5),
+                                          signUpTextField(
+                                            controller: referralController,
+                                            title: 'Referral Code',
+                                            icon: Icons
+                                                .connect_without_contact_rounded,
+                                            isNull: true,
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                             Visibility(
                               visible: !isReferralExpanded,
                               child: Container(
                                 height: 1,
-                                color: Colors.black.withOpacity(.2),
+                                color: Colors.black.withOpacity(.1),
                                 margin: EdgeInsets.symmetric(
                                     horizontal: screenSize.width * .01),
                               ),
@@ -310,7 +310,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         title: 'Phone Already Exists',
                                         content:
                                             'The number you are trying to register already exists.',
-                                        buttonTitle: 'OK',
+                                        buttons: {'OK': null},
                                       );
                                     } else {
                                       Navigator.pop(context);

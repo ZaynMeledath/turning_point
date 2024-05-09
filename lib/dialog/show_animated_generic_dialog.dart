@@ -3,14 +3,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:turning_point/helper/screen_size.dart';
 
+typedef ButtonFuction = void Function();
+
 Future<Object?> showAnimatedGenericDialog({
   required BuildContext context,
   required String iconPath,
   required String title,
   required String content,
-  required String buttonTitle,
+  required Map<String, ButtonFuction?> buttons,
   double? iconWidth,
-  void Function()? buttonFunction,
   // Size? containerSize,
 }) async {
   return showGeneralDialog(
@@ -28,9 +29,8 @@ Future<Object?> showAnimatedGenericDialog({
           iconPath: iconPath,
           title: title,
           content: content,
-          buttonTitle: buttonTitle,
           iconWidth: iconWidth,
-          buttonFunction: buttonFunction,
+          buttons: buttons,
         ),
       );
     },
@@ -42,9 +42,8 @@ Widget dialog({
   required String iconPath,
   required String title,
   required String content,
-  required String buttonTitle,
+  required Map<String, ButtonFuction?> buttons,
   double? iconWidth,
-  void Function()? buttonFunction,
 }) {
   final isLottie = iconPath.split('.').last == 'json';
   return Column(
@@ -106,30 +105,75 @@ Widget dialog({
               ),
             ),
             SizedBox(height: screenSize.height * .028),
-            GestureDetector(
-              onTap: buttonFunction ?? () => Navigator.pop(context),
-              child: Container(
-                width: screenSize.width * .25,
-                height: screenSize.width * .085,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: const Color.fromRGBO(0, 99, 255, 1),
-                ),
-                child: DefaultTextStyle(
-                  style: GoogleFonts.roboto(
-                    fontSize: screenSize.width * .031,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white,
-                  ),
-                  child: Center(
-                    child: Text(
-                      buttonTitle,
-                      textAlign: TextAlign.center,
+            buttons.length > 1
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      for (int i = 0; i < buttons.length; i++)
+                        GestureDetector(
+                          onTap: buttons.values.elementAt(i) ??
+                              () => Navigator.pop(context),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: screenSize.width * .04,
+                              vertical: screenSize.width * .016,
+                            ),
+                            margin:
+                                EdgeInsets.only(left: screenSize.width * .03),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: i == 0
+                                  ? Colors.white
+                                  : const Color.fromRGBO(0, 99, 255, 1),
+                              border: Border.all(
+                                color: i == 0
+                                    ? const Color.fromRGBO(0, 99, 255, 1)
+                                    : Colors.transparent,
+                              ),
+                            ),
+                            child: DefaultTextStyle(
+                              style: GoogleFonts.roboto(
+                                fontSize: screenSize.width * .031,
+                                fontWeight: FontWeight.w500,
+                                color: i == 0
+                                    ? const Color.fromRGBO(0, 99, 255, 1)
+                                    : Colors.white,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  buttons.keys.elementAt(i),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  )
+                : GestureDetector(
+                    onTap: buttons.values.first ?? () => Navigator.pop(context),
+                    child: Container(
+                      width: screenSize.width * .25,
+                      height: screenSize.width * .085,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: const Color.fromRGBO(0, 99, 255, 1),
+                      ),
+                      child: DefaultTextStyle(
+                        style: GoogleFonts.roboto(
+                          fontSize: screenSize.width * .031,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                        child: Center(
+                          child: Text(
+                            buttons.keys.first,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
           ],
         ),
       ),

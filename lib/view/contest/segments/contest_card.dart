@@ -35,12 +35,7 @@ Widget contestCard({
           builder: (context, state) {
             switch (state) {
               case ContestLoadingState():
-                return const Center(
-                  child: CircularProgressIndicator.adaptive(
-                    backgroundColor: Colors.white,
-                    valueColor: AlwaysStoppedAnimation(Colors.amber),
-                  ),
-                );
+                return spinningLinesLoading();
               case ContestLoadedState():
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,

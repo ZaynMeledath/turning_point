@@ -4,8 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
+import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/helper/widget/custom_loading.dart';
+import 'package:turning_point/view/dashboard/carpenters_list_screen.dart';
 import 'package:turning_point/view/dashboard/segments/dashboard_available_balance_container.dart';
 import 'package:turning_point/view/dashboard/segments/dashboard_activity_container.dart';
 import 'package:turning_point/view/dashboard/segments/dashboard_coupon_segment.dart';
@@ -46,6 +49,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
   Future<void> _handleRefresh() async {
     profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
+    contestBloc.add(ContestLoadEvent());
   }
 
   @override
@@ -57,13 +61,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         builder: (context, state) {
           switch (state) {
             case ProfileLoadingState():
-              return const Center(
-                child: CircularProgressIndicator.adaptive(
-                  strokeWidth: 5,
-                  backgroundColor: Colors.white,
-                  valueColor: AlwaysStoppedAnimation(Colors.amber),
-                ),
-              );
+              return spinningLinesLoading();
 
             case ProfileInactiveState():
               return ProfileInactiveScreen();
@@ -177,15 +175,62 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: screenSize.width * .09),
-                        child: Text(
-                          'Activity',
-                          style: GoogleFonts.roboto(
-                            fontSize: screenSize.width * .041,
-                            fontWeight: FontWeight.w600,
-                          ),
+                        child: Row(
+                          mainAxisAlignment: state.isContractor
+                              ? MainAxisAlignment.spaceBetween
+                              : MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Activity',
+                              style: GoogleFonts.roboto(
+                                fontSize: screenSize.width * .041,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            state.isContractor
+                                ? GestureDetector(
+                                    onTap: () {
+                                      CustomNavigator.push(
+                                        context: context,
+                                        child: const CarpentersListScreen(),
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.only(
+                                        left: screenSize.width * .03,
+                                        right: screenSize.width * .01,
+                                        top: screenSize.width * .01,
+                                        bottom: screenSize.width * .01,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        // color: Colors.teal[500],
+                                        color: const Color(0xff4299FF),
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            'Carpenters List',
+                                            style: GoogleFonts.roboto(
+                                              fontSize: screenSize.width * .031,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          Icon(
+                                            Icons.arrow_right,
+                                            size: screenSize.width * .05,
+                                            color: Colors.white,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                : const SizedBox(),
+                          ],
                         ),
                       ),
-                      SizedBox(height: screenSize.height * .01),
+                      SizedBox(height: screenSize.height * .013),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [

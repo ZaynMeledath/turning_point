@@ -7,9 +7,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
+import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/dialog/show_animated_otp_dialog.dart';
 import 'package:turning_point/dialog/show_edit_profile_dialog.dart';
+import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/helper/widget/my_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_radio_button.dart';
@@ -95,16 +97,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               iconPath: 'assets/lottie/gear_error_animation.json',
               title: 'Error',
               content: state.exception.toString(),
-              buttonTitle: 'Dismiss',
+              buttons: {'Dismiss': null},
             );
           }
         },
         builder: (context, profileState) {
           switch (profileState) {
             case ProfileLoadingState():
-              return const Center(
-                child: CircularProgressIndicator.adaptive(),
-              );
+              return spinningLinesLoading();
 
             case ProfileInactiveState():
               return ProfileInactiveScreen();
@@ -267,7 +267,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                         context: context);
                                 if (shouldUpdate == true) {
                                   if (hasChanges(
-                                      isContractor:
+                                      isContractorTemp:
                                           profileState.isContractorTemp)) {
                                     profileBloc.add(
                                       ProfileUpdateEvent(
@@ -276,11 +276,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                         name: _nameController.text.trim(),
                                         phone: _phoneController.text.trim(),
                                         address: _addressController.text.trim(),
-                                        businessName: profileState.isContractor
+                                        businessName: profileState
+                                                .isContractorTemp
                                             ? _businessController.text.trim()
                                             : null,
                                         email: profileState.userModel!.email!,
-                                        contractor: !profileState.isContractor
+                                        contractor: !profileState
+                                                .isContractorTemp
                                             ? contractorBloc.state.contractor
                                             : null,
                                       ),
@@ -330,14 +332,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  bool hasChanges({required bool isContractor}) {
+  bool hasChanges({required bool isContractorTemp}) {
     final userModel = profileBloc.state.userModel!;
+    final isContractor = userModel.role == Role.CONTRACTOR;
+    if (isContractorTemp != isContractor) {
+      return true;
+    }
     if (_nameController.text.trim() != userModel.name ||
             _phoneController.text.trim() != userModel.phone ||
             _addressController.text.trim() != userModel.actualAddress ||
-            isContractor
+            isContractorTemp
         ? _businessController.text.trim() != userModel.businessName
-        : (contractorBloc.state.contractor!.name !=
+        : (contractorBloc.state.contractor == null ||
+            contractorBloc.state.contractor!.name !=
                 userModel.contractor!.name ||
             contractorBloc.state.contractor!.businessName !=
                 userModel.contractor!.businessName)) {

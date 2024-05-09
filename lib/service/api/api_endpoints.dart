@@ -29,4 +29,8 @@ class ApiEndpoints {
   static const redeemPoints = '$baseUrl/points/redeem';
   static const generateCoupon = '$baseUrl/coupon/generateCoupon';
   static const monitorLocation = '$baseUrl/users/monitor-location';
+  static const getReferralReport = '$baseUrl/users/getUserReferralsReportById';
+  static const applyReferralReward = '$baseUrl/users/applyReward';
+  static const getAllCarpentersByContractorName =
+      '$baseUrl/users/getAllCarpentersByContractorName';
 }

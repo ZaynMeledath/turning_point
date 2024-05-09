@@ -32,6 +32,9 @@ Widget settingsOption({
           child: Transform.scale(
             scale: .8,
             child: Switch.adaptive(
+              activeColor: Colors.white,
+              applyCupertinoTheme: true,
+              activeTrackColor: Colors.teal,
               value: isEnabled ?? false,
               onChanged: onSwitched,
             ),

@@ -6,8 +6,8 @@ void copyToClipboard(String text) {
 
 Widget referralCodeContainer({
   required BuildContext context,
-  required String couponCode,
 }) {
+  final couponCode = profileBloc.state.userModel!.refCode.toString();
   return Container(
     width: screenSize.width * .8,
     height: screenSize.height * .08,

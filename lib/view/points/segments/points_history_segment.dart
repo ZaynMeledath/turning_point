@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
-import 'package:turning_point/bloc/points_history/points_history_bloc.dart';
-import 'package:turning_point/view/points/segments/point_container.dart';
+part of '../points_screen.dart';
 
 //====================Points History Segment====================//
 Widget pointsHistorySegment({
@@ -18,61 +13,15 @@ Widget pointsHistorySegment({
             child: Column(
               children: [
                 SizedBox(height: screenSize.height * .1),
-                const CircularProgressIndicator.adaptive(
-                  strokeWidth: 5,
-                  backgroundColor: Colors.white,
-                  valueColor: AlwaysStoppedAnimation(Colors.amber),
-                ),
+                spinningLinesLoading(),
               ],
             ),
           );
 
         case NoPointsHistoryState():
-          return Center(
-            child: Text(
-              'No Points History',
-              style: GoogleFonts.poppins(
-                fontSize: screenSize.width * .05,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          );
-        case PointsHistoryLoadedState():
-          if (state.pointsHistoryModel!.isNotEmpty) {
-            return Expanded(
-              child: Container(
-                padding: EdgeInsets.only(
-                  // top: screenSize.height * .025,
-                  left: screenSize.width * .038,
-                  right: screenSize.width * .038,
-                ),
-                decoration: const BoxDecoration(
-                  color: Color.fromRGBO(245, 246, 250, 1),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(24),
-                    topRight: Radius.circular(24),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      blurStyle: BlurStyle.outer,
-                    ),
-                  ],
-                ),
-                child: ListView.builder(
-                  padding: EdgeInsets.only(top: screenSize.height * .021),
-                  controller: scrollController,
-                  itemCount: state.pointsHistoryModel!.length,
-                  itemBuilder: (context, index) {
-                    return pointContainer(
-                      pointsHistoryModel: state.pointsHistoryModel![index],
-                    );
-                  },
-                ),
-              ),
-            );
-          } else {
-            return Center(
+          return SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Center(
               child: Column(
                 children: [
                   SizedBox(height: screenSize.height * .06),
@@ -88,10 +37,54 @@ Widget pointsHistorySegment({
                       color: Colors.black.withOpacity(.75),
                     ),
                   ),
+                  SizedBox(height: screenSize.height * .1),
                 ],
               ),
-            );
-          }
+            ),
+          );
+        case PointsHistoryLoadedState():
+          return Expanded(
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Color.fromRGBO(245, 246, 250, 1),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(24),
+                  topRight: Radius.circular(24),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    blurStyle: BlurStyle.outer,
+                  ),
+                ],
+              ),
+              child: LiquidPullToRefresh(
+                onRefresh: () => handlePointsScreenRefresh(),
+                animSpeedFactor: 2,
+                height: 50,
+                showChildOpacityTransition: false,
+                color: const Color(0xFFFFD700),
+                backgroundColor: Colors.white,
+                child: ListView.builder(
+                  padding: EdgeInsets.only(top: screenSize.height * .021),
+                  controller: scrollController,
+                  itemCount: state.pointsHistoryModel!.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        // top: screenSize.height * .025,
+                        left: screenSize.width * .038,
+                        right: screenSize.width * .038,
+                      ),
+                      child: pointContainer(
+                        pointsHistoryModel: state.pointsHistoryModel![index],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          );
       }
     },
   );

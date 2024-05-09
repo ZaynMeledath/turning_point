@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -36,7 +37,6 @@ class ApiService {
     }
     try {
       final headers = {
-        // 'Accept': 'application/json',
         if (token != null) 'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',
       };
@@ -118,6 +118,7 @@ class ApiService {
 
   dynamic returnResponse(http.Response response) {
     final statusCode = response.statusCode;
+    log('RESPONSE : ${response.body}');
     final responseJson = jsonDecode(response.body);
 
     switch (statusCode) {

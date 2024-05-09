@@ -38,7 +38,7 @@ Widget buyCouponsSegment({
             height: 50,
             animSpeedFactor: 2,
             showChildOpacityTransition: false,
-            color: const Color.fromRGBO(255, 215, 0, 1),
+            color: const Color(0xFFFFD700),
             backgroundColor: Colors.white,
             onRefresh: () => _handleRefresh(),
             child: SingleChildScrollView(

@@ -68,7 +68,9 @@ Widget dashboardActivityContainer({
           child: Text(
             isContestContainer == true
                 ? userModel.contestUniqueWonCount.toString()
-                : '0',
+                : userModel.referrals != null
+                    ? userModel.referrals!.length.toString()
+                    : '0',
             style: GoogleFonts.roboto(
               fontSize: screenSize.width * .051,
               fontWeight: FontWeight.w700,

@@ -26,7 +26,7 @@ Widget referAndEarnContainer({required BuildContext context}) {
               children: [
                 SizedBox(width: screenSize.width * .18),
                 Text(
-                  'Refer friends and earn\n500 Points',
+                  'Refer friends and earn\nupto 500 Points',
                   style: GoogleFonts.poppins(
                     fontSize: screenSize.width * .03,
                     fontWeight: FontWeight.bold,

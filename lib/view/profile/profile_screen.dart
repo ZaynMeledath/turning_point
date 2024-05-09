@@ -8,6 +8,7 @@ import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/flight_shuttle.dart';
 import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/view/edit_profile/edit_profile_screen.dart';
 import 'package:turning_point/view/profile/segments/edit_profile_dashboard_segment.dart';
 import 'package:turning_point/view/profile/segments/profile_options_segment.dart';
@@ -39,14 +40,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.didChangeDependencies();
   }
 
-  void disableWakeLock() {
-    setState(() {
-      WakelockPlus.disable();
-    });
-  }
-
   @override
   void dispose() {
+    WakelockPlus.enable();
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: true));
     if (preloadBloc.state.controllers.isNotEmpty &&
         !preloadBloc.manuallyPaused) {
@@ -71,7 +67,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
 
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
-    disableWakeLock();
 
     return Scaffold(
       body: SafeArea(
@@ -108,16 +103,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     BlocBuilder<ProfileBloc, ProfileState>(
                       builder: (context, state) {
+                        WakelockPlus.disable();
                         switch (state) {
                           case ProfileLoadingState():
-                            return const Center(
-                              child: CircularProgressIndicator.adaptive(
-                                strokeWidth: 5,
-                                backgroundColor: Colors.white,
-                                valueColor:
-                                    AlwaysStoppedAnimation(Colors.amber),
-                              ),
-                            );
+                            return spinningLinesLoading();
                           case ProfileLoadedState():
                             return Column(
                               children: [
@@ -160,13 +149,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             );
 
                           default:
-                            return const Center(
-                              child: CircularProgressIndicator.adaptive(
-                                strokeWidth: 5,
-                                backgroundColor: Colors.white,
-                                valueColor: AlwaysStoppedAnimation(Colors.red),
-                              ),
-                            );
+                            return spinningLinesLoading();
                         }
                       },
                     ),

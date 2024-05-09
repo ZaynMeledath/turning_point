@@ -1,9 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:scratcher/scratcher.dart';
-import 'package:turning_point/helper/screen_size.dart';
+part of '../referral_screen.dart';
 
-Future<void> scratchCardPopUp(BuildContext context) {
+Future<void> scratchCardPopUp({
+  required BuildContext context,
+  required int rewardPoint,
+  required int rewardIndex,
+}) {
+  log('RewardIndex : $rewardIndex');
   final scratchKey = GlobalKey<ScratcherState>();
   return showDialog(
     context: context,
@@ -11,7 +13,7 @@ Future<void> scratchCardPopUp(BuildContext context) {
       child: Scratcher(
         key: scratchKey,
         brushSize: 50,
-        threshold: 70,
+        threshold: 65,
         color: Colors.transparent,
         image: Image.asset(
           'assets/images/star_pattern.png',
@@ -20,6 +22,7 @@ Future<void> scratchCardPopUp(BuildContext context) {
         onThreshold: () {
           scratchKey.currentState
               ?.reveal(duration: const Duration(milliseconds: 500));
+          referralBloc.add(ReferralRewardScratchedEvent(rewardIndex));
         },
         child: Container(
           width: screenSize.width * .62,
@@ -33,13 +36,12 @@ Future<void> scratchCardPopUp(BuildContext context) {
             children: [
               Image.asset(
                 'assets/images/purple_gift_box.png',
-                // width: 87,
-                // height: 55,
               ),
               SizedBox(height: screenSize.height * .017),
               Text(
-                'You have Won!',
-                style: GoogleFonts.roboto(
+                'You have Won\n$rewardPoint points',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
                   fontSize: screenSize.width * .05,
                   fontWeight: FontWeight.w500,
                 ),

@@ -39,14 +39,14 @@ class _FirstBoardingScreenState extends State<FirstBoardingScreen> {
     Timer.run(() async {
       result = await InternetAddress.lookup('google.com');
     });
-    Future.delayed(const Duration(milliseconds: 600), () {
+    Future.delayed(const Duration(milliseconds: 800), () {
       if (result == null) {
         showAnimatedGenericDialog(
           context: context,
           iconPath: 'assets/lottie/no_internet_animation.json',
           title: 'No Internet Connection',
           content: 'Check your connectivity status and try again',
-          buttonTitle: 'OK',
+          buttons: {'OK': null},
           iconWidth: screenSize.width * .25,
         );
       }
