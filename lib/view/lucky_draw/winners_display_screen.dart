@@ -83,7 +83,7 @@ class _WinnersDisplayScreenState extends State<WinnersDisplayScreen>
               }
               return SizedBox(
                 height: screenSize.height,
-                width: screenSize.width,
+                width: realScreenSize.width,
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
