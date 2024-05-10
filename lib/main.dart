@@ -97,7 +97,8 @@ void main() async {
 }
 
 Future<void> _firebasePushHandler(RemoteMessage message) async {
-  if (AppPreferences.getValueShared('notification')) {
+  if (AppPreferences.getValueShared('notification') == null ||
+      AppPreferences.getValueShared('notification')) {
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
         id: DateTime.now().millisecondsSinceEpoch.remainder(1000),

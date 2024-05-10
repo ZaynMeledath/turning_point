@@ -44,12 +44,10 @@ class FirebaseAuthProvider implements CustomAuthProvider {
           await FirebaseAuth.instance.signInWithCredential(credential);
       final user = result.user;
 
-      log('USER: $user');
       if (user != null) {
         final token = await currentUser!.getIdToken();
         return token!;
       } else {
-        log('EXCEPTION');
         throw UserNotLoggedInAuthException();
       }
     } on FirebaseAuthException catch (e) {

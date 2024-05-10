@@ -78,70 +78,72 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
 //====================Lucky Draw Loaded State====================//
             case LuckyDrawLoadedState():
               if (state.contestModel != null) {
-                return Column(
-                  children: [
-                    SizedBox(height: screenSize.height * .09),
-                    //--------------------Lucky Draw Image--------------------//
-                    Image.asset(
-                      'assets/images/lucky_draw_image.png',
-                      width: screenSize.width * .62,
-                    ),
-
-                    SizedBox(height: screenSize.height * .024),
-                    //--------------------Days Left Blue Container--------------------//
-                    joinLuckyDraw(context: context),
-
-                    SizedBox(height: screenSize.height * .034),
-                    //--------------------Count Down Timer--------------------//
-                    countDownTimerSegment(
-                      days: state.timeMap!['timeInDays']!,
-                      hours: state.timeMap!['timeInHours']!,
-                      minutes: state.timeMap!['timeInMinutes']!,
-                      seconds: state.timeMap!['timeInSeconds']!,
-                    ),
-
-                    SizedBox(height: screenSize.height * .037),
-                    //--------------------Gifts Segment--------------------//
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: screenSize.width * .06,
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(height: screenSize.height * .09),
+                      //--------------------Lucky Draw Image--------------------//
+                      Image.asset(
+                        'assets/images/lucky_draw_image.png',
+                        width: screenSize.width * .62,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Gifts',
-                            style: GoogleFonts.roboto(
-                              color: Colors.white,
-                              fontSize: screenSize.width * .036,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () => CustomNavigator.push(
-                              context: context,
-                              child: const AllGiftsScreen(),
-                            ),
-                            child: Text(
-                              'View All',
+
+                      SizedBox(height: screenSize.height * .024),
+                      //--------------------Days Left Blue Container--------------------//
+                      joinLuckyDraw(context: context),
+
+                      SizedBox(height: screenSize.height * .034),
+                      //--------------------Count Down Timer--------------------//
+                      countDownTimerSegment(
+                        days: state.timeMap!['timeInDays']!,
+                        hours: state.timeMap!['timeInHours']!,
+                        minutes: state.timeMap!['timeInMinutes']!,
+                        seconds: state.timeMap!['timeInSeconds']!,
+                      ),
+
+                      SizedBox(height: screenSize.height * .037),
+                      //--------------------Gifts Segment--------------------//
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: screenSize.width * .06,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Gifts',
                               style: GoogleFonts.roboto(
                                 color: Colors.white,
-                                fontSize: screenSize.width * .031,
-                                fontWeight: FontWeight.w400,
+                                fontSize: screenSize.width * .036,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
-                          ),
-                        ],
+                            GestureDetector(
+                              onTap: () => CustomNavigator.push(
+                                context: context,
+                                child: const AllGiftsScreen(),
+                              ),
+                              child: Text(
+                                'View All',
+                                style: GoogleFonts.roboto(
+                                  color: Colors.white,
+                                  fontSize: screenSize.width * .031,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(height: screenSize.height * .015),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: screenSize.width * .05,
+                      SizedBox(height: screenSize.height * .015),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: screenSize.width * .05,
+                        ),
+                        child: giftBoxesSegment(context),
                       ),
-                      child: giftBoxesSegment(context),
-                    ),
-                  ],
+                    ],
+                  ),
                 );
               } else {
                 return SafeArea(

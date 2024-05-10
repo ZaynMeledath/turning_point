@@ -149,13 +149,26 @@ Widget contestCardInnerContainer({
                           children: [
                             GestureDetector(
                               onTap: () {
-                                joinContestBloc.add(
-                                  JoinContestEvent(
-                                    contestModel:
-                                        state.contestModelList![index],
-                                    contestIndex: index,
-                                    entryCount: 1,
-                                  ),
+                                showAnimatedGenericDialog(
+                                  context: context,
+                                  iconPath:
+                                      'assets/lottie/lucky_draw_animation.json',
+                                  title: 'Join Contest',
+                                  content:
+                                      'Are you sure you want to join the contest?',
+                                  buttons: {
+                                    'Cancel': null,
+                                    'Join': () {
+                                      joinContestBloc.add(
+                                        JoinContestEvent(
+                                          contestModel:
+                                              state.contestModelList![index],
+                                          contestIndex: index,
+                                          entryCount: 1,
+                                        ),
+                                      );
+                                    }
+                                  },
                                 );
                               },
                               child: Container(
