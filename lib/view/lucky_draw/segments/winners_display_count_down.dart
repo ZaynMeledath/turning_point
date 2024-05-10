@@ -12,9 +12,7 @@ Widget winnersDisplayCountDown() {
         return Column(
           children: [
             Text(
-              state.secondsLeft! < 30
-                  ? 'All Rewards List in'
-                  : 'Next Winner in',
+              state.secondsLeft! < 30 ? 'Rewards List in' : 'Next Winner in',
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
                 fontSize: screenSize.width * .036,

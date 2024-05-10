@@ -74,30 +74,29 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     onTap: (index) async {
                       homeBloc.add(TriggerEvent(index));
                     },
-                    backgroundColor: homeState.currentIndex == 0
-                        // || state.currentIndex == 2
-                        ? const Color(0xff0c1313)
-                        : Colors.white,
-                    unselectedItemColor: homeState.currentIndex == 0
-                        // || state.currentIndex == 2
-                        ? Colors.white
-                        : Colors.black,
+                    backgroundColor:
+                        pages[homeState.currentIndex] is ReelsScreen
+                            ? const Color(0xff0c1313)
+                            : Colors.white,
+                    unselectedItemColor:
+                        pages[homeState.currentIndex] is ReelsScreen
+                            ? Colors.white
+                            : Colors.black,
                     enableFeedback: true,
-                    selectedItemColor: homeState.currentIndex == 0
-                        // || state.currentIndex == 2
-                        ? Colors.white
-                        : Colors.black,
+                    selectedItemColor:
+                        pages[homeState.currentIndex] is ReelsScreen
+                            ? Colors.white
+                            : Colors.black,
                     showUnselectedLabels: true,
                     items: [
                       BottomNavigationBarItem(
                         backgroundColor: Colors.black,
                         label: 'Home',
                         icon: Image.asset(
-                          homeState.currentIndex == 0 &&
+                          pages[homeState.currentIndex] is ReelsScreen &&
                                   homeState is! ConnectState
                               ? 'assets/icons/home_icon_purple.png'
                               : homeState.currentIndex == 0
-                                  // || state.currentIndex == 2
                                   ? 'assets/icons/home_icon_dark.png'
                                   : 'assets/icons/home_icon_light.png',
                           width: screenSize.height * .025,
@@ -107,11 +106,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         backgroundColor: Colors.white,
                         label: 'Rewards',
                         icon: Image.asset(
-                          homeState.currentIndex == 1 &&
+                          pages[homeState.currentIndex] is RewardsScreen &&
                                   homeState is! ConnectState
                               ? 'assets/icons/rewards_icon_purple.png'
                               : homeState.currentIndex == 0
-                                  // || state.currentIndex == 2
                                   ? 'assets/icons/rewards_icon_dark.png'
                                   : 'assets/icons/rewards_icon_light.png',
                           width: screenSize.height * .025,
@@ -122,11 +120,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           backgroundColor: Colors.black,
                           label: 'Scan',
                           icon: Image.asset(
-                            homeState.currentIndex == 2 &&
+                            pages[homeState.currentIndex] is ScannerScreen &&
                                     homeState is! ConnectState
                                 ? 'assets/icons/scanner_icon_purple.png'
                                 : homeState.currentIndex == 0
-                                    // || state.currentIndex == 2
                                     ? 'assets/icons/scanner_icon_dark.png'
                                     : 'assets/icons/scanner_icon_light.png',
                             width: screenSize.height * .035,
@@ -136,11 +133,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         backgroundColor: Colors.white,
                         label: 'Lucky Draw',
                         icon: Image.asset(
-                          homeState.currentIndex == 3 &&
+                          pages[homeState.currentIndex] is LuckyDrawScreen &&
                                   homeState is! ConnectState
                               ? 'assets/icons/lucky_draw_icon_purple.png'
                               : homeState.currentIndex == 0
-                                  // || state.currentIndex == 2
                                   ? 'assets/icons/lucky_draw_icon_dark.png'
                                   : 'assets/icons/lucky_draw_icon_light.png',
                           width: screenSize.height * .025,
@@ -152,8 +148,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         icon: Image.asset(
                           homeState is ConnectState
                               ? 'assets/icons/connect_icon_purple.png'
-                              : homeState.currentIndex == 0
-                                  // || state.currentIndex == 2
+                              : pages[homeState.currentIndex] is ReelsScreen
                                   ? 'assets/icons/connect_icon_dark.png'
                                   : 'assets/icons/connect_icon_light.png',
                           width: screenSize.height * .025,
