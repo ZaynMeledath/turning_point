@@ -297,9 +297,15 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                         ? Colors.red
                                         : Colors.transparent,
                                     percent: (controllerValue
-                                            .position.inMilliseconds /
-                                        (controllerValue
-                                            .duration.inMilliseconds)),
+                                                    .position.inMilliseconds /
+                                                (controllerValue
+                                                    .duration.inMilliseconds)) >
+                                            1.0
+                                        ? 0
+                                        : (controllerValue
+                                                .position.inMilliseconds /
+                                            (controllerValue
+                                                .duration.inMilliseconds)),
                                     barRadius: const Radius.circular(6),
                                     lineHeight: 3,
                                   ),
