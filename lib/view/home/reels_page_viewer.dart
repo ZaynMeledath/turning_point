@@ -88,16 +88,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
           builder: (context, reelsState) {
             return PageView.builder(
               itemCount: preloadState.urls.length,
-              onPageChanged: (index) async {
-                likeButtonActiveStatus = false;
-                preloadBloc.manuallyPaused = false;
-                preloadBloc.add(PreloadEvent(currentIndex: index));
-                if (index >=
-                    preloadBloc.pageIndex * ReelsRepository.reelsPageSize - 2) {
-                  preloadBloc.pageIndex++;
-                  await ReelsRepository.getReels(page: preloadBloc.pageIndex);
-                }
-              },
+              onPageChanged: onPageChanged,
               scrollDirection: Axis.vertical,
               controller: pageController,
               physics: const BouncingScrollPhysics(),
@@ -324,5 +315,15 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
         );
       },
     );
+  }
+
+  void onPageChanged(index) async {
+    likeButtonActiveStatus = false;
+    preloadBloc.manuallyPaused = false;
+    preloadBloc.add(PreloadEvent(currentIndex: index));
+    if (index >= preloadBloc.pageIndex * ReelsRepository.reelsPageSize - 2) {
+      preloadBloc.pageIndex++;
+      await ReelsRepository.getReels(page: preloadBloc.pageIndex);
+    }
   }
 }

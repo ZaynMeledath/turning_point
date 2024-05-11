@@ -338,17 +338,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     if (isContractorTemp != isContractor) {
       return true;
     }
+
     if (_nameController.text.trim() != userModel.name ||
-            _phoneController.text.trim() != userModel.phone ||
-            _addressController.text.trim() != userModel.actualAddress ||
-            isContractorTemp
-        ? _businessController.text.trim() != userModel.businessName
-        : (contractorBloc.state.contractor == null ||
-            contractorBloc.state.contractor!.name !=
-                userModel.contractor!.name ||
-            contractorBloc.state.contractor!.businessName !=
-                userModel.contractor!.businessName)) {
+        _phoneController.text.trim() != userModel.phone ||
+        _addressController.text.trim() != userModel.actualAddress ||
+        isContractorTemp) {
       return true;
+    }
+    if (isContractorTemp) {
+      if (_businessController.text.trim() != userModel.businessName) {
+        return true;
+      }
+    } else {
+      if (contractorBloc.state.contractor!.name != userModel.contractor!.name ||
+          contractorBloc.state.contractor!.businessName !=
+              userModel.contractor!.businessName) {
+        return true;
+      }
     }
     return false;
   }

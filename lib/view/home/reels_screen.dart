@@ -245,6 +245,7 @@ class ReelsScreenState extends State<ReelsScreen>
                               const Color.fromRGBO(225, 225, 225, .6),
                           radius: screenSize.width * .056,
                           child: CircleAvatar(
+                            radius: screenSize.width * .046,
                             foregroundImage:
                                 NetworkImage(state.userModel!.image!),
                           ),

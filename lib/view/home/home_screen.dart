@@ -30,7 +30,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    // locationServiceBloc.add(LocationServiceStartEvent());
     if (state == AppLifecycleState.resumed) {
       UserRepository.updateUserOnlineStatus(isOnline: true);
     } else {

@@ -154,7 +154,9 @@ class _RewardsScreenState extends State<RewardsScreen>
                         backgroundColor: Colors.white,
                         pinned: true,
                         automaticallyImplyLeading: false,
-                        toolbarHeight: 0,
+                        toolbarHeight: screenSize.width >= 550
+                            ? screenSize.width * .07
+                            : screenSize.width * .05,
                         flexibleSpace: rewardsTabBar(
                           tabController: tabController,
                         ),
