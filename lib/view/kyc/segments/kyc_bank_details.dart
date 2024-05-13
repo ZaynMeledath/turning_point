@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/kyc/kyc_bloc.dart';
-import 'package:turning_point/helper/widget/custom_loading.dart';
+import 'package:turning_point/utilities/widget/custom_loading.dart';
 import 'package:turning_point/view/kyc/segments/kyc_text_field_segment.dart';
 
 Widget kycBankDetails({

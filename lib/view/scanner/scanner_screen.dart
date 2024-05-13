@@ -11,7 +11,7 @@ import 'package:turning_point/bloc/scanner/scanner_bloc.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/dialog/show_scanner_coupon_dialog.dart';
-import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/utilities/screen_size.dart';
 
 import 'dart:math' as math;
 

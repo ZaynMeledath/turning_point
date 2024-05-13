@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/utilities/screen_size.dart';
 
 Widget customRadioButton({required bool isActive}) {
   return isActive

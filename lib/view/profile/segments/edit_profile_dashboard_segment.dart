@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/helper/custom_navigator.dart';
-import 'package:turning_point/helper/flight_shuttle.dart';
-import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/utilities/custom_navigator.dart';
+import 'package:turning_point/utilities/flight_shuttle.dart';
+import 'package:turning_point/utilities/screen_size.dart';
 import 'package:turning_point/view/dashboard/dashboard_screen.dart';
 import 'package:turning_point/view/edit_profile/edit_profile_screen.dart';
 

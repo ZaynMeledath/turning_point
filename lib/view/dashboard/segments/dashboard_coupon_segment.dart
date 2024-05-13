@@ -5,7 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
 import 'package:turning_point/bloc/contest/join_contest_bloc.dart';
-import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/utilities/screen_size.dart';
 import 'package:turning_point/view/contest/contest_screen.dart';
 
 Widget dashboardCouponSegment({required BuildContext context}) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/utilities/screen_size.dart';
 import 'package:turning_point/view/boarding/segments/boarding_screen_content.dart';
 import 'package:turning_point/view/home/profile_inactive_screen.dart';
 

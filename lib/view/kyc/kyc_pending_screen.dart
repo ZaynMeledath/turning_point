@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/my_app_bar.dart';
+import 'package:turning_point/utilities/screen_size.dart';
+import 'package:turning_point/utilities/widget/my_app_bar.dart';
 
 class KycPendingScreen extends StatelessWidget {
   const KycPendingScreen({super.key});

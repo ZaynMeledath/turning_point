@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
-import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/utilities/screen_size.dart';
 import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/view/edit_profile/edit_profile_screen.dart';
 

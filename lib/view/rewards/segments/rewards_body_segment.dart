@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/utilities/screen_size.dart';
 import 'package:turning_point/model/rewards_model.dart';
 import 'package:turning_point/view/rewards/segments/clipper_widget.dart';
 import 'package:turning_point/view/rewards/segments/main_prize_segment.dart';

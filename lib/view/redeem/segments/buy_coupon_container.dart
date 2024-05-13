@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
 import 'package:turning_point/bloc/contest/join_contest_bloc.dart';
-import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/utilities/screen_size.dart';
 import 'package:turning_point/model/contest_model.dart';
 import 'package:turning_point/view/contest/contest_screen.dart';
 import 'package:turning_point/view/redeem/redeem_screen.dart';

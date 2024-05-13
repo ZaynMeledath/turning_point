@@ -7,13 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:turning_point/bloc/location_service/location_service_bloc.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
-import 'package:turning_point/helper/custom_navigator.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_loading.dart';
+import 'package:turning_point/utilities/custom_navigator.dart';
+import 'package:turning_point/utilities/screen_size.dart';
+import 'package:turning_point/utilities/widget/custom_loading.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/resources/reels_repository.dart';
 import 'package:turning_point/view/home/profile_inactive_screen.dart';
@@ -51,7 +50,6 @@ class ReelsScreenState extends State<ReelsScreen>
         likeAnimationController.reverse();
       }
     });
-
     super.initState();
   }
 
@@ -234,6 +232,9 @@ class ReelsScreenState extends State<ReelsScreen>
                       top: screenSize.height * .065,
                       child: GestureDetector(
                         onTap: () async {
+                          // final route = ModalRoute.of(context)!.settings.name;
+
+                          // log(route.toString());
                           preloadBloc.pauseCurrentController();
                           CustomNavigator.push(
                             context: context,
