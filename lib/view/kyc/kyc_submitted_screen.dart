@@ -46,7 +46,7 @@ class KycSubmittedScreen extends StatelessWidget {
                         width: screenSize.width * .3,
                       ),
                       Text(
-                        'Submitted',
+                        'KYC Submitted',
                         style: GoogleFonts.inter(
                           fontSize: screenSize.width * .04,
                           fontWeight: FontWeight.w600,
