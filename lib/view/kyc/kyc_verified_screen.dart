@@ -31,7 +31,7 @@ class KycVerifiedScreen extends StatelessWidget {
                       width: screenSize.width * .3,
                     ),
                     Text(
-                      'Verified',
+                      'KYC Verified',
                       style: GoogleFonts.inter(
                         fontSize: screenSize.width * .04,
                         fontWeight: FontWeight.w600,
