@@ -34,59 +34,61 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
     return Scaffold(
       appBar: myAppBar(context: context, title: 'About Us'),
       body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(height: screenSize.height * .03),
-//====================About App Segment====================//
-            Image.asset(
-              'assets/icons/turning_point_logo_icon.png',
-              width: screenSize.width * .2,
-            ),
-            SizedBox(height: screenSize.height * .012),
-            Text(
-              'TURNING POINT',
-              style: GoogleFonts.poppins(
-                letterSpacing: 4,
-                color: const Color.fromRGBO(239, 64, 68, 1),
-                fontSize: screenSize.width * .05,
-                fontWeight: FontWeight.w500,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: screenSize.height * .03),
+              //====================About App Segment====================//
+              Image.asset(
+                'assets/icons/turning_point_logo_icon.png',
+                width: screenSize.width * .2,
               ),
-            ),
-            Text(
-              'v$version',
-              style: GoogleFonts.inter(
-                fontSize: screenSize.width * .041,
-                fontWeight: FontWeight.w400,
-                color: Colors.black,
+              SizedBox(height: screenSize.height * .012),
+              Text(
+                'TURNING POINT',
+                style: GoogleFonts.poppins(
+                  letterSpacing: 4,
+                  color: const Color.fromRGBO(239, 64, 68, 1),
+                  fontSize: screenSize.width * .05,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
-            SizedBox(height: screenSize.height * .045),
-//====================About Company Segment====================//
-            aboutCompanyContainer(
-              title: 'Turning Point',
-              content:
-                  'At Turningpoint, we believe in turning living spaces into sanctuaries. Established with a passion for craftsmanship and an unwavering commitment to quality, we curate furniture that resonates with both elegance and functionality.',
-              imagePath: 'assets/icons/turning_point_logo_icon.png',
-            ),
-            SizedBox(height: screenSize.height * .04),
+              Text(
+                'v$version',
+                style: GoogleFonts.inter(
+                  fontSize: screenSize.width * .041,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: screenSize.height * .045),
+              //====================About Company Segment====================//
+              aboutCompanyContainer(
+                title: 'Turning Point',
+                content:
+                    'At Turningpoint, we believe in turning living spaces into sanctuaries. Established with a passion for craftsmanship and an unwavering commitment to quality, we curate furniture that resonates with both elegance and functionality.',
+                imagePath: 'assets/icons/turning_point_logo_icon.png',
+              ),
+              SizedBox(height: screenSize.height * .04),
 
-            aboutCompanyContainer(
-              title: 'Furnipart',
-              content:
-                  'At Furnipart, we believe in turning living spaces into sanctuaries. Established with a passion for craftsmanship and an unwavering commitment to quality, we curate furniture that resonates with both elegance and functionality.',
-              imagePath: 'assets/images/furnipart_logo.png',
-            ),
-            SizedBox(height: screenSize.height * .04),
+              aboutCompanyContainer(
+                title: 'Furnipart',
+                content:
+                    'At Furnipart, we believe in turning living spaces into sanctuaries. Established with a passion for craftsmanship and an unwavering commitment to quality, we curate furniture that resonates with both elegance and functionality.',
+                imagePath: 'assets/images/furnipart_logo.png',
+              ),
+              SizedBox(height: screenSize.height * .04),
 
-            aboutCompanyContainer(
-              title: 'Claart',
-              content:
-                  'At Claart, we believe in turning living spaces into sanctuaries. Established with a passion for craftsmanship and an unwavering commitment to quality, we curate furniture that resonates with both elegance and functionality.',
-              imagePath: 'assets/images/claart_logo_with_bg.png',
-            ),
-            SizedBox(height: screenSize.height * .08),
-            followUsSegment(),
-          ],
+              aboutCompanyContainer(
+                title: 'Claart',
+                content:
+                    'At Claart, we believe in turning living spaces into sanctuaries. Established with a passion for craftsmanship and an unwavering commitment to quality, we curate furniture that resonates with both elegance and functionality.',
+                imagePath: 'assets/images/claart_logo_with_bg.png',
+              ),
+              SizedBox(height: screenSize.height * .08),
+              followUsSegment(),
+            ],
+          ),
         ),
       ),
     );

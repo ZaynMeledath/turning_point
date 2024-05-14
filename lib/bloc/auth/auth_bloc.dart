@@ -141,12 +141,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             refCode: state.refCode,
           );
         } else {
-          emit(
-            const AuthErrorState(message: 'Error Signing Up. Please try again'),
+          return emit(
+            OtpVerificationNeededState(
+              phone: state.phone,
+              businessName: state.businessName,
+              contractor: state.contractor,
+              exception: 'Something went wrong while connecting to Firebase',
+              refCode: state.refCode,
+            ),
           );
         }
 
-        emit(OtpVerifiedState());
+        return emit(OtpVerifiedState());
       } on FirebaseAuthException catch (e) {
         return emit(
           OtpVerificationNeededState(

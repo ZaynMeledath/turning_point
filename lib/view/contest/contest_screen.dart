@@ -9,12 +9,14 @@ import 'package:stacked_card_carousel/stacked_card_carousel.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
 import 'package:turning_point/bloc/contest/join_contest_bloc.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
+import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/widget/my_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
 import 'package:turning_point/resources/contest_repository.dart';
 import 'package:turning_point/service/Exception/user_exceptions.dart';
 import 'package:turning_point/view/contest/segments/banner_segment.dart';
+import 'package:turning_point/view/kyc/kyc_screen.dart';
 
 part 'segments/contest_card_inner_container.dart';
 part 'segments/contest_card.dart';
@@ -64,7 +66,16 @@ class _ContestScreenState extends State<ContestScreen> {
                 iconPath: 'assets/lottie/kyc_verification_animation.json',
                 title: 'Not Verified',
                 content: 'KYC should be verified to join the\ncontest',
-                buttons: {'Dismiss': null},
+                buttons: {
+                  'Dismiss': null,
+                  'Verify KYC': () {
+                    Navigator.pop(context);
+                    CustomNavigator.push(
+                      context: context,
+                      child: const KycScreen(),
+                    );
+                  },
+                },
                 iconWidth: screenSize.width * .2,
               );
               break;

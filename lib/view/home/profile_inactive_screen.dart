@@ -70,25 +70,29 @@ class ProfileInactiveScreen extends StatelessWidget {
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             child: Center(
-              child: Column(
-                children: [
-                  SizedBox(height: screenSize.height * .15),
-                  Lottie.asset(
-                    'assets/lottie/profile_inactive_animation.json',
-                    width: screenSize.width * .6,
-                  ),
-                  SizedBox(height: screenSize.height * .018),
-                  Text(
-                    'Your Profile will be approved by the admin\nwithin the next 24 hours',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.inter(
-                      fontSize: screenSize.width * .04,
-                      fontWeight: FontWeight.w600,
-                      color: const Color.fromRGBO(16, 24, 40, 1),
+              child: Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: screenSize.width * .04),
+                child: Column(
+                  children: [
+                    SizedBox(height: screenSize.height * .15),
+                    Lottie.asset(
+                      'assets/lottie/profile_inactive_animation.json',
+                      width: screenSize.width * .6,
                     ),
-                  ),
-                  SizedBox(height: screenSize.height * .15)
-                ],
+                    SizedBox(height: screenSize.height * .018),
+                    Text(
+                      'Your Profile will be approved by the admin\nwithin the next 24 hours',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.inter(
+                        fontSize: screenSize.width * .04,
+                        fontWeight: FontWeight.w600,
+                        color: const Color.fromRGBO(16, 24, 40, 1),
+                      ),
+                    ),
+                    SizedBox(height: screenSize.height * .15)
+                  ],
+                ),
               ),
             ),
           ),

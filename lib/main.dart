@@ -85,9 +85,9 @@ void main() async {
     await Permission.location.request();
   }
 
-  if (!await Permission.locationAlways.isGranted) {
-    await Permission.locationAlways.request();
-  }
+  // if (!await Permission.locationAlways.isGranted) {
+  //   await Permission.locationAlways.request();
+  // }
 
   AwesomeNotifications().setListeners(
     onActionReceivedMethod: NotificationController.onActionReceivedMethod,

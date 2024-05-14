@@ -114,7 +114,7 @@ class FirebaseAuthProvider implements CustomAuthProvider {
       final token = await FirebaseMessaging.instance.getToken();
       return token;
     } catch (e) {
-      throw Exception(e);
+      rethrow;
     }
   }
 

@@ -67,7 +67,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
         } else if (state is OtpVerificationNeededState &&
             state.exception != null) {
           Navigator.pop(context);
-          Navigator.pop(context);
           if (state.exception == 'invalid-verification-code') {
             Future.delayed(Duration.zero, () {
               showAnimatedGenericDialog(
@@ -88,16 +87,17 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
               iconWidth: screenSize.width * .2,
             );
           }
-        } else if (state is AuthErrorState) {
-          Navigator.pop(context);
-          showAnimatedGenericDialog(
-            context: context,
-            iconPath: 'assets/icons/kyc_declined_icon.png',
-            title: 'Something went wrong',
-            content: state.message,
-            buttons: {'OK': null},
-          );
-        } else if (state is OtpVerifiedState) {
+        }
+        // else if (state is AuthErrorState) {
+        //   showAnimatedGenericDialog(
+        //     context: context,
+        //     iconPath: 'assets/icons/kyc_declined_icon.png',
+        //     title: 'Something went wrong',
+        //     content: state.message,
+        //     buttons: {'OK': null},
+        //   );
+        // }
+        else if (state is OtpVerifiedState) {
           Navigator.pop(context);
           CustomNavigator.pushAndRemove(
             context: context,
