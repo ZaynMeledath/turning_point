@@ -6,6 +6,7 @@ Widget redeemPointsFieldSegment() {
       return Column(
         children: [
 //====================Title====================//
+          SizedBox(height: screenSize.height * .008),
           Text(
             'Enter the Points you want to Redeem',
             style: GoogleFonts.roboto(

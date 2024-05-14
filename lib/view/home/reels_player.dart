@@ -70,7 +70,7 @@ class _ReelsPlayerState extends State<ReelsPlayer>
           alignment: Alignment.center,
           children: [
             Center(
-              child: value.isInitialized
+              child: value.isInitialized || value.isPlaying
                   ? GestureDetector(
                       onTapDown: (details) {
                         onScreenTap();

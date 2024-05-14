@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -35,10 +36,19 @@ Widget availablePointsContainer() {
             //====================Avatar Image====================//
             BlocBuilder<ProfileBloc, ProfileState>(
               builder: (context, profileState) {
-                return CircleAvatar(
-                  radius: screenSize.width * .051,
-                  foregroundImage: NetworkImage(profileState.userModel!.image!),
-                );
+                if (profileState.userModel != null &&
+                    profileState.userModel!.image != null) {
+                  return CircleAvatar(
+                    radius: screenSize.width * .051,
+                    foregroundImage:
+                        NetworkImage(profileState.userModel!.image!),
+                  );
+                } else {
+                  return CupertinoActivityIndicator(
+                    radius: screenSize.width * .031,
+                    color: const Color.fromRGBO(0, 99, 255, 1),
+                  );
+                }
               },
             ),
 

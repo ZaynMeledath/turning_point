@@ -224,12 +224,24 @@ class ContestDetailsScreen extends StatelessWidget {
                 //====================Enter Contest Button====================//
                 GestureDetector(
                   onTap: () {
-                    joinContestBloc.add(
-                      JoinContestEvent(
-                        contestModel: state.contestModelList![index],
-                        contestIndex: index,
-                        entryCount: 1,
-                      ),
+                    showAnimatedGenericDialog(
+                      context: context,
+                      iconPath: 'assets/lottie/lucky_draw_animation.json',
+                      title: 'Join Contest',
+                      content: 'Are you sure you want to join the contest?',
+                      buttons: {
+                        'Cancel': null,
+                        'Join Contest': () {
+                          Navigator.pop(context);
+                          joinContestBloc.add(
+                            JoinContestEvent(
+                              contestModel: state.contestModelList![index],
+                              contestIndex: index,
+                              entryCount: 1,
+                            ),
+                          );
+                        }
+                      },
                     );
                   },
                   child: Container(

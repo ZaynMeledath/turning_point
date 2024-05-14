@@ -158,7 +158,8 @@ Widget contestCardInnerContainer({
                                       'Are you sure you want to join the contest?',
                                   buttons: {
                                     'Cancel': null,
-                                    'Join': () {
+                                    'Join Contest': () {
+                                      Navigator.pop(context);
                                       joinContestBloc.add(
                                         JoinContestEvent(
                                           contestModel:

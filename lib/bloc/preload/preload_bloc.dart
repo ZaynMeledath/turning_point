@@ -179,7 +179,9 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
         final VideoPlayerController controller = state.controllers[index]!;
 
         /// Play controller
-        controller.play();
+        if (controller.value.isInitialized) {
+          controller.play();
+        }
       }
     }
   }
