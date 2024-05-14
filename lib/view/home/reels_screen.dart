@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:turning_point/bloc/location_service/location_service_bloc.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
@@ -245,6 +244,7 @@ class ReelsScreenState extends State<ReelsScreen>
                               const Color.fromRGBO(225, 225, 225, .6),
                           radius: screenSize.width * .056,
                           child: CircleAvatar(
+                            radius: screenSize.width * .05,
                             foregroundImage:
                                 NetworkImage(state.userModel!.image!),
                           ),

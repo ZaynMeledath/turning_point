@@ -113,7 +113,7 @@ class _ReferralScreenState extends State<ReferralScreen> {
                         child: const TotalReferralEarnedScreen(),
                       ),
                       child: Container(
-                        width: screenSize.width * .86,
+                        width: realScreenSize.width * .86,
                         height: screenSize.height * .08,
                         padding: EdgeInsets.only(
                           left: screenSize.width * .01,

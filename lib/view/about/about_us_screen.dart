@@ -53,7 +53,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
               ),
             ),
             Text(
-              'Beta v$version',
+              'v$version',
               style: GoogleFonts.inter(
                 fontSize: screenSize.width * .041,
                 fontWeight: FontWeight.w400,

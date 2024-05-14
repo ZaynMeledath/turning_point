@@ -11,7 +11,7 @@ part 'preload_event.dart';
 part 'preload_state.dart';
 
 class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
-  bool manuallyPaused = false; // Will be removed while optimizing the app
+  bool manuallyPaused = false;
   int pageIndex = 1;
   PreloadBloc() : super(PreloadState.initial()) {
     on<PreloadEvent>((event, emit) async {
@@ -179,7 +179,9 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
         final VideoPlayerController controller = state.controllers[index]!;
 
         /// Play controller
-        controller.play();
+        if (controller.value.isInitialized) {
+          controller.play();
+        }
       }
     }
   }

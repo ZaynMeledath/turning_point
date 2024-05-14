@@ -132,9 +132,6 @@ class ContestRepository {
     final secondsLeft =
         (endDateToSecondsSinceEpoch - currentDateToSecondsSinceEpoch).toInt();
 
-    // final prizeCount = contestModel.prizeArr!.length;
-
-    // return secondsLeft - (prizeCount * 30);
     return secondsLeft;
   }
 }

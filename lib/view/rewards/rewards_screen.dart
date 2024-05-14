@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -153,7 +154,9 @@ class _RewardsScreenState extends State<RewardsScreen>
                         backgroundColor: Colors.white,
                         pinned: true,
                         automaticallyImplyLeading: false,
-                        toolbarHeight: 0,
+                        toolbarHeight: screenSize.width >= 550
+                            ? screenSize.width * .07
+                            : screenSize.width * .05,
                         flexibleSpace: rewardsTabBar(
                           tabController: tabController,
                         ),
@@ -168,8 +171,9 @@ class _RewardsScreenState extends State<RewardsScreen>
                             ListView.builder(
                               padding: EdgeInsets.symmetric(
                                   vertical: screenSize.height * .01),
-                              itemCount:
-                                  activeRewardsModel.contestPrizes!.length - 3,
+                              itemCount: rewardsState.currentRewardsModel!
+                                      .contestPrizes!.length -
+                                  3,
                               itemBuilder: (context, index) {
                                 return rankListSegment(
                                   index: index,
@@ -181,8 +185,9 @@ class _RewardsScreenState extends State<RewardsScreen>
                             ListView.builder(
                               padding: EdgeInsets.symmetric(
                                   vertical: screenSize.height * .01),
-                              itemCount:
-                                  activeRewardsModel.contestPrizes!.length - 3,
+                              itemCount: rewardsState.previousRewardsModel!
+                                      .contestPrizes!.length -
+                                  3,
                               itemBuilder: (context, index) {
                                 return rankListSegment(
                                   index: index,

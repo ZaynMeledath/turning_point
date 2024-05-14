@@ -16,20 +16,28 @@ Widget buyCouponsSegment({
           return Expanded(
             child: Container(
               color: const Color.fromRGBO(246, 246, 246, 1),
-              child: ListView.builder(
-                padding: EdgeInsets.symmetric(
-                  horizontal: realScreenSize.width * .036,
-                  vertical: screenSize.height * .01,
+              child: LiquidPullToRefresh(
+                onRefresh: () => _handleRefresh(),
+                animSpeedFactor: 2,
+                height: 50,
+                showChildOpacityTransition: false,
+                color: const Color(0xFFFFD700),
+                backgroundColor: Colors.white,
+                child: ListView.builder(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: realScreenSize.width * .036,
+                    vertical: screenSize.height * .01,
+                  ),
+                  itemCount: state.contestModelList!.length,
+                  itemBuilder: (context, index) {
+                    return buyCouponContainer(
+                      context: context,
+                      contestModel: state.contestModelList![index],
+                      daysLeft: state.timeList![index]['timeInDays']!,
+                      contestIndex: index,
+                    );
+                  },
                 ),
-                itemCount: state.contestModelList!.length,
-                itemBuilder: (context, index) {
-                  return buyCouponContainer(
-                    context: context,
-                    contestModel: state.contestModelList![index],
-                    daysLeft: state.timeList![index]['timeInDays']!,
-                    contestIndex: index,
-                  );
-                },
               ),
             ),
           );
@@ -66,7 +74,12 @@ Widget buyCouponsSegment({
           );
         }
       } else {
-        return spinningLinesLoading();
+        return Column(
+          children: [
+            SizedBox(height: screenSize.height * .01),
+            spinningLinesLoading(),
+          ],
+        );
       }
     },
   );

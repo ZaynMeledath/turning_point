@@ -37,7 +37,7 @@ class KycRejectedScreen extends StatelessWidget {
                     width: screenSize.width * .3,
                   ),
                   Text(
-                    'Oops!',
+                    'Oops! KYC Rejected',
                     style: GoogleFonts.inter(
                       fontSize: screenSize.width * .04,
                       fontWeight: FontWeight.w600,
