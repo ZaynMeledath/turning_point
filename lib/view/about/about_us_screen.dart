@@ -87,6 +87,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
               ),
               SizedBox(height: screenSize.height * .08),
               followUsSegment(),
+              SizedBox(height: screenSize.height * .015),
             ],
           ),
         ),
