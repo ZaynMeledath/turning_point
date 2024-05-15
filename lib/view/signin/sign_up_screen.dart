@@ -271,7 +271,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   SizedBox(height: screenSize.height * .02),
                                   GestureDetector(
                                     onTap: () => contractorBloc.add(
-                                      HaveNoContractorEvent(),
+                                      HaveNoContractorSelectedEvent(),
                                     ),
                                     child: signUpRadioButtonSegment(
                                       title: "I don't have a contractor",
@@ -339,6 +339,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       ),
                                     );
                                   } else {
+                                    if (contractorState.selectedContractor ==
+                                            null &&
+                                        contractorBloc
+                                                .state.contractorNotListed !=
+                                            true &&
+                                        contractorBloc.state.haveNoContractor !=
+                                            true) {
+                                      showAnimatedGenericDialog(
+                                        context: context,
+                                        iconPath:
+                                            'assets/lottie/fill_details_animation.json',
+                                        title: 'Fill all fields',
+                                        content:
+                                            'Please fill the contractor details',
+                                        buttons: {'OK': null},
+                                      );
+                                      return;
+                                    }
                                     authBloc.add(
                                       SignUpEvent(
                                         phone: phoneController.text,
@@ -357,15 +375,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     );
                                   }
                                 }
-                                // else {
-                                //   showGenericDialog(
-                                //     context: context,
-                                //     title: 'Fill All Details',
-                                //     content:
-                                //         'Please fill all the required details to continue',
-                                //     options: {'Dismiss': null},
-                                //   );
-                                // }
                               },
                               child: Hero(
                                 tag: 'sign_in_sign_up_container',

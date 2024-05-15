@@ -37,6 +37,13 @@ class _ContestScreenState extends State<ContestScreen> {
   dynamic closeDialog;
 
   @override
+  void didChangeDependencies() {
+    contestBloc.add(ContestLoadEvent());
+    profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() async {
     super.dispose();
     contestBloc.add(ContestTimerDisposeEvent());
@@ -48,14 +55,13 @@ class _ContestScreenState extends State<ContestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    contestBloc.add(ContestLoadEvent());
     return BlocListener<JoinContestBloc, JoinContestState>(
       listener: (context, state) {
         if (state is! JoinContestLoadingState && closeDialog != null) {
           closeDialog = null;
           Navigator.pop(context);
         }
-        if (state is JoinContestLoadingState) {
+        if (state is JoinContestLoadingState && closeDialog == null) {
           closeDialog = showLoadingDialog(context: context);
         } else if (state is JoinContestErrorState) {
           switch (state.exception) {

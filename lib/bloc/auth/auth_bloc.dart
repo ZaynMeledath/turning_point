@@ -27,8 +27,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final userFromPreference = UserRepository.getUserFromPreference();
         await Future.delayed(const Duration(milliseconds: 50));
         if (userFromPreference != null) {
-          await UserRepository.getUserById(avoidGettingFromPreference: true);
           await provider.signIn();
+          await UserRepository.getUserById(avoidGettingFromPreference: true);
           profileBloc.add(ProfileLoadEvent());
           return emit(DirectSignedInState());
         } else {
@@ -153,6 +153,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         return emit(OtpVerifiedState());
       } on FirebaseAuthException catch (e) {
+        if (e.code == 'session-expired') {
+          return emit(InitialState());
+        }
         return emit(
           OtpVerificationNeededState(
             phone: state.phone,

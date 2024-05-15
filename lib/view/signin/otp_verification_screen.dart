@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:pinput/pinput.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
@@ -10,6 +11,7 @@ import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/main.dart';
+import 'package:turning_point/view/signin/sign_in_screen.dart';
 import 'package:turning_point/view/terms_and_conditions/terms_and_conditions_screen.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
@@ -77,6 +79,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                 buttons: {'OK': null},
               );
             });
+          } else if (state is InitialState) {
+            Navigator.of(context).pushAndRemoveUntil(
+                PageTransition(
+                  child: const SignInScreen(),
+                  type: PageTransitionType.leftToRight,
+                ),
+                (route) => false);
           } else {
             showAnimatedGenericDialog(
               context: context,

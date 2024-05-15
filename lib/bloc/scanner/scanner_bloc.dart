@@ -5,7 +5,6 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/model/coupon_model.dart';
-import 'package:turning_point/resources/location_repository.dart';
 import 'package:turning_point/resources/scanner_repository.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/Exception/scanner_exceptions.dart';
@@ -21,10 +20,10 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
     on<ScannerCodeDetectEvent>((event, emit) async {
       emit(ScannerCodeDetectingState());
       try {
-        final location = await LocationRepository.getCurrentLocation();
+        // final location = await LocationRepository.getCurrentLocation();
         final couponModel = await scannerRepo.applyCoupon(
           couponId: event.couponId,
-          location: location,
+          // location: location,
         );
 
         final userModelResponse = UserRepository.getUserFromPreference()!;

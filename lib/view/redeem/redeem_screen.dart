@@ -71,6 +71,7 @@ class _RedeemScreenState extends State<RedeemScreen> {
     if (widget.navigatedFromDashboard != true) {
       contestBloc.add(ContestTimerDisposeEvent());
     }
+    profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
     pointsHistoryBloc.add(PointsHistoryLoadEvent(isReloading: true));
     upiController.dispose();
   }
@@ -159,17 +160,23 @@ class _RedeemScreenState extends State<RedeemScreen> {
                       if (joinContestState is JoinContestLoadingState &&
                           closeDialogHandle == null) {
                         closeDialogHandle = showLoadingDialog(context: context);
-                      } else if (joinContestState is ContestJoinedState &&
+                      }
+                      if (joinContestState is! JoinContestLoadingState &&
                           closeDialogHandle != null) {
-                        Navigator.pop(context);
                         closeDialogHandle = null;
+                        Navigator.pop(context);
+                      }
+
+                      if (joinContestState is ContestJoinedState) {
                         showAnimatedGenericDialog(
-                            context: context,
-                            iconPath:
-                                'assets/images/points_received_dialog_image.png',
-                            title: 'Joined Contest!',
-                            content: 'You have Successfully joined\n${joinContestState.contestModel.name}',
-                            buttons: {'Done': null});
+                          context: context,
+                          iconPath:
+                              'assets/images/points_received_dialog_image.png',
+                          title: 'Joined Contest!',
+                          content:
+                              'You have Successfully joined\n${joinContestState.contestModel.name}',
+                          buttons: {'Done': null},
+                        );
                       } else if (joinContestState is JoinContestErrorState) {
                         Navigator.pop(context);
                         closeDialogHandle = null;
