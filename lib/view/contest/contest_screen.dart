@@ -8,12 +8,14 @@ import 'package:page_transition/page_transition.dart';
 import 'package:stacked_card_carousel/stacked_card_carousel.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
 import 'package:turning_point/bloc/contest/join_contest_bloc.dart';
+import 'package:turning_point/bloc/profile/profile_bloc.dart';
+import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
+import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/helper/custom_navigator.dart';
 import 'package:turning_point/helper/widget/my_app_bar.dart';
 import 'package:turning_point/helper/screen_size.dart';
 import 'package:turning_point/helper/widget/custom_loading.dart';
-import 'package:turning_point/resources/contest_repository.dart';
 import 'package:turning_point/service/Exception/user_exceptions.dart';
 import 'package:turning_point/view/contest/segments/banner_segment.dart';
 import 'package:turning_point/view/kyc/kyc_screen.dart';
@@ -32,6 +34,8 @@ class ContestScreen extends StatefulWidget {
 }
 
 class _ContestScreenState extends State<ContestScreen> {
+  dynamic closeDialog;
+
   @override
   void dispose() async {
     super.dispose();
@@ -39,8 +43,7 @@ class _ContestScreenState extends State<ContestScreen> {
   }
 
   Future<void> _handleRefresh() async {
-    await ContestRepository.getContests();
-    contestBloc.add(ContestLoadEvent());
+    contestBloc.add(ContestLoadAgainEvent());
   }
 
   @override
@@ -48,7 +51,13 @@ class _ContestScreenState extends State<ContestScreen> {
     contestBloc.add(ContestLoadEvent());
     return BlocListener<JoinContestBloc, JoinContestState>(
       listener: (context, state) {
-        if (state is JoinContestErrorState) {
+        if (state is! JoinContestLoadingState && closeDialog != null) {
+          closeDialog = null;
+          Navigator.pop(context);
+        }
+        if (state is JoinContestLoadingState) {
+          closeDialog = showLoadingDialog(context: context);
+        } else if (state is JoinContestErrorState) {
           switch (state.exception) {
             case InsufficientBalanceToJoinContestException():
               showAnimatedGenericDialog(
@@ -61,23 +70,36 @@ class _ContestScreenState extends State<ContestScreen> {
               );
               break;
             case VerificationRequiredToJoinContestException():
-              showAnimatedGenericDialog(
-                context: context,
-                iconPath: 'assets/lottie/kyc_verification_animation.json',
-                title: 'Not Verified',
-                content: 'KYC should be verified to join the\ncontest',
-                buttons: {
-                  'Dismiss': null,
-                  'Verify KYC': () {
-                    Navigator.pop(context);
-                    CustomNavigator.push(
-                      context: context,
-                      child: const KycScreen(),
-                    );
+              if (profileBloc.state.userModel!.kycStatus ==
+                  KycStatus.SUBMITTED) {
+                showAnimatedGenericDialog(
+                  context: context,
+                  iconPath: 'assets/lottie/kyc_verification_animation.json',
+                  title: 'Not Verified',
+                  content:
+                      'Your KYC verification is pending. Please await verification.',
+                  buttons: {'OK': null},
+                  iconWidth: screenSize.width * .2,
+                );
+              } else {
+                showAnimatedGenericDialog(
+                  context: context,
+                  iconPath: 'assets/lottie/kyc_verification_animation.json',
+                  title: 'Not Verified',
+                  content: 'KYC should be verified to join the\ncontest',
+                  buttons: {
+                    'Dismiss': null,
+                    'Verify KYC': () {
+                      Navigator.pop(context);
+                      CustomNavigator.push(
+                        context: context,
+                        child: const KycScreen(),
+                      );
+                    },
                   },
-                },
-                iconWidth: screenSize.width * .2,
-              );
+                  iconWidth: screenSize.width * .2,
+                );
+              }
               break;
             default:
               showAnimatedGenericDialog(

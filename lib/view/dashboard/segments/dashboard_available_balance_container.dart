@@ -78,7 +78,7 @@ Widget dashboardAvailableBalanceContainer({
               onTap: () {
                 CustomNavigator.push(
                   context: context,
-                  child: const RedeemScreen(),
+                  child: const RedeemScreen(navigatedFromDashboard: true),
                 );
               },
               child: Container(

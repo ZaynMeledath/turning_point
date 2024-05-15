@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
@@ -32,7 +33,8 @@ Widget editProfilePictureSegment({
                   radius: (screenSize.height * .055) - 3,
                   child: CircleAvatar(
                     radius: (screenSize.height * .055) - 4,
-                    foregroundImage: NetworkImage(userModel.image!),
+                    foregroundImage:
+                        CachedNetworkImageProvider(userModel.image!),
                   ),
                 ),
               ),

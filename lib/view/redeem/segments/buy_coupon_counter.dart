@@ -70,7 +70,7 @@ Widget buyCouponCounter({required int contestIndex}) {
           ),
           child: Center(
             child: Text(
-              state.entryCount[contestIndex].toString(),
+              state.entryCounter[contestIndex].toString(),
               style: GoogleFonts.poppins(
                 fontSize: screenSize.width * .028,
                 fontWeight: FontWeight.w400,

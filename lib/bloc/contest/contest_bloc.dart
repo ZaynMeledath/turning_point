@@ -46,7 +46,7 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
                 contestModelList: contestModelResponse.data!,
                 timeList: timeList,
                 secondsLeftList: secondsLeftList,
-                entryCount: entryCount.map((e) => int.parse('$e')).toList(),
+                entryCounter: entryCount.map((e) => int.parse('$e')).toList(),
               ),
             );
             add(ContestTimerUpdateEvent());
@@ -56,7 +56,7 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
                 contestModelList: null,
                 timeList: null,
                 secondsLeftList: null,
-                entryCount: [],
+                entryCounter: [],
               ),
             );
           }
@@ -67,7 +67,7 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
             contestModelList: null,
             timeList: null,
             secondsLeftList: null,
-            entryCount: [],
+            entryCounter: [],
           ),
         );
       }
@@ -107,7 +107,7 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
               contestModelList: null,
               timeList: null,
               secondsLeftList: null,
-              entryCount: [],
+              entryCounter: [],
             ),
           );
         }
@@ -118,7 +118,7 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
               contestModelList: state.contestModelList,
               timeList: timeList,
               secondsLeftList: secondsLeftList,
-              entryCount: state.entryCount,
+              entryCounter: state.entryCounter,
             ),
           );
           await Future.delayed(const Duration(seconds: 1));
@@ -133,14 +133,14 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
     on<ContestEntryIncrementEvent>((event, emit) {
       if (profileBloc.state.userModel!.points! >=
           state.contestModelList![event.contestIndex].points! *
-              (state.entryCount[event.contestIndex] + 1)) {
-        state.entryCount[event.contestIndex] += 1;
+              (state.entryCounter[event.contestIndex] + 1)) {
+        state.entryCounter[event.contestIndex] += 1;
         emit(
           ContestLoadedState(
             contestModelList: state.contestModelList,
             timeList: state.timeList,
             secondsLeftList: state.secondsLeftList,
-            entryCount: state.entryCount,
+            entryCounter: state.entryCounter,
           ),
         );
       }
@@ -148,23 +148,24 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
 
 //====================Contest Entry Decrement Event Event====================//
     on<ContestEntryDecrementEvent>((event, emit) {
-      if (state.entryCount[event.contestIndex] > 1) {
-        state.entryCount[event.contestIndex] -= 1;
+      if (state.entryCounter[event.contestIndex] > 1) {
+        state.entryCounter[event.contestIndex] -= 1;
         emit(
           ContestLoadedState(
             contestModelList: state.contestModelList,
             timeList: state.timeList,
             secondsLeftList: state.secondsLeftList,
-            entryCount: state.entryCount,
+            entryCounter: state.entryCounter,
           ),
         );
       }
     });
 
-//====================Contest Load Again Event Event====================//
+//====================Contest Load Again Event Event (To update the contest list and entry count)====================//
     on<ContestLoadAgainEvent>((event, emit) async {
       final contestModelResponse = await ContestRepository.getContests();
-      final entryCount = [];
+      final List<int> entryCount = [];
+      //To make 1 as default value
       for (int i = 0; i < contestModelResponse.data!.length; i++) {
         entryCount.add(1);
       }
@@ -173,7 +174,7 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
           contestModelList: contestModelResponse.data,
           timeList: state.timeList,
           secondsLeftList: state.secondsLeftList,
-          entryCount: entryCount.map((e) => int.parse('$e')).toList(),
+          entryCounter: state.entryCounter,
         ),
       );
     });

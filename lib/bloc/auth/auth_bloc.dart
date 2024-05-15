@@ -30,7 +30,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           await UserRepository.getUserById(avoidGettingFromPreference: true);
           await provider.signIn();
           profileBloc.add(ProfileLoadEvent());
-          pointsBloc.add(PointsLoadEvent());
           return emit(DirectSignedInState());
         } else {
           return emit(InitialState());

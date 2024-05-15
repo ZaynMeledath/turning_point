@@ -36,7 +36,11 @@ part 'segments/redeem_upi_text_field.dart';
 part 'segments/buy_coupon_counter.dart';
 
 class RedeemScreen extends StatefulWidget {
-  const RedeemScreen({super.key});
+  final bool? navigatedFromDashboard;
+  const RedeemScreen({
+    this.navigatedFromDashboard,
+    super.key,
+  });
 
   @override
   State<RedeemScreen> createState() => _RedeemScreenState();
@@ -64,7 +68,9 @@ class _RedeemScreenState extends State<RedeemScreen> {
   void dispose() {
     super.dispose();
     redeemBloc.add(ResetStateEvent());
-    contestBloc.add(ContestTimerDisposeEvent());
+    if (widget.navigatedFromDashboard != true) {
+      contestBloc.add(ContestTimerDisposeEvent());
+    }
     pointsHistoryBloc.add(PointsHistoryLoadEvent(isReloading: true));
     upiController.dispose();
   }

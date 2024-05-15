@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -245,8 +246,9 @@ class ReelsScreenState extends State<ReelsScreen>
                           radius: screenSize.width * .056,
                           child: CircleAvatar(
                             radius: screenSize.width * .05,
-                            foregroundImage:
-                                NetworkImage(state.userModel!.image!),
+                            foregroundImage: CachedNetworkImageProvider(
+                              state.userModel!.image!,
+                            ),
                           ),
                         ),
                       ),

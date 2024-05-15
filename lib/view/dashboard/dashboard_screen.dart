@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,7 +28,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
   @override
   void initState() {
-    Future.delayed(const Duration(milliseconds: 50), () {
+    Future.delayed(const Duration(milliseconds: 1), () {
       setState(() {
         startAnimation = true;
       });
@@ -42,6 +43,13 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
+    contestBloc.add(ContestLoadEvent());
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
     super.dispose();
     contestBloc.add(ContestTimerDisposeEvent());
@@ -49,13 +57,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
   Future<void> _handleRefresh() async {
     profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
-    contestBloc.add(ContestLoadEvent());
+    contestBloc.add(ContestLoadAgainEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
-    contestBloc.add(ContestLoadEvent());
     return Scaffold(
       body: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
@@ -140,8 +146,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                         child: CircleAvatar(
                                           radius:
                                               (screenSize.height * .056) - 8,
-                                          foregroundImage: NetworkImage(
-                                              state.userModel!.image!),
+                                          foregroundImage:
+                                              CachedNetworkImageProvider(
+                                                  state.userModel!.image!),
                                         ),
                                       ),
                                     ),

@@ -30,7 +30,10 @@ Widget buyCouponContainer({
       );
     },
     child: Container(
-      margin: const EdgeInsets.only(bottom: 15, top: 5),
+      margin: EdgeInsets.only(
+        bottom: screenSize.height * .007,
+        top: screenSize.height * .007,
+      ),
       padding: EdgeInsets.symmetric(horizontal: screenSize.width * .026),
       height: screenSize.height * .096,
       decoration: BoxDecoration(
@@ -105,7 +108,7 @@ Widget buyCouponContainer({
                             contestModel: contestModel,
                             contestIndex: contestIndex,
                             entryCount:
-                                contestBloc.state.entryCount[contestIndex],
+                                contestBloc.state.entryCounter[contestIndex],
                           ),
                         );
                       },

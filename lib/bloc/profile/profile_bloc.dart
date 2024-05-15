@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart' show TextEditingController, immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
+import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/constants/constants.dart';
@@ -33,6 +34,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             reelsBloc.state.reelsModelList = reelsModelResponse.data;
             preloadBloc.add(PreloadEvent(currentIndex: 0, isInitial: true));
           }
+          pointsBloc.add(PointsLoadEvent());
 
           return emit(ProfileLoadedState(
             isLoading: false,

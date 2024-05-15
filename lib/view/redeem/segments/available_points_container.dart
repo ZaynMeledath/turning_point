@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,8 +41,8 @@ Widget availablePointsContainer() {
                     profileState.userModel!.image != null) {
                   return CircleAvatar(
                     radius: screenSize.width * .051,
-                    foregroundImage:
-                        NetworkImage(profileState.userModel!.image!),
+                    foregroundImage: CachedNetworkImageProvider(
+                        profileState.userModel!.image!),
                   );
                 } else {
                   return CupertinoActivityIndicator(
