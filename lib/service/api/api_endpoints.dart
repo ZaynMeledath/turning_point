@@ -33,4 +33,5 @@ class ApiEndpoints {
   static const applyReferralReward = '$baseUrl/users/applyReward';
   static const getAllCarpentersByContractorName =
       '$baseUrl/users/getAllCarpentersByContractorName';
+  static const checkRefCode = '$baseUrl/users/checkRefCode';
 }

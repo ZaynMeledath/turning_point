@@ -36,9 +36,11 @@ class NotificationController {
               child: const KycScreen(),
             );
           });
-      }
+          break;
 
-      if (notificationType == 'luckydraw') {}
+        default:
+          break;
+      }
     }
   }
 }

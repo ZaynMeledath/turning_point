@@ -10,14 +10,20 @@ import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/utils/widget/custom_loading.dart';
 import 'package:turning_point/utils/widget/my_app_bar.dart';
 import 'package:turning_point/utils/screen_size.dart';
+import 'package:turning_point/view/kyc/kyc_rejected_screen.dart';
 import 'package:turning_point/view/kyc/kyc_submitted_screen.dart';
+import 'package:turning_point/view/kyc/kyc_verified_screen.dart';
 import 'package:turning_point/view/kyc/segments/kyc_bank_details.dart';
 import 'package:turning_point/view/kyc/segments/kyc_id_proof.dart';
 import 'package:turning_point/view/kyc/segments/kyc_page_title.dart';
 import 'package:turning_point/view/kyc/segments/kyc_personal_details.dart';
 
 class KycScreen extends StatefulWidget {
-  const KycScreen({super.key});
+  final bool? avoidStatusCheck;
+  const KycScreen({
+    this.avoidStatusCheck,
+    super.key,
+  });
 
   @override
   State<KycScreen> createState() => _KycScreenState();
@@ -58,6 +64,10 @@ class _KycScreenState extends State<KycScreen>
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }
+    kycBloc.add(KycLoadEvent(
+      tabIndex: 0,
+      avoidStatusCheck: widget.avoidStatusCheck,
+    ));
     super.didChangeDependencies();
   }
 
@@ -77,7 +87,6 @@ class _KycScreenState extends State<KycScreen>
 
   @override
   Widget build(BuildContext context) {
-    kycBloc.add(KycLoadEvent(tabIndex: 0));
     return BlocConsumer<KycBloc, KycState>(
       listener: (context, state) {
         if (state is KycLoadedState) {
@@ -89,7 +98,8 @@ class _KycScreenState extends State<KycScreen>
             closeDialogHandle != null) {
           Navigator.pop(context);
           closeDialogHandle = null;
-        } else if (state is! KycSubmittedState) {
+        }
+        if (state is! KycSubmittedState) {
           Navigator.pop(context);
           closeDialogHandle = null;
         }
@@ -115,22 +125,36 @@ class _KycScreenState extends State<KycScreen>
 
           //====================Submitted State====================//
           case KycSubmittedState():
-            Navigator.pop(context);
+            if (closeDialogHandle != null) {
+              closeDialogHandle = null;
+              Navigator.pop(context);
+            }
             return const KycSubmittedScreen();
+
+          //====================Verified State====================//
+          case KycVerifiedState():
+            return const KycVerifiedScreen();
+
+          //====================Rejected State====================//
+          case KycRejectedState():
+            return const KycRejectedScreen();
 
           //====================Loaded State====================//
           case KycLoadedState():
-            nameController.text = state.name!;
-            phoneController.text = state.phone!;
-            emailController.text = state.email!;
-            pinController.text = state.pincode!;
-            if (profileBloc.state.userModel!.bankDetails != null &&
-                profileBloc.state.userModel!.bankDetails!.isNotEmpty &&
-                _tabController.index < 2) {
-              final bankDetails = profileBloc.state.userModel!.bankDetails![0];
-              accNameController.text = bankDetails.accountName!;
-              accNumController.text = bankDetails.accountNo!;
-              ifscController.text = bankDetails.ifsc!;
+            if (!state.isLoading) {
+              nameController.text = state.name!;
+              phoneController.text = state.phone!;
+              emailController.text = state.email!;
+              pinController.text = state.pincode!;
+              if (profileBloc.state.userModel!.bankDetails != null &&
+                  profileBloc.state.userModel!.bankDetails!.isNotEmpty &&
+                  _tabController.index < 2) {
+                final bankDetails =
+                    profileBloc.state.userModel!.bankDetails![0];
+                accNameController.text = bankDetails.accountName!;
+                accNumController.text = bankDetails.accountNo!;
+                ifscController.text = bankDetails.ifsc!;
+              }
             }
             return Scaffold(
               appBar: myAppBar(
@@ -300,10 +324,6 @@ class _KycScreenState extends State<KycScreen>
                             if (shouldUpdate == true) {
                               kycBloc.add(
                                 KycUpdateEvent(
-                                  name: nameController.text,
-                                  phone: phoneController.text,
-                                  email: emailController.text,
-                                  pincode: pinController.text,
                                   isSavings: state.isSavings,
                                   accName: accNameController.text,
                                   accNum: accNumController.text,

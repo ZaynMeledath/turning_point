@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:turning_point/bloc/profile/profile_bloc.dart';
-import 'package:turning_point/constants/constants.dart';
+import 'package:flutter/widgets.dart';
 import 'package:turning_point/utils/custom_navigator.dart';
 import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/view/about/about_us_screen.dart';
 import 'package:turning_point/view/contest/contest_screen.dart';
-import 'package:turning_point/view/kyc/kyc_rejected_screen.dart';
 import 'package:turning_point/view/kyc/kyc_screen.dart';
-import 'package:turning_point/view/kyc/kyc_submitted_screen.dart';
-import 'package:turning_point/view/kyc/kyc_verified_screen.dart';
 import 'package:turning_point/view/points/points_screen.dart';
 import 'package:turning_point/view/privacy_policy/privacy_policy_screen.dart';
 import 'package:turning_point/view/profile/segments/profile_option.dart';
@@ -56,45 +51,62 @@ Widget profileOptionsSegment({
       ),
 
 //====================KYC====================//
-      BlocBuilder<ProfileBloc, ProfileState>(
-        builder: (context, state) {
-          return GestureDetector(
-            onTap: () {
-              profileBloc
-                  .add(ProfileLoadEvent(avoidGettingFromPreference: true));
-              if (state.userModel!.kycStatus == null ||
-                  state.userModel!.kycStatus == KycStatus.PENDING) {
-                CustomNavigator.push(
-                  context: context,
-                  child: const KycScreen(),
-                );
-              } else if (state.userModel!.kycStatus == KycStatus.SUBMITTED) {
-                CustomNavigator.push(
-                  context: context,
-                  child: const KycSubmittedScreen(),
-                );
-              } else if (state.userModel!.kycStatus == KycStatus.APPROVED) {
-                CustomNavigator.push(
-                  context: context,
-                  child: const KycVerifiedScreen(),
-                );
-              } else if (state.userModel!.kycStatus == KycStatus.REJECTED) {
-                CustomNavigator.push(
-                  context: context,
-                  child: const KycRejectedScreen(),
-                );
-              }
-            },
-            child: profileOption(
-              screenSize: screenSize,
-              iconPath: 'assets/icons/kyc_icon.png',
-              title: 'KYC',
-              containerColor: const Color.fromRGBO(216, 255, 210, 1),
-              containerPadding: screenSize.width * .01,
-            ),
+
+      GestureDetector(
+        onTap: () {
+          CustomNavigator.push(
+            context: context,
+            child: const KycScreen(),
           );
         },
+        child: profileOption(
+          screenSize: screenSize,
+          iconPath: 'assets/icons/kyc_icon.png',
+          title: 'KYC',
+          containerColor: const Color.fromRGBO(216, 255, 210, 1),
+          containerPadding: screenSize.width * .01,
+        ),
       ),
+
+      // BlocBuilder<ProfileBloc, ProfileState>(
+      //   builder: (context, state) {
+      //     return GestureDetector(
+      //       onTap: () {
+      //         profileBloc
+      //             .add(ProfileLoadEvent(avoidGettingFromPreference: true));
+      //         if (state.userModel!.kycStatus == null ||
+      //             state.userModel!.kycStatus == KycStatus.PENDING) {
+      //           CustomNavigator.push(
+      //             context: context,
+      //             child: const KycScreen(),
+      //           );
+      //         } else if (state.userModel!.kycStatus == KycStatus.SUBMITTED) {
+      //           CustomNavigator.push(
+      //             context: context,
+      //             child: const KycSubmittedScreen(),
+      //           );
+      //         } else if (state.userModel!.kycStatus == KycStatus.APPROVED) {
+      //           CustomNavigator.push(
+      //             context: context,
+      //             child: const KycVerifiedScreen(),
+      //           );
+      //         } else if (state.userModel!.kycStatus == KycStatus.REJECTED) {
+      //           CustomNavigator.push(
+      //             context: context,
+      //             child: const KycRejectedScreen(),
+      //           );
+      //         }
+      //       },
+      //       child: profileOption(
+      //         screenSize: screenSize,
+      //         iconPath: 'assets/icons/kyc_icon.png',
+      //         title: 'KYC',
+      //         containerColor: const Color.fromRGBO(216, 255, 210, 1),
+      //         containerPadding: screenSize.width * .01,
+      //       ),
+      //     );
+      //   },
+      // ),
 
 //====================Privacy & Policy====================//
       GestureDetector(

@@ -295,6 +295,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 final status =
                                     _formKey.currentState!.validate();
                                 if (status) {
+                                  //If Contractor not listed is set true
                                   if (contractorState.contractorNotListed ==
                                       true) {
                                     showLoadingDialog(context: context);
@@ -313,7 +314,52 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         buttons: {'OK': null},
                                       );
                                     } else {
-                                      Navigator.pop(context);
+                                      if (referralController.text
+                                          .trim()
+                                          .isNotEmpty) {
+                                        final isRefCodeValid =
+                                            await UserRepository.checkRefCode(
+                                          referralController.text.trim(),
+                                        );
+                                        Navigator.pop(context);
+                                        if (isRefCodeValid) {
+                                          CustomNavigator.push(
+                                            context: context,
+                                            child: AddContractorDetailsScreen(
+                                              phone:
+                                                  phoneController.text.trim(),
+                                              otpController: otpController,
+                                              location: location,
+                                              refCode: referralController.text
+                                                  .trim(),
+                                            ),
+                                          );
+                                        } else {
+                                          showAnimatedGenericDialog(
+                                            context: context,
+                                            iconPath:
+                                                'assets/icons/kyc_declined_icon.png',
+                                            title: 'Invalid Referral Code',
+                                            content:
+                                                'Please check the referral code you entered',
+                                            buttons: {'OK': null},
+                                          );
+                                        }
+                                        return;
+                                      }
+                                    }
+                                    return;
+                                  }
+                                  if (referralController.text
+                                      .trim()
+                                      .isNotEmpty) {
+                                    showLoadingDialog(context: context);
+                                    final isRefCodeValid =
+                                        await UserRepository.checkRefCode(
+                                      referralController.text.trim(),
+                                    );
+                                    Navigator.pop(context);
+                                    if (isRefCodeValid) {
                                       CustomNavigator.push(
                                         context: context,
                                         child: AddContractorDetailsScreen(
@@ -323,6 +369,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           refCode:
                                               referralController.text.trim(),
                                         ),
+                                      );
+                                    } else {
+                                      showAnimatedGenericDialog(
+                                        context: context,
+                                        iconPath:
+                                            'assets/icons/kyc_declined_icon.png',
+                                        title: 'Invalid Referral Code',
+                                        content:
+                                            'Please check the referral code you entered',
+                                        buttons: {'OK': null},
                                       );
                                     }
                                     return;

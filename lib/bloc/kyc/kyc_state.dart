@@ -61,17 +61,42 @@ class KycLoadedState extends KycState {
 }
 
 class KycSubmittedState extends KycState {
-  const KycSubmittedState()
-      : super(
-          name: null,
-          email: null,
-          phone: null,
-          pincode: null,
-          isSavings: true,
-          idFrontImage: null,
-          idBackImage: null,
-          selfie: null,
-        );
+  const KycSubmittedState({
+    required super.name,
+    required super.phone,
+    required super.email,
+    required super.pincode,
+    required super.isSavings,
+    required super.idFrontImage,
+    required super.idBackImage,
+    required super.selfie,
+  });
+}
+
+class KycVerifiedState extends KycState {
+  const KycVerifiedState({
+    required super.name,
+    required super.phone,
+    required super.email,
+    required super.pincode,
+    required super.isSavings,
+    required super.idFrontImage,
+    required super.idBackImage,
+    required super.selfie,
+  });
+}
+
+class KycRejectedState extends KycState {
+  const KycRejectedState({
+    required super.name,
+    required super.phone,
+    required super.email,
+    required super.pincode,
+    required super.isSavings,
+    required super.idFrontImage,
+    required super.idBackImage,
+    required super.selfie,
+  });
 }
 
 class KycErrorState extends KycState {

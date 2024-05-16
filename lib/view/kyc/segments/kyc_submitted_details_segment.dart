@@ -186,7 +186,7 @@ Widget kycSubmittedDetailsSegment({required BuildContext context}) {
                 onTap: () {
                   CustomNavigator.pushReplacement(
                     context: context,
-                    child: const KycScreen(),
+                    child: const KycScreen(avoidStatusCheck: true),
                   );
                 },
                 child: Container(
@@ -219,7 +219,7 @@ Widget kycSubmittedDetailsSegment({required BuildContext context}) {
           padding:
               EdgeInsets.symmetric(horizontal: realScreenSize.width * .008),
           child: Text(
-            'ID Card Image',
+            'ID Card Image and Selfie',
             style: GoogleFonts.roboto(
               fontSize: screenSize.width * .035,
               fontWeight: FontWeight.w500,
@@ -250,6 +250,19 @@ Widget kycSubmittedDetailsSegment({required BuildContext context}) {
               ),
             ),
           ],
+        ),
+        SizedBox(height: screenSize.height * .015),
+        Center(
+          child: SizedBox(
+            width: screenSize.width * .4,
+            child: AspectRatio(
+              aspectRatio: 4 / 3,
+              child: Image.network(
+                '${ApiEndpoints.uploads}/${userModel.selfie.toString()}',
+                // width: screenSize.width * .4,
+              ),
+            ),
+          ),
         ),
         SizedBox(height: screenSize.height * .015),
       ],

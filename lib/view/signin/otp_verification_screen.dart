@@ -162,11 +162,12 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
               ),
 
               //====================Illustration====================//
-              Positioned(
-                top: screenSize.height * .16,
+              SingleChildScrollView(
+                reverse: true,
                 child: Center(
                   child: Column(
                     children: [
+                      SizedBox(height: screenSize.height * .18),
                       Image.asset(
                         'assets/images/otp_screen_image.png',
                         height: screenSize.height * .28,
@@ -233,6 +234,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
 
                       //====================Resend OTP====================//
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             "Didn't Receive the OTP?  ",
@@ -281,7 +283,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                             ),
                         ],
                       ),
-                      SizedBox(height: screenSize.height * .08),
+                      SizedBox(
+                        height: MediaQuery.of(context).viewInsets.bottom != 0
+                            ? screenSize.height * .04
+                            : screenSize.height * .08,
+                      ),
 
                       //====================Verify Button====================//
                       BlocBuilder<AuthBloc, AuthState>(
@@ -327,6 +333,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                           );
                         },
                       ),
+                      SizedBox(height: screenSize.height * .01),
                     ],
                   ),
                 ),

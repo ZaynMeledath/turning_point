@@ -322,6 +322,22 @@ class UserRepository {
   }
 
 //=====================Get Referral Report====================//
+  static Future<bool> checkRefCode(String refCode) async {
+    try {
+      final response = await ApiService().sendRequest(
+        url: ApiEndpoints.checkRefCode,
+        requestMethod: RequestMethod.POST,
+        data: {'refCode': refCode},
+        isTokenRequired: true,
+      );
+
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+//=====================Get Referral Report====================//
   static Future<ReferralModelResponse?> getReferralReport() async {
     final id = decodeJwt()['userId'];
     final response = await ApiService().sendRequest(
