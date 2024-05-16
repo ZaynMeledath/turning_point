@@ -6,9 +6,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
-import 'package:turning_point/helper/custom_navigator.dart';
-import 'package:turning_point/helper/flight_shuttle.dart';
-import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/utils/custom_navigator.dart';
+import 'package:turning_point/utils/flight_shuttle.dart';
+import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/view/signin/sign_in_screen.dart';
 
 class FirstBoardingScreen extends StatefulWidget {

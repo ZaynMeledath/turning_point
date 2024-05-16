@@ -28,10 +28,11 @@ import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/redeem/redeem_bloc.dart';
 import 'package:turning_point/bloc/settings/settings_bloc.dart';
 import 'package:turning_point/firebase_options.dart';
-import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/service/notification/awesome_notification_controller.dart';
 import 'package:turning_point/view/contest/contest_screen.dart';
+
 import 'package:turning_point/view/splash/splash_screen.dart';
 
 final GlobalKey<NavigatorState> globalNavigatorKey =

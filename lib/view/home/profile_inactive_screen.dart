@@ -8,7 +8,7 @@ import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/dialog/show_loading_dialog.dart';
-import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/view/home/home_screen.dart';
 

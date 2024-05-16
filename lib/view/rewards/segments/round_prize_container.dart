@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/utils/screen_size.dart';
 
 //====================For The First Three Prizes====================//
 Widget roundPrizeContainer({

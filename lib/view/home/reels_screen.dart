@@ -11,9 +11,9 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
-import 'package:turning_point/helper/custom_navigator.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_loading.dart';
+import 'package:turning_point/utils/custom_navigator.dart';
+import 'package:turning_point/utils/screen_size.dart';
+import 'package:turning_point/utils/widget/custom_loading.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/resources/reels_repository.dart';
 import 'package:turning_point/view/home/profile_inactive_screen.dart';
@@ -30,13 +30,14 @@ class ReelsScreen extends StatefulWidget {
 }
 
 class ReelsScreenState extends State<ReelsScreen>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   static late AnimationController likeAnimationController;
   static late Animation<double> likeAnimation;
 
   @override
   void initState() {
     log('${AppPreferences.getValueShared('auth_token')}');
+    WidgetsBinding.instance.addObserver(this);
 
     likeAnimationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 200));

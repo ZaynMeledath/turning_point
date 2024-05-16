@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/helper/flight_shuttle.dart';
-import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/utils/flight_shuttle.dart';
+import 'package:turning_point/utils/screen_size.dart';
 
 AppBar myAppBar({
   required BuildContext context,
