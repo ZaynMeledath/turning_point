@@ -108,6 +108,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
 
     on<PreloadResetEvent>((event, emit) {
       pageIndex = 1;
+      manuallyPaused = false;
       ReelsRepository.urlList.clear();
       disposeAllControllers();
       return emit(PreloadState.initial());

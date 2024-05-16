@@ -30,14 +30,13 @@ class ReelsScreen extends StatefulWidget {
 }
 
 class ReelsScreenState extends State<ReelsScreen>
-    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
+    with SingleTickerProviderStateMixin {
   static late AnimationController likeAnimationController;
   static late Animation<double> likeAnimation;
 
   @override
   void initState() {
     log('${AppPreferences.getValueShared('auth_token')}');
-    WidgetsBinding.instance.addObserver(this);
 
     likeAnimationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 200));
