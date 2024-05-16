@@ -8,6 +8,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:stacked_card_carousel/stacked_card_carousel.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
 import 'package:turning_point/bloc/contest/join_contest_bloc.dart';
+import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
@@ -38,6 +39,10 @@ class _ContestScreenState extends State<ContestScreen> {
 
   @override
   void didChangeDependencies() {
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
+    if (preloadBloc.state.controllers.isNotEmpty) {
+      preloadBloc.pauseCurrentController();
+    }
     contestBloc.add(ContestLoadEvent());
     profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
     super.didChangeDependencies();

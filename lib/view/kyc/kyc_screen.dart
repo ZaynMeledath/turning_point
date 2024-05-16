@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:turning_point/bloc/kyc/kyc_bloc.dart';
+import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/dialog/show_kyc_update_dialog.dart';
 import 'package:turning_point/dialog/show_loading_dialog.dart';
@@ -49,6 +50,15 @@ class _KycScreenState extends State<KycScreen>
     ifscController = TextEditingController();
     _tabController = TabController(length: 3, vsync: this);
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
+    if (preloadBloc.state.controllers.isNotEmpty) {
+      preloadBloc.pauseCurrentController();
+    }
+    super.didChangeDependencies();
   }
 
   @override
