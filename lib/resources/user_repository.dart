@@ -102,10 +102,10 @@ class UserRepository {
           "idToken": token,
           "fcmToken": fcmToken,
           "refCode": refCode,
-          if (location != null)
-            "address": {
-              "coordinates": [location.latitude, location.longitude]
-            },
+          // if (location != null)
+          //   "address": {
+          //     "coordinates": [location.latitude, location.longitude]
+          //   },
         },
         requestMethod: RequestMethod.POST,
         isTokenRequired: false,
