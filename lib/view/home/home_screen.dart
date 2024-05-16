@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/home/home_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/dialog/show_connect_dialog.dart';
+import 'package:turning_point/service/notification/notification_controller.dart';
 import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/utils/widget/custom_loading.dart';
 import 'package:turning_point/resources/user_repository.dart';
@@ -32,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       UserRepository.updateUserOnlineStatus(isOnline: true);
+      NotificationController.navigateOnNotification(context);
     } else {
       UserRepository.updateUserOnlineStatus(isOnline: false);
     }

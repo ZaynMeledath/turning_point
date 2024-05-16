@@ -8,11 +8,13 @@ class KycLoadEvent extends KycEvent {
   final String? name;
   final String? email;
   final String? pincode;
+  final bool? isInitial;
   KycLoadEvent({
     required this.tabIndex,
     this.name,
     this.email,
     this.pincode,
+    this.isInitial,
   });
 }
 

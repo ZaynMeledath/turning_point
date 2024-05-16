@@ -5,7 +5,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:turning_point/bloc/carpenter/carpenter_bloc.dart';
 import 'package:turning_point/bloc/connect/connect_bloc.dart';
@@ -31,8 +30,6 @@ import 'package:turning_point/firebase_options.dart';
 import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/service/notification/awesome_notification_controller.dart';
-import 'package:turning_point/view/contest/contest_screen.dart';
-
 import 'package:turning_point/view/splash/splash_screen.dart';
 
 final GlobalKey<NavigatorState> globalNavigatorKey =
@@ -91,13 +88,14 @@ void main() async {
   // }
 
   AwesomeNotifications().setListeners(
-    onActionReceivedMethod: NotificationController.onActionReceivedMethod,
+    onActionReceivedMethod:
+        AwesomeNotificationController.onActionReceivedMethod,
     onNotificationCreatedMethod:
-        NotificationController.onNotificationCreatedMethod,
+        AwesomeNotificationController.onNotificationCreatedMethod,
     onNotificationDisplayedMethod:
-        NotificationController.onNotificationDisplayedMethod,
+        AwesomeNotificationController.onNotificationDisplayedMethod,
     onDismissActionReceivedMethod:
-        NotificationController.onDismissActionReceivedMethod,
+        AwesomeNotificationController.onDismissActionReceivedMethod,
   );
 
   SystemChrome.setPreferredOrientations([
@@ -121,15 +119,24 @@ Future<void> _firebasePushHandler(RemoteMessage message) async {
 }
 
 void _handleFirebaseMessage(RemoteMessage message) {
-  // if (message.data['type'] == 'chat') {
-  globalNavigatorKey.currentState!.push(
-    PageTransition(
-      child: const ContestScreen(),
-      type: PageTransitionType.scale,
-      alignment: Alignment.center,
-    ),
-  );
-  // }
+  if (message.notification != null) {
+    switch (message.data['type']) {
+      case 'luckydraw':
+        AppPreferences.addSharedPreference(
+          key: 'notification_type',
+          value: 'luckydraw',
+        );
+        break;
+      case 'kyc':
+        AppPreferences.addSharedPreference(
+          key: 'notification_type',
+          value: 'kyc',
+        );
+        break;
+      default:
+        break;
+    }
+  }
 }
 
 class MyApp extends StatelessWidget {
