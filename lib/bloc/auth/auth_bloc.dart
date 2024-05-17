@@ -85,7 +85,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           const AuthLoadingState(),
         );
         try {
-          //avoid all the checks because it's already done
+          //avoid all the checks if it's already done
           if (event.avoidChecks != true) {
             final phoneExists =
                 await UserRepository.checkPhoneNumber(event.phone);
@@ -216,30 +216,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       } catch (e) {
         log('EXCEPTION IN RESEND OTP EVENT : $e');
-      }
-    });
-
-//====================Phone Check Event====================//
-    on<PhoneAndRefCheckEvent>((event, emit) async {
-      final phoneExists = await UserRepository.checkPhoneNumber(event.phone);
-      if (phoneExists) {
-        return emit(PhoneNumberExistsState());
-      } else {
-        add(ReferralCheckEvent(refCode: event.refCode));
-      }
-    });
-
-//====================Referral Check Event====================//
-    on<ReferralCheckEvent>((event, emit) async {
-      if (event.refCode != null && event.refCode!.isNotEmpty) {
-        final isRefCodeValid = await UserRepository.checkRefCode(
-          event.refCode!,
-        );
-        if (isRefCodeValid) {
-          return emit(ValidReferralCodeState());
-        } else {
-          return emit(InvalidReferralCodeState());
-        }
       }
     });
 

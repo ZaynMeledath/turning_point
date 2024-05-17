@@ -52,18 +52,4 @@ class ResendOtpEvent extends AuthEvent {
   });
 }
 
-class PhoneAndRefCheckEvent extends AuthEvent {
-  final String phone;
-  final String? refCode;
-  PhoneAndRefCheckEvent({
-    required this.phone,
-    required this.refCode,
-  });
-}
-
-class ReferralCheckEvent extends AuthEvent {
-  final String? refCode;
-  ReferralCheckEvent({required this.refCode});
-}
-
 class SignOutEvent extends AuthEvent {}
