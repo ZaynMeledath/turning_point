@@ -145,6 +145,7 @@ class _AddContractorDetailsScreenState
                             businessName: null,
                             otpController: widget.otpController,
                             refCode: widget.refCode,
+                            avoidChecks: true,
                           ),
                         );
                       }

@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart' show TextEditingController, immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/model/contractor_model.dart';
@@ -84,29 +85,47 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           const AuthLoadingState(),
         );
         try {
-          final phoneExists =
-              await UserRepository.checkPhoneNumber(event.phone);
+          //avoid all the checks because it's already done
+          if (event.avoidChecks != true) {
+            final phoneExists =
+                await UserRepository.checkPhoneNumber(event.phone);
+            if (phoneExists) {
+              return emit(PhoneNumberExistsState());
+            } else {
+              if (event.refCode != null && event.refCode!.isNotEmpty) {
+                final isRefCodeValid =
+                    await UserRepository.checkRefCode(event.refCode!);
+                if (!isRefCodeValid) {
+                  return emit(InvalidReferralCodeState());
+                }
+              }
+            }
 
-          if (phoneExists) {
-            return emit(PhoneNumberExistsState());
-          } else {
-            emit(
-              OtpVerificationNeededState(
-                phone: event.phone,
-                businessName: event.businessName,
-                contractor: event.contractor,
-                refCode: event.refCode,
-              ),
-            );
-            await provider.sendPhoneVerification(
-              phone: event.phone,
-              otpController: event.otpController,
-            );
+            if (contractorBloc.state.contractorNotListed == true) {
+              return emit(AddContractorDetailsState());
+            }
           }
+
+          emit(
+            OtpVerificationNeededState(
+              phone: event.phone,
+              businessName: event.businessName,
+              contractor: event.contractor,
+              refCode: event.refCode,
+            ),
+          );
+          await provider.sendPhoneVerification(
+            phone: event.phone,
+            otpController: event.otpController,
+          );
         } on FirebaseAuthException catch (e) {
-          emit(SignUpState(exception: e));
-        } catch (e) {
-          throw Exception(e);
+          return emit(SignUpState(exception: e));
+        } catch (_) {
+          return emit(
+            const AuthErrorState(
+                message:
+                    'Something went wrong while accessing\nthe server. Please try after sometime'),
+          );
         }
       },
     );
@@ -197,6 +216,30 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       } catch (e) {
         log('EXCEPTION IN RESEND OTP EVENT : $e');
+      }
+    });
+
+//====================Phone Check Event====================//
+    on<PhoneAndRefCheckEvent>((event, emit) async {
+      final phoneExists = await UserRepository.checkPhoneNumber(event.phone);
+      if (phoneExists) {
+        return emit(PhoneNumberExistsState());
+      } else {
+        add(ReferralCheckEvent(refCode: event.refCode));
+      }
+    });
+
+//====================Referral Check Event====================//
+    on<ReferralCheckEvent>((event, emit) async {
+      if (event.refCode != null && event.refCode!.isNotEmpty) {
+        final isRefCodeValid = await UserRepository.checkRefCode(
+          event.refCode!,
+        );
+        if (isRefCodeValid) {
+          return emit(ValidReferralCodeState());
+        } else {
+          return emit(InvalidReferralCodeState());
+        }
       }
     });
 

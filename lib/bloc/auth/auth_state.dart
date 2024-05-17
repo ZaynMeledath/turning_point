@@ -57,6 +57,12 @@ class SignUpState extends AuthState {
 
 class PhoneNumberExistsState extends AuthState {}
 
+class InvalidReferralCodeState extends AuthState {}
+
+class ValidReferralCodeState extends AuthState {}
+
+class AddContractorDetailsState extends AuthState {}
+
 class ProfileInactiveState extends AuthState {}
 
 class AuthErrorState extends AuthState {

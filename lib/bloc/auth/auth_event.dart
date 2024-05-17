@@ -16,12 +16,14 @@ class SignUpEvent extends AuthEvent {
   final String? businessName;
   final String? refCode;
   final TextEditingController otpController;
+  final bool? avoidChecks;
   SignUpEvent({
     required this.phone,
     this.contractor,
     this.businessName,
     required this.refCode,
     required this.otpController,
+    this.avoidChecks,
   });
 }
 
@@ -48,6 +50,20 @@ class ResendOtpEvent extends AuthEvent {
     required this.phone,
     required this.otpController,
   });
+}
+
+class PhoneAndRefCheckEvent extends AuthEvent {
+  final String phone;
+  final String? refCode;
+  PhoneAndRefCheckEvent({
+    required this.phone,
+    required this.refCode,
+  });
+}
+
+class ReferralCheckEvent extends AuthEvent {
+  final String? refCode;
+  ReferralCheckEvent({required this.refCode});
 }
 
 class SignOutEvent extends AuthEvent {}
