@@ -30,9 +30,9 @@ class JoinContestBloc extends Bloc<JoinContestEvent, JoinContestState> {
                 .add(PointsLoadEvent(avoidGettingUserFromPreference: true));
             contestBloc.add(ContestLoadAgainEvent());
 
-            emit(ContestJoinedState(event.contestModel));
+            return emit(ContestJoinedState(event.contestModel));
           } else {
-            emit(
+            return emit(
               JoinContestErrorState(
                 InsufficientBalanceToJoinContestException(),
               ),

@@ -115,6 +115,7 @@ class _RedeemScreenState extends State<RedeemScreen> {
             listener: (context, state) {
               switch (state) {
                 case BuyCouponsState():
+                  break;
                 case BankTransferState():
                 case UpiTransferState():
                   if (state.isLoading && closeDialogHandle == null) {
@@ -149,7 +150,8 @@ class _RedeemScreenState extends State<RedeemScreen> {
                   return BlocListener<JoinContestBloc, JoinContestState>(
                     listener: (context, joinContestState) {
                       if (joinContestState is JoinContestLoadingState &&
-                          closeDialogHandle == null) {
+                          closeDialogHandle == null &&
+                          widget.navigatedFromDashboard != true) {
                         closeDialogHandle = showLoadingDialog(context: context);
                       }
                       if (joinContestState is! JoinContestLoadingState &&
@@ -158,7 +160,8 @@ class _RedeemScreenState extends State<RedeemScreen> {
                         Navigator.pop(context);
                       }
 
-                      if (joinContestState is ContestJoinedState) {
+                      if (joinContestState is ContestJoinedState &&
+                          widget.navigatedFromDashboard != true) {
                         showAnimatedGenericDialog(
                           context: context,
                           iconPath:
@@ -168,7 +171,8 @@ class _RedeemScreenState extends State<RedeemScreen> {
                               'You have Successfully joined\n${joinContestState.contestModel.name}',
                           buttons: {'Done': null},
                         );
-                      } else if (joinContestState is JoinContestErrorState) {
+                      } else if (joinContestState is JoinContestErrorState &&
+                          widget.navigatedFromDashboard != true) {
                         switch (joinContestState.exception) {
                           case InsufficientBalanceToJoinContestException():
                             showAnimatedGenericDialog(
