@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart' show TextEditingController, immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
@@ -26,11 +27,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(const AuthLoadingState());
         await provider.initialize();
         final userFromPreference = UserRepository.getUserFromPreference();
-        await Future.delayed(const Duration(milliseconds: 20));
+        await Future.delayed(Duration.zero);
         if (userFromPreference != null) {
           if (provider.currentUser == null) {
             await provider.signIn();
           }
+          await DefaultCacheManager().emptyCache();
+
           profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
           return emit(DirectSignedInState());
         } else {
