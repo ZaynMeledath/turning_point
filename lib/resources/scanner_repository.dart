@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:turning_point/model/coupon_model.dart';
 import 'package:turning_point/service/Exception/scanner_exceptions.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
@@ -12,7 +14,7 @@ class ScannerRepository {
     try {
       final response = await ApiService().sendRequest(
         url: '${ApiEndpoints.applyCoupon}/$couponId',
-        requestMethod: RequestMethod.POST,
+        requestMethod: RequestMethod.GET,
         data: null,
         // {
         //   'latitude': location.latitude,
@@ -21,7 +23,8 @@ class ScannerRepository {
         isTokenRequired: true,
       );
       return CouponModel.fromJson(response);
-    } on BadRequestException {
+    } on BadRequestException catch (e) {
+      log(e.toString());
       throw CouponAlreadyAppliedException();
     } on NotFoundException {
       throw CouponNotFoundException();
