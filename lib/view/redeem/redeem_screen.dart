@@ -12,7 +12,6 @@ import 'package:turning_point/bloc/redeem/redeem_bloc.dart';
 import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/utils/widget/custom_loading.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
-import 'package:turning_point/dialog/show_coupon_generate_dialog.dart';
 import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/utils/widget/my_app_bar.dart';
 import 'package:turning_point/utils/screen_size.dart';
@@ -116,14 +115,6 @@ class _RedeemScreenState extends State<RedeemScreen> {
             listener: (context, state) {
               switch (state) {
                 case BuyCouponsState():
-                  if (state.isLoading && closeDialogHandle == null) {
-                    closeDialogHandle =
-                        showCouponGenerateDialog(context: context);
-                  } else if (!state.isLoading && closeDialogHandle != null) {
-                    Navigator.pop(context);
-                    closeDialogHandle = null;
-                  }
-                  break;
                 case BankTransferState():
                 case UpiTransferState():
                   if (state.isLoading && closeDialogHandle == null) {
@@ -178,8 +169,6 @@ class _RedeemScreenState extends State<RedeemScreen> {
                           buttons: {'Done': null},
                         );
                       } else if (joinContestState is JoinContestErrorState) {
-                        Navigator.pop(context);
-                        closeDialogHandle = null;
                         switch (joinContestState.exception) {
                           case InsufficientBalanceToJoinContestException():
                             showAnimatedGenericDialog(

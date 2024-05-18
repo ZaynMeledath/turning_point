@@ -26,11 +26,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(const AuthLoadingState());
         await provider.initialize();
         final userFromPreference = UserRepository.getUserFromPreference();
-        await Future.delayed(const Duration(milliseconds: 50));
+        await Future.delayed(const Duration(milliseconds: 20));
         if (userFromPreference != null) {
-          await provider.signIn();
-          await UserRepository.getUserById(avoidGettingFromPreference: true);
-          profileBloc.add(ProfileLoadEvent());
+          if (provider.currentUser == null) {
+            await provider.signIn();
+          }
+          profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
           return emit(DirectSignedInState());
         } else {
           return emit(InitialState());

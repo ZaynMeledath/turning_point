@@ -66,6 +66,11 @@ class _ReelsPlayerState extends State<ReelsPlayer>
           animationController.reverse();
           preloadBloc.manuallyPaused = false;
         }
+        if (value.isInitialized &&
+            !preloadBloc.manuallyPaused &&
+            !value.isPlaying) {
+          widget.videoController.play();
+        }
         return Stack(
           alignment: Alignment.center,
           children: [

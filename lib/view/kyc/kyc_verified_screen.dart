@@ -25,7 +25,6 @@ class KycVerifiedScreen extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(height: screenSize.height * .005),
                     Lottie.asset(
                       'assets/lottie/kyc_verified_animation.json',
                       width: screenSize.width * .3,

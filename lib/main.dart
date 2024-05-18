@@ -5,7 +5,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:turning_point/bloc/carpenter/carpenter_bloc.dart';
 import 'package:turning_point/bloc/connect/connect_bloc.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
@@ -27,6 +26,8 @@ import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/redeem/redeem_bloc.dart';
 import 'package:turning_point/bloc/settings/settings_bloc.dart';
 import 'package:turning_point/firebase_options.dart';
+import 'package:turning_point/resources/contest_repository.dart';
+import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/service/notification/awesome_notification_controller.dart';
@@ -79,9 +80,9 @@ void main() async {
     await AwesomeNotifications().requestPermissionToSendNotifications();
   }
 
-  if (!await Permission.location.isGranted) {
-    await Permission.location.request();
-  }
+  // if (!await Permission.location.isGranted) {
+  //   await Permission.location.request();
+  // }
 
   // if (!await Permission.locationAlways.isGranted) {
   //   await Permission.locationAlways.request();
@@ -115,6 +116,16 @@ Future<void> _firebasePushHandler(RemoteMessage message) async {
         body: message.notification!.body,
       ),
     );
+
+//To ensure that the data is up to date
+    switch (message.data['type']) {
+      case 'luckydraw':
+        await ContestRepository.getContests();
+        break;
+      case 'kyc':
+        await UserRepository.getUserById(avoidGettingFromPreference: true);
+        break;
+    }
   }
 }
 

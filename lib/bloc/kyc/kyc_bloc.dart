@@ -17,14 +17,21 @@ class KycBloc extends Bloc<KycEvent, KycState> {
     on<KycLoadEvent>((event, emit) async {
       try {
         final userModel = UserRepository.getUserFromPreference()!.data!;
+        bool? isSavings;
+        if (userModel.bankDetails != null &&
+            userModel.bankDetails!.isNotEmpty) {
+          isSavings = userModel.bankDetails?[0].banktype == 'savings';
+        }
 
         if (event.avoidStatusCheck != true) {
           switch (userModel.kycStatus) {
 //====================Kyc Submitted State====================//
             case KycStatus.SUBMITTED:
+              bool? isSavings;
+
               return emit(
-                KycVerifiedState(
-                  isSavings: userModel.bankDetails?[0].banktype == 'savings',
+                KycSubmittedState(
+                  isSavings: isSavings ?? true,
                   name: event.name ?? state.name ?? userModel.name!,
                   phone: userModel.phone!,
                   email: event.email ?? state.email ?? userModel.email!,
@@ -40,7 +47,7 @@ class KycBloc extends Bloc<KycEvent, KycState> {
             case KycStatus.APPROVED:
               return emit(
                 KycVerifiedState(
-                  isSavings: userModel.bankDetails?[0].banktype == 'savings',
+                  isSavings: isSavings ?? true,
                   name: event.name ?? state.name ?? userModel.name!,
                   phone: userModel.phone!,
                   email: event.email ?? state.email ?? userModel.email!,
@@ -56,7 +63,7 @@ class KycBloc extends Bloc<KycEvent, KycState> {
             case KycStatus.REJECTED:
               return emit(
                 KycRejectedState(
-                  isSavings: userModel.bankDetails?[0].banktype == 'savings',
+                  isSavings: isSavings ?? true,
                   name: event.name ?? state.name ?? userModel.name!,
                   phone: userModel.phone!,
                   email: event.email ?? state.email ?? userModel.email!,
@@ -73,40 +80,20 @@ class KycBloc extends Bloc<KycEvent, KycState> {
           }
         }
 
-        if (userModel.bankDetails != null &&
-            userModel.bankDetails!.isNotEmpty) {
-          emit(
-            KycLoadedState(
-              isLoading: false,
-              tabIndex: event.tabIndex,
-              isSavings: userModel.bankDetails?[0].banktype == 'savings',
-              name: event.name ?? state.name ?? userModel.name!,
-              phone: userModel.phone!,
-              email: event.email ?? state.email ?? userModel.email!,
-              pincode:
-                  event.pincode ?? state.pincode ?? userModel.pincode ?? '',
-              idFrontImage: state.idFrontImage ?? userModel.idFrontImage,
-              idBackImage: state.idBackImage ?? userModel.idBackImage,
-              selfie: state.selfie ?? userModel.selfie,
-            ),
-          );
-        } else {
-          emit(
-            KycLoadedState(
-              isLoading: false,
-              tabIndex: event.tabIndex,
-              isSavings: true,
-              name: event.name ?? state.name ?? userModel.name!,
-              phone: userModel.phone!,
-              email: event.email ?? state.email ?? userModel.email!,
-              pincode:
-                  event.pincode ?? state.pincode ?? userModel.pincode ?? '',
-              idFrontImage: state.idFrontImage ?? userModel.idFrontImage,
-              idBackImage: state.idBackImage ?? userModel.idBackImage,
-              selfie: state.selfie ?? userModel.selfie,
-            ),
-          );
-        }
+        return emit(
+          KycLoadedState(
+            isLoading: false,
+            tabIndex: event.tabIndex,
+            isSavings: isSavings ?? true,
+            name: event.name ?? state.name ?? userModel.name!,
+            phone: userModel.phone!,
+            email: event.email ?? state.email ?? userModel.email!,
+            pincode: event.pincode ?? state.pincode ?? userModel.pincode ?? '',
+            idFrontImage: state.idFrontImage ?? userModel.idFrontImage,
+            idBackImage: state.idBackImage ?? userModel.idBackImage,
+            selfie: state.selfie ?? userModel.selfie,
+          ),
+        );
       } catch (_) {
         return emit(const KycErrorState());
       }

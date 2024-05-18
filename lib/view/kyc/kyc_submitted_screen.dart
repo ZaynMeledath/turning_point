@@ -40,7 +40,6 @@ class KycSubmittedScreen extends StatelessWidget {
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: Column(
                     children: [
-                      SizedBox(height: screenSize.height * .005),
                       Lottie.asset(
                         'assets/lottie/kyc_submitted_animation.json',
                         width: screenSize.width * .3,

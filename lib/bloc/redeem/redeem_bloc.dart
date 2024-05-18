@@ -218,30 +218,12 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
       try {
         switch (state) {
           case BuyCouponsState():
-            emit(
-              BuyCouponsState(
-                selectedOptionNumber: state.selectedOptionNumber,
-                redeemPoints: state.redeemPoints,
-                isTermsAgreed: state.isTermsAgreed,
-                isLoading: true,
-              ),
-            );
-
-            final coupon =
-                await redeemRepo.generateCoupon(points: state.redeemPoints);
-
-            // await Future.delayed(const Duration(seconds: 1));
-
-            pointsBloc
-                .add(PointsLoadEvent(avoidGettingUserFromPreference: true));
-
             return emit(
               BuyCouponsState(
                 selectedOptionNumber: state.selectedOptionNumber,
                 redeemPoints: DEFAULT_REDEEM_POINTS,
                 isTermsAgreed: state.isTermsAgreed,
                 isLoading: false,
-                coupon: coupon,
               ),
             );
 

@@ -244,9 +244,12 @@ Widget kycSubmittedDetailsSegment({required BuildContext context}) {
             SizedBox(width: screenSize.width * .06),
             SizedBox(
               width: screenSize.width * .4,
-              child: Image.network(
-                '${ApiEndpoints.uploads}/${userModel.idBackImage.toString()}',
-                // width: screenSize.width * .4,
+              child: AspectRatio(
+                aspectRatio: 4 / 3,
+                child: Image.network(
+                  '${ApiEndpoints.uploads}/${userModel.idBackImage.toString()}',
+                  // width: screenSize.width * .4,
+                ),
               ),
             ),
           ],

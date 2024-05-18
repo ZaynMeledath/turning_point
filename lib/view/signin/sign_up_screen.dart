@@ -14,7 +14,6 @@ import 'package:turning_point/utils/custom_navigator.dart';
 import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/utils/widget/custom_loading.dart';
 import 'package:turning_point/utils/widget/custom_radio_button.dart';
-import 'package:turning_point/resources/location_repository.dart';
 import 'package:turning_point/view/signin/add_contractor_details_screen.dart';
 import 'package:turning_point/view/signin/otp_verification_screen.dart';
 
@@ -57,14 +56,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     searchController = TextEditingController();
     otpController = TextEditingController();
     referralController = TextEditingController();
-    getLocation();
+    // getLocation();
 
     super.initState();
   }
 
-  void getLocation() async {
-    location = await LocationRepository.getCurrentLocation();
-  }
+  // void getLocation() async {
+  //   location = await LocationRepository.getCurrentLocation();
+  // }
 
   @override
   void dispose() {
