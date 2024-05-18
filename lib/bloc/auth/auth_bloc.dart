@@ -39,7 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } on ProfileInactiveException {
         return emit(ProfileInactiveState());
       } catch (e) {
-        return emit(InitialState());
+        return emit(DirectSignedInState());
       }
     });
 
