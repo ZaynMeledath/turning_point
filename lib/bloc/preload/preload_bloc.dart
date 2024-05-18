@@ -126,7 +126,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
   }
 
 //====================Play Next Video====================//
-  void _playNext(int index) {
+  void _playNext(int index) async {
     _stopControllerAtIndex(index - 1);
 
     _disposeControllerAtIndex(index - 2);
@@ -137,7 +137,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
   }
 
 //====================Play Previous Video====================//
-  void _playPrevious(int index) {
+  void _playPrevious(int index) async {
     _stopControllerAtIndex(index + 1);
 
     _disposeControllerAtIndex(index + 2);
@@ -180,9 +180,8 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
         final VideoPlayerController controller = state.controllers[index]!;
 
         /// Play controller
-        if (controller.value.isInitialized) {
-          controller.play();
-        }
+
+        controller.play();
       }
     }
   }
