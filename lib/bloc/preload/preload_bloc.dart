@@ -150,6 +150,8 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
 //====================Initialize Controller on Given Index====================//
   Future<void> _initializeControllerAtIndex(int index) async {
     if (state.urls.length > index && index >= 0) {
+      state.controllers[index] =
+          VideoPlayerController.networkUrl(Uri.parse(state.urls[index]));
       final fileInfo = await checkForCache(state.urls[index]);
       VideoPlayerController controller;
       if (fileInfo == null) {
