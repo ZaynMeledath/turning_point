@@ -56,3 +56,5 @@ class ProfileVerifyOtpEvent extends ProfileEvent {
     required this.otp,
   });
 }
+
+class ProfileErrorStateReloadEvent extends ProfileEvent {}

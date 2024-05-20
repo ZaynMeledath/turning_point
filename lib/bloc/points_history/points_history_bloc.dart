@@ -12,34 +12,45 @@ part 'points_history_state.dart';
 class PointsHistoryBloc extends Bloc<PointsHistoryEvent, PointsHistoryState> {
   PointsHistoryBloc() : super(PointsHistoryLoadingState()) {
     on<PointsHistoryLoadEvent>((event, emit) async {
-      int page = state.page == null ? 1 : state.page! + 1;
+      try {
+        int page = state.page == null ? 1 : state.page! + 1;
 
-      if (event.isReloading == true) {
-        page = 1;
-      }
+        if (event.isReloading == true) {
+          page = 1;
+        }
 
-      final pointsHistoryModelResponse =
-          await PointsHistoryRespository.getPointsHistory(page: page);
+        final pointsHistoryModelResponse =
+            await PointsHistoryRespository.getPointsHistory(page: page);
 
-      if (page == 1 &&
-          (pointsHistoryModelResponse.data == null ||
-              pointsHistoryModelResponse.data!.isEmpty)) {
+        if (page == 1 &&
+            (pointsHistoryModelResponse.data == null ||
+                pointsHistoryModelResponse.data!.isEmpty)) {
+          WakelockPlus.disable();
+          return emit(NoPointsHistoryState());
+        }
+
+        if (state.pointsHistoryModel != null &&
+            pointsHistoryModelResponse.data != null &&
+            event.isReloading != true) {
+          state.pointsHistoryModel!.addAll(pointsHistoryModelResponse.data!);
+          pointsHistoryModelResponse.data = state.pointsHistoryModel;
+        }
+
+        emit(PointsHistoryLoadedState(
+          pointsHistoryModel: pointsHistoryModelResponse.data,
+          page: page,
+        ));
         WakelockPlus.disable();
-        return emit(NoPointsHistoryState());
+      } catch (_) {
+        WakelockPlus.disable();
+        return emit(const PointsHistoryErrorState(isLoading: false));
       }
+    });
 
-      if (state.pointsHistoryModel != null &&
-          pointsHistoryModelResponse.data != null &&
-          event.isReloading != true) {
-        state.pointsHistoryModel!.addAll(pointsHistoryModelResponse.data!);
-        pointsHistoryModelResponse.data = state.pointsHistoryModel;
-      }
-
-      emit(PointsHistoryLoadedState(
-        pointsHistoryModel: pointsHistoryModelResponse.data,
-        page: page,
-      ));
-      WakelockPlus.disable();
+//====================Points History Error State Reload Event====================//
+    on<PointsHistoryErrorStateReloadEvent>((event, emit) {
+      emit(const PointsHistoryErrorState(isLoading: true));
+      add(PointsHistoryLoadEvent());
     });
   }
 

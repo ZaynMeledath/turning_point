@@ -9,10 +9,12 @@ import 'package:turning_point/service/notification/notification_controller.dart'
 import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/utils/widget/custom_loading.dart';
 import 'package:turning_point/resources/user_repository.dart';
+import 'package:turning_point/utils/widget/profile_load_error.dart';
 import 'package:turning_point/view/home/reels_screen.dart';
 import 'package:turning_point/view/lucky_draw/lucky_draw_screen.dart';
 import 'package:turning_point/view/rewards/rewards_screen.dart';
 import 'package:turning_point/view/scanner/scanner_screen.dart';
+import 'package:turning_point/view/signin/sign_in_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -159,8 +161,21 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   ),
                 ),
               );
-            } else {
+            } else if (profileState is ProfileLoadingState) {
               return rippleLoading();
+            } else if (profileState is ProfileLoadErrorState) {
+              return Scaffold(
+                body: Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: screenSize.width * .04,
+                    ),
+                    child: profileLoadError(profileState: profileState),
+                  ),
+                ),
+              );
+            } else {
+              return const SignInScreen();
             }
           },
         );

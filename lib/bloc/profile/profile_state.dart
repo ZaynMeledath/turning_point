@@ -26,4 +26,8 @@ class ProfileLoadedState extends ProfileState {
 
 class ProfileInactiveState extends ProfileState {}
 
-class ProfileLoadErrorState extends ProfileState {}
+class ProfileLoadErrorState extends ProfileState {
+  final bool isLoading;
+
+  ProfileLoadErrorState({required this.isLoading});
+}

@@ -71,16 +71,17 @@ class _ReelsPlayerState extends State<ReelsPlayer>
           alignment: Alignment.center,
           children: [
             Center(
-              child: value.isInitialized || value.isPlaying
-                  ? GestureDetector(
-                      onTapDown: (details) {
-                        onScreenTap();
-                      },
-                      child: VideoPlayer(
-                        widget.videoController,
-                      ),
-                    )
-                  : circleLoading(),
+              child:
+                  value.isInitialized || (value.isPlaying && !value.isBuffering)
+                      ? GestureDetector(
+                          onTapDown: (details) {
+                            onScreenTap();
+                          },
+                          child: VideoPlayer(
+                            widget.videoController,
+                          ),
+                        )
+                      : circleLoading(),
             ),
             ScaleTransition(
               scale: animation,

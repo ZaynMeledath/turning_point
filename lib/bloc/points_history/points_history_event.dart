@@ -7,3 +7,5 @@ class PointsHistoryLoadEvent extends PointsHistoryEvent {
   final bool? isReloading;
   PointsHistoryLoadEvent({this.isReloading});
 }
+
+class PointsHistoryErrorStateReloadEvent extends PointsHistoryEvent {}

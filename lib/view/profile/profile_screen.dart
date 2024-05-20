@@ -10,10 +10,12 @@ import 'package:turning_point/utils/custom_navigator.dart';
 import 'package:turning_point/utils/flight_shuttle.dart';
 import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/utils/widget/custom_loading.dart';
+import 'package:turning_point/utils/widget/profile_load_error.dart';
 import 'package:turning_point/view/edit_profile/edit_profile_screen.dart';
 import 'package:turning_point/view/profile/segments/edit_profile_dashboard_segment.dart';
 import 'package:turning_point/view/profile/segments/profile_options_segment.dart';
 import 'package:turning_point/view/referral/referral_screen.dart';
+import 'package:turning_point/view/signin/sign_in_screen.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 part 'segments/refer_and_earn_container.dart';
@@ -107,7 +109,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         WakelockPlus.disable();
                         switch (state) {
                           case ProfileLoadingState():
-                            return spinningLinesLoading();
+                            return SizedBox(
+                              height: screenSize.height * .2,
+                              child: spinningLinesLoading(),
+                            );
                           case ProfileLoadedState():
                             return Column(
                               children: [
@@ -143,21 +148,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Text(
                                   state.userModel!.name!,
                                   style: GoogleFonts.roboto(
-                                    fontSize: 20,
+                                    fontSize: screenSize.width * .05,
                                     fontWeight: FontWeight.w500,
                                   ),
+                                ),
+                                SizedBox(height: screenSize.height * .038),
+                              ],
+                            );
+
+                          case ProfileLoadErrorState():
+                            return Column(
+                              children: [
+                                SizedBox(height: screenSize.height * .03),
+                                profileLoadError(
+                                  profileState: state,
+                                  shouldIncludeLottie: false,
                                 ),
                               ],
                             );
 
                           default:
-                            return spinningLinesLoading();
+                            return const SignInScreen();
                         }
                       },
                     ),
                   ],
                 ),
-                SizedBox(height: screenSize.height * .038),
 
                 //====================Body Segment====================//
                 editProfileDashboardSegment(

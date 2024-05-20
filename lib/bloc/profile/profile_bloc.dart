@@ -43,13 +43,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             isContractorTemp: isContractor,
           ));
         } else {
-          return emit(ProfileLoadErrorState());
+          return emit(ProfileLoadErrorState(isLoading: false));
         }
       } on ProfileInactiveException {
         log('EMITTING PROFILE INACTIVE STATE');
         // return emit(ProfileInactiveState());
       } catch (e) {
-        return emit(ProfileLoadErrorState());
+        return emit(ProfileLoadErrorState(isLoading: false));
       }
     });
 
@@ -271,6 +271,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         }
         return;
       }
+    });
+
+//====================Profile Reload Event====================//
+    on<ProfileErrorStateReloadEvent>((event, emit) {
+      emit(ProfileLoadErrorState(isLoading: true));
+      add(ProfileLoadEvent(avoidGettingFromPreference: true));
     });
   }
 

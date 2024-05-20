@@ -324,6 +324,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
     if (index >= preloadBloc.pageIndex * ReelsRepository.reelsPageSize - 2) {
       preloadBloc.pageIndex++;
       await ReelsRepository.getReels(page: preloadBloc.pageIndex);
+      preloadBloc.add(PreloadEvent(currentIndex: index));
     }
   }
 }
