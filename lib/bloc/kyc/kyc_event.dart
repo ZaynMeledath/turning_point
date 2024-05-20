@@ -43,3 +43,5 @@ class KycIdUpdateEvent extends KycEvent {}
 class KycSelfieUpdateEvent extends KycEvent {}
 
 class KycIdResetEvent extends KycEvent {}
+
+class KycErrorStateReloadEvent extends KycEvent {}

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -107,30 +108,6 @@ class _KycScreenState extends State<KycScreen>
           case KycLoadingState():
             return Scaffold(
               body: spinningLinesLoading(),
-            );
-
-          //====================Error State====================//
-          case KycErrorState():
-            return Scaffold(
-              appBar: myAppBar(context: context, title: 'KYC'),
-              body: Center(
-                child: Column(
-                  children: [
-                    SizedBox(height: screenSize.height * .2),
-                    Lottie.asset(
-                      'assets/lottie/no_internet_animation.json',
-                      width: screenSize.width * .6,
-                    ),
-                    Text(
-                      'Something Went Wrong',
-                      style: GoogleFonts.roboto(
-                        fontSize: screenSize.width * .038,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    )
-                  ],
-                ),
-              ),
             );
 
           //====================Submitted State====================//
@@ -364,6 +341,84 @@ class _KycScreenState extends State<KycScreen>
                       ),
                     ),
                     SizedBox(height: screenSize.height * .018)
+                  ],
+                ),
+              ),
+            );
+
+          //====================Error State====================//
+          case KycErrorState():
+            return Scaffold(
+              appBar: myAppBar(context: context, title: 'KYC'),
+              body: Center(
+                child: Column(
+                  children: [
+                    SizedBox(height: screenSize.height * .2),
+                    Lottie.asset(
+                      'assets/lottie/no_internet_animation.json',
+                      width: screenSize.width * .5,
+                    ),
+                    SizedBox(height: screenSize.height * .01),
+                    Text(
+                      'Something went wrong',
+                      style: GoogleFonts.roboto(
+                        fontSize: screenSize.width * .035,
+                        fontWeight: FontWeight.w500,
+                        color: const Color.fromRGBO(18, 18, 18, 1),
+                      ),
+                    ),
+                    SizedBox(height: screenSize.height * .01),
+                    Text(
+                      'Check your internet connection\nor try again later',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.roboto(
+                        fontSize: screenSize.width * .031,
+                        color: const Color.fromRGBO(18, 18, 18, 18),
+                      ),
+                    ),
+                    SizedBox(height: screenSize.height * .02),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            kycBloc.add(
+                              KycErrorStateReloadEvent(),
+                            );
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: screenSize.width * .035,
+                              vertical: screenSize.width * .01,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: const Color.fromRGBO(18, 18, 18, 1),
+                              ),
+                            ),
+                            child: Text(
+                              'Refresh',
+                              style: GoogleFonts.roboto(
+                                fontSize: screenSize.width * .035,
+                                fontWeight: FontWeight.w500,
+                                color: const Color.fromRGBO(18, 18, 18, 1),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: screenSize.height * .005),
+                    SizedBox(
+                      height: screenSize.height * .035,
+                      child: Visibility(
+                        visible: kycState.isLoading,
+                        child: CupertinoActivityIndicator(
+                          radius: screenSize.width * .026,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

@@ -16,7 +16,9 @@ class KycBloc extends Bloc<KycEvent, KycState> {
 //====================KYC Load Event====================//
     on<KycLoadEvent>((event, emit) async {
       try {
-        final userModel = UserRepository.getUserFromPreference()!.data!;
+        final userModelResponse =
+            await UserRepository.getUserById(avoidGettingFromPreference: true);
+        final userModel = userModelResponse!.data!;
         bool? isSavings;
         if (userModel.bankDetails != null &&
             userModel.bankDetails!.isNotEmpty) {
@@ -95,7 +97,7 @@ class KycBloc extends Bloc<KycEvent, KycState> {
           ),
         );
       } catch (_) {
-        return emit(const KycErrorState());
+        return emit(const KycErrorState(isLoading: false));
       }
     });
 
@@ -256,6 +258,12 @@ class KycBloc extends Bloc<KycEvent, KycState> {
           selfie: state.selfie,
         ),
       );
+    });
+
+//====================KYC Error State Reload Event====================//
+    on<KycErrorStateReloadEvent>((event, emit) {
+      emit(const KycErrorState(isLoading: true));
+      add(KycLoadEvent(tabIndex: 0));
     });
   }
 

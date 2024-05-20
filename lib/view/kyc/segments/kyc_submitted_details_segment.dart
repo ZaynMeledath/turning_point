@@ -232,7 +232,7 @@ Widget kycSubmittedDetailsSegment({required BuildContext context}) {
           children: [
             SizedBox(width: realScreenSize.width * .008),
             SizedBox(
-              width: screenSize.width * .4,
+              width: realScreenSize.width * .4,
               child: AspectRatio(
                 aspectRatio: 4 / 3,
                 child: Image.network(
@@ -243,7 +243,7 @@ Widget kycSubmittedDetailsSegment({required BuildContext context}) {
             ),
             SizedBox(width: screenSize.width * .06),
             SizedBox(
-              width: screenSize.width * .4,
+              width: realScreenSize.width * .4,
               child: AspectRatio(
                 aspectRatio: 4 / 3,
                 child: Image.network(
@@ -257,7 +257,7 @@ Widget kycSubmittedDetailsSegment({required BuildContext context}) {
         SizedBox(height: screenSize.height * .015),
         Center(
           child: SizedBox(
-            width: screenSize.width * .4,
+            width: realScreenSize.width * .4,
             child: AspectRatio(
               aspectRatio: 4 / 3,
               child: Image.network(

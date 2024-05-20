@@ -100,7 +100,8 @@ class KycRejectedState extends KycState {
 }
 
 class KycErrorState extends KycState {
-  const KycErrorState()
+  final bool isLoading;
+  const KycErrorState({required this.isLoading})
       : super(
           name: null,
           email: null,
