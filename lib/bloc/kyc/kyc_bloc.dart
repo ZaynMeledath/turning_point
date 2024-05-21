@@ -15,9 +15,13 @@ class KycBloc extends Bloc<KycEvent, KycState> {
   KycBloc() : super(const KycLoadingState()) {
 //====================KYC Load Event====================//
     on<KycLoadEvent>((event, emit) async {
+      emit(const KycLoadingState());
       try {
-        final userModelResponse =
-            await UserRepository.getUserById(avoidGettingFromPreference: true);
+        //if avoidStatusCheck is true, userModel will be fetched from sharedPreference
+        final userModelResponse = await UserRepository.getUserById(
+          avoidGettingFromPreference:
+              event.avoidStatusCheck != true ? true : false,
+        );
         final userModel = userModelResponse!.data!;
         bool? isSavings;
         if (userModel.bankDetails != null &&
