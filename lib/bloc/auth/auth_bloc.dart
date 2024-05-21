@@ -183,7 +183,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         return emit(OtpVerifiedState());
       } on FirebaseAuthException catch (e) {
-        if (e.code == 'session-expired') {
+        if (e.code == 'session-expired' || e.code == 'channel-error') {
           return emit(InitialState());
         }
         return emit(
