@@ -26,7 +26,6 @@ import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/redeem/redeem_bloc.dart';
 import 'package:turning_point/bloc/settings/settings_bloc.dart';
 import 'package:turning_point/firebase_options.dart';
-import 'package:turning_point/resources/contest_repository.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
@@ -119,11 +118,14 @@ Future<void> _firebasePushHandler(RemoteMessage message) async {
 
 //To ensure that the data is up to date
     switch (message.data['type']) {
-      case 'luckydraw':
-        await ContestRepository.getContests();
-        break;
+      // case 'luckydraw':
+      //   await ContestRepository.getContests();
+      //   break;
       case 'kyc':
         await UserRepository.getUserById(avoidGettingFromPreference: true);
+        profileBloc.add(ProfileLoadEvent());
+        kycBloc.add(KycLoadEvent(tabIndex: 0));
+
         break;
     }
   }

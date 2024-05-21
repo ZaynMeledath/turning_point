@@ -17,7 +17,7 @@ showPointsReceivedToast({
     positionedToastBuilder: (context, child) {
       return Positioned(
         top: screenSize.height * .066,
-        left: screenSize.width * .31,
+        left: realScreenSize.width * .31,
         child: child,
       );
     },
@@ -27,43 +27,48 @@ showPointsReceivedToast({
 Widget dialog({
   required int points,
 }) {
-  return Container(
-    width: screenSize.width * .48,
-    padding: EdgeInsets.symmetric(
-      vertical: screenSize.width * .015,
-    ),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(15),
-    ),
-    child: Row(
-      children: [
-        SizedBox(width: screenSize.width * .02),
-        Image.asset(
-          'assets/images/points_received_dialog_image.png',
-          width: screenSize.width * .07,
+  return Row(
+    children: [
+      Container(
+        padding: EdgeInsets.only(
+          top: screenSize.width * .015,
+          bottom: screenSize.width * .015,
+          right: screenSize.width * .015,
         ),
-        SizedBox(width: screenSize.width * .02),
-        DefaultTextStyle(
-          style: GoogleFonts.roboto(
-            fontSize: screenSize.width * .04,
-            fontWeight: FontWeight.w400,
-            color: Colors.black,
-          ),
-          child: Text(
-            '$points Points Credited',
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.roboto(
-              fontSize: screenSize.width * .04,
-              fontWeight: FontWeight.w400,
-              color: Colors.black,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Row(
+          children: [
+            SizedBox(width: screenSize.width * .02),
+            Image.asset(
+              'assets/images/points_received_dialog_image.png',
+              width: screenSize.width * .07,
             ),
-          ),
+            SizedBox(width: screenSize.width * .02),
+            DefaultTextStyle(
+              style: GoogleFonts.roboto(
+                fontSize: screenSize.width * .04,
+                fontWeight: FontWeight.w400,
+                color: Colors.black,
+              ),
+              child: Text(
+                '$points Points Credited',
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.roboto(
+                  fontSize: screenSize.width * .04,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            SizedBox(width: screenSize.width * .01),
+          ],
         ),
-        SizedBox(width: screenSize.width * .01),
-      ],
-    ),
+      ),
+    ],
   );
 }
 

@@ -27,12 +27,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(const AuthLoadingState());
         await provider.initialize();
         final userFromPreference = UserRepository.getUserFromPreference();
-        await Future.delayed(Duration.zero);
         if (userFromPreference != null) {
           if (provider.currentUser == null) {
             await provider.signIn();
           }
+          final notificationType =
+              AppPreferences.getValueShared('notification_type');
           await DefaultCacheManager().emptyCache();
+
+          AppPreferences.addSharedPreference(
+            key: 'notification_type',
+            value: notificationType,
+          );
 
           profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
           return emit(DirectSignedInState());
