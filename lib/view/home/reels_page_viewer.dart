@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -94,9 +96,7 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
                 if (preloadState.controllers.isNotEmpty &&
-                    (index == preloadState.focusedIndex ||
-                        index == preloadState.focusedIndex + 1 ||
-                        index == preloadState.focusedIndex - 1)) {
+                    preloadState.controllers[index] != null) {
                   return Stack(
                     children: [
                       ReelsPlayer(
@@ -318,10 +318,12 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
   }
 
   void onPageChanged(index) async {
+    log('Page : $index');
+    await Future.delayed(Duration.zero);
     likeButtonActiveStatus = false;
     preloadBloc.manuallyPaused = false;
     preloadBloc.add(PreloadEvent(currentIndex: index));
-    if (index >= preloadBloc.pageIndex * ReelsRepository.reelsPageSize - 2) {
+    if (index >= (preloadBloc.pageIndex * ReelsRepository.reelsPageSize) - 2) {
       preloadBloc.pageIndex++;
       await ReelsRepository.getReels(page: preloadBloc.pageIndex);
       preloadBloc.add(PreloadEvent(currentIndex: index));
