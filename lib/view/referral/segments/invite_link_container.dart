@@ -2,7 +2,7 @@ part of '../referral_screen.dart';
 
 Widget inviteLinkContainer({required String referralCode}) {
   final message =
-      'Check out the new Turning Point app and earn ₹100 when you register using this referral code: TP5485397944. Sign up now and unlock exclusive benefits!\n\nReferral Code : $referralCode';
+      'Discover the new Turning Point app!\n\n💰 Earn up to ₹500 when you register using the referral code below! Sign up now and unlock exclusive benefits! 🚀✨\n\n📌 Referral Code: $referralCode 📌\n\nDon’t miss out—join today! 📲✨';
   return Padding(
     padding: EdgeInsets.only(bottom: screenSize.height * .023),
     child: Column(
