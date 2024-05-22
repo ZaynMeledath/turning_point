@@ -33,6 +33,14 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
   bool isAudioPlaying = false;
 
   @override
+  void initState() {
+    Future.delayed(Duration.zero, () {
+      luckyDrawBloc.add(LuckyDrawLoadEvent());
+    });
+    super.initState();
+  }
+
+  @override
   void didChangeDependencies() {
     disableWakeLock();
     if (preloadBloc.state.controllers.isNotEmpty) {
@@ -51,17 +59,12 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
   @override
   void dispose() {
     super.dispose();
-    luckyDrawBloc.add(LuckyDrawTimerDisposeEvent());
+    // luckyDrawBloc.add(LuckyDrawTimerDisposeEvent());
     audioPlayer.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (preloadBloc.state.controllers.isNotEmpty) {
-      preloadBloc.pauseCurrentController();
-    }
-    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
-    luckyDrawBloc.add(LuckyDrawLoadEvent());
     return Scaffold(
       backgroundColor: const Color.fromRGBO(19, 24, 54, 1),
       body: BlocBuilder<LuckyDrawBloc, LuckyDrawState>(

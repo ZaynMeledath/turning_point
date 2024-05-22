@@ -55,9 +55,9 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
                 secondsLeft: secondsLeft,
               ),
             );
-            add(LuckyDrawTimerUpdateEvent());
+            return add(LuckyDrawTimerUpdateEvent());
           } else {
-            emit(
+            return emit(
               LuckyDrawLoadedState(
                 contestModel: null,
                 timeMap: null,
@@ -255,6 +255,13 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
       state.timeMap = null;
       state.secondsLeft = null;
       emit(LuckyDrawLoadingState());
+    });
+
+    on<LuckyDrawReloadEvent>((event, emit) {
+      state.contestModel = null;
+      state.timeMap = null;
+      state.secondsLeft = null;
+      add(LuckyDrawLoadEvent());
     });
   }
 }

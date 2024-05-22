@@ -265,34 +265,3 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
 }
 
 final preloadBloc = PreloadBloc();
-
-
-
-
-
-
-
-//====================Initialize Controller on Given Index(Uses Cache)====================//
-  // Future _initializeControllerAtIndex(int index) async {
-  //   if (state.urls.length > index && index >= 0) {
-  //     final VideoPlayerController? controller;
-  //     final fileInfo =
-  //         await DefaultCacheManager().getFileFromCache(state.urls[index]);
-
-  //     if (fileInfo == null) {
-  //       DefaultCacheManager().downloadFile(state.urls[index]);
-  //       controller =
-  //           VideoPlayerController.networkUrl(Uri.parse(state.urls[index]));
-  //     } else {
-  //       controller = VideoPlayerController.file(fileInfo.file);
-  //     }
-
-  //     // Create new controller
-
-  //     // Add to [controllers] list
-  //     state.controllers[index] = controller;
-
-  //     // Initialize
-  //     await controller.initialize();
-  //   }
-  // }

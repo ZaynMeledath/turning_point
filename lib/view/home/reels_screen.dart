@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:turning_point/bloc/home/home_bloc.dart';
+import 'package:turning_point/bloc/lucky_draw/lucky_draw_bloc.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
@@ -21,6 +23,9 @@ import 'package:turning_point/view/home/reels_page_viewer.dart';
 import 'package:turning_point/view/points/points_screen.dart';
 import 'package:turning_point/view/profile/profile_screen.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
+
+part 'segments/lucky_draw_watermark.dart';
+part 'segments/count_down_container_watermark.dart';
 
 class ReelsScreen extends StatefulWidget {
   const ReelsScreen({super.key});
@@ -51,6 +56,7 @@ class ReelsScreenState extends State<ReelsScreen>
         likeAnimationController.reverse();
       }
     });
+    luckyDrawBloc.add(LuckyDrawLoadEvent());
 
     super.initState();
   }
@@ -88,6 +94,7 @@ class ReelsScreenState extends State<ReelsScreen>
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }
+    // luckyDrawBloc.add(LuckyDrawTimerDisposeEvent());
   }
 
   Future<void> handleRefresh() async {
@@ -99,6 +106,7 @@ class ReelsScreenState extends State<ReelsScreen>
       isInitial: true,
       isReloading: true,
     ));
+    luckyDrawBloc.add(LuckyDrawReloadEvent());
   }
 
   @override
@@ -106,8 +114,8 @@ class ReelsScreenState extends State<ReelsScreen>
     return Scaffold(
       backgroundColor: Colors.black,
       body: BlocBuilder<ProfileBloc, ProfileState>(
-        builder: (context, state) {
-          switch (state) {
+        builder: (context, profileState) {
+          switch (profileState) {
             case ProfileLoadingState():
               return spinningLinesLoading();
 
@@ -247,12 +255,24 @@ class ReelsScreenState extends State<ReelsScreen>
                           child: CircleAvatar(
                             radius: screenSize.width * .05,
                             foregroundImage: CachedNetworkImageProvider(
-                              state.userModel!.image!,
+                              profileState.userModel!.image!,
                             ),
                           ),
                         ),
                       ),
                     ),
+
+                    Positioned(
+                      bottom: screenSize.height * .015,
+                      left: screenSize.width * .01,
+                      child: GestureDetector(
+                        onTap: () {
+                          homeBloc.add(
+                              TriggerEvent(profileState.isContractor ? 2 : 3));
+                        },
+                        child: luckyDrawWatermark(),
+                      ),
+                    )
                   ],
                 ),
               );

@@ -16,3 +16,5 @@ class LuckyDrawWinnersDisplayEvent extends LuckyDrawEvent {
 }
 
 class LuckyDrawWinnersDisplayTimerEvent extends LuckyDrawEvent {}
+
+class LuckyDrawReloadEvent extends LuckyDrawEvent {}

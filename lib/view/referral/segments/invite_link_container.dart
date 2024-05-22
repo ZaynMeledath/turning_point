@@ -51,7 +51,7 @@ Widget inviteLinkContainer({required String referralCode}) {
   );
 }
 
-String generateReferralLink(String referralCode) {
-  String baseLink = 'https://secondbrainreferal.app.link/';
-  return '$baseLink$referralCode';
-}
+// String generateReferralLink(String referralCode) {
+//   String baseLink = 'https://turningpointvapi.com/';
+//   return '$baseLink$referralCode';
+// }

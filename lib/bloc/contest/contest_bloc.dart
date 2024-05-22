@@ -1,7 +1,4 @@
-// import 'dart:async';
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
@@ -189,12 +186,12 @@ class ContestBloc extends Bloc<ContestEvent, ContestState> {
   }
 
 //====================State Change Logger====================//
-  @override
-  void onChange(Change<ContestState> change) {
-    log('CURRENT STATE : ${change.currentState}');
-    log('NEXT STATE: ${change.nextState}');
-    super.onChange(change);
-  }
+  // @override
+  // void onChange(Change<ContestState> change) {
+  //   log('CURRENT STATE : ${change.currentState}');
+  //   log('NEXT STATE: ${change.nextState}');
+  //   super.onChange(change);
+  // }
 }
 
 final contestBloc = ContestBloc();
