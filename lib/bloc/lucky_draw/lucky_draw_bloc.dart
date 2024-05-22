@@ -251,17 +251,16 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
 
 //====================Timer Dispose Event====================//
     on<LuckyDrawTimerDisposeEvent>((event, emit) {
+      emit(LuckyDrawLoadingState());
       state.contestModel = null;
       state.timeMap = null;
       state.secondsLeft = null;
-      emit(LuckyDrawLoadingState());
     });
 
-    on<LuckyDrawReloadEvent>((event, emit) {
-      state.contestModel = null;
-      state.timeMap = null;
-      state.secondsLeft = null;
-      add(LuckyDrawLoadEvent());
+    on<LuckyDrawReloadEvent>((event, emit) async {
+      add(LuckyDrawTimerDisposeEvent());
+      await Future.delayed(const Duration(milliseconds: 800));
+      return add(LuckyDrawLoadEvent());
     });
   }
 }

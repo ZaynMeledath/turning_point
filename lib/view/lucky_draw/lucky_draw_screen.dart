@@ -34,9 +34,6 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
 
   @override
   void initState() {
-    Future.delayed(Duration.zero, () {
-      luckyDrawBloc.add(LuckyDrawLoadEvent());
-    });
     super.initState();
   }
 
@@ -47,6 +44,7 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
       preloadBloc.pauseCurrentController();
     }
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
+    luckyDrawBloc.add(LuckyDrawReloadEvent());
     super.didChangeDependencies();
   }
 

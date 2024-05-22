@@ -56,7 +56,6 @@ class ReelsScreenState extends State<ReelsScreen>
         likeAnimationController.reverse();
       }
     });
-    luckyDrawBloc.add(LuckyDrawLoadEvent());
 
     super.initState();
   }
@@ -78,6 +77,7 @@ class ReelsScreenState extends State<ReelsScreen>
         );
       });
     }
+    luckyDrawBloc.add(LuckyDrawReloadEvent());
     getFcmToken();
     super.didChangeDependencies();
   }
