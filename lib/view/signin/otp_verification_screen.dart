@@ -225,9 +225,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                         ),
                         androidSmsAutofillMethod: AndroidSmsAutofillMethod.none,
                         onChanged: (value) {},
-                        onCompleted: (value) {
-                          otp = value;
-                        },
+                        onCompleted: (value) {},
                       ),
 
                       SizedBox(height: screenSize.height * .016),
@@ -294,10 +292,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                         builder: (context, state) {
                           return GestureDetector(
                             onTap: () {
-                              if (otp.length == 6) {
+                              if (widget.otpController.text.length == 6) {
                                 authBloc.add(
                                   VerifyOtpEvent(
-                                    otp: otp,
+                                    otp: widget.otpController.text,
                                     location: widget.location,
                                   ),
                                 );

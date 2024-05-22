@@ -61,10 +61,7 @@ class _RewardsScreenState extends State<RewardsScreen>
     luckyDrawBloc.add(LuckyDrawLoadEvent());
 
     Future.delayed(const Duration(milliseconds: 100), () {
-      if (luckyDrawBloc.state.secondsLeft == null ||
-          luckyDrawBloc.state.secondsLeft! == 0) {
-        rewardsBloc.add(RewardsLoadEvent());
-      }
+      rewardsBloc.add(RewardsLoadEvent());
     });
     disableWakeLock();
     super.didChangeDependencies();
@@ -229,15 +226,15 @@ class _RewardsScreenState extends State<RewardsScreen>
                       child: Center(
                         child: Column(
                           children: [
-                            SizedBox(height: screenSize.height * .25),
+                            SizedBox(height: screenSize.height * .26),
                             Lottie.asset(
                               'assets/lottie/no_data_animation.json',
-                              width: screenSize.width * .65,
+                              width: screenSize.width * .5,
                             ),
                             Text(
                               'No Data Available at the moment',
                               style: GoogleFonts.inter(
-                                fontSize: screenSize.width * .041,
+                                fontSize: screenSize.width * .04,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black.withOpacity(.75),
                                 height: .1,
