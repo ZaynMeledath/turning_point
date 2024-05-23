@@ -7,7 +7,6 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pinput/pinput.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
-import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/utils/custom_navigator.dart';
 import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/main.dart';
@@ -64,10 +63,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is AuthLoadingState) {
-          showLoadingDialog(context: context);
-        } else if (state is OtpVerificationNeededState &&
-            state.exception != null) {
+        if (state is OtpVerificationNeededState && state.exception != null) {
           Navigator.pop(context);
           if (state.exception == 'invalid-verification-code') {
             Future.delayed(Duration.zero, () {
@@ -288,49 +284,46 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                       ),
 
                       //====================Verify Button====================//
-                      BlocBuilder<AuthBloc, AuthState>(
-                        builder: (context, state) {
-                          return GestureDetector(
-                            onTap: () {
-                              if (widget.otpController.text.length == 6) {
-                                authBloc.add(
-                                  VerifyOtpEvent(
-                                    otp: widget.otpController.text,
-                                    location: widget.location,
-                                  ),
-                                );
-                              } else {
-                                showAnimatedGenericDialog(
-                                  iconPath:
-                                      'assets/icons/kyc_declined_icon.png',
-                                  context: context,
-                                  title: 'OTP Incorrect',
-                                  content: 'OTP should be 6 digits',
-                                  buttons: {'OK': null},
-                                );
-                              }
-                            },
-                            child: Container(
-                              width: screenSize.width * .37,
-                              height: screenSize.width * .11,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: const Color.fromRGBO(0, 99, 255, 1),
+
+                      GestureDetector(
+                        onTap: () {
+                          if (widget.otpController.text.length == 6) {
+                            authBloc.add(
+                              VerifyOtpEvent(
+                                otp: widget.otpController.text,
+                                location: widget.location,
                               ),
-                              child: Center(
-                                child: Text(
-                                  'Verify',
-                                  style: GoogleFonts.roboto(
-                                    fontSize: screenSize.width * .031,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                            );
+                          } else {
+                            showAnimatedGenericDialog(
+                              iconPath: 'assets/icons/kyc_declined_icon.png',
+                              context: context,
+                              title: 'OTP Incorrect',
+                              content: 'OTP should be 6 digits',
+                              buttons: {'OK': null},
+                            );
+                          }
+                        },
+                        child: Container(
+                          width: screenSize.width * .37,
+                          height: screenSize.width * .11,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: const Color.fromRGBO(0, 99, 255, 1),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Verify',
+                              style: GoogleFonts.roboto(
+                                fontSize: screenSize.width * .031,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
                               ),
                             ),
-                          );
-                        },
+                          ),
+                        ),
                       ),
+
                       SizedBox(height: screenSize.height * .01),
                     ],
                   ),

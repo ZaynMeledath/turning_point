@@ -10,11 +10,11 @@ import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/utils/widget/custom_loading.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/utils/widget/profile_load_error.dart';
+import 'package:turning_point/view/boarding/first_boarding_screen.dart';
 import 'package:turning_point/view/home/reels_screen.dart';
 import 'package:turning_point/view/lucky_draw/lucky_draw_screen.dart';
 import 'package:turning_point/view/rewards/rewards_screen.dart';
 import 'package:turning_point/view/scanner/scanner_screen.dart';
-import 'package:turning_point/view/signin/sign_in_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -175,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 ),
               );
             } else {
-              return const SignInScreen();
+              return const FirstBoardingScreen();
             }
           },
         );

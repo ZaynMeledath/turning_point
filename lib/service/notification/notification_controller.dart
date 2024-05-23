@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/home/home_bloc.dart';
@@ -10,7 +12,9 @@ class NotificationController {
   static void navigateOnNotification(BuildContext context) {
     final notificationType = AppPreferences.getValueShared('notification_type');
     if (notificationType != null) {
+      log('notificationType After: ${AppPreferences.getValueShared('notification_type')}');
       AppPreferences.removeFromPreference('notification_type');
+      log('notificationType After: ${AppPreferences.getValueShared('notification_type')}');
 
       switch (notificationType) {
         case 'luckydraw':

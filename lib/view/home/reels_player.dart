@@ -37,6 +37,9 @@ class _ReelsPlayerState extends State<ReelsPlayer>
   }
 
   void onScreenTap() {
+    if (!preloadBloc.state.isReelsVisible) {
+      preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: true));
+    }
     if (widget.videoController.value.isPlaying) {
       widget.videoController.pause();
       animationController.forward();

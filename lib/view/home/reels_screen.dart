@@ -13,6 +13,7 @@ import 'package:turning_point/bloc/lucky_draw/lucky_draw_bloc.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
+import 'package:turning_point/service/notification/notification_controller.dart';
 import 'package:turning_point/utils/custom_navigator.dart';
 import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/utils/widget/custom_loading.dart';
@@ -111,6 +112,7 @@ class ReelsScreenState extends State<ReelsScreen>
 
   @override
   Widget build(BuildContext context) {
+    NotificationController.navigateOnNotification(context);
     return Scaffold(
       backgroundColor: Colors.black,
       body: BlocBuilder<ProfileBloc, ProfileState>(
