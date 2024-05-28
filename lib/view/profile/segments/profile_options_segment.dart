@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:turning_point/games/pong/pong.dart';
 import 'package:turning_point/utils/custom_navigator.dart';
 import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/view/about/about_us_screen.dart';
@@ -50,8 +51,23 @@ Widget profileOptionsSegment({
         ),
       ),
 
-//====================KYC====================//
+//====================Mini Games====================//
+      GestureDetector(
+        onTap: () {
+          CustomNavigator.push(
+            context: context,
+            child: const PongGame(),
+          );
+        },
+        child: profileOption(
+          screenSize: screenSize,
+          iconPath: 'assets/icons/joystick_icon.png',
+          title: 'Games',
+          containerColor: const Color.fromARGB(255, 141, 212, 253),
+        ),
+      ),
 
+//====================KYC====================//
       GestureDetector(
         onTap: () {
           CustomNavigator.push(
