@@ -76,7 +76,7 @@ Widget bannerSegment() {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'PLAY AND EARN',
+                        'WIN BIG!',
                         style: GoogleFonts.poppins(
                           fontSize: screenSize.width * .051,
                           fontWeight: FontWeight.w600,
@@ -84,7 +84,7 @@ Widget bannerSegment() {
                       ),
                       SizedBox(height: screenSize.height * .008),
                       Text(
-                        'Earn Prize by participating in\nContests',
+                        'Win Prizes by participating in\nContests',
                         style: GoogleFonts.poppins(
                           color: const Color.fromRGBO(0, 90, 143, 1),
                           fontSize: screenSize.width * .035,
