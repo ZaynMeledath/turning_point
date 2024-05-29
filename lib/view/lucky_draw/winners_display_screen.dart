@@ -77,7 +77,7 @@ class _WinnersDisplayScreenState extends State<WinnersDisplayScreen>
                 isAudioPlaying = true;
                 audioPlayer.play(
                   AssetSource(
-                    'sounds/lucky_draw_music.m4a',
+                    'audio/lucky_draw_music.m4a',
                   ),
                 );
               }

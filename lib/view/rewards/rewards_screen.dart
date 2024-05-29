@@ -102,7 +102,7 @@ class _RewardsScreenState extends State<RewardsScreen>
                     audioPlayed = true;
                     audioPlayer.play(
                       mode: PlayerMode.lowLatency,
-                      AssetSource('sounds/ding_sparkle_sound.mp3'),
+                      AssetSource('audio/ding_sparkle_sound.mp3'),
                     );
                   }
                   return SingleContestRewardsScreen(
@@ -113,7 +113,7 @@ class _RewardsScreenState extends State<RewardsScreen>
                   audioPlayed = true;
                   AudioPlayer().play(
                     mode: PlayerMode.lowLatency,
-                    AssetSource('sounds/ding_sparkle_sound.mp3'),
+                    AssetSource('audio/ding_sparkle_sound.mp3'),
                   );
                 }
                 final activeRewardsModel = rewardsState.tabIndex == 0
@@ -203,7 +203,7 @@ class _RewardsScreenState extends State<RewardsScreen>
                   audioPlayed = true;
                   audioPlayer.play(
                     mode: PlayerMode.lowLatency,
-                    AssetSource('sounds/ding_sparkle_sound.mp3'),
+                    AssetSource('audio/ding_sparkle_sound.mp3'),
                   );
                 }
                 return const SingleContestRewardsScreen();

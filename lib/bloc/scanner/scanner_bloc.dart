@@ -80,6 +80,8 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
 
 //====================Scan Coupon Method====================//
   Future<void> scanCoupon() async {
+
+    //Edit the Package source code by adding required keyword with the function paramater if this line gives any error
     String barcodeScanResult = await FlutterBarcodeScanner.scanBarcode(
       lineColor: "#ffffff",
       cancelButtonText: "",
