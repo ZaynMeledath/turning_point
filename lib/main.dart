@@ -229,7 +229,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromRGBO(0, 99, 255, 1),
           ),
-          useMaterial3: true,
+          // useMaterial3: true,
         ),
         home: const SplashScreen(),
       ),

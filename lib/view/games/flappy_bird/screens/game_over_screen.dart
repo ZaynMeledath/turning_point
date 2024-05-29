@@ -24,12 +24,21 @@ class GameOverScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               Image.asset(Assets.gameOver),
-              const SizedBox(height: 20),
+              const SizedBox(height: 25),
               ElevatedButton(
                 onPressed: onRestart,
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
                 child: const Text(
                   'Restart',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              const SizedBox(height: 15),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+                child: const Text(
+                  'Exit',
                   style: TextStyle(fontSize: 20),
                 ),
               ),

@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "307677340790-qsj59j2khamaodtvg7g5ajv1hsgossu2.apps.googleusercontent.com",
+          "client_id": "307677340790-gfai5n56okpgf1im2vdrvdkr8e1jhlgc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.turning_point",
-            "certificate_hash": "95ba77f1090825075357d8491b5d484e36264671"
+            "certificate_hash": "bc2551ebb3fcf9325235909512f77631379e6a97"
           }
         },
         {

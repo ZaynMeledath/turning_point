@@ -59,6 +59,7 @@ Widget profileOptionsSegment({
       GestureDetector(
         onTap: () {
           final game = FlappyBirdGame();
+          CustomNavigator.push(context: context, child: 
           GameWidget(
               game: game,
               initialActiveOverlays: const [MainMenuScreen.id],
@@ -66,14 +67,14 @@ Widget profileOptionsSegment({
         'mainMenu': (context, _) => MainMenuScreen(game: game),
         'gameOver': (context, _) => GameOverScreen(game: game),
               },
-            );
+            ));
         },
         child: profileOption(
           screenSize: screenSize,
           iconPath: 'assets/icons/joystick_icon.png',
-          title: 'Contest',
-          containerColor: Color.fromARGB(255, 128, 185, 250),
-          containerPadding: screenSize.width * .016,
+          title: 'Games',
+          containerColor: const Color.fromARGB(255, 146, 220, 255),
+          // containerPadding: screenSize.width * .016,
         ),
       ),
 
