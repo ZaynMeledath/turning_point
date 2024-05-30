@@ -1,6 +1,5 @@
-
 import 'package:flutter/material.dart';
-import 'package:turning_point/utils/screen_size.dart';
+import 'package:turning_point/utils/widget/custom_app_bar.dart';
 import 'package:turning_point/view/games/flappy_bird/game/assets.dart';
 import 'package:turning_point/view/games/flappy_bird/game/flappy_bird_game.dart';
 
@@ -36,23 +35,13 @@ class MainMenuScreen extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               Image.asset(Assets.message),
-              Positioned(
-                top: screenSize.height * .006,
-                left: 0,
-                child: SafeArea(
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.arrow_back,
-                      size: screenSize.width * .061,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {    
-                      Navigator.of(context).pop();
-                    },
-                  ),
+              SafeArea(
+                child: customAppBar(
+                  context: context,
+                  title: '',
+                  foregroundColor: Colors.white,
                 ),
-              ),
-              
+              )
             ],
           ),
         ),

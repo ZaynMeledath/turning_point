@@ -1,13 +1,10 @@
-import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:turning_point/utils/custom_navigator.dart';
 import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/view/about/about_us_screen.dart';
 import 'package:turning_point/view/contest/contest_screen.dart';
-import 'package:turning_point/view/games/flappy_bird/game/flappy_bird_game.dart';
-import 'package:turning_point/view/games/flappy_bird/screens/game_over_screen.dart';
-import 'package:turning_point/view/games/flappy_bird/screens/main_menu_screen.dart';
+import 'package:turning_point/view/games/games_home_screen.dart';
 import 'package:turning_point/view/kyc/kyc_screen.dart';
 import 'package:turning_point/view/points/points_screen.dart';
 import 'package:turning_point/view/privacy_policy/privacy_policy_screen.dart';
@@ -54,20 +51,13 @@ Widget profileOptionsSegment({
         ),
       ),
 
-
 //====================Contest====================//
       GestureDetector(
         onTap: () {
-          final game = FlappyBirdGame();
-          CustomNavigator.push(context: context, child: 
-          GameWidget(
-              game: game,
-              initialActiveOverlays: const [MainMenuScreen.id],
-              overlayBuilderMap: {
-        'mainMenu': (context, _) => MainMenuScreen(game: game),
-        'gameOver': (context, _) => GameOverScreen(game: game),
-              },
-            ));
+          CustomNavigator.push(
+            context: context,
+            child: const GamesHomeScreen(),
+          );
         },
         child: profileOption(
           screenSize: screenSize,
