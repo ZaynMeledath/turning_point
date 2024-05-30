@@ -68,24 +68,26 @@ class _GamesHomeScreenState extends State<GamesHomeScreen> {
             ),
           ),
           Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: screenSize.width * .08),
-              child: GridView.builder(
-                itemCount: Games.gameModelList.length,
-                padding: EdgeInsets.only(top: screenSize.height * .025),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: screenSize.width * .1,
-                ),
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    child: gameGrid(
-                      gameIndex: index,
-                      context: context,
-                    ),
-                  );
-                },
+            child: GridView.builder(
+              itemCount: Games.gameModelList.length,
+              padding: EdgeInsets.only(
+                left: screenSize.width * .07,
+                right: screenSize.width * .07,
+                top: screenSize.height * .025,
               ),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: screenSize.width * .1,
+              ),
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: EdgeInsets.only(bottom: screenSize.height * .025),
+                  child: gameGrid(
+                    gameIndex: index,
+                    context: context,
+                  ),
+                );
+              },
             ),
           )
         ],

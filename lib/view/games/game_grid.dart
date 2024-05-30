@@ -40,7 +40,7 @@ Widget gameGrid({
               Games.gameModelList[gameIndex].name,
               style: GoogleFonts.poppins(
                 fontSize: screenSize.width * .034,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
               ),
             ),
           )
