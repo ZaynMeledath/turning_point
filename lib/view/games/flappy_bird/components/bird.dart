@@ -73,6 +73,7 @@ class Bird extends SpriteGroupComponent<BirdMovement>
   void gameOver() {
     FlameAudio.play(Assets.collision);
     game.isHit = true;
+    //Send score * 100 value to server
     gameRef.overlays.add('gameOver');
     gameRef.pauseEngine();
   }

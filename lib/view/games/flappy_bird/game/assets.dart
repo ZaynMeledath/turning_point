@@ -1,5 +1,5 @@
 class Assets {
-  static const backgorund = 'background.png';
+  static const background = 'background.png';
   static const ground = 'ground.png';
   static const clouds = 'clouds.png';
   static const pipe = 'pipe.png';

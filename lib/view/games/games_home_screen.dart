@@ -50,7 +50,7 @@ class _GamesHomeScreenState extends State<GamesHomeScreen> {
                 ),
                 SafeArea(
                   child: AnimatedScale(
-                    scale: animateText ? .97 : 1,
+                    scale: animateText ? .98 : 1,
                     duration: const Duration(milliseconds: 1000),
                     child: Image.asset(
                       'assets/images/play_and_earn_text.png',
