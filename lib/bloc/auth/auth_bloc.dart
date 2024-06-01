@@ -88,18 +88,35 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             return emit(WhoIsSigningState());
           }
         } on FirebaseAuthException catch (_) {
-          return emit(const AuthErrorState(
-              message:
-                  'Something went wrong while connecting to the Firebase.'));
+          return emit(
+            AuthErrorState(
+              message: 'Something went wrong while connecting to the Firebase.',
+              phone: state.phone,
+              businessName: state.businessName,
+              contractor: state.contractor,
+              refCode: state.refCode,
+            ),
+          );
         } on ProfileInactiveException {
           return emit(ProfileInactiveState());
         } on CouldNotSignInUserAuthException {
-          return emit(const AuthErrorState(
-              message: 'Something went wrong while connecting to the server.'));
+          return emit(
+            AuthErrorState(
+              message: 'Something went wrong while connecting to the Server.',
+              phone: state.phone,
+              businessName: state.businessName,
+              contractor: state.contractor,
+              refCode: state.refCode,
+            ),
+          );
         } catch (e) {
           return emit(
-            const AuthErrorState(
-              message: 'Something went wrong while connecting to the server',
+            AuthErrorState(
+              message: 'Something went wrong while connecting to the Server.',
+              phone: state.phone,
+              businessName: state.businessName,
+              contractor: state.contractor,
+              refCode: state.refCode,
             ),
           );
         }
@@ -155,9 +172,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           return emit(SignUpState(exception: e));
         } catch (_) {
           return emit(
-            const AuthErrorState(
-                message:
-                    'Something went wrong while accessing\nthe server. Please try after sometime'),
+            AuthErrorState(
+              message:
+                  'Something went wrong while accessing\nthe server. Please try after sometime',
+              phone: state.phone,
+              businessName: state.businessName,
+              contractor: state.contractor,
+              refCode: state.refCode,
+            ),
           );
         }
       },
@@ -193,11 +215,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           );
         } else {
           return emit(
-            OtpVerificationNeededState(
+            AuthErrorState(
+              message: 'Something went wrong while connecting to the Firebase.',
               phone: state.phone,
               businessName: state.businessName,
               contractor: state.contractor,
-              exception: 'Something went wrong while connecting to Firebase',
               refCode: state.refCode,
             ),
           );
@@ -209,31 +231,31 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           return emit(InitialState());
         }
         return emit(
-          OtpVerificationNeededState(
+          AuthErrorState(
+            message: e.code,
             phone: state.phone,
             businessName: state.businessName,
             contractor: state.contractor,
-            exception: e.code,
             refCode: state.refCode,
           ),
         );
       } on BadRequestException {
         return emit(
-          OtpVerificationNeededState(
+          AuthErrorState(
+            message: 'Invalid Referral Code',
             phone: state.phone,
             businessName: state.businessName,
             contractor: state.contractor,
-            exception: 'Invalid Referral Code',
             refCode: state.refCode,
           ),
         );
       } catch (e) {
         return emit(
-          OtpVerificationNeededState(
+          AuthErrorState(
+            message: 'Something went wrong while connecting to the Server.',
             phone: state.phone,
             businessName: state.businessName,
             contractor: state.contractor,
-            exception: 'Something went wrong while connecting to the server',
             refCode: state.refCode,
           ),
         );

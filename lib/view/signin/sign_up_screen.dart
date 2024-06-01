@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/constants/constants.dart';
@@ -14,6 +15,7 @@ import 'package:turning_point/utils/custom_navigator.dart';
 import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/utils/widget/custom_loading.dart';
 import 'package:turning_point/utils/widget/custom_radio_button.dart';
+import 'package:turning_point/view/boarding/first_boarding_screen.dart';
 import 'package:turning_point/view/signin/add_contractor_details_screen.dart';
 import 'package:turning_point/view/signin/otp_verification_screen.dart';
 
@@ -96,14 +98,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
             iconWidth: screenSize.width * .2,
           );
         } else if (state is AuthErrorState) {
-          showAnimatedGenericDialog(
-            context: context,
-            iconPath: 'assets/lottie/gear_error_animation.json',
-            title: 'Something Went Wrong',
-            content: state.message,
-            buttons: {'OK': null},
-            iconWidth: screenSize.width * .2,
-          );
+          if (state.message == 'invalid-verification-code') {
+            showAnimatedGenericDialog(
+              context: context,
+              iconPath: 'assets/icons/kyc_declined_icon.png',
+              title: 'Wrong OTP',
+              content: 'Please enter the correct OTP to continue',
+              buttons: {'OK': null},
+            );
+          } else {
+            showAnimatedGenericDialog(
+              context: context,
+              iconPath: 'assets/lottie/gear_error_animation.json',
+              title: 'Something Went Wrong',
+              content: state.message,
+              buttons: {'OK': null},
+              iconWidth: screenSize.width * .2,
+            );
+          }
         } else if (state is PhoneNumberExistsState) {
           showAnimatedGenericDialog(
             context: context,
@@ -138,6 +150,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
               location: location,
             ),
           );
+        } else if (state is InitialState) {
+          Navigator.of(context).pushAndRemoveUntil(
+              PageTransition(
+                child: const FirstBoardingScreen(),
+                type: PageTransitionType.leftToRight,
+              ),
+              (route) => false);
         }
       },
       child: Scaffold(

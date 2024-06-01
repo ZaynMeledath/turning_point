@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:pinput/pinput.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/utils/custom_navigator.dart';
 import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/main.dart';
-import 'package:turning_point/view/signin/sign_in_screen.dart';
 import 'package:turning_point/view/terms_and_conditions/terms_and_conditions_screen.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
@@ -63,46 +61,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is OtpVerificationNeededState && state.exception != null) {
-          Navigator.pop(context);
-          if (state.exception == 'invalid-verification-code') {
-            Future.delayed(Duration.zero, () {
-              showAnimatedGenericDialog(
-                context: context,
-                iconPath: 'assets/icons/kyc_declined_icon.png',
-                title: 'Wrong OTP',
-                content: 'Please enter the correct OTP to continue',
-                buttons: {'OK': null},
-              );
-            });
-          } else if (state is InitialState) {
-            Navigator.of(context).pushAndRemoveUntil(
-                PageTransition(
-                  child: const SignInScreen(),
-                  type: PageTransitionType.leftToRight,
-                ),
-                (route) => false);
-          } else {
-            showAnimatedGenericDialog(
-              context: context,
-              iconPath: 'assets/lottie/gear_error_animation.json',
-              title: 'Error',
-              content: state.exception ?? '',
-              buttons: {'OK': null},
-              iconWidth: screenSize.width * .2,
-            );
-          }
-        }
-        // else if (state is AuthErrorState) {
-        //   showAnimatedGenericDialog(
-        //     context: context,
-        //     iconPath: 'assets/icons/kyc_declined_icon.png',
-        //     title: 'Something went wrong',
-        //     content: state.message,
-        //     buttons: {'OK': null},
-        //   );
-        // }
-        else if (state is OtpVerifiedState) {
+        if (state is OtpVerifiedState) {
           Navigator.pop(context);
           CustomNavigator.pushAndRemove(
             context: context,

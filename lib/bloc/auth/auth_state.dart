@@ -31,13 +31,11 @@ class SignInState extends AuthState {}
 class WhoIsSigningState extends AuthState {}
 
 class OtpVerificationNeededState extends AuthState {
-  final String? exception;
   const OtpVerificationNeededState({
     required super.phone,
     required super.businessName,
     required super.contractor,
     required super.refCode,
-    this.exception,
   });
 }
 
@@ -68,5 +66,9 @@ class AuthErrorState extends AuthState {
 
   const AuthErrorState({
     required this.message,
+    required super.phone,
+    required super.businessName,
+    required super.contractor,
+    required super.refCode,
   });
 }

@@ -99,7 +99,7 @@ class _ReelsPlayerState extends State<ReelsPlayer>
                   width: screenSize.width * .105,
                   height: screenSize.width * .105,
                   decoration: const BoxDecoration(
-                    color: Colors.black45,
+                    color: Colors.black54,
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
