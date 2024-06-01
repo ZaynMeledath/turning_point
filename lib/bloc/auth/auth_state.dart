@@ -17,10 +17,10 @@ sealed class AuthState {
 
 class AuthLoadingState extends AuthState {
   const AuthLoadingState({
-    super.phone,
-    super.businessName,
-    super.contractor,
-    super.refCode,
+    required super.phone,
+    required super.businessName,
+    required super.contractor,
+    required super.refCode,
   });
 }
 

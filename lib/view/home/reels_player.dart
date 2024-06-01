@@ -41,8 +41,16 @@ class _ReelsPlayerState extends State<ReelsPlayer>
       widget.videoController.pause();
       animationController.forward();
       preloadBloc.manuallyPaused = true;
+      Future.delayed(const Duration(milliseconds: 600), () {
+        animationController.reverse();
+      });
     } else {
       widget.videoController.play();
+      animationController.forward();
+      preloadBloc.manuallyPaused = false;
+      Future.delayed(const Duration(milliseconds: 600), () {
+        animationController.reverse();
+      });
     }
   }
 
@@ -59,13 +67,13 @@ class _ReelsPlayerState extends State<ReelsPlayer>
     return ValueListenableBuilder(
       valueListenable: widget.videoController,
       builder: (context, value, child) {
-        if (!preloadBloc.manuallyPaused) {
-          animationController.reverse();
-        }
-        if (value.isPlaying) {
-          animationController.reverse();
-          preloadBloc.manuallyPaused = false;
-        }
+        // if (!preloadBloc.manuallyPaused) {
+        //   animationController.reverse();
+        // }
+        // if (value.isPlaying) {
+        //   animationController.reverse();
+        //   preloadBloc.manuallyPaused = false;
+        // }
 
         return Stack(
           alignment: Alignment.center,
@@ -87,16 +95,18 @@ class _ReelsPlayerState extends State<ReelsPlayer>
               scale: animation,
               child: GestureDetector(
                 onTap: () => onScreenTap(),
-                child: Icon(
-                  Icons.play_circle_fill_rounded,
-                  size: screenSize.width * .13,
-                  color: Colors.white.withOpacity(.8),
-                  shadows: [
-                    Shadow(
-                      blurRadius: 1,
-                      color: Colors.grey.withOpacity(.3),
-                    ),
-                  ],
+                child: Container(
+                  width: screenSize.width * .105,
+                  height: screenSize.width * .105,
+                  decoration: const BoxDecoration(
+                    color: Colors.black45,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    value.isPlaying ? Icons.play_arrow : Icons.pause,
+                    size: screenSize.width * .052,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
@@ -106,3 +116,19 @@ class _ReelsPlayerState extends State<ReelsPlayer>
     );
   }
 }
+
+
+
+// Icon(
+//                   value.isPlaying
+//                       ? Icons.play_circle_filled_rounded
+//                       : Icons.pause_circle_filled_rounded,
+//                   size: screenSize.width * .125,
+//                   color: Colors.white.withOpacity(.8),
+//                   shadows: [
+//                     Shadow(
+//                       blurRadius: 1,
+//                       color: Colors.grey.withOpacity(.3),
+//                     ),
+//                   ],
+//                 ),

@@ -24,7 +24,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 //====================Initialize====================//
     on<AuthInitializeEvent>((event, emit) async {
       try {
-        emit(const AuthLoadingState());
+        emit(
+          AuthLoadingState(
+            phone: state.phone,
+            businessName: state.businessName,
+            contractor: state.contractor,
+            refCode: state.refCode,
+          ),
+        );
         await provider.initialize();
         final userFromPreference = UserRepository.getUserFromPreference();
         if (userFromPreference != null) {
@@ -55,7 +62,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 //====================GoogleSignInEvent====================//
     on<GoogleSignInEvent>(
       (event, emit) async {
-        emit(const AuthLoadingState());
+        emit(
+          AuthLoadingState(
+            phone: state.phone,
+            businessName: state.businessName,
+            contractor: state.contractor,
+            refCode: state.refCode,
+          ),
+        );
         try {
           await provider.signOut();
           final token = await provider.signIn();
@@ -73,6 +87,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           } else {
             return emit(WhoIsSigningState());
           }
+        } on FirebaseAuthException catch (_) {
+          return emit(const AuthErrorState(
+              message:
+                  'Something went wrong while connecting to the Firebase.'));
         } on ProfileInactiveException {
           return emit(ProfileInactiveState());
         } on CouldNotSignInUserAuthException {
@@ -92,7 +110,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignUpEvent>(
       (event, emit) async {
         emit(
-          const AuthLoadingState(),
+          AuthLoadingState(
+            phone: state.phone,
+            businessName: state.businessName,
+            contractor: state.contractor,
+            refCode: state.refCode,
+          ),
         );
         try {
           //avoid all the checks if it's already done

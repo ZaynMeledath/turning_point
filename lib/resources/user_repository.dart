@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -54,6 +55,8 @@ class UserRepository {
       );
 
       return response['status'];
+    } on FirebaseAuthException catch (_) {
+      rethrow;
     } catch (e) {
       log('EXCEPTION IN USER SIGN IN : $e');
       throw CouldNotSignInUserAuthException(errorMessage: e.toString());
