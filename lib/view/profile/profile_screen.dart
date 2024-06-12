@@ -151,7 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                SizedBox(height: screenSize.height * .038),
+                                SizedBox(height: screenSize.height * .035),
                               ],
                             );
 
@@ -188,7 +188,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 SizedBox(height: screenSize.height * .023),
                 profileOptionsSegment(context: context),
-                SizedBox(height: screenSize.height * .012),
+                SizedBox(height: screenSize.height * .006),
                 referAndEarnContainer(context: context),
                 SizedBox(height: screenSize.height * .03),
               ],
