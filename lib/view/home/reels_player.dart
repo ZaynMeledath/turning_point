@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_loading.dart';
+import 'package:turning_point/utils/screen_size.dart';
+import 'package:turning_point/utils/widget/custom_loading.dart';
 import 'package:video_player/video_player.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
@@ -41,8 +41,16 @@ class _ReelsPlayerState extends State<ReelsPlayer>
       widget.videoController.pause();
       animationController.forward();
       preloadBloc.manuallyPaused = true;
+      Future.delayed(const Duration(milliseconds: 600), () {
+        animationController.reverse();
+      });
     } else {
       widget.videoController.play();
+      animationController.forward();
+      preloadBloc.manuallyPaused = false;
+      Future.delayed(const Duration(milliseconds: 600), () {
+        animationController.reverse();
+      });
     }
   }
 
@@ -59,42 +67,46 @@ class _ReelsPlayerState extends State<ReelsPlayer>
     return ValueListenableBuilder(
       valueListenable: widget.videoController,
       builder: (context, value, child) {
-        if (!preloadBloc.manuallyPaused) {
-          animationController.reverse();
-        }
-        if (value.isPlaying) {
-          animationController.reverse();
-          preloadBloc.manuallyPaused = false;
-        }
+        // if (!preloadBloc.manuallyPaused) {
+        //   animationController.reverse();
+        // }
+        // if (value.isPlaying) {
+        //   animationController.reverse();
+        //   preloadBloc.manuallyPaused = false;
+        // }
+
         return Stack(
           alignment: Alignment.center,
           children: [
             Center(
-              child: value.isInitialized
-                  ? GestureDetector(
-                      onTapDown: (details) {
-                        onScreenTap();
-                      },
-                      child: VideoPlayer(
-                        widget.videoController,
-                      ),
-                    )
-                  : circleLoading(),
+              child:
+                  value.isInitialized || (value.isPlaying && !value.isBuffering)
+                      ? GestureDetector(
+                          onTapDown: (details) {
+                            onScreenTap();
+                          },
+                          child: VideoPlayer(
+                            widget.videoController,
+                          ),
+                        )
+                      : circleLoading(),
             ),
             ScaleTransition(
               scale: animation,
               child: GestureDetector(
                 onTap: () => onScreenTap(),
-                child: Icon(
-                  Icons.play_circle_fill_rounded,
-                  size: screenSize.width * .13,
-                  color: Colors.white.withOpacity(.8),
-                  shadows: [
-                    Shadow(
-                      blurRadius: 1,
-                      color: Colors.grey.withOpacity(.3),
-                    ),
-                  ],
+                child: Container(
+                  width: screenSize.width * .105,
+                  height: screenSize.width * .105,
+                  decoration: const BoxDecoration(
+                    color: Colors.black54,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    value.isPlaying ? Icons.play_arrow : Icons.pause,
+                    size: screenSize.width * .052,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
@@ -104,3 +116,19 @@ class _ReelsPlayerState extends State<ReelsPlayer>
     );
   }
 }
+
+
+
+// Icon(
+//                   value.isPlaying
+//                       ? Icons.play_circle_filled_rounded
+//                       : Icons.pause_circle_filled_rounded,
+//                   size: screenSize.width * .125,
+//                   color: Colors.white.withOpacity(.8),
+//                   shadows: [
+//                     Shadow(
+//                       blurRadius: 1,
+//                       color: Colors.grey.withOpacity(.3),
+//                     ),
+//                   ],
+//                 ),

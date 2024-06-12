@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/my_app_bar.dart';
-import 'package:turning_point/helper/widget/title_content_text.dart';
+import 'package:turning_point/utils/screen_size.dart';
+import 'package:turning_point/utils/widget/my_app_bar.dart';
+import 'package:turning_point/utils/widget/title_content_text.dart';
 import 'package:turning_point/view/boarding/boarding_screen.dart';
 
 class TermsAndConditionsScreen extends StatefulWidget {

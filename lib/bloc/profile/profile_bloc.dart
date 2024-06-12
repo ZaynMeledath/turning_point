@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart' show TextEditingController, immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
+import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/constants/constants.dart';
@@ -33,6 +34,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             reelsBloc.state.reelsModelList = reelsModelResponse.data;
             preloadBloc.add(PreloadEvent(currentIndex: 0, isInitial: true));
           }
+          pointsBloc.add(PointsLoadEvent());
 
           return emit(ProfileLoadedState(
             isLoading: false,
@@ -41,13 +43,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             isContractorTemp: isContractor,
           ));
         } else {
-          return emit(ProfileLoadErrorState());
+          return emit(ProfileLoadErrorState(isLoading: false));
         }
       } on ProfileInactiveException {
-        log('EMITTING PROFILE INACTIVE STATE');
-        // return emit(ProfileInactiveState());
+        return emit(ProfileInactiveState());
       } catch (e) {
-        return emit(ProfileLoadErrorState());
+        return emit(ProfileLoadErrorState(isLoading: false));
       }
     });
 
@@ -269,6 +270,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         }
         return;
       }
+    });
+
+//====================Profile Reload Event====================//
+    on<ProfileErrorStateReloadEvent>((event, emit) {
+      emit(ProfileLoadErrorState(isLoading: true));
+      add(ProfileLoadEvent(avoidGettingFromPreference: true));
     });
   }
 

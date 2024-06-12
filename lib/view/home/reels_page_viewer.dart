@@ -7,8 +7,8 @@ import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/reels/reels_bloc.dart';
 import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/dialog/show_points_received_toast.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_loading.dart';
+import 'package:turning_point/utils/screen_size.dart';
+import 'package:turning_point/utils/widget/custom_loading.dart';
 import 'package:turning_point/resources/reels_repository.dart';
 import 'package:turning_point/view/home/reels_player.dart';
 import 'package:turning_point/view/home/reels_screen.dart';
@@ -88,24 +88,13 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
           builder: (context, reelsState) {
             return PageView.builder(
               itemCount: preloadState.urls.length,
-              onPageChanged: (index) async {
-                likeButtonActiveStatus = false;
-                preloadBloc.manuallyPaused = false;
-                preloadBloc.add(PreloadEvent(currentIndex: index));
-                if (index >=
-                    preloadBloc.pageIndex * ReelsRepository.reelsPageSize - 2) {
-                  preloadBloc.pageIndex++;
-                  await ReelsRepository.getReels(page: preloadBloc.pageIndex);
-                }
-              },
+              onPageChanged: onPageChanged,
               scrollDirection: Axis.vertical,
               controller: pageController,
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
                 if (preloadState.controllers.isNotEmpty &&
-                    (index == preloadState.focusedIndex ||
-                        index == preloadState.focusedIndex + 1 ||
-                        index == preloadState.focusedIndex - 1)) {
+                    preloadState.controllers[index] != null) {
                   return Stack(
                     children: [
                       ReelsPlayer(
@@ -297,9 +286,15 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
                                         ? Colors.red
                                         : Colors.transparent,
                                     percent: (controllerValue
-                                            .position.inMilliseconds /
-                                        (controllerValue
-                                            .duration.inMilliseconds)),
+                                                    .position.inMilliseconds /
+                                                (controllerValue
+                                                    .duration.inMilliseconds)) >
+                                            1.0
+                                        ? 0
+                                        : (controllerValue
+                                                .position.inMilliseconds /
+                                            (controllerValue
+                                                .duration.inMilliseconds)),
                                     barRadius: const Radius.circular(6),
                                     lineHeight: 3,
                                   ),
@@ -318,5 +313,17 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
         );
       },
     );
+  }
+
+  void onPageChanged(index) async {
+    await Future.delayed(Duration.zero);
+    likeButtonActiveStatus = false;
+    preloadBloc.manuallyPaused = false;
+    preloadBloc.add(PreloadEvent(currentIndex: index));
+    if (index >= (preloadBloc.pageIndex * ReelsRepository.reelsPageSize) - 2) {
+      preloadBloc.pageIndex++;
+      await ReelsRepository.getReels(page: preloadBloc.pageIndex);
+      preloadBloc.add(PreloadEvent(currentIndex: index));
+    }
   }
 }

@@ -20,3 +20,8 @@ class PointsHistoryLoadedState extends PointsHistoryState {
 }
 
 class NoPointsHistoryState extends PointsHistoryState {}
+
+class PointsHistoryErrorState extends PointsHistoryState {
+  final bool isLoading;
+  const PointsHistoryErrorState({required this.isLoading});
+}

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:turning_point/helper/custom_navigator.dart';
-import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/utils/custom_navigator.dart';
+import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/view/signin/segments/who_is_signing_container.dart';
 import 'package:turning_point/view/signin/sign_up_screen.dart';
 

@@ -6,8 +6,8 @@ import 'package:lottie/lottie.dart';
 import 'package:turning_point/bloc/lucky_draw/lucky_draw_bloc.dart';
 import 'package:turning_point/bloc/rewards/rewards_bloc.dart';
 import 'package:turning_point/constants/constants.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_loading.dart';
+import 'package:turning_point/utils/screen_size.dart';
+import 'package:turning_point/utils/widget/custom_loading.dart';
 import 'package:turning_point/model/rewards_model.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -77,60 +77,21 @@ class _WinnersDisplayScreenState extends State<WinnersDisplayScreen>
                 isAudioPlaying = true;
                 audioPlayer.play(
                   AssetSource(
-                    'sounds/lucky_draw_music.m4a',
+                    'audio/lucky_draw_music.m4a',
                   ),
                 );
               }
               return SizedBox(
                 height: screenSize.height,
-                width: screenSize.width,
+                width: realScreenSize.width,
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
                     Image.asset(
                       'assets/images/winners_display_screen_frame.png',
-                      width: screenSize.width,
+                      width: realScreenSize.width,
                       height: screenSize.height,
                       fit: BoxFit.cover,
-                    ),
-                    Positioned(
-                      top: -realScreenSize.width * .5,
-                      child: Container(
-                        width: realScreenSize.width,
-                        height: realScreenSize.width,
-                        decoration: const BoxDecoration(
-                          color: Color.fromRGBO(247, 247, 247, .15),
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color.fromRGBO(177, 177, 177, 0.04),
-                              offset: Offset(41, 4),
-                              blurRadius: 4,
-                              blurStyle: BlurStyle.outer,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: screenSize.height * .6,
-                      right: -screenSize.width * .38,
-                      child: Container(
-                        width: screenSize.width * .74,
-                        height: screenSize.width * .74,
-                        decoration: const BoxDecoration(
-                          color: Color.fromRGBO(247, 247, 247, .15),
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color.fromRGBO(177, 177, 177, 0.04),
-                              offset: Offset(41, 4),
-                              blurRadius: 4,
-                              blurStyle: BlurStyle.outer,
-                            ),
-                          ],
-                        ),
-                      ),
                     ),
                     Column(
                       children: [

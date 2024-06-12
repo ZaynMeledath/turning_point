@@ -11,7 +11,7 @@ part 'preload_event.dart';
 part 'preload_state.dart';
 
 class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
-  bool manuallyPaused = false; // Will be removed while optimizing the app
+  bool manuallyPaused = false;
   int pageIndex = 1;
   PreloadBloc() : super(PreloadState.initial()) {
     on<PreloadEvent>((event, emit) async {
@@ -108,6 +108,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
 
     on<PreloadResetEvent>((event, emit) {
       pageIndex = 1;
+      manuallyPaused = false;
       ReelsRepository.urlList.clear();
       disposeAllControllers();
       return emit(PreloadState.initial());
@@ -125,7 +126,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
   }
 
 //====================Play Next Video====================//
-  void _playNext(int index) {
+  void _playNext(int index) async {
     _stopControllerAtIndex(index - 1);
 
     _disposeControllerAtIndex(index - 2);
@@ -136,7 +137,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
   }
 
 //====================Play Previous Video====================//
-  void _playPrevious(int index) {
+  void _playPrevious(int index) async {
     _stopControllerAtIndex(index + 1);
 
     _disposeControllerAtIndex(index + 2);
@@ -179,6 +180,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
         final VideoPlayerController controller = state.controllers[index]!;
 
         /// Play controller
+
         controller.play();
       }
     }
@@ -244,7 +246,7 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
 
 //====================Check for Cache====================//
   Future<FileInfo?> checkForCache(String url) async {
-    final fileInfo = DefaultCacheManager().getFileFromCache(url);
+    final fileInfo = await DefaultCacheManager().getFileFromCache(url);
     return fileInfo;
   }
 
@@ -263,34 +265,3 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
 }
 
 final preloadBloc = PreloadBloc();
-
-
-
-
-
-
-
-//====================Initialize Controller on Given Index(Uses Cache)====================//
-  // Future _initializeControllerAtIndex(int index) async {
-  //   if (state.urls.length > index && index >= 0) {
-  //     final VideoPlayerController? controller;
-  //     final fileInfo =
-  //         await DefaultCacheManager().getFileFromCache(state.urls[index]);
-
-  //     if (fileInfo == null) {
-  //       DefaultCacheManager().downloadFile(state.urls[index]);
-  //       controller =
-  //           VideoPlayerController.networkUrl(Uri.parse(state.urls[index]));
-  //     } else {
-  //       controller = VideoPlayerController.file(fileInfo.file);
-  //     }
-
-  //     // Create new controller
-
-  //     // Add to [controllers] list
-  //     state.controllers[index] = controller;
-
-  //     // Initialize
-  //     await controller.initialize();
-  //   }
-  // }

@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart' show TextEditingController, immutable;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/model/contractor_model.dart';
@@ -22,15 +24,30 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 //====================Initialize====================//
     on<AuthInitializeEvent>((event, emit) async {
       try {
-        emit(const AuthLoadingState());
+        emit(
+          AuthLoadingState(
+            phone: state.phone,
+            businessName: state.businessName,
+            contractor: state.contractor,
+            refCode: state.refCode,
+          ),
+        );
         await provider.initialize();
         final userFromPreference = UserRepository.getUserFromPreference();
-        await Future.delayed(const Duration(milliseconds: 50));
         if (userFromPreference != null) {
-          await UserRepository.getUserById(avoidGettingFromPreference: true);
-          await provider.signIn();
-          profileBloc.add(ProfileLoadEvent());
-          pointsBloc.add(PointsLoadEvent());
+          if (provider.currentUser == null) {
+            await provider.signIn();
+          }
+          final notificationType =
+              AppPreferences.getValueShared('notification_type');
+          await DefaultCacheManager().emptyCache();
+
+          AppPreferences.addSharedPreference(
+            key: 'notification_type',
+            value: notificationType,
+          );
+
+          profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
           return emit(DirectSignedInState());
         } else {
           return emit(InitialState());
@@ -45,7 +62,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 //====================GoogleSignInEvent====================//
     on<GoogleSignInEvent>(
       (event, emit) async {
-        emit(const AuthLoadingState());
+        emit(
+          AuthLoadingState(
+            phone: state.phone,
+            businessName: state.businessName,
+            contractor: state.contractor,
+            refCode: state.refCode,
+          ),
+        );
         try {
           await provider.signOut();
           final token = await provider.signIn();
@@ -63,15 +87,36 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           } else {
             return emit(WhoIsSigningState());
           }
+        } on FirebaseAuthException catch (_) {
+          return emit(
+            AuthErrorState(
+              message: 'Something went wrong while connecting to the Firebase.',
+              phone: state.phone,
+              businessName: state.businessName,
+              contractor: state.contractor,
+              refCode: state.refCode,
+            ),
+          );
         } on ProfileInactiveException {
           return emit(ProfileInactiveState());
         } on CouldNotSignInUserAuthException {
-          return emit(const AuthErrorState(
-              message: 'Something went wrong while connecting to the server.'));
+          return emit(
+            AuthErrorState(
+              message: 'Something went wrong while connecting to the Server.',
+              phone: state.phone,
+              businessName: state.businessName,
+              contractor: state.contractor,
+              refCode: state.refCode,
+            ),
+          );
         } catch (e) {
           return emit(
-            const AuthErrorState(
-              message: 'Something went wrong while connecting to the server',
+            AuthErrorState(
+              message: 'Something went wrong while connecting to the Server.',
+              phone: state.phone,
+              businessName: state.businessName,
+              contractor: state.contractor,
+              refCode: state.refCode,
             ),
           );
         }
@@ -82,32 +127,60 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignUpEvent>(
       (event, emit) async {
         emit(
-          const AuthLoadingState(),
+          AuthLoadingState(
+            phone: state.phone,
+            businessName: state.businessName,
+            contractor: state.contractor,
+            refCode: state.refCode,
+          ),
         );
         try {
-          final phoneExists =
-              await UserRepository.checkPhoneNumber(event.phone);
+          //avoid all the checks if it's already done
+          if (event.avoidChecks != true) {
+            final phoneExists =
+                await UserRepository.checkPhoneNumber(event.phone);
+            if (phoneExists) {
+              return emit(PhoneNumberExistsState());
+            } else {
+              if (event.refCode != null && event.refCode!.isNotEmpty) {
+                final isRefCodeValid =
+                    await UserRepository.checkRefCode(event.refCode!);
+                if (!isRefCodeValid) {
+                  return emit(InvalidReferralCodeState());
+                }
+              }
+            }
 
-          if (phoneExists) {
-            return emit(PhoneNumberExistsState());
-          } else {
-            emit(
-              OtpVerificationNeededState(
-                phone: event.phone,
-                businessName: event.businessName,
-                contractor: event.contractor,
-                refCode: event.refCode,
-              ),
-            );
-            await provider.sendPhoneVerification(
-              phone: event.phone,
-              otpController: event.otpController,
-            );
+            if (contractorBloc.state.contractorNotListed == true) {
+              return emit(AddContractorDetailsState());
+            }
           }
+
+          emit(
+            OtpVerificationNeededState(
+              phone: event.phone,
+              businessName: event.businessName,
+              contractor: event.contractor,
+              refCode: event.refCode,
+            ),
+          );
+          await provider.sendPhoneVerification(
+            phone: event.phone,
+            otpController: event.otpController,
+          );
         } on FirebaseAuthException catch (e) {
-          emit(SignUpState(exception: e));
-        } catch (e) {
-          throw Exception(e);
+          return emit(SignUpState(exception: e));
+        } catch (_) {
+          return emit(
+            AuthErrorState(
+              message:
+                  'Something went wrong while accessing\nthe server. Please try after sometime',
+              phone: state.phone,
+              businessName: state.businessName,
+              contractor: state.contractor,
+              refCode: state.refCode,
+            ),
+          );
         }
       },
     );
@@ -141,39 +214,48 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             refCode: state.refCode,
           );
         } else {
-          emit(
-            const AuthErrorState(message: 'Error Signing Up. Please try again'),
+          return emit(
+            AuthErrorState(
+              message: 'Something went wrong while connecting to the Firebase.',
+              phone: state.phone,
+              businessName: state.businessName,
+              contractor: state.contractor,
+              refCode: state.refCode,
+            ),
           );
         }
 
-        emit(OtpVerifiedState());
+        return emit(OtpVerifiedState());
       } on FirebaseAuthException catch (e) {
+        if (e.code == 'session-expired' || e.code == 'channel-error') {
+          return emit(InitialState());
+        }
         return emit(
-          OtpVerificationNeededState(
+          AuthErrorState(
+            message: e.code,
             phone: state.phone,
             businessName: state.businessName,
             contractor: state.contractor,
-            exception: e.code,
             refCode: state.refCode,
           ),
         );
       } on BadRequestException {
         return emit(
-          OtpVerificationNeededState(
+          AuthErrorState(
+            message: 'Invalid Referral Code',
             phone: state.phone,
             businessName: state.businessName,
             contractor: state.contractor,
-            exception: 'Invalid Referral Code',
             refCode: state.refCode,
           ),
         );
       } catch (e) {
         return emit(
-          OtpVerificationNeededState(
+          AuthErrorState(
+            message: 'Something went wrong while connecting to the Server.',
             phone: state.phone,
             businessName: state.businessName,
             contractor: state.contractor,
-            exception: 'Something went wrong while connecting to the server',
             refCode: state.refCode,
           ),
         );

@@ -14,13 +14,11 @@ sealed class RedeemState {
 }
 
 class BuyCouponsState extends RedeemState {
-  final String? coupon;
   BuyCouponsState({
     required super.selectedOptionNumber,
     required super.redeemPoints,
     required super.isTermsAgreed,
     required super.isLoading,
-    this.coupon,
   });
 }
 

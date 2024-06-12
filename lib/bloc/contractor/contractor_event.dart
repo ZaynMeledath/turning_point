@@ -14,4 +14,4 @@ class ContractorSelectedEvent extends ContractorEvent {
 
 class ContractorNotListedEvent extends ContractorEvent {}
 
-class HaveNoContractorEvent extends ContractorEvent {}
+class HaveNoContractorSelectedEvent extends ContractorEvent {}

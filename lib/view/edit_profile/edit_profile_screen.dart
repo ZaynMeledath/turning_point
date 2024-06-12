@@ -11,10 +11,10 @@ import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/dialog/show_animated_otp_dialog.dart';
 import 'package:turning_point/dialog/show_edit_profile_dialog.dart';
-import 'package:turning_point/helper/widget/custom_loading.dart';
-import 'package:turning_point/helper/widget/my_app_bar.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_radio_button.dart';
+import 'package:turning_point/utils/widget/custom_loading.dart';
+import 'package:turning_point/utils/widget/my_app_bar.dart';
+import 'package:turning_point/utils/screen_size.dart';
+import 'package:turning_point/utils/widget/custom_radio_button.dart';
 import 'package:turning_point/view/edit_profile/segments/edit_profile_picture_segment.dart';
 import 'package:turning_point/view/edit_profile/segments/text_field_segment.dart';
 import 'package:photo_view/photo_view.dart';
@@ -338,17 +338,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     if (isContractorTemp != isContractor) {
       return true;
     }
+
     if (_nameController.text.trim() != userModel.name ||
-            _phoneController.text.trim() != userModel.phone ||
-            _addressController.text.trim() != userModel.actualAddress ||
-            isContractorTemp
-        ? _businessController.text.trim() != userModel.businessName
-        : (contractorBloc.state.contractor == null ||
-            contractorBloc.state.contractor!.name !=
-                userModel.contractor!.name ||
-            contractorBloc.state.contractor!.businessName !=
-                userModel.contractor!.businessName)) {
+        _phoneController.text.trim() != userModel.phone ||
+        _addressController.text.trim() != userModel.actualAddress ||
+        isContractorTemp) {
       return true;
+    }
+    if (isContractorTemp) {
+      if (_businessController.text.trim() != userModel.businessName) {
+        return true;
+      }
+    } else {
+      if (contractorBloc.state.contractor!.name != userModel.contractor!.name ||
+          contractorBloc.state.contractor!.businessName !=
+              userModel.contractor!.businessName) {
+        return true;
+      }
     }
     return false;
   }

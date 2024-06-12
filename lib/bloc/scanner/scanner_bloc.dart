@@ -3,10 +3,8 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/model/coupon_model.dart';
-import 'package:turning_point/resources/location_repository.dart';
 import 'package:turning_point/resources/scanner_repository.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/service/Exception/scanner_exceptions.dart';
@@ -22,17 +20,16 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
     on<ScannerCodeDetectEvent>((event, emit) async {
       emit(ScannerCodeDetectingState());
       try {
-        final location = await LocationRepository.getCurrentLocation();
+        // final location = await LocationRepository.getCurrentLocation();
         final couponModel = await scannerRepo.applyCoupon(
           couponId: event.couponId,
-          location: location,
+          // location: location,
         );
 
         final userModelResponse = UserRepository.getUserFromPreference()!;
         userModelResponse.data!.points =
             userModelResponse.data!.points! + couponModel.points!;
         UserRepository.addUserToPreference(userModelResponse);
-        pointsBloc.add(PointsLoadEvent());
         profileBloc.add(ProfileLoadEvent());
         emit(ScannerCodeDetectedState(couponModel: couponModel));
       } on CouponAlreadyAppliedException {
@@ -83,6 +80,8 @@ class ScannerBloc extends Bloc<ScannerEvent, ScannerState> {
 
 //====================Scan Coupon Method====================//
   Future<void> scanCoupon() async {
+
+    //Edit the Package source code by adding required keyword with the function paramater if this line gives any error
     String barcodeScanResult = await FlutterBarcodeScanner.scanBarcode(
       lineColor: "#ffffff",
       cancelButtonText: "",

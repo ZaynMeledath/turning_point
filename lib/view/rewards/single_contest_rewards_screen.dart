@@ -77,7 +77,7 @@ class _SingleContestRewardsScreenState extends State<SingleContestRewardsScreen>
                 automaticallyImplyLeading: false,
                 toolbarHeight: screenSize.width >= 550
                     ? screenSize.width * .07
-                    : screenSize.width * .01,
+                    : screenSize.width * .05,
                 flexibleSpace: singleContestRewardsTabBar(tabController),
               ),
             ];

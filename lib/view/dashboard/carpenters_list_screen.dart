@@ -6,8 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
 import 'package:turning_point/bloc/carpenter/carpenter_bloc.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
+import 'package:turning_point/utils/screen_size.dart';
+import 'package:turning_point/utils/widget/custom_app_bar.dart';
 import 'package:turning_point/model/carpenters_list_model.dart';
 
 part 'segments/carpenters_header_segment.dart';

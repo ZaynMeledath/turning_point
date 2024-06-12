@@ -10,12 +10,11 @@ import 'package:turning_point/bloc/points_history/points_history_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/bloc/redeem/redeem_bloc.dart';
 import 'package:turning_point/constants/constants.dart';
-import 'package:turning_point/helper/widget/custom_loading.dart';
+import 'package:turning_point/utils/widget/custom_loading.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
-import 'package:turning_point/dialog/show_coupon_generate_dialog.dart';
 import 'package:turning_point/dialog/show_loading_dialog.dart';
-import 'package:turning_point/helper/widget/my_app_bar.dart';
-import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/utils/widget/my_app_bar.dart';
+import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/resources/contest_repository.dart';
 import 'package:turning_point/resources/user_repository.dart';
@@ -36,7 +35,11 @@ part 'segments/redeem_upi_text_field.dart';
 part 'segments/buy_coupon_counter.dart';
 
 class RedeemScreen extends StatefulWidget {
-  const RedeemScreen({super.key});
+  final bool? navigatedFromDashboard;
+  const RedeemScreen({
+    this.navigatedFromDashboard,
+    super.key,
+  });
 
   @override
   State<RedeemScreen> createState() => _RedeemScreenState();
@@ -64,7 +67,10 @@ class _RedeemScreenState extends State<RedeemScreen> {
   void dispose() {
     super.dispose();
     redeemBloc.add(ResetStateEvent());
-    contestBloc.add(ContestTimerDisposeEvent());
+    if (widget.navigatedFromDashboard != true) {
+      contestBloc.add(ContestTimerDisposeEvent());
+    }
+    profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
     pointsHistoryBloc.add(PointsHistoryLoadEvent(isReloading: true));
     upiController.dispose();
   }
@@ -109,13 +115,6 @@ class _RedeemScreenState extends State<RedeemScreen> {
             listener: (context, state) {
               switch (state) {
                 case BuyCouponsState():
-                  if (state.isLoading && closeDialogHandle == null) {
-                    closeDialogHandle =
-                        showCouponGenerateDialog(context: context);
-                  } else if (!state.isLoading && closeDialogHandle != null) {
-                    Navigator.pop(context);
-                    closeDialogHandle = null;
-                  }
                   break;
                 case BankTransferState():
                 case UpiTransferState():
@@ -151,22 +150,29 @@ class _RedeemScreenState extends State<RedeemScreen> {
                   return BlocListener<JoinContestBloc, JoinContestState>(
                     listener: (context, joinContestState) {
                       if (joinContestState is JoinContestLoadingState &&
-                          closeDialogHandle == null) {
+                          closeDialogHandle == null &&
+                          widget.navigatedFromDashboard != true) {
                         closeDialogHandle = showLoadingDialog(context: context);
-                      } else if (joinContestState is ContestJoinedState &&
+                      }
+                      if (joinContestState is! JoinContestLoadingState &&
                           closeDialogHandle != null) {
-                        Navigator.pop(context);
                         closeDialogHandle = null;
+                        Navigator.pop(context);
+                      }
+
+                      if (joinContestState is ContestJoinedState &&
+                          widget.navigatedFromDashboard != true) {
                         showAnimatedGenericDialog(
-                            context: context,
-                            iconPath:
-                                'assets/images/points_received_dialog_image.png',
-                            title: 'Joined Contest!',
-                            content: 'You have Successfully joined\n${joinContestState.contestModel.name}',
-                            buttons: {'Done': null});
-                      } else if (joinContestState is JoinContestErrorState) {
-                        Navigator.pop(context);
-                        closeDialogHandle = null;
+                          context: context,
+                          iconPath:
+                              'assets/images/points_received_dialog_image.png',
+                          title: 'Joined Contest!',
+                          content:
+                              'You have Successfully joined\n${joinContestState.contestModel.name}',
+                          buttons: {'Done': null},
+                        );
+                      } else if (joinContestState is JoinContestErrorState &&
+                          widget.navigatedFromDashboard != true) {
                         switch (joinContestState.exception) {
                           case InsufficientBalanceToJoinContestException():
                             showAnimatedGenericDialog(

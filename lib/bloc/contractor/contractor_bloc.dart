@@ -64,7 +64,7 @@ class ContractorBloc extends Bloc<ContractorEvent, ContractorState> {
     });
 
 //====================Have No Contractor Event====================//
-    on<HaveNoContractorEvent>((event, emit) {
+    on<HaveNoContractorSelectedEvent>((event, emit) {
       emit(
         ContractorLoadedState(
           contractorsList: state.contractorsList,

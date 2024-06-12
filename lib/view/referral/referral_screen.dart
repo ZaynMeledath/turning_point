@@ -11,10 +11,10 @@ import 'package:scratcher/scratcher.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/bloc/referral/referral_bloc.dart';
-import 'package:turning_point/helper/custom_navigator.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
-import 'package:turning_point/helper/widget/custom_loading.dart';
+import 'package:turning_point/utils/custom_navigator.dart';
+import 'package:turning_point/utils/screen_size.dart';
+import 'package:turning_point/utils/widget/custom_app_bar.dart';
+import 'package:turning_point/utils/widget/custom_loading.dart';
 import 'package:turning_point/model/referral_model.dart';
 import 'package:turning_point/view/redeem/redeem_screen.dart';
 
@@ -113,7 +113,7 @@ class _ReferralScreenState extends State<ReferralScreen> {
                         child: const TotalReferralEarnedScreen(),
                       ),
                       child: Container(
-                        width: screenSize.width * .86,
+                        width: realScreenSize.width * .86,
                         height: screenSize.height * .08,
                         padding: EdgeInsets.only(
                           left: screenSize.width * .01,

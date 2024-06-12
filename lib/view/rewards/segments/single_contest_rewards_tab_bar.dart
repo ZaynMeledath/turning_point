@@ -2,7 +2,6 @@ part of '../rewards_screen.dart';
 
 Widget singleContestRewardsTabBar(TabController tabController) {
   return Container(
-    clipBehavior: Clip.antiAlias,
     decoration: const BoxDecoration(
       color: Colors.white,
       // borderRadius: BorderRadius.only(

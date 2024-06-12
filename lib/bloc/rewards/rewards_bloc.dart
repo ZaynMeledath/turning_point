@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/foundation.dart' show immutable;
+import 'package:turning_point/bloc/lucky_draw/lucky_draw_bloc.dart';
+import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/model/rewards_model.dart';
 import 'package:turning_point/resources/contest_repository.dart';
 import 'package:turning_point/service/Exception/api_exception.dart';
@@ -12,9 +14,14 @@ class RewardsBloc extends Bloc<RewardsEvent, RewardsState> {
 //====================Rewards Load Event====================//
     on<RewardsLoadEvent>((event, emit) async {
       try {
-        final currentRewardsModelResponse =
-            await ContestRepository.getCurrentRewards();
-        state.currentRewardsModel = currentRewardsModelResponse.data!;
+        if (luckyDrawBloc.state.secondsLeft == null ||
+            luckyDrawBloc.state.secondsLeft! >
+                luckyDrawBloc.state.contestModel!.prizeArr!.length *
+                    LUCKY_DRAW_WINNER_DISPLAY_DELAY) {
+          final currentRewardsModelResponse =
+              await ContestRepository.getCurrentRewards();
+          state.currentRewardsModel = currentRewardsModelResponse.data!;
+        }
         final previousRewardsModelResponse =
             await ContestRepository.getPreviousRewards();
         state.previousRewardsModel = previousRewardsModelResponse.data!;

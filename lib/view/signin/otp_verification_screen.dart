@@ -6,9 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
-import 'package:turning_point/dialog/show_loading_dialog.dart';
-import 'package:turning_point/helper/custom_navigator.dart';
-import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/utils/custom_navigator.dart';
+import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/main.dart';
 import 'package:turning_point/view/terms_and_conditions/terms_and_conditions_screen.dart';
 
@@ -62,42 +61,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is AuthLoadingState) {
-          showLoadingDialog(context: context);
-        } else if (state is OtpVerificationNeededState &&
-            state.exception != null) {
-          Navigator.pop(context);
-          Navigator.pop(context);
-          if (state.exception == 'invalid-verification-code') {
-            Future.delayed(Duration.zero, () {
-              showAnimatedGenericDialog(
-                context: context,
-                iconPath: 'assets/icons/kyc_declined_icon.png',
-                title: 'Wrong OTP',
-                content: 'Please enter the correct OTP to continue',
-                buttons: {'OK': null},
-              );
-            });
-          } else {
-            showAnimatedGenericDialog(
-              context: context,
-              iconPath: 'assets/lottie/gear_error_animation.json',
-              title: 'Error',
-              content: state.exception ?? '',
-              buttons: {'OK': null},
-              iconWidth: screenSize.width * .2,
-            );
-          }
-        } else if (state is AuthErrorState) {
-          Navigator.pop(context);
-          showAnimatedGenericDialog(
-            context: context,
-            iconPath: 'assets/icons/kyc_declined_icon.png',
-            title: 'Something went wrong',
-            content: state.message,
-            buttons: {'OK': null},
-          );
-        } else if (state is OtpVerifiedState) {
+        if (state is OtpVerifiedState) {
           Navigator.pop(context);
           CustomNavigator.pushAndRemove(
             context: context,
@@ -153,11 +117,12 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
               ),
 
               //====================Illustration====================//
-              Positioned(
-                top: screenSize.height * .16,
+              SingleChildScrollView(
+                reverse: true,
                 child: Center(
                   child: Column(
                     children: [
+                      SizedBox(height: screenSize.height * .18),
                       Image.asset(
                         'assets/images/otp_screen_image.png',
                         height: screenSize.height * .28,
@@ -213,17 +178,16 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                             ),
                           ),
                         ),
-                        androidSmsAutofillMethod: AndroidSmsAutofillMethod.none,
+                        pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                         onChanged: (value) {},
-                        onCompleted: (value) {
-                          otp = value;
-                        },
+                        onCompleted: (value) {},
                       ),
 
                       SizedBox(height: screenSize.height * .016),
 
                       //====================Resend OTP====================//
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             "Didn't Receive the OTP?  ",
@@ -272,17 +236,21 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                             ),
                         ],
                       ),
-                      SizedBox(height: screenSize.height * .08),
+                      SizedBox(
+                        height: MediaQuery.of(context).viewInsets.bottom != 0
+                            ? screenSize.height * .04
+                            : screenSize.height * .08,
+                      ),
 
                       //====================Verify Button====================//
                       BlocBuilder<AuthBloc, AuthState>(
                         builder: (context, state) {
                           return GestureDetector(
                             onTap: () {
-                              if (otp.length == 6) {
+                              if (widget.otpController.text.length == 6) {
                                 authBloc.add(
                                   VerifyOtpEvent(
-                                    otp: otp,
+                                    otp: widget.otpController.text,
                                     location: widget.location,
                                   ),
                                 );
@@ -318,6 +286,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                           );
                         },
                       ),
+                      SizedBox(height: screenSize.height * .01),
                     ],
                   ),
                 ),

@@ -3,10 +3,11 @@ part of '../lucky_draw_screen.dart';
 Widget countDownContainer({
   required String time,
   required String title,
+  Size? containerSize,
 }) {
   return Container(
-    width: screenSize.width * .195,
-    height: screenSize.width * .22,
+    width: containerSize?.width ?? screenSize.width * .195,
+    height: containerSize?.height ?? screenSize.width * .22,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(8),
       color: const Color.fromRGBO(255, 255, 255, .9),

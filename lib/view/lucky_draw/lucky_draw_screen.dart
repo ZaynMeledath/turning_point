@@ -6,10 +6,10 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
 import 'package:turning_point/bloc/lucky_draw/lucky_draw_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
-import 'package:turning_point/helper/custom_navigator.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/my_app_bar.dart';
-import 'package:turning_point/helper/widget/custom_loading.dart';
+import 'package:turning_point/utils/custom_navigator.dart';
+import 'package:turning_point/utils/screen_size.dart';
+import 'package:turning_point/utils/widget/my_app_bar.dart';
+import 'package:turning_point/utils/widget/custom_loading.dart';
 import 'package:turning_point/view/contest/contest_screen.dart';
 import 'package:turning_point/view/lucky_draw/winners_display_screen.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -33,12 +33,18 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
   bool isAudioPlaying = false;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   void didChangeDependencies() {
     disableWakeLock();
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
+    luckyDrawBloc.add(LuckyDrawReloadEvent());
     super.didChangeDependencies();
   }
 
@@ -51,17 +57,12 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
   @override
   void dispose() {
     super.dispose();
-    luckyDrawBloc.add(LuckyDrawTimerDisposeEvent());
+    // luckyDrawBloc.add(LuckyDrawTimerDisposeEvent());
     audioPlayer.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (preloadBloc.state.controllers.isNotEmpty) {
-      preloadBloc.pauseCurrentController();
-    }
-    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
-    luckyDrawBloc.add(LuckyDrawLoadEvent());
     return Scaffold(
       backgroundColor: const Color.fromRGBO(19, 24, 54, 1),
       body: BlocBuilder<LuckyDrawBloc, LuckyDrawState>(
@@ -78,70 +79,72 @@ class _LuckyDrawScreenState extends State<LuckyDrawScreen> {
 //====================Lucky Draw Loaded State====================//
             case LuckyDrawLoadedState():
               if (state.contestModel != null) {
-                return Column(
-                  children: [
-                    SizedBox(height: screenSize.height * .09),
-                    //--------------------Lucky Draw Image--------------------//
-                    Image.asset(
-                      'assets/images/lucky_draw_image.png',
-                      width: screenSize.width * .62,
-                    ),
-
-                    SizedBox(height: screenSize.height * .024),
-                    //--------------------Days Left Blue Container--------------------//
-                    joinLuckyDraw(context: context),
-
-                    SizedBox(height: screenSize.height * .034),
-                    //--------------------Count Down Timer--------------------//
-                    countDownTimerSegment(
-                      days: state.timeMap!['timeInDays']!,
-                      hours: state.timeMap!['timeInHours']!,
-                      minutes: state.timeMap!['timeInMinutes']!,
-                      seconds: state.timeMap!['timeInSeconds']!,
-                    ),
-
-                    SizedBox(height: screenSize.height * .037),
-                    //--------------------Gifts Segment--------------------//
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: screenSize.width * .06,
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(height: screenSize.height * .09),
+                      //--------------------Lucky Draw Image--------------------//
+                      Image.asset(
+                        'assets/images/lucky_draw_image.png',
+                        width: screenSize.width * .62,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Gifts',
-                            style: GoogleFonts.roboto(
-                              color: Colors.white,
-                              fontSize: screenSize.width * .036,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () => CustomNavigator.push(
-                              context: context,
-                              child: const AllGiftsScreen(),
-                            ),
-                            child: Text(
-                              'View All',
+
+                      SizedBox(height: screenSize.height * .024),
+                      //--------------------Days Left Blue Container--------------------//
+                      joinLuckyDraw(context: context),
+
+                      SizedBox(height: screenSize.height * .034),
+                      //--------------------Count Down Timer--------------------//
+                      countDownTimerSegment(
+                        days: state.timeMap!['timeInDays']!,
+                        hours: state.timeMap!['timeInHours']!,
+                        minutes: state.timeMap!['timeInMinutes']!,
+                        seconds: state.timeMap!['timeInSeconds']!,
+                      ),
+
+                      SizedBox(height: screenSize.height * .037),
+                      //--------------------Gifts Segment--------------------//
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: screenSize.width * .06,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Gifts',
                               style: GoogleFonts.roboto(
                                 color: Colors.white,
-                                fontSize: screenSize.width * .031,
-                                fontWeight: FontWeight.w400,
+                                fontSize: screenSize.width * .036,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
-                          ),
-                        ],
+                            GestureDetector(
+                              onTap: () => CustomNavigator.push(
+                                context: context,
+                                child: const AllGiftsScreen(),
+                              ),
+                              child: Text(
+                                'View All',
+                                style: GoogleFonts.roboto(
+                                  color: Colors.white,
+                                  fontSize: screenSize.width * .031,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(height: screenSize.height * .015),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: screenSize.width * .05,
+                      SizedBox(height: screenSize.height * .015),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: screenSize.width * .05,
+                        ),
+                        child: giftBoxesSegment(context),
                       ),
-                      child: giftBoxesSegment(context),
-                    ),
-                  ],
+                    ],
+                  ),
                 );
               } else {
                 return SafeArea(

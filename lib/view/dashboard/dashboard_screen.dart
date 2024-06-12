@@ -1,13 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
-import 'package:turning_point/helper/custom_navigator.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_app_bar.dart';
-import 'package:turning_point/helper/widget/custom_loading.dart';
+import 'package:turning_point/utils/custom_navigator.dart';
+import 'package:turning_point/utils/screen_size.dart';
+import 'package:turning_point/utils/widget/custom_app_bar.dart';
+import 'package:turning_point/utils/widget/custom_loading.dart';
 import 'package:turning_point/view/dashboard/carpenters_list_screen.dart';
 import 'package:turning_point/view/dashboard/segments/dashboard_available_balance_container.dart';
 import 'package:turning_point/view/dashboard/segments/dashboard_activity_container.dart';
@@ -42,6 +43,13 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
+    contestBloc.add(ContestLoadEvent());
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
     super.dispose();
     contestBloc.add(ContestTimerDisposeEvent());
@@ -49,13 +57,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
   Future<void> _handleRefresh() async {
     profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
-    contestBloc.add(ContestLoadEvent());
+    contestBloc.add(ContestLoadAgainEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    profileBloc.add(ProfileLoadEvent(avoidGettingFromPreference: true));
-    contestBloc.add(ContestLoadEvent());
     return Scaffold(
       body: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
@@ -140,8 +146,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                         child: CircleAvatar(
                                           radius:
                                               (screenSize.height * .056) - 8,
-                                          foregroundImage: NetworkImage(
-                                              state.userModel!.image!),
+                                          foregroundImage:
+                                              CachedNetworkImageProvider(
+                                                  state.userModel!.image!),
                                         ),
                                       ),
                                     ),

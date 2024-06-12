@@ -16,12 +16,14 @@ class SignUpEvent extends AuthEvent {
   final String? businessName;
   final String? refCode;
   final TextEditingController otpController;
+  final bool? avoidChecks;
   SignUpEvent({
     required this.phone,
     this.contractor,
     this.businessName,
     required this.refCode,
     required this.otpController,
+    this.avoidChecks,
   });
 }
 

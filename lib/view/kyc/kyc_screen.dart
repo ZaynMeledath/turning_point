@@ -1,22 +1,30 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:turning_point/bloc/kyc/kyc_bloc.dart';
+import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/dialog/show_kyc_update_dialog.dart';
 import 'package:turning_point/dialog/show_loading_dialog.dart';
-import 'package:turning_point/helper/widget/custom_loading.dart';
-import 'package:turning_point/helper/widget/my_app_bar.dart';
-import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/utils/widget/custom_loading.dart';
+import 'package:turning_point/utils/widget/my_app_bar.dart';
+import 'package:turning_point/utils/screen_size.dart';
+import 'package:turning_point/view/kyc/kyc_rejected_screen.dart';
 import 'package:turning_point/view/kyc/kyc_submitted_screen.dart';
+import 'package:turning_point/view/kyc/kyc_verified_screen.dart';
 import 'package:turning_point/view/kyc/segments/kyc_bank_details.dart';
 import 'package:turning_point/view/kyc/segments/kyc_id_proof.dart';
 import 'package:turning_point/view/kyc/segments/kyc_page_title.dart';
 import 'package:turning_point/view/kyc/segments/kyc_personal_details.dart';
 
 class KycScreen extends StatefulWidget {
-  const KycScreen({super.key});
+  final bool? avoidStatusCheck;
+  const KycScreen({
+    this.avoidStatusCheck,
+    super.key,
+  });
 
   @override
   State<KycScreen> createState() => _KycScreenState();
@@ -52,6 +60,19 @@ class _KycScreenState extends State<KycScreen>
   }
 
   @override
+  void didChangeDependencies() {
+    preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: false));
+    if (preloadBloc.state.controllers.isNotEmpty) {
+      preloadBloc.pauseCurrentController();
+    }
+    kycBloc.add(KycLoadEvent(
+      tabIndex: 0,
+      avoidStatusCheck: widget.avoidStatusCheck,
+    ));
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
     nameController.dispose();
     phoneController.dispose();
@@ -67,54 +88,51 @@ class _KycScreenState extends State<KycScreen>
 
   @override
   Widget build(BuildContext context) {
-    kycBloc.add(KycLoadEvent(tabIndex: 0));
-    return Scaffold(
-      appBar: myAppBar(
-        context: context,
-        title: 'KYC',
-      ),
-      body: BlocConsumer<KycBloc, KycState>(
-        listener: (context, state) {
-          if (state is KycLoadedState) {
-            if (state.isLoading && closeDialogHandle == null) {
-              closeDialogHandle = showLoadingDialog(context: context);
-            }
-          } else if (state is KycLoadedState &&
-              !state.isLoading &&
-              closeDialogHandle != null) {
-            Navigator.pop(context);
-            closeDialogHandle = null;
-          } else if (state is! KycSubmittedState) {
-            Navigator.pop(context);
-            closeDialogHandle = null;
+    return BlocConsumer<KycBloc, KycState>(
+      listener: (context, state) {
+        if (state is KycLoadedState) {
+          if (state.isLoading && closeDialogHandle == null) {
+            closeDialogHandle = showLoadingDialog(context: context);
           }
-        },
-        builder: (context, state) {
-          switch (state) {
-            //====================Loading State====================//
-            case KycLoadingState():
-              return spinningLinesLoading();
+        }
+        if (state is KycLoadedState &&
+            !state.isLoading &&
+            closeDialogHandle != null) {
+          Navigator.pop(context);
+          closeDialogHandle = null;
+        }
+      },
+      builder: (context, kycState) {
+        switch (kycState) {
+          //====================Loading State====================//
+          case KycLoadingState():
+            return Scaffold(
+              body: spinningLinesLoading(),
+            );
 
-            //====================Error State====================//
-            case KycErrorState():
-              return Center(
-                child: Lottie.asset(
-                  'no_internet_animation.json',
-                  width: screenSize.width * .7,
-                ),
-              );
-
-            //====================Loaded State====================//
-            case KycSubmittedState():
+          //====================Submitted State====================//
+          case KycSubmittedState():
+            if (closeDialogHandle != null) {
+              closeDialogHandle = null;
               Navigator.pop(context);
-              return const KycSubmittedScreen();
+            }
+            return const KycSubmittedScreen();
 
-            //====================Loaded State====================//
-            case KycLoadedState():
-              nameController.text = state.name!;
-              phoneController.text = state.phone!;
-              emailController.text = state.email!;
-              pinController.text = state.pincode!;
+          //====================Verified State====================//
+          case KycVerifiedState():
+            return const KycVerifiedScreen();
+
+          //====================Rejected State====================//
+          case KycRejectedState():
+            return const KycRejectedScreen();
+
+          //====================Loaded State====================//
+          case KycLoadedState():
+            if (!kycState.isLoading) {
+              nameController.text = kycState.name!;
+              phoneController.text = kycState.phone!;
+              emailController.text = kycState.email!;
+              pinController.text = kycState.pincode!;
               if (profileBloc.state.userModel!.bankDetails != null &&
                   profileBloc.state.userModel!.bankDetails!.isNotEmpty &&
                   _tabController.index < 2) {
@@ -124,8 +142,13 @@ class _KycScreenState extends State<KycScreen>
                 accNumController.text = bankDetails.accountNo!;
                 ifscController.text = bankDetails.ifsc!;
               }
-
-              return SingleChildScrollView(
+            }
+            return Scaffold(
+              appBar: myAppBar(
+                context: context,
+                title: 'KYC',
+              ),
+              body: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 reverse: true,
                 child: Column(
@@ -173,15 +196,15 @@ class _KycScreenState extends State<KycScreen>
                                   dividerColor: Colors.transparent,
                                   physics: const NeverScrollableScrollPhysics(),
                                   onTap: (index) {
-                                    if (index > state.tabIndex) {
-                                      _tabController.index = state.tabIndex;
+                                    if (index > kycState.tabIndex) {
+                                      _tabController.index = kycState.tabIndex;
                                     } else {
                                       context
                                           .read<KycBloc>()
                                           .add(KycLoadEvent(tabIndex: index));
                                     }
                                   },
-                                  overlayColor: const MaterialStatePropertyAll(
+                                  overlayColor: const WidgetStatePropertyAll(
                                       Colors.transparent),
                                   tabs: [
                                     kycPageTitle(
@@ -192,13 +215,13 @@ class _KycScreenState extends State<KycScreen>
                                       title: 'ID Proof',
                                       titleNumber: '2',
                                       isDoneOrActive:
-                                          state.tabIndex > 0 ? true : false,
+                                          kycState.tabIndex > 0 ? true : false,
                                     ),
                                     kycPageTitle(
                                       title: 'Bank Details',
                                       titleNumber: '3',
                                       isDoneOrActive:
-                                          state.tabIndex > 1 ? true : false,
+                                          kycState.tabIndex > 1 ? true : false,
                                     ),
                                   ],
                                 ),
@@ -263,14 +286,14 @@ class _KycScreenState extends State<KycScreen>
                     GestureDetector(
                       onTap: () async {
                         if (_tabController.index == 1 &&
-                            (state.idFrontImage == null ||
-                                state.idBackImage == null)) {
+                            (kycState.idFrontImage == null ||
+                                kycState.idBackImage == null)) {
                           return;
                         }
                         if (_formKey.currentState!.validate()) {
                           if (_tabController.index < 2) {
                             _tabController.animateTo(
-                              state.tabIndex + 1,
+                              kycState.tabIndex + 1,
                               curve: Curves.bounceInOut,
                               duration: const Duration(milliseconds: 200),
                             );
@@ -288,11 +311,7 @@ class _KycScreenState extends State<KycScreen>
                             if (shouldUpdate == true) {
                               kycBloc.add(
                                 KycUpdateEvent(
-                                  name: nameController.text,
-                                  phone: phoneController.text,
-                                  email: emailController.text,
-                                  pincode: pinController.text,
-                                  isSavings: state.isSavings,
+                                  isSavings: kycState.isSavings,
                                   accName: accNameController.text,
                                   accNum: accNumController.text,
                                   ifsc: ifscController.text,
@@ -324,12 +343,91 @@ class _KycScreenState extends State<KycScreen>
                     SizedBox(height: screenSize.height * .018)
                   ],
                 ),
-              );
-          }
-        },
-      ),
+              ),
+            );
+
+          //====================Error State====================//
+          case KycErrorState():
+            return Scaffold(
+              appBar: myAppBar(context: context, title: 'KYC'),
+              body: Center(
+                child: Column(
+                  children: [
+                    SizedBox(height: screenSize.height * .2),
+                    Lottie.asset(
+                      'assets/lottie/no_internet_animation.json',
+                      width: screenSize.width * .5,
+                    ),
+                    SizedBox(height: screenSize.height * .01),
+                    Text(
+                      'Something went wrong',
+                      style: GoogleFonts.roboto(
+                        fontSize: screenSize.width * .035,
+                        fontWeight: FontWeight.w500,
+                        color: const Color.fromRGBO(18, 18, 18, 1),
+                      ),
+                    ),
+                    SizedBox(height: screenSize.height * .01),
+                    Text(
+                      'Check your internet connection\nor try again later',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.roboto(
+                        fontSize: screenSize.width * .031,
+                        color: const Color.fromRGBO(18, 18, 18, 18),
+                      ),
+                    ),
+                    SizedBox(height: screenSize.height * .02),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            kycBloc.add(
+                              KycErrorStateReloadEvent(),
+                            );
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: screenSize.width * .035,
+                              vertical: screenSize.width * .01,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: const Color.fromRGBO(18, 18, 18, 1),
+                              ),
+                            ),
+                            child: Text(
+                              'Refresh',
+                              style: GoogleFonts.roboto(
+                                fontSize: screenSize.width * .035,
+                                fontWeight: FontWeight.w500,
+                                color: const Color.fromRGBO(18, 18, 18, 1),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: screenSize.height * .005),
+                    SizedBox(
+                      height: screenSize.height * .035,
+                      child: Visibility(
+                        visible: kycState.isLoading,
+                        child: CupertinoActivityIndicator(
+                          radius: screenSize.width * .026,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+        }
+      },
     );
   }
+}
 
   // bool validate() {
   //   if (nameController.text.isNotEmpty &&
@@ -345,4 +443,4 @@ class _KycScreenState extends State<KycScreen>
   //     return false;
   //   }
   // }
-}
+

@@ -1,7 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:turning_point/main.dart';
 
-class NotificationController {
+class AwesomeNotificationController {
   /// Use this method to detect when a new notification or a schedule is created
   @pragma("vm:entry-point")
   static Future<void> onNotificationCreatedMethod(
@@ -20,12 +19,5 @@ class NotificationController {
   /// Use this method to detect when the user taps on a notification or action button
   @pragma("vm:entry-point")
   static Future<void> onActionReceivedMethod(
-      ReceivedAction receivedAction) async {
-    // Navigate into pages, avoiding to open the notification details page over another details page already opened
-    globalNavigatorKey.currentState?.pushNamedAndRemoveUntil(
-        '/notification-page',
-        (route) =>
-            (route.settings.name != '/notification-page') || route.isFirst,
-        arguments: receivedAction);
-  }
+      ReceivedAction receivedAction) async {}
 }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:turning_point/bloc/home/home_bloc.dart';
+import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/bloc/rewards/rewards_bloc.dart';
 import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/model/contest_model.dart';
@@ -54,9 +55,9 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
                 secondsLeft: secondsLeft,
               ),
             );
-            add(LuckyDrawTimerUpdateEvent());
+            return add(LuckyDrawTimerUpdateEvent());
           } else {
-            emit(
+            return emit(
               LuckyDrawLoadedState(
                 contestModel: null,
                 timeMap: null,
@@ -179,10 +180,18 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
           isWinnerDisplayEventActive = false;
           Future.delayed(const Duration(milliseconds: 100), () {
             add(LuckyDrawLoadEvent());
-            if (homeBloc.state.currentIndex == 3) {
-              return homeBloc.add(TriggerEvent(1));
+            if (profileBloc.state.userModel!.role == Role.CONTRACTOR) {
+              if (homeBloc.state.currentIndex == 2) {
+                return homeBloc.add(TriggerEvent(1));
+              } else {
+                return;
+              }
             } else {
-              return;
+              if (homeBloc.state.currentIndex == 3) {
+                return homeBloc.add(TriggerEvent(1));
+              } else {
+                return;
+              }
             }
           });
         }
@@ -242,10 +251,16 @@ class LuckyDrawBloc extends Bloc<LuckyDrawEvent, LuckyDrawState> {
 
 //====================Timer Dispose Event====================//
     on<LuckyDrawTimerDisposeEvent>((event, emit) {
+      emit(LuckyDrawLoadingState());
       state.contestModel = null;
       state.timeMap = null;
       state.secondsLeft = null;
-      emit(LuckyDrawLoadingState());
+    });
+
+    on<LuckyDrawReloadEvent>((event, emit) async {
+      add(LuckyDrawTimerDisposeEvent());
+      await Future.delayed(const Duration(milliseconds: 800));
+      return add(LuckyDrawLoadEvent());
     });
   }
 }

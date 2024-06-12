@@ -17,10 +17,10 @@ sealed class AuthState {
 
 class AuthLoadingState extends AuthState {
   const AuthLoadingState({
-    super.phone,
-    super.businessName,
-    super.contractor,
-    super.refCode,
+    required super.phone,
+    required super.businessName,
+    required super.contractor,
+    required super.refCode,
   });
 }
 
@@ -31,13 +31,11 @@ class SignInState extends AuthState {}
 class WhoIsSigningState extends AuthState {}
 
 class OtpVerificationNeededState extends AuthState {
-  final String? exception;
   const OtpVerificationNeededState({
     required super.phone,
     required super.businessName,
     required super.contractor,
     required super.refCode,
-    this.exception,
   });
 }
 
@@ -57,6 +55,10 @@ class SignUpState extends AuthState {
 
 class PhoneNumberExistsState extends AuthState {}
 
+class InvalidReferralCodeState extends AuthState {}
+
+class AddContractorDetailsState extends AuthState {}
+
 class ProfileInactiveState extends AuthState {}
 
 class AuthErrorState extends AuthState {
@@ -64,5 +66,9 @@ class AuthErrorState extends AuthState {
 
   const AuthErrorState({
     required this.message,
+    required super.phone,
+    required super.businessName,
+    required super.contractor,
+    required super.refCode,
   });
 }

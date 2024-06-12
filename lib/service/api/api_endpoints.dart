@@ -1,6 +1,6 @@
 class ApiEndpoints {
   // static const baseUrl = 'https://turningpoint.ebslonserver3.com/api';
-  // static const baseUrl = 'http://192.168.1.153:4023';
+  // static const baseUrl = 'http://192.168.1.170:4023';
   // static const baseUrl = 'http://13.126.184.197:4023';
   static const baseUrl = 'http://api.turningpointvapi.com/api';
 
@@ -33,4 +33,5 @@ class ApiEndpoints {
   static const applyReferralReward = '$baseUrl/users/applyReward';
   static const getAllCarpentersByContractorName =
       '$baseUrl/users/getAllCarpentersByContractorName';
+  static const checkRefCode = '$baseUrl/users/checkRefCode';
 }

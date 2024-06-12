@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
-import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/utils/screen_size.dart';
 
 Future<Object?> showAnimatedOtpDialog({
   required BuildContext context,
@@ -85,7 +85,6 @@ Widget dialog({
                 //   ),
               ),
             ),
-            androidSmsAutofillMethod: AndroidSmsAutofillMethod.none,
             onChanged: (value) {},
             onCompleted: (value) {
               otp = value;

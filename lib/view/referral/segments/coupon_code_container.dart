@@ -10,7 +10,7 @@ Widget referralCodeContainer({
   final couponCode = profileBloc.state.userModel!.refCode.toString();
   return Container(
     width: screenSize.width * .8,
-    height: screenSize.height * .08,
+    height: screenSize.width * .175,
     decoration: BoxDecoration(
       color: Colors.black87,
       borderRadius: BorderRadius.circular(6),

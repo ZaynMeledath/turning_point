@@ -5,8 +5,8 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
 import 'package:turning_point/constants/constants.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/my_app_bar.dart';
+import 'package:turning_point/utils/screen_size.dart';
+import 'package:turning_point/utils/widget/my_app_bar.dart';
 import 'package:turning_point/resources/user_repository.dart';
 import 'package:turning_point/view/kyc/kyc_verified_screen.dart';
 import 'package:turning_point/view/kyc/segments/kyc_submitted_details_segment.dart';
@@ -40,13 +40,12 @@ class KycSubmittedScreen extends StatelessWidget {
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: Column(
                     children: [
-                      SizedBox(height: screenSize.height * .005),
                       Lottie.asset(
                         'assets/lottie/kyc_submitted_animation.json',
                         width: screenSize.width * .3,
                       ),
                       Text(
-                        'Submitted',
+                        'KYC Submitted',
                         style: GoogleFonts.inter(
                           fontSize: screenSize.width * .04,
                           fontWeight: FontWeight.w600,

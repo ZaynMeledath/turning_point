@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
-import 'package:turning_point/helper/custom_navigator.dart';
-import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/utils/custom_navigator.dart';
+import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/service/api/api_endpoints.dart';
 import 'package:turning_point/view/kyc/kyc_screen.dart';
 
@@ -186,7 +186,7 @@ Widget kycSubmittedDetailsSegment({required BuildContext context}) {
                 onTap: () {
                   CustomNavigator.pushReplacement(
                     context: context,
-                    child: const KycScreen(),
+                    child: const KycScreen(avoidStatusCheck: true),
                   );
                 },
                 child: Container(
@@ -219,7 +219,7 @@ Widget kycSubmittedDetailsSegment({required BuildContext context}) {
           padding:
               EdgeInsets.symmetric(horizontal: realScreenSize.width * .008),
           child: Text(
-            'ID Card Image',
+            'ID Card Image and Selfie',
             style: GoogleFonts.roboto(
               fontSize: screenSize.width * .035,
               fontWeight: FontWeight.w500,
@@ -232,7 +232,7 @@ Widget kycSubmittedDetailsSegment({required BuildContext context}) {
           children: [
             SizedBox(width: realScreenSize.width * .008),
             SizedBox(
-              width: screenSize.width * .4,
+              width: realScreenSize.width * .4,
               child: AspectRatio(
                 aspectRatio: 4 / 3,
                 child: Image.network(
@@ -243,13 +243,29 @@ Widget kycSubmittedDetailsSegment({required BuildContext context}) {
             ),
             SizedBox(width: screenSize.width * .06),
             SizedBox(
-              width: screenSize.width * .4,
-              child: Image.network(
-                '${ApiEndpoints.uploads}/${userModel.idBackImage.toString()}',
-                // width: screenSize.width * .4,
+              width: realScreenSize.width * .4,
+              child: AspectRatio(
+                aspectRatio: 4 / 3,
+                child: Image.network(
+                  '${ApiEndpoints.uploads}/${userModel.idBackImage.toString()}',
+                  // width: screenSize.width * .4,
+                ),
               ),
             ),
           ],
+        ),
+        SizedBox(height: screenSize.height * .015),
+        Center(
+          child: SizedBox(
+            width: realScreenSize.width * .4,
+            child: AspectRatio(
+              aspectRatio: 4 / 3,
+              child: Image.network(
+                '${ApiEndpoints.uploads}/${userModel.selfie.toString()}',
+                // width: screenSize.width * .4,
+              ),
+            ),
+          ),
         ),
         SizedBox(height: screenSize.height * .015),
       ],

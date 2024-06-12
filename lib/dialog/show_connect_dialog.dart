@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:turning_point/bloc/connect/connect_bloc.dart';
-import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/utils/screen_size.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Future<Object?> showConnectDialog(

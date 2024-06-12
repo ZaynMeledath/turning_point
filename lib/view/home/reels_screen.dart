@@ -2,18 +2,20 @@
 
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:turning_point/bloc/location_service/location_service_bloc.dart';
+import 'package:turning_point/bloc/home/home_bloc.dart';
+import 'package:turning_point/bloc/lucky_draw/lucky_draw_bloc.dart';
 import 'package:turning_point/bloc/points/points_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
-import 'package:turning_point/helper/custom_navigator.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_loading.dart';
+import 'package:turning_point/utils/custom_navigator.dart';
+import 'package:turning_point/utils/screen_size.dart';
+import 'package:turning_point/utils/widget/custom_loading.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/resources/reels_repository.dart';
 import 'package:turning_point/view/home/profile_inactive_screen.dart';
@@ -21,6 +23,9 @@ import 'package:turning_point/view/home/reels_page_viewer.dart';
 import 'package:turning_point/view/points/points_screen.dart';
 import 'package:turning_point/view/profile/profile_screen.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
+
+part 'segments/lucky_draw_watermark.dart';
+part 'segments/count_down_container_watermark.dart';
 
 class ReelsScreen extends StatefulWidget {
   const ReelsScreen({super.key});
@@ -72,6 +77,7 @@ class ReelsScreenState extends State<ReelsScreen>
         );
       });
     }
+    luckyDrawBloc.add(LuckyDrawReloadEvent());
     getFcmToken();
     super.didChangeDependencies();
   }
@@ -88,6 +94,7 @@ class ReelsScreenState extends State<ReelsScreen>
     if (preloadBloc.state.controllers.isNotEmpty) {
       preloadBloc.pauseCurrentController();
     }
+    // luckyDrawBloc.add(LuckyDrawTimerDisposeEvent());
   }
 
   Future<void> handleRefresh() async {
@@ -99,6 +106,7 @@ class ReelsScreenState extends State<ReelsScreen>
       isInitial: true,
       isReloading: true,
     ));
+    luckyDrawBloc.add(LuckyDrawReloadEvent());
   }
 
   @override
@@ -106,8 +114,8 @@ class ReelsScreenState extends State<ReelsScreen>
     return Scaffold(
       backgroundColor: Colors.black,
       body: BlocBuilder<ProfileBloc, ProfileState>(
-        builder: (context, state) {
-          switch (state) {
+        builder: (context, profileState) {
+          switch (profileState) {
             case ProfileLoadingState():
               return spinningLinesLoading();
 
@@ -245,12 +253,26 @@ class ReelsScreenState extends State<ReelsScreen>
                               const Color.fromRGBO(225, 225, 225, .6),
                           radius: screenSize.width * .056,
                           child: CircleAvatar(
-                            foregroundImage:
-                                NetworkImage(state.userModel!.image!),
+                            radius: screenSize.width * .05,
+                            foregroundImage: CachedNetworkImageProvider(
+                              profileState.userModel!.image!,
+                            ),
                           ),
                         ),
                       ),
                     ),
+
+                    Positioned(
+                      bottom: screenSize.height * .015,
+                      left: screenSize.width * .01,
+                      child: GestureDetector(
+                        onTap: () {
+                          homeBloc.add(
+                              TriggerEvent(profileState.isContractor ? 2 : 3));
+                        },
+                        child: luckyDrawWatermark(),
+                      ),
+                    )
                   ],
                 ),
               );

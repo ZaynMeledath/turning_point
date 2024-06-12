@@ -5,7 +5,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:turning_point/bloc/carpenter/carpenter_bloc.dart';
 import 'package:turning_point/bloc/connect/connect_bloc.dart';
 import 'package:turning_point/bloc/contest/contest_bloc.dart';
@@ -27,7 +26,8 @@ import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/redeem/redeem_bloc.dart';
 import 'package:turning_point/bloc/settings/settings_bloc.dart';
 import 'package:turning_point/firebase_options.dart';
-import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/resources/user_repository.dart';
+import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/preferences/app_preferences.dart';
 import 'package:turning_point/service/notification/awesome_notification_controller.dart';
 import 'package:turning_point/view/splash/splash_screen.dart';
@@ -46,6 +46,13 @@ void main() async {
 
   FirebaseMessaging.onMessage.listen(_firebasePushHandler);
   FirebaseMessaging.onBackgroundMessage(_firebasePushHandler);
+  RemoteMessage? initialMessage =
+      await FirebaseMessaging.instance.getInitialMessage();
+
+  if (initialMessage != null) {
+    _handleFirebaseMessage(initialMessage);
+  }
+  FirebaseMessaging.onMessageOpenedApp.listen(_handleFirebaseMessage);
   AwesomeNotifications().initialize(
     'resource://drawable/notification_icon',
     [
@@ -72,22 +79,23 @@ void main() async {
     await AwesomeNotifications().requestPermissionToSendNotifications();
   }
 
-  if (!await Permission.location.isGranted) {
-    await Permission.location.request();
-  }
+  // if (!await Permission.location.isGranted) {
+  //   await Permission.location.request();
+  // }
 
-  if (!await Permission.locationAlways.isGranted) {
-    await Permission.locationAlways.request();
-  }
+  // if (!await Permission.locationAlways.isGranted) {
+  //   await Permission.locationAlways.request();
+  // }
 
   AwesomeNotifications().setListeners(
-    onActionReceivedMethod: NotificationController.onActionReceivedMethod,
+    onActionReceivedMethod:
+        AwesomeNotificationController.onActionReceivedMethod,
     onNotificationCreatedMethod:
-        NotificationController.onNotificationCreatedMethod,
+        AwesomeNotificationController.onNotificationCreatedMethod,
     onNotificationDisplayedMethod:
-        NotificationController.onNotificationDisplayedMethod,
+        AwesomeNotificationController.onNotificationDisplayedMethod,
     onDismissActionReceivedMethod:
-        NotificationController.onDismissActionReceivedMethod,
+        AwesomeNotificationController.onDismissActionReceivedMethod,
   );
 
   SystemChrome.setPreferredOrientations([
@@ -97,7 +105,8 @@ void main() async {
 }
 
 Future<void> _firebasePushHandler(RemoteMessage message) async {
-  if (AppPreferences.getValueShared('notification')) {
+  if (AppPreferences.getValueShared('notification') == null ||
+      AppPreferences.getValueShared('notification')) {
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
         id: DateTime.now().millisecondsSinceEpoch.remainder(1000),
@@ -106,6 +115,40 @@ Future<void> _firebasePushHandler(RemoteMessage message) async {
         body: message.notification!.body,
       ),
     );
+
+//To ensure that the data is up to date
+    switch (message.data['type']) {
+      // case 'luckydraw':
+      //   await ContestRepository.getContests();
+      //   break;
+      case 'kyc':
+        await UserRepository.getUserById(avoidGettingFromPreference: true);
+        profileBloc.add(ProfileLoadEvent());
+        kycBloc.add(KycLoadEvent(tabIndex: 0));
+
+        break;
+    }
+  }
+}
+
+void _handleFirebaseMessage(RemoteMessage message) {
+  if (message.notification != null) {
+    switch (message.data['type']) {
+      case 'luckydraw':
+        AppPreferences.addSharedPreference(
+          key: 'notification_type',
+          value: 'luckydraw',
+        );
+        break;
+      case 'kyc':
+        AppPreferences.addSharedPreference(
+          key: 'notification_type',
+          value: 'kyc',
+        );
+        break;
+      default:
+        break;
+    }
   }
 }
 
@@ -186,7 +229,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromRGBO(0, 99, 255, 1),
           ),
-          useMaterial3: true,
+          // useMaterial3: true,
         ),
         home: const SplashScreen(),
       ),

@@ -8,10 +8,9 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:turning_point/bloc/home/home_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/scanner/scanner_bloc.dart';
-import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/dialog/show_loading_dialog.dart';
 import 'package:turning_point/dialog/show_scanner_coupon_dialog.dart';
-import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/utils/screen_size.dart';
 
 import 'dart:math' as math;
 
@@ -267,22 +266,22 @@ class _ScannerScreenState extends State<ScannerScreen> {
                   GestureDetector(
                     onTap: () async {
                       // await Permission.location.request();
-                      if (await Permission.location.isDenied) {
-                        await showAnimatedGenericDialog(
-                          context: context,
-                          iconPath: 'assets/lottie/location_animation.json',
-                          title: 'Permission Needed',
-                          content:
-                              'Enable location permission to redeem coupon',
-                          buttons: {
-                            'Dismiss': () {
-                              openAppSettings();
-                              Navigator.pop(context);
-                            },
-                          },
-                        );
-                        return;
-                      }
+                      // if (await Permission.location.isDenied) {
+                      //   await showAnimatedGenericDialog(
+                      //     context: context,
+                      //     iconPath: 'assets/lottie/location_animation.json',
+                      //     title: 'Permission Needed',
+                      //     content:
+                      //         'Enable location permission to redeem coupon',
+                      //     buttons: {
+                      //       'Dismiss': () {
+                      //         openAppSettings();
+                      //         Navigator.pop(context);
+                      //       },
+                      //     },
+                      //   );
+                      //   return;
+                      // }
 
                       if (shouldScan) {
                         await scannerBloc.scanCoupon();

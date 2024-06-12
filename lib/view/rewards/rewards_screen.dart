@@ -7,8 +7,8 @@ import 'package:lottie/lottie.dart';
 import 'package:turning_point/bloc/lucky_draw/lucky_draw_bloc.dart';
 import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/bloc/rewards/rewards_bloc.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_loading.dart';
+import 'package:turning_point/utils/screen_size.dart';
+import 'package:turning_point/utils/widget/custom_loading.dart';
 import 'package:turning_point/model/rewards_model.dart';
 import 'package:turning_point/view/rewards/segments/rank_list_segment.dart';
 import 'package:turning_point/view/rewards/segments/rewards_body_segment.dart';
@@ -61,10 +61,7 @@ class _RewardsScreenState extends State<RewardsScreen>
     luckyDrawBloc.add(LuckyDrawLoadEvent());
 
     Future.delayed(const Duration(milliseconds: 100), () {
-      if (luckyDrawBloc.state.secondsLeft == null ||
-          luckyDrawBloc.state.secondsLeft! == 0) {
-        rewardsBloc.add(RewardsLoadEvent());
-      }
+      rewardsBloc.add(RewardsLoadEvent());
     });
     disableWakeLock();
     super.didChangeDependencies();
@@ -105,7 +102,7 @@ class _RewardsScreenState extends State<RewardsScreen>
                     audioPlayed = true;
                     audioPlayer.play(
                       mode: PlayerMode.lowLatency,
-                      AssetSource('sounds/ding_sparkle_sound.mp3'),
+                      AssetSource('audio/ding_sparkle_sound.mp3'),
                     );
                   }
                   return SingleContestRewardsScreen(
@@ -116,7 +113,7 @@ class _RewardsScreenState extends State<RewardsScreen>
                   audioPlayed = true;
                   AudioPlayer().play(
                     mode: PlayerMode.lowLatency,
-                    AssetSource('sounds/ding_sparkle_sound.mp3'),
+                    AssetSource('audio/ding_sparkle_sound.mp3'),
                   );
                 }
                 final activeRewardsModel = rewardsState.tabIndex == 0
@@ -153,7 +150,9 @@ class _RewardsScreenState extends State<RewardsScreen>
                         backgroundColor: Colors.white,
                         pinned: true,
                         automaticallyImplyLeading: false,
-                        toolbarHeight: 0,
+                        toolbarHeight: screenSize.width >= 550
+                            ? screenSize.width * .07
+                            : screenSize.width * .05,
                         flexibleSpace: rewardsTabBar(
                           tabController: tabController,
                         ),
@@ -168,8 +167,9 @@ class _RewardsScreenState extends State<RewardsScreen>
                             ListView.builder(
                               padding: EdgeInsets.symmetric(
                                   vertical: screenSize.height * .01),
-                              itemCount:
-                                  activeRewardsModel.contestPrizes!.length - 3,
+                              itemCount: rewardsState.currentRewardsModel!
+                                      .contestPrizes!.length -
+                                  3,
                               itemBuilder: (context, index) {
                                 return rankListSegment(
                                   index: index,
@@ -181,8 +181,9 @@ class _RewardsScreenState extends State<RewardsScreen>
                             ListView.builder(
                               padding: EdgeInsets.symmetric(
                                   vertical: screenSize.height * .01),
-                              itemCount:
-                                  activeRewardsModel.contestPrizes!.length - 3,
+                              itemCount: rewardsState.previousRewardsModel!
+                                      .contestPrizes!.length -
+                                  3,
                               itemBuilder: (context, index) {
                                 return rankListSegment(
                                   index: index,
@@ -202,7 +203,7 @@ class _RewardsScreenState extends State<RewardsScreen>
                   audioPlayed = true;
                   audioPlayer.play(
                     mode: PlayerMode.lowLatency,
-                    AssetSource('sounds/ding_sparkle_sound.mp3'),
+                    AssetSource('audio/ding_sparkle_sound.mp3'),
                   );
                 }
                 return const SingleContestRewardsScreen();
@@ -225,15 +226,15 @@ class _RewardsScreenState extends State<RewardsScreen>
                       child: Center(
                         child: Column(
                           children: [
-                            SizedBox(height: screenSize.height * .25),
+                            SizedBox(height: screenSize.height * .26),
                             Lottie.asset(
                               'assets/lottie/no_data_animation.json',
-                              width: screenSize.width * .65,
+                              width: screenSize.width * .5,
                             ),
                             Text(
                               'No Data Available at the moment',
                               style: GoogleFonts.inter(
-                                fontSize: screenSize.width * .041,
+                                fontSize: screenSize.width * .04,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black.withOpacity(.75),
                                 height: .1,

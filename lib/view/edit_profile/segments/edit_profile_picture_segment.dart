@@ -1,7 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/profile/profile_bloc.dart';
-import 'package:turning_point/helper/screen_size.dart';
+import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/model/user_model.dart';
 import 'package:turning_point/view/edit_profile/edit_profile_screen.dart';
 
@@ -32,7 +33,8 @@ Widget editProfilePictureSegment({
                   radius: (screenSize.height * .055) - 3,
                   child: CircleAvatar(
                     radius: (screenSize.height * .055) - 4,
-                    foregroundImage: NetworkImage(userModel.image!),
+                    foregroundImage:
+                        CachedNetworkImageProvider(userModel.image!),
                   ),
                 ),
               ),

@@ -2,7 +2,7 @@ part of '../referral_screen.dart';
 
 Widget referralInstructionContainer() {
   return Container(
-      width: screenSize.width,
+      width: double.maxFinite,
       height: screenSize.height * .24,
       padding: EdgeInsets.only(top: screenSize.height * .028),
       decoration: const BoxDecoration(

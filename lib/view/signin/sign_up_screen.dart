@@ -5,17 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:turning_point/bloc/auth/auth_bloc.dart';
 import 'package:turning_point/bloc/contractor/contractor_bloc.dart';
 import 'package:turning_point/constants/constants.dart';
 import 'package:turning_point/dialog/show_animated_generic_dialog.dart';
 import 'package:turning_point/dialog/show_loading_dialog.dart';
-import 'package:turning_point/helper/custom_navigator.dart';
-import 'package:turning_point/helper/screen_size.dart';
-import 'package:turning_point/helper/widget/custom_loading.dart';
-import 'package:turning_point/helper/widget/custom_radio_button.dart';
-import 'package:turning_point/resources/location_repository.dart';
-import 'package:turning_point/resources/user_repository.dart';
+import 'package:turning_point/utils/custom_navigator.dart';
+import 'package:turning_point/utils/screen_size.dart';
+import 'package:turning_point/utils/widget/custom_loading.dart';
+import 'package:turning_point/utils/widget/custom_radio_button.dart';
+import 'package:turning_point/view/boarding/first_boarding_screen.dart';
 import 'package:turning_point/view/signin/add_contractor_details_screen.dart';
 import 'package:turning_point/view/signin/otp_verification_screen.dart';
 
@@ -39,6 +39,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   int activeRadioNumber = 1;
   String? selectedValue;
   bool isReferralExpanded = false;
+  dynamic closeDialogHandle;
 
   late final TextEditingController phoneController;
   late final TextEditingController businessController;
@@ -57,14 +58,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     searchController = TextEditingController();
     otpController = TextEditingController();
     referralController = TextEditingController();
-    getLocation();
+    // getLocation();
 
     super.initState();
   }
 
-  void getLocation() async {
-    location = await LocationRepository.getCurrentLocation();
-  }
+  // void getLocation() async {
+  //   location = await LocationRepository.getCurrentLocation();
+  // }
 
   @override
   void dispose() {
@@ -79,8 +80,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is SignUpState && state.exception != null) {
+        if (state is AuthLoadingState && closeDialogHandle == null) {
+          closeDialogHandle = showLoadingDialog(context: context);
+        }
+        if (state is! AuthLoadingState && closeDialogHandle != null) {
+          closeDialogHandle = null;
           Navigator.pop(context);
+        }
+        if (state is SignUpState && state.exception != null) {
           showAnimatedGenericDialog(
             context: context,
             iconPath: 'assets/lottie/gear_error_animation.json',
@@ -90,8 +97,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
             buttons: {'OK': null},
             iconWidth: screenSize.width * .2,
           );
+        } else if (state is AuthErrorState) {
+          if (state.message == 'invalid-verification-code') {
+            showAnimatedGenericDialog(
+              context: context,
+              iconPath: 'assets/icons/kyc_declined_icon.png',
+              title: 'Wrong OTP',
+              content: 'Please enter the correct OTP to continue',
+              buttons: {'OK': null},
+            );
+          } else {
+            showAnimatedGenericDialog(
+              context: context,
+              iconPath: 'assets/lottie/gear_error_animation.json',
+              title: 'Something Went Wrong',
+              content: state.message,
+              buttons: {'OK': null},
+              iconWidth: screenSize.width * .2,
+            );
+          }
         } else if (state is PhoneNumberExistsState) {
-          Navigator.pop(context);
           showAnimatedGenericDialog(
             context: context,
             iconPath: 'assets/icons/kyc_declined_icon.png',
@@ -99,8 +124,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
             content: 'The number you are trying to register already exists.',
             buttons: {'OK': null},
           );
+        } else if (state is InvalidReferralCodeState) {
+          showAnimatedGenericDialog(
+            context: context,
+            iconPath: 'assets/icons/kyc_declined_icon.png',
+            title: 'Invalid Referral Code',
+            content: 'Please check the referral code you entered',
+            buttons: {'OK': null},
+          );
+        } else if (state is AddContractorDetailsState) {
+          CustomNavigator.push(
+            context: context,
+            child: AddContractorDetailsScreen(
+              phone: phoneController.text.trim(),
+              otpController: otpController,
+              location: location,
+              refCode: referralController.text.trim(),
+            ),
+          );
         } else if (state is OtpVerificationNeededState) {
-          Navigator.pop(context);
           CustomNavigator.push(
             context: context,
             child: OtpVerificationScreen(
@@ -108,6 +150,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
               location: location,
             ),
           );
+        } else if (state is InitialState) {
+          Navigator.of(context).pushAndRemoveUntil(
+              PageTransition(
+                child: const FirstBoardingScreen(),
+                type: PageTransitionType.leftToRight,
+              ),
+              (route) => false);
         }
       },
       child: Scaffold(
@@ -119,9 +168,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   return spinningLinesLoading();
 
                 case ContractorLoadedState():
-                  // phoneController.text = authBloc.state.phone ?? '';
-                  // businessController.text = authBloc.state.businessName ?? '';
-
                   return SingleChildScrollView(
                     reverse: true,
                     child: Padding(
@@ -271,7 +317,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   SizedBox(height: screenSize.height * .02),
                                   GestureDetector(
                                     onTap: () => contractorBloc.add(
-                                      HaveNoContractorEvent(),
+                                      HaveNoContractorSelectedEvent(),
                                     ),
                                     child: signUpRadioButtonSegment(
                                       title: "I don't have a contractor",
@@ -289,44 +335,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
 
                             //====================Sign Up Button====================//
-
                             GestureDetector(
                               onTap: () async {
                                 final status =
                                     _formKey.currentState!.validate();
                                 if (status) {
-                                  if (contractorState.contractorNotListed ==
-                                      true) {
-                                    showLoadingDialog(context: context);
-                                    final phoneExists =
-                                        await UserRepository.checkPhoneNumber(
-                                            phoneController.text.trim());
-                                    if (phoneExists) {
-                                      Navigator.pop(context);
-                                      showAnimatedGenericDialog(
-                                        context: context,
-                                        iconPath:
-                                            'assets/icons/kyc_declined_icon.png',
-                                        title: 'Phone Already Exists',
-                                        content:
-                                            'The number you are trying to register already exists.',
-                                        buttons: {'OK': null},
-                                      );
-                                    } else {
-                                      Navigator.pop(context);
-                                      CustomNavigator.push(
-                                        context: context,
-                                        child: AddContractorDetailsScreen(
-                                          phone: phoneController.text.trim(),
-                                          otpController: otpController,
-                                          location: location,
-                                          refCode:
-                                              referralController.text.trim(),
-                                        ),
-                                      );
-                                    }
-                                    return;
-                                  }
                                   if (widget.isContractor) {
                                     authBloc.add(
                                       SignUpEvent(
@@ -339,6 +352,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       ),
                                     );
                                   } else {
+                                    if (contractorState.selectedContractor ==
+                                            null &&
+                                        contractorBloc
+                                                .state.contractorNotListed !=
+                                            true &&
+                                        contractorBloc.state.haveNoContractor !=
+                                            true) {
+                                      showAnimatedGenericDialog(
+                                        context: context,
+                                        iconPath:
+                                            'assets/lottie/fill_details_animation.json',
+                                        title: 'Fill all fields',
+                                        content:
+                                            'Please fill the contractor details',
+                                        buttons: {'OK': null},
+                                      );
+                                      return;
+                                    }
                                     authBloc.add(
                                       SignUpEvent(
                                         phone: phoneController.text,
@@ -357,15 +388,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     );
                                   }
                                 }
-                                // else {
-                                //   showGenericDialog(
-                                //     context: context,
-                                //     title: 'Fill All Details',
-                                //     content:
-                                //         'Please fill all the required details to continue',
-                                //     options: {'Dismiss': null},
-                                //   );
-                                // }
                               },
                               child: Hero(
                                 tag: 'sign_in_sign_up_container',
