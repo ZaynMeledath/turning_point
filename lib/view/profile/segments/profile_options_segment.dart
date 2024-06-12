@@ -19,15 +19,15 @@ Widget profileOptionsSegment({
   return Column(
     children: [
 //====================Points====================//
-      GestureDetector(
+      InkWell(
         onTap: () {
           CustomNavigator.push(
             context: context,
             child: const PointsScreen(),
           );
         },
+        highlightColor: Colors.white24,
         child: profileOption(
-          screenSize: screenSize,
           iconPath: 'assets/icons/points_icon.png',
           title: 'Points',
           containerColor: const Color.fromRGBO(250, 219, 129, 1),
@@ -35,15 +35,15 @@ Widget profileOptionsSegment({
       ),
 
 //====================Contest====================//
-      GestureDetector(
+      InkWell(
         onTap: () {
           CustomNavigator.push(
             context: context,
             child: const ContestScreen(),
           );
         },
+        highlightColor: Colors.white24,
         child: profileOption(
-          screenSize: screenSize,
           iconPath: 'assets/icons/contest_icon.png',
           title: 'Contest',
           containerColor: const Color.fromRGBO(240, 207, 255, 1),
@@ -52,15 +52,15 @@ Widget profileOptionsSegment({
       ),
 
 //====================Contest====================//
-      GestureDetector(
+      InkWell(
         onTap: () {
           CustomNavigator.push(
             context: context,
             child: const GamesHomeScreen(),
           );
         },
+        highlightColor: Colors.white24,
         child: profileOption(
-          screenSize: screenSize,
           iconPath: 'assets/icons/joystick_icon.png',
           title: 'Games',
           containerColor: const Color.fromARGB(255, 146, 220, 255),
@@ -69,16 +69,15 @@ Widget profileOptionsSegment({
       ),
 
 //====================KYC====================//
-
-      GestureDetector(
+      InkWell(
         onTap: () {
           CustomNavigator.push(
             context: context,
             child: const KycScreen(),
           );
         },
+        highlightColor: Colors.white24,
         child: profileOption(
-          screenSize: screenSize,
           iconPath: 'assets/icons/kyc_icon.png',
           title: 'KYC',
           containerColor: const Color.fromRGBO(216, 255, 210, 1),
@@ -127,15 +126,15 @@ Widget profileOptionsSegment({
       // ),
 
 //====================Privacy & Policy====================//
-      GestureDetector(
+      InkWell(
         onTap: () {
           CustomNavigator.push(
             context: context,
             child: const PrivacyPolicyScreen(isAccepted: true),
           );
         },
+        highlightColor: Colors.white24,
         child: profileOption(
-          screenSize: screenSize,
           iconPath: 'assets/icons/privacy_policy_icon.png',
           title: 'Privacy & Policy',
           containerColor: const Color.fromRGBO(203, 227, 255, 1),
@@ -143,15 +142,15 @@ Widget profileOptionsSegment({
       ),
 
 //====================Terms & Conditions====================//
-      GestureDetector(
+      InkWell(
         onTap: () {
           CustomNavigator.push(
             context: context,
             child: const TermsAndConditionsScreen(isAccepted: true),
           );
         },
+        highlightColor: Colors.white24,
         child: profileOption(
-          screenSize: screenSize,
           iconPath: 'assets/icons/terms_icon.png',
           title: 'Terms & Conditions',
           containerColor: const Color.fromRGBO(255, 241, 241, 1),
@@ -159,15 +158,15 @@ Widget profileOptionsSegment({
       ),
 
 //====================About Us====================//
-      GestureDetector(
+      InkWell(
         onTap: () {
           CustomNavigator.push(
             context: context,
             child: const AboutUsScreen(),
           );
         },
+        highlightColor: Colors.white24,
         child: profileOption(
-          screenSize: screenSize,
           iconPath: 'assets/icons/about_us_icon.png',
           title: 'About Us',
           containerColor: const Color.fromRGBO(238, 215, 255, 1),
@@ -175,15 +174,15 @@ Widget profileOptionsSegment({
       ),
 
 //====================Settings====================//
-      GestureDetector(
+      InkWell(
         onTap: () {
           CustomNavigator.push(
             context: context,
             child: const SettingsScreen(),
           );
         },
+        highlightColor: Colors.white24,
         child: profileOption(
-          screenSize: screenSize,
           iconPath: 'assets/icons/settings_icon.png',
           title: 'Settings',
           containerColor: const Color.fromRGBO(206, 198, 255, 1),
