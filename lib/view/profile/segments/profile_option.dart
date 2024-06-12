@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:turning_point/utils/screen_size.dart';
 
 //====================Styling of Individual options in profile screen====================//
 Widget profileOption({
-  required Size screenSize,
   required String iconPath,
   required String title,
   required Color containerColor,
   double? containerPadding,
 }) {
   return Container(
-    padding: EdgeInsets.only(
-      left: screenSize.width * .046,
-      right: screenSize.width * .046,
-      bottom: screenSize.height * .031,
+    padding: EdgeInsets.symmetric(
+      vertical: screenSize.height * .016,
+      horizontal: screenSize.width * .046,
     ),
     color: Colors.transparent,
     child: Row(
