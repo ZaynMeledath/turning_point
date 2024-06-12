@@ -16,6 +16,8 @@ class ReelsRepository {
 
   static int reelDownloadProgress = 0;
 
+  static CancelToken cancelToken = CancelToken();
+
 //====================Get Reels Method====================//
   static Future<ReelsModelResponse> getReels({required int page}) async {
     try {
@@ -64,6 +66,7 @@ class ReelsRepository {
     return response['success'];
   }
 
+//====================Download and Save Video Method====================//
   static Future<void> downloadAndSaveVideo(String reelUrl) async {
     try {
       var status = await Permission.storage.status;
@@ -88,10 +91,16 @@ class ReelsRepository {
         onReceiveProgress: (count, total) {
           reelDownloadProgress = (count / total * 100).toInt();
         },
+        cancelToken: cancelToken,
       );
     } catch (e) {
-      throw Exception(e);
+      cancelToken.cancel();
     }
+  }
+
+//====================Pause Reel Download Method====================//
+  static void pauseReelDownload() {
+    cancelToken.cancel();
   }
 
   // static Future<String> createFolderInAppDocDir(String folderName) async {
