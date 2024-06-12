@@ -47,8 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void dispose() {
     WakelockPlus.enable();
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: true));
-    if (preloadBloc.state.controllers.isNotEmpty &&
-        !preloadBloc.manuallyPaused) {
+    if (preloadBloc.state.controllers.isNotEmpty) {
       Future.delayed(Duration.zero, () {
         preloadBloc.add(PreloadEvent(
           currentIndex: preloadBloc.state.focusedIndex,
@@ -189,7 +188,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 SizedBox(height: screenSize.height * .023),
                 profileOptionsSegment(context: context),
-                SizedBox(height: screenSize.height * .012),
+                SizedBox(height: screenSize.height * .006),
                 referAndEarnContainer(context: context),
                 SizedBox(height: screenSize.height * .03),
               ],

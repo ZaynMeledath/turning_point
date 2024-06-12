@@ -11,7 +11,6 @@ part 'preload_event.dart';
 part 'preload_state.dart';
 
 class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
-  bool manuallyPaused = false;
   int pageIndex = 1;
   PreloadBloc() : super(PreloadState.initial()) {
     on<PreloadEvent>((event, emit) async {
@@ -108,7 +107,6 @@ class PreloadBloc extends Bloc<PreloadEvent, PreloadState> {
 
     on<PreloadResetEvent>((event, emit) {
       pageIndex = 1;
-      manuallyPaused = false;
       ReelsRepository.urlList.clear();
       disposeAllControllers();
       return emit(PreloadState.initial());

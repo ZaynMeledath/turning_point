@@ -13,7 +13,7 @@ Widget profileOption({
     padding: EdgeInsets.only(
       left: screenSize.width * .046,
       right: screenSize.width * .046,
-      bottom: screenSize.height * .035,
+      bottom: screenSize.height * .031,
     ),
     color: Colors.transparent,
     child: Row(
