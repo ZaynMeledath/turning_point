@@ -47,8 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void dispose() {
     WakelockPlus.enable();
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: true));
-    if (preloadBloc.state.controllers.isNotEmpty &&
-        !preloadBloc.manuallyPaused) {
+    if (preloadBloc.state.controllers.isNotEmpty) {
       Future.delayed(Duration.zero, () {
         preloadBloc.add(PreloadEvent(
           currentIndex: preloadBloc.state.focusedIndex,

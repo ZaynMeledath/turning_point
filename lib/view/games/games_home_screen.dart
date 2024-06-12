@@ -47,6 +47,18 @@ class _GamesHomeScreenState extends State<GamesHomeScreen> {
                   'assets/images/play_and_earn_banner.jpg',
                   width: double.infinity,
                   fit: BoxFit.cover,
+                  frameBuilder:
+                      (context, child, frame, wasSynchronouslyLoaded) {
+                    return Container(
+                      decoration: const BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black38,
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
                 SafeArea(
                   child: AnimatedScale(

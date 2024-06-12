@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:turning_point/bloc/preload/preload_bloc.dart';
 import 'package:turning_point/utils/screen_size.dart';
 import 'package:turning_point/utils/widget/custom_loading.dart';
 import 'package:video_player/video_player.dart';
@@ -30,9 +29,7 @@ class _ReelsPlayerState extends State<ReelsPlayer>
       begin: 0,
       end: 1.4,
     ).animate(animationController);
-    if (preloadBloc.manuallyPaused) {
-      animationController.forward();
-    }
+
     super.initState();
   }
 
@@ -40,14 +37,12 @@ class _ReelsPlayerState extends State<ReelsPlayer>
     if (widget.videoController.value.isPlaying) {
       widget.videoController.pause();
       animationController.forward();
-      preloadBloc.manuallyPaused = true;
       Future.delayed(const Duration(milliseconds: 600), () {
         animationController.reverse();
       });
     } else {
       widget.videoController.play();
       animationController.forward();
-      preloadBloc.manuallyPaused = false;
       Future.delayed(const Duration(milliseconds: 600), () {
         animationController.reverse();
       });

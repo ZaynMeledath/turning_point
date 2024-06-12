@@ -64,8 +64,7 @@ class _PointsScreenState extends State<PointsScreen> {
     if (widget.directEntry == true) {
       WakelockPlus.enable();
       preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: true));
-      if (preloadBloc.state.controllers.isNotEmpty &&
-          !preloadBloc.manuallyPaused) {
+      if (preloadBloc.state.controllers.isNotEmpty) {
         Future.delayed(
           Duration.zero,
           () {

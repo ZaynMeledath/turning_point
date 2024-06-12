@@ -68,15 +68,13 @@ class ReelsScreenState extends State<ReelsScreen>
     // locationServiceBloc.add(LocationServiceStartEvent());
     preloadBloc.add(ReelsScreenToggleEvent(isReelsVisible: true));
 
-    if (!preloadBloc.manuallyPaused) {
-      Future.delayed(Duration.zero, () {
-        preloadBloc.add(
-          PreloadEvent(
-            currentIndex: preloadBloc.state.focusedIndex,
-          ),
-        );
-      });
-    }
+    Future.delayed(Duration.zero, () {
+      preloadBloc.add(
+        PreloadEvent(
+          currentIndex: preloadBloc.state.focusedIndex,
+        ),
+      );
+    });
     luckyDrawBloc.add(LuckyDrawReloadEvent());
     getFcmToken();
     super.didChangeDependencies();
@@ -99,7 +97,7 @@ class ReelsScreenState extends State<ReelsScreen>
 
   Future<void> handleRefresh() async {
     ReelsRepository.urlList.clear();
-    preloadBloc.manuallyPaused = false;
+    // preloadBloc.manuallyPaused = false;
     await ReelsRepository.getReels(page: 1);
     preloadBloc.add(PreloadEvent(
       currentIndex: 0,
