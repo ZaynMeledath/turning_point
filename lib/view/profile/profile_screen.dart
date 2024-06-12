@@ -151,7 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                SizedBox(height: screenSize.height * .038),
+                                SizedBox(height: screenSize.height * .035),
                               ],
                             );
 
