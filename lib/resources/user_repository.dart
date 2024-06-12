@@ -273,6 +273,7 @@ class UserRepository {
           cropStyle: isId == true || isSelfie == true
               ? CropStyle.rectangle
               : CropStyle.circle,
+
           uiSettings: [
             AndroidUiSettings(
               toolbarTitle: 'Cropper',

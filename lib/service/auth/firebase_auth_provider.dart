@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart' show TextEditingController;
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:pinput/pinput.dart';
 import 'package:turning_point/service/auth/auth_exceptions.dart';
 import 'package:turning_point/service/auth/auth_provider.dart';
 import 'package:turning_point/firebase_options.dart';
@@ -92,7 +93,8 @@ class FirebaseAuthProvider implements CustomAuthProvider {
             forceResendToken = forceResendingToken;
           },
           verificationCompleted: (phoneAuthCredential) {
-            otpController.text = phoneAuthCredential.smsCode ?? '';
+            // otpController.text = phoneAuthCredential.smsCode ?? '';
+            otpController.setText(phoneAuthCredential.smsCode ?? '');
           },
           verificationFailed: (error) {
             throw error;

@@ -178,7 +178,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                             ),
                           ),
                         ),
-                        androidSmsAutofillMethod: AndroidSmsAutofillMethod.none,
+                        pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                         onChanged: (value) {},
                         onCompleted: (value) {},
                       ),

@@ -85,7 +85,6 @@ Widget dialog({
                 //   ),
               ),
             ),
-            androidSmsAutofillMethod: AndroidSmsAutofillMethod.none,
             onChanged: (value) {},
             onCompleted: (value) {
               otp = value;

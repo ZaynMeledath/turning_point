@@ -4,7 +4,7 @@ description: "A new Flutter project."
 
 publish_to: 'none' 
 
-version: 2.1.0+1
+version: 2.1.2+1
 
 environment:
   sdk: '>=3.2.3 <4.0.0'
@@ -48,7 +48,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   http: ^1.1.2
-  image_cropper: ^7.0.4
+  image_cropper: ^6.0.0
   image_picker: ^1.0.7
   internet_connection_checker: ^1.0.0+1
   jwt_decoder: ^2.0.1
