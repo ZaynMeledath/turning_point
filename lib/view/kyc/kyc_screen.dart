@@ -204,7 +204,7 @@ class _KycScreenState extends State<KycScreen>
                                           .add(KycLoadEvent(tabIndex: index));
                                     }
                                   },
-                                  overlayColor: const MaterialStatePropertyAll(
+                                  overlayColor: const WidgetStatePropertyAll(
                                       Colors.transparent),
                                   tabs: [
                                     kycPageTitle(

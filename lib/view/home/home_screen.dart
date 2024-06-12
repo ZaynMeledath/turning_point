@@ -1,5 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:developer';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turning_point/bloc/home/home_bloc.dart';
@@ -28,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void initState() {
     WidgetsBinding.instance.addObserver(this);
     UserRepository.updateUserOnlineStatus(isOnline: true);
+    getDeviceInfo();
     super.initState();
   }
 
@@ -39,6 +43,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     } else {
       UserRepository.updateUserOnlineStatus(isOnline: false);
     }
+  }
+
+  void getDeviceInfo() async {
+    final deviceInfo = await DeviceInfoPlugin().androidInfo;
+    log('DEVICE INFO: ${deviceInfo.id}');
   }
 
   @override
