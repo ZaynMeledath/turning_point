@@ -12,6 +12,7 @@ part 'reels_event.dart';
 part 'reels_state.dart';
 
 class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
+  bool isDownloading = false;
   ReelsBloc() : super(ReelsLoadingState()) {
     final userModelResponse = UserRepository.getUserFromPreference();
 
@@ -55,22 +56,31 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
 //====================Reel Download Event====================//
     on<ReelDownloadEvent>((event, emit) async {
       try {
+        isDownloading = true;
         emit(ReelsLoadedState(
           reelsModelList: state.reelsModelList,
-          isLoading: true,
           isLikeButtonActive: state.isLikeButtonActive,
         ));
 
         await ReelsRepository.downloadAndSaveVideo(
             state.reelsModelList![event.reelIndex].fileUrl!);
 
-        emit(ReelsLoadedState(
-          reelsModelList: state.reelsModelList,
-          isLoading: false,
-          isLikeButtonActive: state.isLikeButtonActive,
-        ));
+        isDownloading = false;
+        return emit(
+          ReelsLoadedState(
+            reelsModelList: state.reelsModelList,
+            isLikeButtonActive: state.isLikeButtonActive,
+          ),
+        );
       } catch (e) {
-        log('Exception : $e');
+        ReelsRepository.cancelToken.cancel();
+        isDownloading = false;
+        return emit(
+          ReelsLoadedState(
+            reelsModelList: state.reelsModelList,
+            isLikeButtonActive: state.isLikeButtonActive,
+          ),
+        );
       }
     });
 

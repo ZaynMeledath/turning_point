@@ -69,12 +69,14 @@ class ReelsPageViewerState extends State<ReelsPageViewer>
         return BlocConsumer<ReelsBloc, ReelsState>(
           listener: (context, state) {
             if (state is ReelsLoadedState) {
-              if (state.isLoading == true && closeDialogHandle == null) {
+              if (reelsBloc.isDownloading == true &&
+                  closeDialogHandle == null) {
                 closeDialogHandle = showLoadingDialog(
                   context: context,
                   loadingText: 'Downloading...',
                 );
-              } else if (state.isLoading != true && closeDialogHandle != null) {
+              } else if (reelsBloc.isDownloading != true &&
+                  closeDialogHandle != null) {
                 Navigator.pop(context);
                 closeDialogHandle = null;
                 ScaffoldMessenger.of(context).showSnackBar(

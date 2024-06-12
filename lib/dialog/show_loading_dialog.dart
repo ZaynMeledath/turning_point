@@ -7,22 +7,25 @@ Future<Object?> showLoadingDialog({
   required BuildContext context,
   String? loadingText,
 }) async {
-  final dialog = Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const SpinKitSpinningLines(color: Colors.white),
-        if (loadingText != null)
-          Text(
-            loadingText,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.inter(
-              fontSize: screenSize.width * .035,
-              fontWeight: FontWeight.w500,
-              color: Colors.white,
+  final dialog = PopScope(
+    canPop: false,
+    child: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const SpinKitSpinningLines(color: Colors.white),
+          if (loadingText != null)
+            Text(
+              loadingText,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.inter(
+                fontSize: screenSize.width * .035,
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+              ),
             ),
-          ),
-      ],
+        ],
+      ),
     ),
   );
 
